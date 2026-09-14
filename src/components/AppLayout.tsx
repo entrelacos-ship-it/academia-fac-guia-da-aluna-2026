@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { Heart, Moon, Sun, BookOpen, Menu, X, Check, ChevronRight, Sparkles } from 'lucide-react'
+import {
+  Heart,
+  Moon,
+  Sun,
+  BookOpen,
+  Menu,
+  X,
+  Check,
+  ChevronRight,
+  Sparkles,
+  HelpCircle,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
 
@@ -67,6 +78,7 @@ interface LayoutProps {
   onSelectStep: (step: number) => void
   theme: 'light' | 'dark'
   onToggleTheme: () => void
+  onOpenTour?: () => void
 }
 
 export const AppLayout: React.FC<LayoutProps> = ({
@@ -75,6 +87,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onSelectStep,
   theme,
   onToggleTheme,
+  onOpenTour,
 }) => {
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -127,6 +140,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
+            {onOpenTour && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onOpenTour}
+                className="h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+                aria-label="Abrir Tour Guiado da Calculadora"
+                title="Tour Guiado da Calculadora"
+              >
+                <HelpCircle className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+                <span className="hidden sm:inline font-medium">Tour</span>
+              </Button>
+            )}
+
             <Button
               variant="outline"
               size="sm"
@@ -315,7 +342,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 })}
               </div>
 
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                {onOpenTour && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      onOpenTour()
+                    }}
+                    className="w-full justify-center gap-2"
+                  >
+                    <HelpCircle className="w-4 h-4 text-[#5B3A8E]" />
+                    Ver Tour Guiado
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   onClick={() => {

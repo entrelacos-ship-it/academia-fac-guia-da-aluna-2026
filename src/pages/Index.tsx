@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { AppLayout } from '@/components/AppLayout'
 import { usePricingManager } from '@/hooks/usePricingManager'
 import { validateSection14TestCase } from '@/lib/testCaseValidation'
+import { GuidedTourModal, TOUR_STORAGE_KEY } from '@/components/GuidedTourModal'
 
 import { StepWelcome } from '@/components/steps/StepWelcome'
 import { StepPessoais } from '@/components/steps/StepPessoais'
@@ -44,9 +45,53 @@ export default function Index() {
     clearAllScenarios,
   } = manager
 
+  // Estado do Tour Guiado
+  const [tourOpen, setTourOpen] = useState(false)
+  const [tourStep, setTourStep] = useState(0)
+
   // Validação Canônica Seção 14 executada na inicialização do app (QA-02)
   useEffect(() => {
     validateSection14TestCase()
+  }, [])
+
+  // Auto-iniciar tour na primeira visita (Passo 0 / Boas-Vindas)
+  useEffect(() => {
+    try {
+      const tourDone = localStorage.getItem(TOUR_STORAGE_KEY)
+      if (!tourDone && state.activeStep === 0) {
+        // Pequeno atraso para garantir montagem fluida da interface
+        const timer = setTimeout(() => {
+          setTourStep(0)
+          setTourOpen(true)
+        }, 400)
+        return () => clearTimeout(timer)
+      }
+    } catch {
+      // ignore
+    }
+  }, [state.activeStep])
+
+  const handleCloseTour = useCallback(() => {
+    setTourOpen(false)
+    try {
+      localStorage.setItem(TOUR_STORAGE_KEY, 'true')
+    } catch {
+      // ignore
+    }
+  }, [])
+
+  const handleCompleteTour = useCallback(() => {
+    setTourOpen(false)
+    try {
+      localStorage.setItem(TOUR_STORAGE_KEY, 'true')
+    } catch {
+      // ignore
+    }
+  }, [])
+
+  const handleManualOpenTour = useCallback(() => {
+    setTourStep(0)
+    setTourOpen(true)
   }, [])
 
   const hasSavedProgress =
@@ -60,6 +105,7 @@ export default function Index() {
       onSelectStep={setStep}
       theme={theme}
       onToggleTheme={toggleTheme}
+      onOpenTour={handleManualOpenTour}
     >
       <div className="transition-all duration-300">
         {state.activeStep === 0 && (
@@ -68,6 +114,7 @@ export default function Index() {
             onContinue={() => setStep(state.activeStep > 0 ? state.activeStep : 1)}
             onReset={resetToZero}
             hasSavedState={hasSavedProgress}
+            onOpenTour={handleManualOpenTour}
           />
         )}
 
@@ -147,6 +194,15 @@ export default function Index() {
             onPrev={() => setStep(6)}
           />
         )}
+
+        {/* Modal do Tour Guiado */}
+        <GuidedTourModal
+          isOpen={tourOpen}
+          currentStep={tourStep}
+          onStepChange={setTourStep}
+          onClose={handleCloseTour}
+          onComplete={handleCompleteTour}
+        />
       </div>
     </AppLayout>
   )

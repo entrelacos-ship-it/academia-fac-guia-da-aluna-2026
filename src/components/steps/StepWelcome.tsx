@@ -17,6 +17,7 @@ interface StepWelcomeProps {
   onContinue: () => void
   onReset: () => void
   hasSavedState: boolean
+  onOpenTour?: () => void
 }
 
 export const StepWelcome: React.FC<StepWelcomeProps> = ({
@@ -24,6 +25,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
   onContinue,
   onReset,
   hasSavedState,
+  onOpenTour,
 }) => {
   return (
     <div className="space-y-10 py-4 max-w-3xl mx-auto">
@@ -85,14 +87,27 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
               </Button>
             </>
           ) : (
-            <Button
-              size="lg"
-              onClick={onStart}
-              className="w-full sm:w-auto h-13 px-10 text-base bg-[#5B3A8E] hover:bg-[#452A6F] text-white shadow-md rounded-xl gap-2 font-medium"
-            >
-              Começar meu cálculo
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            <>
+              <Button
+                size="lg"
+                onClick={onStart}
+                className="w-full sm:w-auto h-13 px-10 text-base bg-[#5B3A8E] hover:bg-[#452A6F] text-white shadow-md rounded-xl gap-2 font-medium"
+              >
+                Começar meu cálculo
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+              {onOpenTour && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={onOpenTour}
+                  className="w-full sm:w-auto h-13 px-6 text-[#5B3A8E] dark:text-purple-300 border-purple-200 dark:border-purple-800 hover:bg-[#EDE8F5]/60 dark:hover:bg-purple-950/40 rounded-xl gap-2 font-medium"
+                >
+                  <Sparkles className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+                  Ver Tour Guiado
+                </Button>
+              )}
+            </>
           )}
         </div>
 
