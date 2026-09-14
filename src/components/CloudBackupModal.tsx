@@ -1,0 +1,500 @@
+import React, { useState } from 'react'
+import {
+  Cloud,
+  CloudUpload,
+  CloudDownload,
+  LogOut,
+  User,
+  Lock,
+  Mail,
+  ShieldCheck,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Smartphone,
+  Laptop,
+  Calendar,
+  AlertTriangle,
+} from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
+import { useCloudSync } from '@/hooks/useCloudSync'
+
+interface CloudBackupModalProps {
+  isOpen: boolean
+  onClose: () => void
+  onRestoredSuccess?: () => void
+}
+
+export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
+  isOpen,
+  onClose,
+  onRestoredSuccess,
+}) => {
+  const {
+    currentUser,
+    isConnected,
+    isLoading,
+    isSyncing,
+    isRestoring,
+    lastSyncDate,
+    remoteBackup,
+    statusMessage,
+    setStatusMessage,
+    login,
+    signup,
+    logout,
+    syncNow,
+    restoreNow,
+  } = useCloudSync()
+
+  // Form states
+  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+
+  // Confirmation dialog state for destructive restore
+  const [confirmRestoreOpen, setConfirmRestoreOpen] = useState(false)
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email || !password) return
+    const ok = await login(email, password)
+    if (ok) {
+      setPassword('')
+    }
+  }
+
+  const handleSignupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email || !password) return
+    const ok = await signup(email, password, name)
+    if (ok) {
+      setPassword('')
+    }
+  }
+
+  const handleConfirmRestore = async () => {
+    setConfirmRestoreOpen(false)
+    const ok = await restoreNow(() => {
+      if (onRestoredSuccess) {
+        onRestoredSuccess()
+      }
+    })
+    if (ok) {
+      // Pequeno timeout para recarregar o estado do app
+      setTimeout(() => {
+        window.location.reload()
+      }, 900)
+    }
+  }
+
+  const formatDate = (isoString?: string | null) => {
+    if (!isoString) return 'Nenhuma sincronização ainda'
+    try {
+      const d = new Date(isoString)
+      return d.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    } catch {
+      return isoString
+    }
+  }
+
+  return (
+    <>
+      <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <DialogContent className="sm:max-w-md bg-white dark:bg-[#0f172a] border-slate-200 dark:border-slate-800 p-6 max-h-[92vh] overflow-y-auto">
+          <DialogHeader className="space-y-1.5 pb-2 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-950/80 text-[#5B3A8E] dark:text-purple-300 flex items-center justify-center shrink-0">
+                <Cloud className="w-5 h-5" />
+              </div>
+              <div>
+                <DialogTitle className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                  Backup em Nuvem Multi-dispositivo
+                </DialogTitle>
+                <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+                  Sincronize sua calculadora entre o consultório e seu celular
+                </DialogDescription>
+              </div>
+            </div>
+          </DialogHeader>
+
+          {/* Mensagem de status/alerta */}
+          {statusMessage && (
+            <div
+              className={`p-3 rounded-xl text-xs flex items-start gap-2.5 transition-all ${
+                statusMessage.type === 'success'
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900'
+                  : statusMessage.type === 'error'
+                    ? 'bg-rose-50 text-rose-800 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900'
+                    : 'bg-purple-50 text-purple-800 border border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900'
+              }`}
+            >
+              {statusMessage.type === 'success' ? (
+                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
+              ) : statusMessage.type === 'error' ? (
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
+              ) : (
+                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#5B3A8E] dark:text-purple-400" />
+              )}
+              <span className="flex-1 font-medium">{statusMessage.text}</span>
+            </div>
+          )}
+
+          {/* ESTADO 1: CONECTADA */}
+          {isConnected && currentUser ? (
+            <div className="space-y-5 pt-2">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                      Conta Conectada
+                    </span>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300"
+                  >
+                    Nuvem Ativa
+                  </Badge>
+                </div>
+
+                <div className="text-xs space-y-1">
+                  <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium truncate">
+                    <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <span className="truncate">{currentUser.email}</span>
+                  </div>
+                  {currentUser.name && (
+                    <div className="text-slate-500 dark:text-slate-400 text-[11px] pl-5">
+                      {currentUser.name}
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    Última sincronização:
+                  </span>
+                  <strong className="font-mono text-slate-800 dark:text-slate-200">
+                    {formatDate(lastSyncDate || remoteBackup?.updated)}
+                  </strong>
+                </div>
+
+                {remoteBackup?.device_name && (
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 pl-0.5">
+                    <Laptop className="w-3 h-3" />
+                    Dispositivo do último envio: {remoteBackup.device_name}
+                  </div>
+                )}
+              </div>
+
+              {/* Botões de Ação Principais */}
+              <div className="space-y-2.5">
+                <Button
+                  onClick={syncNow}
+                  disabled={isSyncing || isRestoring}
+                  className="w-full min-h-[44px] gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white font-medium shadow-sm transition-all"
+                >
+                  {isSyncing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Salvando na nuvem...
+                    </>
+                  ) : (
+                    <>
+                      <CloudUpload className="w-4 h-4" />
+                      Sincronizar agora (Salvar na nuvem)
+                    </>
+                  )}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => setConfirmRestoreOpen(true)}
+                  disabled={isSyncing || isRestoring}
+                  className="w-full min-h-[44px] gap-2 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-950/30 hover:border-amber-300 dark:hover:border-amber-800 transition-all"
+                >
+                  {isRestoring ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Restaurando dados...
+                    </>
+                  ) : (
+                    <>
+                      <CloudDownload className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                      Restaurar da nuvem neste aparelho
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              <div className="pt-2 flex justify-between items-center text-xs">
+                <span className="text-slate-400 text-[11px]">
+                  Os dados locais continuam gravados offline.
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={logout}
+                  className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 min-h-[44px] gap-1 px-3"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  Sair da conta
+                </Button>
+              </div>
+            </div>
+          ) : (
+            /* ESTADO 2: NÃO CONECTADA */
+            <div className="space-y-4 pt-1">
+              <div className="p-3 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                A calculadora funciona 100% no seu navegador sem cadastro. Entre ou crie uma conta
+                apenas se desejar acessar seus cálculos em múltiplos computadores ou celular.
+              </div>
+
+              <Tabs
+                value={activeTab}
+                onValueChange={(val) => {
+                  setActiveTab(val as 'login' | 'signup')
+                  setStatusMessage(null)
+                }}
+                className="w-full"
+              >
+                <TabsList className="grid grid-cols-2 w-full bg-slate-100 dark:bg-slate-800 h-10">
+                  <TabsTrigger value="login" className="text-xs font-semibold min-h-[36px]">
+                    Entrar
+                  </TabsTrigger>
+                  <TabsTrigger value="signup" className="text-xs font-semibold min-h-[36px]">
+                    Criar conta
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Aba Entrar */}
+                <TabsContent value="login" className="mt-4 space-y-3">
+                  <form onSubmit={handleLoginSubmit} className="space-y-3">
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-login-email"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        E-mail
+                      </Label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-login-email"
+                          type="email"
+                          required
+                          placeholder="seu.email@exemplo.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-login-password"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        Senha
+                      </Label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-login-password"
+                          type="password"
+                          required
+                          placeholder="Sua senha"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full min-h-[44px] gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white font-medium shadow-sm mt-2"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Entrando...
+                        </>
+                      ) : (
+                        <>
+                          <Cloud className="w-4 h-4" />
+                          Conectar e Sincronizar
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                {/* Aba Criar Conta */}
+                <TabsContent value="signup" className="mt-4 space-y-3">
+                  <form onSubmit={handleSignupSubmit} className="space-y-3">
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-signup-name"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        Seu Nome ou Como prefere ser chamada (opcional)
+                      </Label>
+                      <div className="relative">
+                        <User className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-signup-name"
+                          type="text"
+                          placeholder="Ex: Dra. Mariana Costa"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-signup-email"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        E-mail
+                      </Label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-signup-email"
+                          type="email"
+                          required
+                          placeholder="seu.email@exemplo.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-signup-password"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        Senha (mínimo de 8 caracteres)
+                      </Label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-signup-password"
+                          type="password"
+                          required
+                          minLength={8}
+                          placeholder="Crie uma senha segura"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full min-h-[44px] gap-2 bg-[#16746E] hover:bg-[#115e59] text-white font-medium shadow-sm mt-2"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Criando conta...
+                        </>
+                      ) : (
+                        <>
+                          <CloudUpload className="w-4 h-4" />
+                          Criar Conta e Ativar Nuvem
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+            </div>
+          )}
+
+          {/* Rodapé LGPD & Segurança */}
+          <div className="pt-3 mt-2 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-start gap-2 leading-relaxed">
+            <ShieldCheck className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-slate-700 dark:text-slate-300">
+                Privacidade & LGPD Ética:
+              </strong>{' '}
+              Seus dados são criptografados em trânsito (HTTPS/TLS) e apenas a dona da conta tem
+              acesso às regras de leitura e gravação. Nenhum dado do paciente é armazenado em texto
+              não autorizado.
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmação de Restauração Destrutiva */}
+      <AlertDialog open={confirmRestoreOpen} onOpenChange={setConfirmRestoreOpen}>
+        <AlertDialogContent className="bg-white dark:bg-[#0f172a] border-slate-200 dark:border-slate-800">
+          <AlertDialogHeader>
+            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-1">
+              <AlertTriangle className="w-5 h-5" />
+              <AlertDialogTitle className="font-serif text-lg font-bold text-slate-900 dark:text-white">
+                Substituir dados deste dispositivo?
+              </AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Esta ação <strong>substituirá todos os dados locais deste navegador</strong> (custos,
+              cenários salvos e simulador tributário) pela versão mais recente salva na nuvem.
+              <br />
+              <br />
+              Certifique-se de que a versão em nuvem é a que você deseja manter antes de prosseguir.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="min-h-[44px]">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmRestore}
+              className="bg-amber-600 hover:bg-amber-700 text-white min-h-[44px]"
+            >
+              Sim, restaurar da nuvem
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  )
+}

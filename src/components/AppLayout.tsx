@@ -10,9 +10,11 @@ import {
   ChevronRight,
   Sparkles,
   HelpCircle,
+  Cloud,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
+import { CloudBackupModal } from './CloudBackupModal'
 
 export interface StepDef {
   index: number
@@ -79,6 +81,7 @@ interface LayoutProps {
   theme: 'light' | 'dark'
   onToggleTheme: () => void
   onOpenTour?: () => void
+  onOpenCloudBackup?: () => void
 }
 
 export const AppLayout: React.FC<LayoutProps> = ({
@@ -88,9 +91,19 @@ export const AppLayout: React.FC<LayoutProps> = ({
   theme,
   onToggleTheme,
   onOpenTour,
+  onOpenCloudBackup,
 }) => {
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
+
+  const handleOpenCloud = () => {
+    if (onOpenCloudBackup) {
+      onOpenCloudBackup()
+    } else {
+      setCloudBackupOpen(true)
+    }
+  }
 
   const handleStepClick = (stepIndex: number) => {
     onSelectStep(stepIndex)
@@ -140,12 +153,24 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleOpenCloud}
+              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+              aria-label="Sincronização e Backup em Nuvem"
+              title="Backup em Nuvem Multi-dispositivo"
+            >
+              <Cloud className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+              <span className="hidden sm:inline font-medium">Nuvem</span>
+            </Button>
+
             {onOpenTour && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onOpenTour}
-                className="h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+                className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
                 aria-label="Abrir Tour Guiado da Calculadora"
                 title="Tour Guiado da Calculadora"
               >
@@ -158,13 +183,12 @@ export const AppLayout: React.FC<LayoutProps> = ({
               variant="outline"
               size="sm"
               onClick={() => setGlossaryOpen(true)}
-              className="h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
               aria-label="Abrir Glossário"
             >
               <BookOpen className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
               <span className="hidden sm:inline font-medium">Glossário</span>
             </Button>
-
             <Button
               variant="ghost"
               size="icon"
@@ -300,7 +324,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   <X className="w-4 h-4" />
                 </Button>
               </div>
-
               <div className="space-y-2 flex-1">
                 {WIZARD_STEPS.map((step) => {
                   const isCurrent = activeStep === step.index
@@ -341,8 +364,18 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   )
                 })}
               </div>
-
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    handleOpenCloud()
+                  }}
+                  className="w-full justify-center gap-2 min-h-[44px]"
+                >
+                  <Cloud className="w-4 h-4 text-[#5B3A8E]" />
+                  Backup em Nuvem
+                </Button>
                 {onOpenTour && (
                   <Button
                     variant="outline"
@@ -350,7 +383,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                       setMobileMenuOpen(false)
                       onOpenTour()
                     }}
-                    className="w-full justify-center gap-2"
+                    className="w-full justify-center gap-2 min-h-[44px]"
                   >
                     <HelpCircle className="w-4 h-4 text-[#5B3A8E]" />
                     Ver Tour Guiado
@@ -362,12 +395,12 @@ export const AppLayout: React.FC<LayoutProps> = ({
                     setMobileMenuOpen(false)
                     setGlossaryOpen(true)
                   }}
-                  className="w-full justify-center gap-2"
+                  className="w-full justify-center gap-2 min-h-[44px]"
                 >
                   <BookOpen className="w-4 h-4 text-[#5B3A8E]" />
                   Abrir Glossário
                 </Button>
-              </div>
+              </div>{' '}
             </div>
           </div>
         )}
@@ -390,6 +423,9 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
       {/* Modal do Glossário */}
       <GlossaryModal isOpen={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
+
+      {/* Modal de Backup em Nuvem */}
+      <CloudBackupModal isOpen={cloudBackupOpen} onClose={() => setCloudBackupOpen(false)} />
     </div>
   )
 }

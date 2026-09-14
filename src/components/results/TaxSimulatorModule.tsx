@@ -27,6 +27,7 @@ import {
   SALARIO_MINIMO_2025,
   TETO_INSS_2025,
 } from '@/lib/taxSimulatorMath'
+import { TaxBreakEvenChart } from './TaxBreakEvenChart'
 
 const STORAGE_KEY_TAXSIM = 'entrelacos_fac_taxsim_v1'
 
@@ -373,6 +374,14 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Comparador Visual PF × PJ por Faixa de Faturamento (Ponto de Virada / Break-Even) */}
+      <TaxBreakEvenChart
+        currentInputs={inputs}
+        userFaturamentoAtual={
+          initialFaturamento > 0 ? initialFaturamento : inputs.faturamentoBrutoMensal
+        }
+      />
 
       {/* Comparativo Lado a Lado (Cards PF vs PJ) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
