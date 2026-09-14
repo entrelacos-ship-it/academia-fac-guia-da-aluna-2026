@@ -182,6 +182,7 @@ export default function Index() {
             onLoadScenario={loadScenario}
             onDeleteScenario={deleteScenario}
             onClearAllScenarios={clearAllScenarios}
+            onSelectStep={setStep}
             onNext={nextStep}
             onPrev={prevStep}
           />

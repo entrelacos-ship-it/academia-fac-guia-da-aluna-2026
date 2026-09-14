@@ -20,6 +20,7 @@ import { IdealRevenueGoalCalculator } from '@/components/results/IdealRevenueGoa
 import { SensitivityAnalysis } from '@/components/results/SensitivityAnalysis'
 import { SavedScenariosManager } from '@/components/results/SavedScenariosManager'
 import { AIAdvisor } from '@/components/results/AIAdvisor'
+import { StrategicInsights } from '@/components/results/StrategicInsights'
 import { PrintableReport } from '@/components/results/PrintableReport'
 import { TaxSimulatorModule } from '@/components/results/TaxSimulatorModule'
 import { AnnualReadjustmentModule } from '@/components/results/AnnualReadjustmentModule'
@@ -37,6 +38,7 @@ interface StepResultadosProps {
   onLoadScenario: (scenario: SavedScenario) => void
   onDeleteScenario: (id: string) => void
   onClearAllScenarios: () => void
+  onSelectStep?: (step: number) => void
   onNext: () => void
   onPrev: () => void
 }
@@ -50,6 +52,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
   onLoadScenario,
   onDeleteScenario,
   onClearAllScenarios,
+  onSelectStep,
   onNext,
   onPrev,
 }) => {
@@ -59,6 +62,13 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
   const handlePrint = () => {
     window.print()
+  }
+
+  const handleScrollToSection = (elementId: string) => {
+    const el = document.getElementById(elementId)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   return (
@@ -298,6 +308,17 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             </div>
           </div>
 
+          {/* MÓDULO ESTRATÉGICO: Insights e Recomendações Acionáveis */}
+          <div id="insights-section">
+            <StrategicInsights
+              state={state}
+              calculation={calculation}
+              onNavigateTab={(tab) => setActiveTab(tab)}
+              onNavigateStep={onSelectStep}
+              onScrollToSection={handleScrollToSection}
+            />
+          </div>
+
           {/* MÓDULO B: Visualização Gráfica Interativa (Recharts) */}
           <div>
             <FinancialBreakdownCharts calculation={calculation} />
@@ -305,12 +326,16 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
           {/* MÓDULO C & D: Planejador Reverso + Sensibilidade (2 cols desktop) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <IdealRevenueGoalCalculator
-              state={state}
-              calculation={calculation}
-              onAdjustGrade={onAdjustGrade}
-            />
-            <SensitivityAnalysis baseState={state} baseCalculation={calculation} />
+            <div id="meta-section">
+              <IdealRevenueGoalCalculator
+                state={state}
+                calculation={calculation}
+                onAdjustGrade={onAdjustGrade}
+              />
+            </div>
+            <div id="sensibilidade-section">
+              <SensitivityAnalysis baseState={state} baseCalculation={calculation} />
+            </div>
           </div>
 
           {/* MÓDULO E & F: Gerenciador de Cenários + Consultor Inteligente (2 cols desktop) */}
