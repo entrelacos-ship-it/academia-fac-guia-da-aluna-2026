@@ -19,55 +19,59 @@
      - text-secondary: #A1A1AA (240 5% 65%)
      - border: #27272A (240 4% 16%)
   */
+  /* Astral Design System Tokens — Dual-Mode (Light & Dark)
+     Light mode é o padrão na raiz (:root) com excelente contraste WCAG AA.
+     Dark mode é ativado pela classe .dark no HTML element.
+  */
   :root {
-    --background: 264 100% 2%; /* #03000A Astral Background */
-    --foreground: 0 0% 100%; /* #FFFFFF Astral Text Primary */
+    --background: 240 14% 97%; /* #F6F6F9 Superfície base limpa */
+    --foreground: 240 10% 10%; /* #18181B Texto primário com alto contraste */
 
-    --card: 240 5% 10%; /* #18181B Astral Surface */
-    --card-foreground: 0 0% 100%; /* #FFFFFF */
+    --card: 0 0% 100%; /* #FFFFFF Cartões com sombra suave */
+    --card-foreground: 240 10% 10%;
 
-    --popover: 240 5% 10%; /* #18181B Astral Surface */
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 271 95% 75%; /* #C084FC Astral Primary */
-    --primary-foreground: 264 100% 4%; /* Quase preto para máximo contraste */
+    --primary: 271 85% 50%; /* Roxo Astral vibrante com contraste AA em fundo claro */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 33% 6%; /* #0A0A14 Astral Secondary */
-    --secondary-foreground: 240 5% 85%;
+    --secondary: 240 6% 93%; /* #ECECEF */
+    --secondary-foreground: 240 10% 12%;
 
-    --muted: 240 4% 14%; /* Surface nested sutil */
-    --muted-foreground: 240 5% 65%; /* #A1A1AA Astral Text Secondary */
+    --muted: 240 5% 94%; /* #EFEFF2 */
+    --muted-foreground: 240 5% 40%; /* #64646E Contraste WCAG AA */
 
-    --accent: 27 96% 61%; /* #FB923C Astral Accent */
+    --accent: 27 96% 48%; /* Laranja Astral ajustado para alto contraste em fundo claro */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 4% 16%; /* #27272A Astral Border */
-    --input: 240 4% 18%;
-    --ring: 271 95% 75%; /* #C084FC */
+    --border: 240 6% 87%; /* #DBDCE3 Bordas suaves visíveis */
+    --input: 240 6% 87%;
+    --ring: 271 85% 50%;
 
     --radius: 1rem; /* 16px */
 
-    --sidebar-background: 240 33% 6%; /* #0A0A14 */
-    --sidebar-foreground: 240 5% 85%;
-    --sidebar-primary: 271 95% 75%;
-    --sidebar-primary-foreground: 264 100% 4%;
-    --sidebar-accent: 240 5% 12%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 240 4% 16%;
-    --sidebar-ring: 271 95% 75%;
+    --sidebar-background: 240 8% 95%; /* #F1F1F4 */
+    --sidebar-foreground: 240 10% 14%;
+    --sidebar-primary: 271 85% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 6% 90%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 240 6% 87%;
+    --sidebar-ring: 271 85% 50%;
 
-    --chart-1: 271 95% 75%; /* #C084FC Primary */
-    --chart-2: 27 96% 61%; /* #FB923C Accent */
-    --chart-3: 280 85% 60%; /* Roxo complementar */
-    --chart-4: 160 84% 39%; /* Esmeralda discreto */
-    --chart-5: 217 91% 60%; /* Azul elétrico */
+    --chart-1: 271 85% 50%;
+    --chart-2: 27 96% 48%;
+    --chart-3: 280 75% 45%;
+    --chart-4: 160 84% 33%;
+    --chart-5: 217 91% 50%;
   }
 
   .dark {
-    --background: 264 100% 2%; /* #03000A */
+    --background: 264 100% 2%; /* #03000A Astral Dark */
     --foreground: 0 0% 100%; /* #FFFFFF */
 
     --card: 240 5% 10%; /* #18181B */
@@ -82,7 +86,7 @@
     --secondary: 240 33% 6%; /* #0A0A14 */
     --secondary-foreground: 240 5% 85%;
 
-    --muted: 240 4% 14%;
+    --muted: 240 4% 14%; /* #121216 */
     --muted-foreground: 240 5% 65%; /* #A1A1AA */
 
     --accent: 27 96% 61%; /* #FB923C */
@@ -109,42 +113,6 @@
     --chart-3: 280 85% 60%;
     --chart-4: 160 84% 39%;
     --chart-5: 217 91% 60%;
-  }
-
-  .light {
-    --background: 240 10% 98%;
-    --foreground: 240 10% 8%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 8%;
-
-    --primary: 271 80% 55%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 240 5% 94%;
-    --secondary-foreground: 240 10% 10%;
-
-    --muted: 240 5% 94%;
-    --muted-foreground: 240 5% 45%;
-
-    --accent: 27 96% 55%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 240 5% 88%;
-    --input: 240 5% 88%;
-    --ring: 271 80% 55%;
-
-    --chart-1: 271 80% 55%;
-    --chart-2: 27 96% 55%;
-    --chart-3: 280 75% 50%;
-    --chart-4: 160 84% 35%;
-    --chart-5: 217 91% 55%;
   }
 
   /* NEVER REMOVE THIS */
@@ -327,23 +295,28 @@
     animation: spotlight 2s ease forwards;
   }
 
-  /* Astral Utility Tokens */
+  /* Astral Utility Tokens - Adaptáveis a Light e Dark */
   .astral-card {
-    background-color: #18181b;
-    border: 1px solid #27272a;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 16px;
-    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
     transition:
       transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.2s ease,
       border-color 0.2s ease;
   }
-
-  .astral-card-interactive {
+  .dark .astral-card {
     background-color: #18181b;
     border: 1px solid #27272a;
-    border-radius: 16px;
     box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+  }
+
+  .astral-card-interactive {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
     transition:
       transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.2s ease,
@@ -351,14 +324,28 @@
   }
   .astral-card-interactive:hover {
     transform: translateY(-2px);
+    border-color: rgba(147, 51, 234, 0.35);
+    box-shadow: 0 10px 28px -4px rgba(147, 51, 234, 0.12);
+  }
+  .dark .astral-card-interactive {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+  }
+  .dark .astral-card-interactive:hover {
+    transform: translateY(-2px);
     border-color: rgba(192, 132, 252, 0.45);
     box-shadow: 0 12px 32px -4px rgba(192, 132, 252, 0.12);
   }
 
   .astral-surface-nested {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+  }
+  .dark .astral-surface-nested {
     background-color: #121216;
     border: 1px solid #27272a;
-    border-radius: 12px;
   }
 
   .astral-display {
@@ -380,6 +367,12 @@
 
   /* Ambient atmospheric glow */
   .astral-glow-bg {
+    background-image:
+      radial-gradient(circle at 50% -20%, rgba(168, 85, 247, 0.08), transparent 60%),
+      radial-gradient(circle at 100% 40%, rgba(249, 115, 22, 0.05), transparent 45%),
+      radial-gradient(circle at 0% 80%, rgba(168, 85, 247, 0.04), transparent 50%);
+  }
+  .dark .astral-glow-bg {
     background-image:
       radial-gradient(circle at 50% -20%, rgba(192, 132, 252, 0.18), transparent 60%),
       radial-gradient(circle at 100% 40%, rgba(251, 146, 60, 0.08), transparent 45%),

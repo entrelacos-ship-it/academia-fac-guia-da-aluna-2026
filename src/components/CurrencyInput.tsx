@@ -55,16 +55,18 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
       {label && (
         <Label
           htmlFor={id}
-          className="text-xs font-mono font-semibold uppercase tracking-wider text-[#A1A1AA] flex items-center gap-1.5"
+          className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A1A1AA] flex items-center gap-1.5"
         >
-          {icon && <span className="text-[#C084FC]">{icon}</span>}
+          {icon && <span className="text-[#7c3aed] dark:text-[#C084FC]">{icon}</span>}
           {label}
         </Label>
       )}
-      <div className="relative rounded-[8px] shadow-sm">
+      <div className="relative rounded-[8px] shadow-xs">
         <span
           className={`absolute left-3.5 top-1/2 -translate-y-1/2 font-mono font-semibold select-none pointer-events-none transition-colors ${
-            isLarge ? 'text-lg text-[#C084FC]' : 'text-sm text-[#A1A1AA]'
+            isLarge
+              ? 'text-lg text-[#7c3aed] dark:text-[#C084FC]'
+              : 'text-sm text-slate-500 dark:text-[#A1A1AA]'
           }`}
         >
           R$
@@ -77,12 +79,16 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
           value={displayValue}
           onChange={handleInputChange}
           placeholder={placeholder}
-          className={`pl-11 pr-3 text-white bg-[#0A0A14] border-[#27272A] focus-visible:ring-2 focus-visible:ring-[#C084FC] focus-visible:border-transparent rounded-[8px] transition-all font-mono font-medium ${
+          className={`pl-11 pr-3 text-slate-900 dark:text-white bg-white dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus-visible:ring-2 focus-visible:ring-[#7c3aed] dark:focus-visible:ring-[#C084FC] focus-visible:border-transparent rounded-[8px] transition-all font-mono font-medium ${
             isLarge ? 'h-14 text-2xl tracking-tight' : 'h-11 text-base'
           }`}
         />
       </div>
-      {helperText && <p className="text-[11px] font-mono text-[#71717A] pl-0.5">{helperText}</p>}
+      {helperText && (
+        <p className="text-[11px] font-mono text-slate-500 dark:text-[#71717A] pl-0.5">
+          {helperText}
+        </p>
+      )}
     </div>
   )
 }

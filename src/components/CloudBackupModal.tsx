@@ -159,17 +159,17 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-        <DialogContent className="sm:max-w-md bg-[#18181B] border-[#27272A] text-white p-6 max-h-[92vh] overflow-y-auto rounded-[16px] shadow-2xl">
-          <DialogHeader className="space-y-1.5 pb-2 border-b border-[#27272A]">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white p-6 max-h-[92vh] overflow-y-auto rounded-[16px] shadow-2xl">
+          <DialogHeader className="space-y-1.5 pb-2 border-b border-slate-200 dark:border-[#27272A]">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-[8px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
                 <Cloud className="w-5 h-5" />
               </div>
               <div>
-                <DialogTitle className="font-sans text-lg sm:text-xl font-semibold text-white">
+                <DialogTitle className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
                   Backup em Nuvem Multi-dispositivo
                 </DialogTitle>
-                <DialogDescription className="text-xs text-[#A1A1AA] font-mono">
+                <DialogDescription className="text-xs text-slate-500 dark:text-[#A1A1AA] font-mono">
                   SINCRONIZAÇÃO ASTRAL · FAC
                 </DialogDescription>
               </div>
@@ -255,11 +255,11 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
               {isChangingPassword ? (
                 <form
                   onSubmit={handleChangePasswordSubmit}
-                  className="p-3.5 rounded-[12px] bg-[#0A0A14] border border-[#27272A] space-y-2.5"
+                  className="p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-2.5"
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                      <KeyRound className="w-3.5 h-3.5 text-[#C084FC]" />
+                    <span className="text-xs font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <KeyRound className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
                       Alterar minha senha
                     </span>
                     <Button
@@ -267,23 +267,25 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => setIsChangingPassword(false)}
-                      className="text-xs h-7 text-[#A1A1AA] hover:text-white rounded-[6px]"
+                      className="text-xs h-7 text-slate-500 hover:text-slate-900 dark:text-[#A1A1AA] dark:hover:text-white rounded-[6px]"
                     >
                       Cancelar
                     </Button>
                   </div>
                   <div>
-                    <Label className="text-[11px] font-mono text-[#A1A1AA]">Senha atual</Label>
+                    <Label className="text-[11px] font-mono text-slate-600 dark:text-[#A1A1AA]">
+                      Senha atual
+                    </Label>
                     <Input
                       type="password"
                       required
                       value={oldPassword}
                       onChange={(e) => setOldPassword(e.target.value)}
-                      className="h-9 text-xs bg-[#18181B] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC]"
+                      className="h-9 text-xs bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC]"
                     />
                   </div>
                   <div>
-                    <Label className="text-[11px] font-mono text-[#A1A1AA]">
+                    <Label className="text-[11px] font-mono text-slate-600 dark:text-[#A1A1AA]">
                       Nova senha (mínimo 8 caracteres)
                     </Label>
                     <Input
@@ -292,11 +294,11 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       minLength={8}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="h-9 text-xs bg-[#18181B] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC]"
+                      className="h-9 text-xs bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC]"
                     />
                   </div>
                   <div>
-                    <Label className="text-[11px] font-mono text-[#A1A1AA]">
+                    <Label className="text-[11px] font-mono text-slate-600 dark:text-[#A1A1AA]">
                       Confirmar nova senha
                     </Label>
                     <Input
@@ -305,13 +307,13 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       minLength={8}
                       value={newPasswordConfirm}
                       onChange={(e) => setNewPasswordConfirm(e.target.value)}
-                      className="h-9 text-xs bg-[#18181B] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC]"
+                      className="h-9 text-xs bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC]"
                     />
                   </div>
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full h-9 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] text-xs font-semibold rounded-[8px]"
+                    className="w-full h-9 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] text-xs font-semibold rounded-[8px]"
                   >
                     {isLoading ? 'Salvando...' : 'Atualizar Senha'}
                   </Button>
@@ -323,16 +325,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 <Button
                   onClick={syncNow}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#C084FC]/20 transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                  className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                 >
                   {isSyncing ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#0A0A14]" />
+                      <Loader2 className="w-4 h-4 animate-spin text-white dark:text-[#0A0A14]" />
                       Salvando na nuvem...
                     </>
                   ) : (
                     <>
-                      <CloudUpload className="w-4 h-4 text-[#0A0A14]" />
+                      <CloudUpload className="w-4 h-4 text-white dark:text-[#0A0A14]" />
                       SINCRONIZAR AGORA (SALVAR NA NUVEM)
                     </>
                   )}
@@ -342,16 +344,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                   variant="outline"
                   onClick={() => setConfirmRestoreOpen(true)}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 border-[#27272A] bg-[#0A0A14] text-white hover:border-[#FB923C]/50 rounded-[8px] transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                  className="w-full min-h-[44px] gap-2 border-slate-200 dark:border-[#27272A] bg-slate-100 dark:bg-[#0A0A14] text-slate-800 dark:text-white hover:border-[#ea580c]/50 dark:hover:border-[#FB923C]/50 rounded-[8px] transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                 >
                   {isRestoring ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#FB923C]" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#ea580c] dark:text-[#FB923C]" />
                       Restaurando dados...
                     </>
                   ) : (
                     <>
-                      <CloudDownload className="w-4 h-4 text-[#FB923C]" />
+                      <CloudDownload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                       RESTAURAR DA NUVEM NESTE APARELHO
                     </>
                   )}
@@ -364,9 +366,9 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={() => setIsChangingPassword(true)}
-                    className="text-[#A1A1AA] hover:text-white text-[11px] font-mono gap-1.5 p-0 h-auto"
+                    className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white text-[11px] font-mono gap-1.5 p-0 h-auto"
                   >
-                    <KeyRound className="w-3 h-3 text-[#C084FC]" />
+                    <KeyRound className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC]" />
                     Alterar senha
                   </Button>
                 ) : (
@@ -376,7 +378,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={logout}
-                  className="text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 min-h-[44px] gap-1 px-3 rounded-[8px] font-mono text-xs"
+                  className="text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 min-h-[44px] gap-1 px-3 rounded-[8px] font-mono text-xs"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   Sair da conta
@@ -386,7 +388,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
           ) : (
             /* ESTADO 2: NÃO CONECTADA */
             <div className="space-y-4 pt-1">
-              <div className="p-3 rounded-[12px] bg-[#0A0A14] border border-[#27272A] text-xs text-[#A1A1AA] leading-relaxed font-sans">
+              <div className="p-3 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-sans">
                 A calculadora funciona 100% no seu navegador sem cadastro. Entre ou crie uma conta
                 apenas se desejar acessar seus cálculos em múltiplos computadores ou celular.
               </div>
@@ -399,16 +401,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 }}
                 className="w-full"
               >
-                <TabsList className="grid grid-cols-2 w-full bg-[#0A0A14] border border-[#27272A] rounded-[8px] p-1 h-10">
+                <TabsList className="grid grid-cols-2 w-full bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] rounded-[8px] p-1 h-10">
                   <TabsTrigger
                     value="login"
-                    className="text-xs font-mono font-semibold min-h-[32px] rounded-[6px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC]"
+                    className="text-xs font-mono font-semibold min-h-[32px] rounded-[6px] data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC]"
                   >
                     ENTRAR
                   </TabsTrigger>
                   <TabsTrigger
                     value="signup"
-                    className="text-xs font-mono font-semibold min-h-[32px] rounded-[6px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#FB923C]"
+                    className="text-xs font-mono font-semibold min-h-[32px] rounded-[6px] data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#ea580c] dark:data-[state=active]:text-[#FB923C]"
                   >
                     CRIAR CONTA
                   </TabsTrigger>
@@ -420,12 +422,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <div className="space-y-1">
                       <Label
                         htmlFor="cloud-login-email"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                       >
                         E-mail
                       </Label>
                       <div className="relative">
-                        <Mail className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <Mail className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-login-email"
                           type="email"
@@ -433,7 +435,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="seu.email@exemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
@@ -442,20 +444,20 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       <div className="flex items-center justify-between">
                         <Label
                           htmlFor="cloud-login-password"
-                          className="text-xs font-mono text-[#A1A1AA]"
+                          className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                         >
                           Senha
                         </Label>
                         <button
                           type="button"
                           onClick={() => setIsForgotPassword(!isForgotPassword)}
-                          className="text-xs font-mono text-[#C084FC] hover:underline"
+                          className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:underline"
                         >
                           {isForgotPassword ? 'Lembrei a senha' : 'Esqueci minha senha'}
                         </button>
                       </div>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-login-password"
                           type="password"
@@ -463,14 +465,14 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Sua senha"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
 
                     {isForgotPassword && (
-                      <div className="p-3 rounded-[12px] bg-[#0A0A14] border border-[#27272A] space-y-2 text-xs">
-                        <p className="text-[#A1A1AA] leading-relaxed">
+                      <div className="p-3 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-2 text-xs">
+                        <p className="text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
                           Enviaremos as orientações de redefinição para o seu e-mail cadastrado
                           acima.
                         </p>
@@ -478,7 +480,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           type="button"
                           onClick={handleForgotPasswordSubmit}
                           disabled={isLoading || !email}
-                          className="w-full h-9 bg-[#FB923C] hover:bg-[#ea580c] text-[#0A0A14] font-semibold text-xs rounded-[8px]"
+                          className="w-full h-9 bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold text-xs rounded-[8px]"
                         >
                           {isLoading ? 'Enviando...' : 'Enviar link de recuperação'}
                         </Button>
@@ -488,16 +490,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <Button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#C084FC]/20 mt-2 font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                      className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 mt-2 font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#0A0A14]" />
+                          <Loader2 className="w-4 h-4 animate-spin text-white dark:text-[#0A0A14]" />
                           Entrando...
                         </>
                       ) : (
                         <>
-                          <Cloud className="w-4 h-4 text-[#0A0A14]" />
+                          <Cloud className="w-4 h-4 text-white dark:text-[#0A0A14]" />
                           Conectar e Sincronizar
                         </>
                       )}
@@ -511,19 +513,19 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <div className="space-y-1">
                       <Label
                         htmlFor="cloud-signup-name"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                       >
                         Seu Nome ou Como prefere ser chamada (opcional)
                       </Label>
                       <div className="relative">
-                        <User className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <User className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-signup-name"
                           type="text"
                           placeholder="Ex: Dra. Mariana Costa"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
@@ -531,12 +533,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <div className="space-y-1">
                       <Label
                         htmlFor="cloud-signup-email"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                       >
                         E-mail
                       </Label>
                       <div className="relative">
-                        <Mail className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <Mail className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-signup-email"
                           type="email"
@@ -544,7 +546,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="seu.email@exemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
@@ -552,12 +554,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <div className="space-y-1">
                       <Label
                         htmlFor="cloud-signup-password"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                       >
                         Senha (mínimo de 8 caracteres)
                       </Label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-signup-password"
                           type="password"
@@ -566,7 +568,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Crie uma senha segura"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
@@ -574,12 +576,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <div className="space-y-1">
                       <Label
                         htmlFor="cloud-signup-password-confirm"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                       >
                         Confirmar senha
                       </Label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-[#71717A] absolute left-3 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
                         <Input
                           id="cloud-signup-password-confirm"
                           type="password"
@@ -588,7 +590,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Repita sua senha"
                           value={passwordConfirm}
                           onChange={(e) => setPasswordConfirm(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
+                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         />
                       </div>
                     </div>
@@ -596,16 +598,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     <Button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full min-h-[44px] gap-2 bg-[#FB923C] hover:bg-[#ea580c] text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#FB923C]/20 mt-2 font-mono text-xs focus:ring-2 focus:ring-[#FB923C]"
+                      className="w-full min-h-[44px] gap-2 bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#ea580c]/20 dark:shadow-[#FB923C]/20 mt-2 font-mono text-xs focus:ring-2 focus:ring-[#ea580c] dark:focus:ring-[#FB923C]"
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#0A0A14]" />
+                          <Loader2 className="w-4 h-4 animate-spin text-white dark:text-[#0A0A14]" />
                           Criando conta...
                         </>
                       ) : (
                         <>
-                          <CloudUpload className="w-4 h-4 text-[#0A0A14]" />
+                          <CloudUpload className="w-4 h-4 text-white dark:text-[#0A0A14]" />
                           Criar Conta e Ativar Nuvem
                         </>
                       )}
@@ -617,12 +619,15 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
           )}
 
           {/* Rodapé LGPD & Segurança Astral */}
-          <div className="pt-3 mt-2 border-t border-[#27272A] text-[11px] text-[#71717A] flex items-start gap-2 leading-relaxed font-sans">
-            <ShieldCheck className="w-4 h-4 text-[#C084FC] shrink-0 mt-0.5" />
+          <div className="pt-3 mt-2 border-t border-slate-200 dark:border-[#27272A] text-[11px] text-slate-500 dark:text-[#71717A] flex items-start gap-2 leading-relaxed font-sans">
+            <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0 mt-0.5" />
             <div>
-              <strong className="text-[#A1A1AA]">Privacidade & LGPD Ética:</strong> Seus dados são
-              criptografados em trânsito (HTTPS/TLS) e apenas a dona da conta tem acesso às regras
-              de leitura e gravação. Nenhum dado do paciente é armazenado em texto não autorizado.
+              <strong className="text-slate-700 dark:text-[#A1A1AA]">
+                Privacidade & LGPD Ética:
+              </strong>{' '}
+              Seus dados são criptografados em trânsito (HTTPS/TLS) e apenas a dona da conta tem
+              acesso às regras de leitura e gravação. Nenhum dado do paciente é armazenado em texto
+              não autorizado.
             </div>
           </div>
         </DialogContent>
@@ -630,17 +635,17 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
 
       {/* Confirmação de Restauração Destrutiva Astral */}
       <AlertDialog open={confirmRestoreOpen} onOpenChange={setConfirmRestoreOpen}>
-        <AlertDialogContent className="bg-[#18181B] border-[#27272A] text-white rounded-[16px] shadow-2xl">
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[16px] shadow-2xl">
           <AlertDialogHeader>
-            <div className="flex items-center gap-2 text-[#FB923C] mb-1">
+            <div className="flex items-center gap-2 text-[#ea580c] dark:text-[#FB923C] mb-1">
               <AlertTriangle className="w-5 h-5" />
-              <AlertDialogTitle className="font-sans text-lg font-semibold text-white">
+              <AlertDialogTitle className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
                 Substituir dados deste dispositivo?
               </AlertDialogTitle>
             </div>
-            <AlertDialogDescription className="text-xs text-[#A1A1AA] leading-relaxed">
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
               Esta ação{' '}
-              <strong className="text-white">
+              <strong className="text-slate-900 dark:text-white">
                 substituirá todos os dados locais deste navegador
               </strong>{' '}
               (custos, cenários salvos e simulador tributário) pela versão mais recente salva na
@@ -651,12 +656,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="min-h-[44px] bg-[#0A0A14] border-[#27272A] text-[#A1A1AA] hover:text-white rounded-[8px]">
+            <AlertDialogCancel className="min-h-[44px] bg-slate-100 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white rounded-[8px]">
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmRestore}
-              className="bg-[#FB923C] hover:bg-[#ea580c] text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
+              className="bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
             >
               Sim, restaurar da nuvem
             </AlertDialogAction>

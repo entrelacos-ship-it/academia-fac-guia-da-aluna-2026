@@ -219,21 +219,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         className="max-w-[420px] w-full p-0 overflow-hidden border-0 bg-transparent shadow-none"
       >
         {/* Container Glassmorphism Editorial Elegance Astral */}
-        <div className="relative w-full rounded-[16px] sm:rounded-[20px] p-6 sm:p-7 backdrop-blur-2xl bg-[#18181B] border border-[#27272A] text-white shadow-2xl overflow-hidden">
+        <div className="relative w-full rounded-[16px] sm:rounded-[20px] p-6 sm:p-7 backdrop-blur-2xl bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white shadow-2xl overflow-hidden">
           {/* Efeito Glow Roxo e Laranja Sutil de Fundo */}
           <div
-            className="absolute -top-24 -left-24 w-56 h-56 rounded-full bg-[#C084FC]/15 blur-3xl pointer-events-none"
+            className="absolute -top-24 -left-24 w-56 h-56 rounded-full bg-purple-400/20 dark:bg-[#C084FC]/15 blur-3xl pointer-events-none"
             aria-hidden="true"
           />
           <div
-            className="absolute -bottom-24 -right-24 w-56 h-56 rounded-full bg-[#FB923C]/10 blur-3xl pointer-events-none"
+            className="absolute -bottom-24 -right-24 w-56 h-56 rounded-full bg-orange-400/15 dark:bg-[#FB923C]/10 blur-3xl pointer-events-none"
             aria-hidden="true"
           />
 
           {/* Botão Fechar no Canto Superior */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-[#71717A] hover:text-white rounded-[8px] hover:bg-[#0A0A14] transition-colors focus:outline-hidden focus:ring-2 focus:ring-[#C084FC] z-20"
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-900 dark:text-[#71717A] dark:hover:text-white rounded-[8px] hover:bg-slate-100 dark:hover:bg-[#0A0A14] transition-colors focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] z-20"
             aria-label="Fechar janela"
           >
             <X className="w-4 h-4" />
@@ -243,15 +243,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <div className="flex flex-col items-center text-center mb-5 relative z-10">
             <div className="relative mb-3 group">
               <div
-                className="absolute inset-0 rounded-[12px] bg-gradient-to-tr from-[#C084FC] to-[#FB923C] blur-md opacity-40 group-hover:opacity-75 transition-opacity"
+                className="absolute inset-0 rounded-[12px] bg-gradient-to-tr from-[#7c3aed] to-[#ea580c] dark:from-[#C084FC] dark:to-[#FB923C] blur-md opacity-30 dark:opacity-40 group-hover:opacity-75 transition-opacity"
                 aria-hidden="true"
               />
-              <div className="relative w-12 h-12 rounded-[12px] bg-[#0A0A14] border border-[#27272A] flex items-center justify-center text-[#C084FC] shadow-inner">
-                <Heart className="w-6 h-6 fill-[#C084FC]/20 stroke-[2.2] text-[#C084FC]" />
+              <div className="relative w-12 h-12 rounded-[12px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-inner">
+                <Heart className="w-6 h-6 fill-[#7c3aed]/20 dark:fill-[#C084FC]/20 stroke-[2.2] text-[#7c3aed] dark:text-[#C084FC]" />
               </div>
             </div>
 
-            <DialogTitle className="font-sans text-xl sm:text-2xl font-semibold tracking-tight text-white flex items-center gap-1.5">
+            <DialogTitle className="font-sans text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
               {mode === 'login' && 'Bem-vinda de volta'}
               {mode === 'signup' && 'Criar sua conta FAC'}
               {mode === 'forgot' && 'Recuperar acesso'}
@@ -261,7 +261,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             <DialogDescription
               id="auth-modal-description"
-              className="text-xs sm:text-[13px] text-[#A1A1AA] mt-1 max-w-[280px]"
+              className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] mt-1 max-w-[280px]"
             >
               {mode === 'login' && 'Acesse seus cenários e cálculos salvos em qualquer aparelho.'}
               {mode === 'signup' && 'Cadastre-se para sincronizar seus cálculos na nuvem segura.'}
@@ -276,18 +276,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <div
               className={`mb-4 p-3 rounded-xl text-xs flex items-start gap-2.5 transition-all relative z-10 ${
                 statusMessage.type === 'success'
-                  ? 'bg-emerald-950/70 text-emerald-200 border border-emerald-500/40'
+                  ? 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-500/40'
                   : statusMessage.type === 'error'
-                    ? 'bg-rose-950/70 text-rose-200 border border-rose-500/40'
-                    : 'bg-purple-950/70 text-purple-200 border border-purple-500/40'
+                    ? 'bg-rose-50 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-500/40'
+                    : 'bg-purple-50 dark:bg-purple-950/70 text-purple-800 dark:text-purple-200 border border-purple-200 dark:border-purple-500/40'
               }`}
             >
               {statusMessage.type === 'success' ? (
-                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
               ) : statusMessage.type === 'error' ? (
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
               ) : (
-                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-purple-400" />
+                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#7c3aed] dark:text-purple-400" />
               )}
               <span className="flex-1 font-medium leading-relaxed">{statusMessage.text}</span>
             </div>
@@ -299,17 +299,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {isConnected && currentUser ? (
                 /* Sessão já conectada */
                 <div className="space-y-4 py-2">
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
+                  <div className="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         Sessão ativa
                       </span>
-                      <span className="text-[11px] text-slate-400">Entrelaços Nuvem</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                        Entrelaços Nuvem
+                      </span>
                     </div>
-                    <p className="text-sm font-medium text-white truncate">{currentUser.email}</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                      {currentUser.email}
+                    </p>
                     {currentUser.name && (
-                      <p className="text-xs text-slate-400">{currentUser.name}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        {currentUser.name}
+                      </p>
                     )}
                   </div>
 
@@ -318,16 +324,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       type="button"
                       variant="outline"
                       onClick={() => switchMode('change-password')}
-                      className="min-h-[44px] gap-1.5 border-white/15 text-white bg-white/5 hover:bg-white/10 text-xs font-medium"
+                      className="min-h-[44px] gap-1.5 border-slate-200 dark:border-white/15 text-slate-800 dark:text-white bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-xs font-medium"
                     >
-                      <KeyRound className="w-3.5 h-3.5 text-purple-300" />
+                      <KeyRound className="w-3.5 h-3.5 text-[#7c3aed] dark:text-purple-300" />
                       Alterar senha
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       onClick={logout}
-                      className="min-h-[44px] gap-1.5 border-rose-500/30 text-rose-300 bg-rose-950/20 hover:bg-rose-950/40 text-xs font-medium"
+                      className="min-h-[44px] gap-1.5 border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-xs font-medium"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       Sair da conta
@@ -337,7 +343,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <Button
                     type="button"
                     onClick={onClose}
-                    className="w-full min-h-[44px] bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg shadow-[#C084FC]/20 font-mono text-xs"
+                    className="w-full min-h-[44px] bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 font-mono text-xs"
                   >
                     Continuar na Calculadora
                   </Button>
@@ -348,7 +354,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <div className="space-y-1.5">
                     <Label
                       htmlFor="auth-login-email"
-                      className="text-xs font-medium text-slate-300"
+                      className="text-xs font-mono font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider"
                     >
                       E-mail
                     </Label>
@@ -362,7 +368,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         placeholder="seu.email@exemplo.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-9.5 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                        className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                       />
                     </div>
                   </div>
@@ -371,14 +377,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     <div className="flex items-center justify-between">
                       <Label
                         htmlFor="auth-login-password"
-                        className="text-xs font-mono text-[#A1A1AA]"
+                        className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
                       >
                         Senha
                       </Label>
                       <button
                         type="button"
                         onClick={() => switchMode('forgot')}
-                        className="text-xs font-mono text-[#C084FC] hover:underline"
+                        className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:underline"
                       >
                         Esqueci minha senha
                       </button>
@@ -393,13 +399,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                        className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                        className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                        className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                       >
                         {showPassword ? (
                           <EyeOff className="w-4 h-4" />
@@ -416,11 +422,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       id="auth-remember-me"
                       checked={rememberMe}
                       onCheckedChange={(checked) => setRememberMe(Boolean(checked))}
-                      className="border-white/20 data-[state=checked]:bg-[#5B3A8E] data-[state=checked]:border-[#5B3A8E]"
+                      className="border-slate-300 dark:border-white/20 data-[state=checked]:bg-[#7c3aed] dark:data-[state=checked]:bg-[#C084FC] data-[state=checked]:border-[#7c3aed] dark:data-[state=checked]:border-[#C084FC]"
                     />
                     <label
                       htmlFor="auth-remember-me"
-                      className="text-xs text-slate-300 cursor-pointer select-none"
+                      className="text-xs text-slate-600 dark:text-slate-300 cursor-pointer select-none"
                     >
                       Lembrar meu e-mail neste navegador
                     </label>
@@ -429,7 +435,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg shadow-[#C084FC]/20 mt-1 transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                    className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 mt-1 transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                   >
                     {isLoading ? (
                       <>
@@ -445,12 +451,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </Button>
 
                   {/* Rodapé Alternar Cadastro */}
-                  <div className="pt-3 text-center text-xs text-slate-400 border-t border-white/10 mt-3">
+                  <div className="pt-3 text-center text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-white/10 mt-3">
                     Não tem uma conta?{' '}
                     <button
                       type="button"
                       onClick={() => switchMode('signup')}
-                      className="text-purple-300 hover:text-purple-200 font-semibold underline-offset-4 hover:underline"
+                      className="text-[#7c3aed] dark:text-purple-300 hover:underline font-semibold"
                     >
                       Criar conta
                     </button>
@@ -464,7 +470,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'signup' && (
             <form onSubmit={handleSignup} className="space-y-3 relative z-10">
               <div className="space-y-1">
-                <Label htmlFor="auth-signup-name" className="text-xs font-medium text-slate-300">
+                <Label
+                  htmlFor="auth-signup-name"
+                  className="text-xs font-medium text-slate-600 dark:text-slate-300"
+                >
                   Nome completo ou como prefere ser chamada
                 </Label>
                 <div className="relative">
@@ -475,12 +484,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="Ex: Dra. Juliana Santos"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="pl-9.5 h-10.5 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#FB923C] focus:ring-[#FB923C] rounded-[8px]"
+                    className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   />
                 </div>
               </div>
               <div className="space-y-1">
-                <Label htmlFor="auth-signup-email" className="text-xs font-mono text-[#A1A1AA]">
+                <Label
+                  htmlFor="auth-signup-email"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
+                >
                   E-mail
                 </Label>
                 <div className="relative">
@@ -493,12 +505,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="seu.email@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9.5 h-10.5 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#FB923C] focus:ring-[#FB923C] rounded-[8px]"
+                    className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   />
                 </div>
               </div>
               <div className="space-y-1">
-                <Label htmlFor="auth-signup-password" className="text-xs font-mono text-[#A1A1AA]">
+                <Label
+                  htmlFor="auth-signup-password"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
+                >
                   Senha (mínimo de 8 caracteres)
                 </Label>
                 <div className="relative">
@@ -512,13 +527,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-10.5 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#FB923C] focus:ring-[#FB923C] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -527,7 +542,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <div className="space-y-1">
                 <Label
                   htmlFor="auth-signup-password-confirm"
-                  className="text-xs font-medium text-slate-300"
+                  className="text-xs font-medium text-slate-600 dark:text-slate-300"
                 >
                   Confirmar senha
                 </Label>
@@ -542,7 +557,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-10.5 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#FB923C] focus:ring-[#FB923C] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   />
                   <button
                     type="button"
@@ -552,7 +567,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de senha'
                         : 'Ver confirmação de senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showConfirmPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -565,7 +580,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
               >
                 {isLoading ? (
                   <>
@@ -596,7 +611,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'forgot' && (
             <form onSubmit={handleForgotPassword} className="space-y-4 relative z-10">
               <div className="space-y-1.5">
-                <Label htmlFor="auth-forgot-email" className="text-xs font-medium text-slate-300">
+                <Label
+                  htmlFor="auth-forgot-email"
+                  className="text-xs font-mono font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider"
+                >
                   E-mail cadastrado
                 </Label>
                 <div className="relative">
@@ -609,22 +627,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="seu.email@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9.5 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#FB923C] focus:ring-[#FB923C] rounded-[8px]"
+                    className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   />
                 </div>
-                <p className="text-[11px] text-[#A1A1AA] leading-relaxed pt-1">
+                <p className="text-[11px] text-slate-500 dark:text-[#A1A1AA] leading-relaxed pt-1">
                   Enviaremos as orientações oficiais para redefinir sua credencial. Verifique também
                   a caixa de spam/promoções.
                 </p>
               </div>
 
               {/* Opção para inserir token se já recebeu link por e-mail */}
-              <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs flex items-center justify-between">
-                <span className="text-slate-300">Já recebeu o código/token?</span>
+              <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs flex items-center justify-between">
+                <span className="text-slate-700 dark:text-slate-300">
+                  Já recebeu o código/token?
+                </span>
                 <button
                   type="button"
                   onClick={() => switchMode('reset-token')}
-                  className="text-purple-300 hover:text-purple-200 font-semibold underline-offset-4 hover:underline"
+                  className="text-[#7c3aed] dark:text-purple-300 hover:underline font-semibold"
                 >
                   Inserir token
                 </button>
@@ -633,7 +653,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full min-h-[44px] gap-2 bg-[#FB923C] hover:bg-[#ea580c] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#FB923C]"
+                className="w-full min-h-[44px] gap-2 bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#ea580c] dark:focus:ring-[#FB923C]"
               >
                 {isLoading ? (
                   <>
@@ -665,7 +685,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'change-password' && (
             <form onSubmit={handleChangePassword} className="space-y-3.5 relative z-10">
               <div className="space-y-1">
-                <Label htmlFor="auth-old-password" className="text-xs font-medium text-slate-300">
+                <Label
+                  htmlFor="auth-old-password"
+                  className="text-xs font-medium text-slate-600 dark:text-slate-300"
+                >
                   Senha atual
                 </Label>
                 <div className="relative">
@@ -678,13 +701,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowOldPassword(!showOldPassword)}
                     aria-label={showOldPassword ? 'Ocultar senha atual' : 'Ver senha atual'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showOldPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -692,7 +715,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="auth-new-password" className="text-xs font-mono text-[#A1A1AA]">
+                <Label
+                  htmlFor="auth-new-password"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
+                >
                   Nova senha (mínimo 8 caracteres)
                 </Label>
                 <div className="relative">
@@ -706,13 +732,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar nova senha' : 'Ver nova senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -722,7 +748,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <div className="space-y-1">
                 <Label
                   htmlFor="auth-new-password-confirm"
-                  className="text-xs font-mono text-[#A1A1AA]"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                 >
                   Confirmar nova senha
                 </Label>
@@ -737,7 +763,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                   <button
                     type="button"
@@ -747,7 +773,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de nova senha'
                         : 'Ver confirmação de nova senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showConfirmPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -761,7 +787,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
               >
                 {isLoading ? (
                   <>
@@ -795,7 +821,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <div className="space-y-1">
                 <Label
                   htmlFor="auth-reset-token-input"
-                  className="text-xs font-medium text-slate-300"
+                  className="text-xs font-mono font-medium text-slate-600 dark:text-slate-300 uppercase tracking-wider"
                 >
                   Token ou Código de redefinição
                 </Label>
@@ -808,7 +834,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="Cole aqui o token do e-mail"
                     value={resetToken}
                     onChange={(e) => setResetToken(e.target.value)}
-                    className="pl-9.5 h-11 text-xs font-mono bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 h-11 text-xs font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                 </div>
               </div>
@@ -816,7 +842,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <div className="space-y-1">
                 <Label
                   htmlFor="auth-reset-new-password"
-                  className="text-xs font-mono text-[#A1A1AA]"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
                 >
                   Nova senha (mínimo 8 caracteres)
                 </Label>
@@ -830,13 +856,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar nova senha' : 'Ver nova senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -844,7 +870,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="auth-reset-confirm" className="text-xs font-mono text-[#A1A1AA]">
+                <Label
+                  htmlFor="auth-reset-confirm"
+                  className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA]"
+                >
                   Confirmar nova senha
                 </Label>
                 <div className="relative">
@@ -857,7 +886,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-[#0A0A14] border-[#27272A] text-white placeholder:text-[#71717A] focus:border-[#C084FC] focus:ring-[#C084FC] rounded-[8px]"
+                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   />
                   <button
                     type="button"
@@ -867,7 +896,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de nova senha'
                         : 'Ver confirmação de nova senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
                   >
                     {showConfirmPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -881,7 +910,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#C084FC]"
+                className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-lg transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
               >
                 {isLoading ? (
                   <>
@@ -900,7 +929,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-slate-400 hover:text-white inline-flex items-center gap-1 transition-colors"
+                  className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Voltar para o login
@@ -910,8 +939,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           )}
 
           {/* Nota LGPD Ética & Segurança */}
-          <div className="mt-5 pt-3 border-t border-white/10 text-[11px] text-slate-400 flex items-start gap-2 leading-relaxed relative z-10">
-            <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+          <div className="mt-5 pt-3 border-t border-slate-200 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400 flex items-start gap-2 leading-relaxed relative z-10">
+            <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-purple-400 shrink-0 mt-0.5" />
             <span>
               <strong>LGPD & Privacidade Ética:</strong> Conexão segura ponta a ponta. Nenhum dado
               de pacientes é armazenado.
