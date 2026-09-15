@@ -30,7 +30,7 @@ import {
 interface StrategicInsightsProps {
   state: PricingState
   calculation: CalculationResult
-  onNavigateTab?: (tab: 'painel' | 'tributario' | 'reajuste' | 'contrato') => void
+  onNavigateTab?: (tab: 'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato') => void
   onNavigateStep?: (step: number) => void
   onScrollToSection?: (elementId: string) => void
 }

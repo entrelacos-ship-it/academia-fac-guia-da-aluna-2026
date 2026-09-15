@@ -25,8 +25,9 @@ import { PrintableReport } from '@/components/results/PrintableReport'
 import { TaxSimulatorModule } from '@/components/results/TaxSimulatorModule'
 import { AnnualReadjustmentModule } from '@/components/results/AnnualReadjustmentModule'
 import { ClinicalContractModule } from '@/components/results/ClinicalContractModule'
+import { FinancialPlanningModule } from '@/components/results/FinancialPlanningModule'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calculator, Receipt, Percent, FileCheck2, BarChart3 } from 'lucide-react'
+import { Calculator, Receipt, Percent, FileCheck2, BarChart3, Compass } from 'lucide-react'
 import { SavedScenario } from '@/types/pricing'
 
 interface StepResultadosProps {
@@ -57,7 +58,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
   onPrev,
 }) => {
   const [activeTab, setActiveTab] = React.useState<
-    'painel' | 'tributario' | 'reajuste' | 'contrato'
+    'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato'
   >('painel')
 
   const handlePrint = () => {
@@ -105,7 +106,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
       <Tabs
         value={activeTab}
         onValueChange={(val) =>
-          setActiveTab(val as 'painel' | 'tributario' | 'reajuste' | 'contrato')
+          setActiveTab(val as 'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato')
         }
         className="w-full print:hidden"
       >
@@ -117,6 +118,13 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             >
               <BarChart3 className="w-4 h-4" />
               <span>PAINEL EXECUTIVO</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="planejamento"
+              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#FB923C] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
+            >
+              <Compass className="w-4 h-4" />
+              <span>PLANEJAMENTO FINANCEIRO</span>
             </TabsTrigger>
             <TabsTrigger
               value="tributario"
@@ -343,6 +351,11 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             />
             <AIAdvisor calculation={calculation} />
           </div>
+        </TabsContent>
+
+        {/* ABA NOVA: Módulo de Planejamento Financeiro */}
+        <TabsContent value="planejamento" className="mt-6">
+          <FinancialPlanningModule state={state} calculation={calculation} />
         </TabsContent>
 
         {/* ABA 2: Módulo 1 - Simulador de Transição Tributária */}

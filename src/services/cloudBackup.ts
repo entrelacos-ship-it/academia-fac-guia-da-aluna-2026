@@ -6,6 +6,7 @@ export const BACKUP_STORAGE_KEYS = {
   TAXSIM: 'entrelacos_fac_taxsim_v1',
   REAJUSTE: 'entrelacos_fac_reajuste_v1',
   CONTRATO: 'entrelacos_fac_contrato_v1',
+  FINPLAN: 'entrelacos_fac_finplan_v1',
   LAST_SYNC: 'entrelacos_fac_last_cloud_sync',
 } as const
 
@@ -19,6 +20,7 @@ export interface BackupPayload {
     taxsim: unknown
     reajuste: unknown
     contrato: unknown
+    finplan?: unknown
   }
 }
 
@@ -55,6 +57,7 @@ export function collectLocalBackupData(): BackupPayload {
       taxsim: getJson(BACKUP_STORAGE_KEYS.TAXSIM),
       reajuste: getJson(BACKUP_STORAGE_KEYS.REAJUSTE),
       contrato: getJson(BACKUP_STORAGE_KEYS.CONTRATO),
+      finplan: getJson(BACKUP_STORAGE_KEYS.FINPLAN),
     },
   }
 }
@@ -83,6 +86,9 @@ export function restoreBackupDataToLocal(payload: BackupPayload): void {
   }
   if (data.contrato) {
     localStorage.setItem(BACKUP_STORAGE_KEYS.CONTRATO, JSON.stringify(data.contrato))
+  }
+  if (data.finplan) {
+    localStorage.setItem(BACKUP_STORAGE_KEYS.FINPLAN, JSON.stringify(data.finplan))
   }
 
   // Grava carimbo da restauração

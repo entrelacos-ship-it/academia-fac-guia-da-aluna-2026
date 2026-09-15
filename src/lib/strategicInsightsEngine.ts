@@ -16,6 +16,7 @@ export type InsightPriority = 'alta' | 'media' | 'baixa'
 
 export type ActionTarget =
   | 'tab_tributario'
+  | 'tab_planejamento'
   | 'tab_reajuste'
   | 'tab_contrato'
   | 'step_capacidade'
@@ -39,7 +40,7 @@ export interface StrategicInsight {
   action?: {
     label: string
     target: ActionTarget
-    tab?: 'tributario' | 'reajuste' | 'contrato'
+    tab?: 'tributario' | 'planejamento' | 'reajuste' | 'contrato'
     step?: number
     anchorId?: string
   }
@@ -281,14 +282,13 @@ export function generateStrategicInsights(
         recommendation:
           'Conforme auditar e otimizar custos com softwares e sublocação, canalize o ganho para elevar seu pró-labore sem precisar aumentar seu esforço em horas de atendimento.',
         action: {
-          label: 'Revisar Retirada',
-          target: 'step_retirada',
-          step: 3,
+          label: 'Ver Planejamento Financeiro',
+          target: 'tab_planejamento',
+          tab: 'planejamento',
         },
       })
     }
   }
-
   // 7. COMPARATIVO COM TABELA CFP (Posicionamento Ético)
   if (calc.pisoMinimoSessao > 0) {
     if (calc.cfpFaixaAtingida === 'abaixo') {
