@@ -127,7 +127,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="border-[#5B3A8E] text-[#5B3A8E] dark:border-purple-400 dark:text-purple-300 font-semibold"
+              className="border-[#C084FC] text-[#C084FC] bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
             >
               Módulo 1 · Planejamento Fiscal
             </Badge>
@@ -220,7 +220,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+            <Sliders className="w-4 h-4 text-[#C084FC]" />
             <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
               Parâmetros da sua Clínica
             </CardTitle>
@@ -321,9 +321,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1"
                 >
                   Pró-Labore no Simples (% Faturamento)
-                  <span className="text-[#5B3A8E] dark:text-purple-400 font-mono font-bold">
-                    {inputs.proLaborePct}%
-                  </span>
+                  <span className="text-[#C084FC] font-mono font-bold">{inputs.proLaborePct}%</span>
                 </Label>
                 <Badge
                   variant="secondary"
@@ -667,10 +665,10 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
         </CardContent>
       </Card>
 
-      {/* Nota Pedagógica / Disclaimer Legal */}
-      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-400 space-y-1">
-        <div className="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-300">
-          <Info className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400 shrink-0" />
+      {/* Nota Pedagógica / Disclaimer Legal Astral */}
+      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] text-xs text-[#A1A1AA] space-y-1">
+        <div className="flex items-center gap-1.5 font-bold text-white">
+          <Info className="w-4 h-4 text-[#C084FC] shrink-0" />
           <span>Aviso Pedagógico e Metodológico Entrelaços Psicologia</span>
         </div>
         <p>

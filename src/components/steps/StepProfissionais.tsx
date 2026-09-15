@@ -161,28 +161,26 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
 
           {/* Itens Personalizados */}
           {state.custosProfissionais.customItems.length > 0 && (
-            <div className="pt-4 space-y-2 border-t border-slate-200 dark:border-slate-800">
-              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <div className="pt-4 space-y-2 border-t border-[#27272A]">
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#A1A1AA]">
                 Itens Personalizados Adicionados:
               </span>
               <div className="space-y-2">
                 {state.custosProfissionais.customItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm"
+                    className="flex items-center justify-between p-3 rounded-[8px] bg-[#18181B] border border-[#27272A] text-sm"
                   >
-                    <span className="font-medium text-slate-800 dark:text-slate-200">
-                      {item.label}
-                    </span>
+                    <span className="font-medium text-white">{item.label}</span>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
+                      <span className="font-mono font-semibold text-[#FB923C]">
                         {formatBRL(item.value)}
                       </span>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => onRemoveCustom(item.id)}
-                        className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950"
+                        className="h-8 w-8 text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 rounded-[6px]"
                         aria-label={`Remover item ${item.label}`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -200,18 +198,18 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
               type="button"
               variant="outline"
               onClick={() => setIsAdding(true)}
-              className="gap-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-[#16746E] hover:border-emerald-300"
+              className="gap-2 border-dashed border-[#27272A] bg-[#18181B]/50 text-[#A1A1AA] hover:text-white hover:border-[#FB923C]/50 rounded-[8px]"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 text-[#FB923C]" />
               Adicionar item profissional personalizado
             </Button>
           ) : (
             <form
               onSubmit={handleAddCustom}
-              className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/50 space-y-3"
+              className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#16746E] uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-[#FB923C] uppercase tracking-wider">
                   Novo Custo Profissional
                 </span>
                 <Button
@@ -219,7 +217,7 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsAdding(false)}
-                  className="h-7 text-xs text-slate-500"
+                  className="h-7 text-xs text-[#A1A1AA]"
                 >
                   Cancelar
                 </Button>
@@ -230,7 +228,7 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
                   placeholder="Nome do item (ex: Seguro RC, Anuidade CRP)"
                   value={customLabel}
                   onChange={(e) => setCustomLabel(e.target.value)}
-                  className="h-10 text-sm"
+                  className="h-10 text-sm bg-[#0A0A14] border-[#27272A] text-white focus:border-[#FB923C] rounded-[8px]"
                   autoFocus
                 />
                 <CurrencyInput value={customVal} onChange={setCustomVal} placeholder="0,00" />
@@ -240,7 +238,7 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
                 type="submit"
                 size="sm"
                 disabled={!customLabel.trim()}
-                className="w-full bg-[#16746E] hover:bg-[#125853] text-white"
+                className="w-full bg-[#FB923C] hover:bg-[#ea580c] text-[#0A0A14] font-semibold rounded-[8px]"
               >
                 Salvar Item
               </Button>
@@ -248,9 +246,9 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
           )}
         </div>
 
-        {/* Card Sticky de Totalização Verde Esmeralda */}
+        {/* Card Sticky de Totalização Astral */}
         <div className="lg:sticky lg:top-24 space-y-4">
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-900/60 shadow-sm space-y-4">
+          <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl space-y-4">
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FB923C]">
               Subtotal Profissional
             </span>
@@ -268,11 +266,13 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
               <div className="flex items-center gap-2 text-xs text-[#A1A1AA]">
                 <Info className="w-3.5 h-3.5 text-[#FB923C] shrink-0" />
                 <span>
-                  Supervisão e terapia pessoal são custos técnicos obrigatórios para a sustentabilidade
-                  emocional da prática clínica.
+                  Supervisão e terapia pessoal são custos técnicos obrigatórios para a
+                  sustentabilidade emocional da prática clínica.
                 </span>
               </div>
-            </div>        </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Botões de Navegação */}
@@ -292,6 +292,7 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
           Continuar para Retirada (Pró-Labore)
           <ArrowRight className="w-4 h-4" />
         </Button>
-      </div>    </div>
+      </div>
+    </div>
   )
 }

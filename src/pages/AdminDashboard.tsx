@@ -231,67 +231,81 @@ export const AdminDashboard: React.FC = () => {
 
         {/* Cards de Métricas Astral */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C084FC]/40 group">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Total de Contas
               </CardTitle>
-              <Users className="w-4 h-4 text-[#C084FC]" />
+              <div className="w-8 h-8 rounded-full bg-[#0A0A14] border border-[#27272A] flex items-center justify-center text-[#C084FC] group-hover:border-[#C084FC]/50 transition-colors">
+                <Users className="w-4 h-4" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-mono font-bold text-white">
+              <div className="text-4xl font-mono font-bold text-white tracking-tight">
                 {loading ? '...' : users.length}
               </div>
-              <p className="text-xs font-mono text-[#A1A1AA] mt-1 flex items-center gap-1">
-                <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <p className="text-xs font-mono text-[#A1A1AA] mt-1.5 flex items-center gap-1.5">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#C084FC]" />
+                <UserCheck className="w-3.5 h-3.5 text-[#C084FC]" />
                 {users.filter((u) => u.role === 'admin').length} com acesso admin
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#FB923C]/40 group">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Contas com Backup
               </CardTitle>
-              <Database className="w-4 h-4 text-[#FB923C]" />
+              <div className="w-8 h-8 rounded-full bg-[#0A0A14] border border-[#27272A] flex items-center justify-center text-[#FB923C] group-hover:border-[#FB923C]/50 transition-colors">
+                <Database className="w-4 h-4" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-mono font-bold text-white">
+              <div className="text-4xl font-mono font-bold text-white tracking-tight">
                 {loading ? '...' : backupStat.uniqueUsersWithBackup}
               </div>
-              <p className="text-xs font-mono text-[#A1A1AA] mt-1">
+              <p className="text-xs font-mono text-[#A1A1AA] mt-1.5 flex items-center gap-1.5">
+                <span className="inline-block w-2 h-2 rounded-full bg-[#FB923C]" />
                 {backupStat.totalBackups} snapshots registrados
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C084FC]/40 group">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Último Backup na Nuvem
               </CardTitle>
-              <HardDrive className="w-4 h-4 text-[#C084FC]" />
+              <div className="w-8 h-8 rounded-full bg-[#0A0A14] border border-[#27272A] flex items-center justify-center text-[#C084FC] group-hover:border-[#C084FC]/50 transition-colors">
+                <HardDrive className="w-4 h-4" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-sm font-semibold font-mono text-white truncate">
+              <div className="text-xl font-mono font-bold text-white truncate tracking-tight">
                 {loading ? '...' : formatDate(backupStat.latestBackupDate)}
               </div>
-              <p className="text-xs font-mono text-[#71717A] mt-1">Instância Skip Cloud ativa</p>
+              <p className="text-xs font-mono text-[#71717A] mt-1.5 flex items-center gap-1.5">
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />
+                Instância Skip Cloud ativa
+              </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Tabela de Contas Cadastradas Astral */}
-        <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
-          <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#27272A]">
+        {/* Tabela de Contas Cadastradas Astral - Nested Surfaces (#18181B sobre #0A0A14) */}
+        <div className="p-4 sm:p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#27272A]">
             <div>
-              <CardTitle className="font-sans text-lg font-semibold text-white">
-                Contas Cadastradas ({filteredUsers.length})
-              </CardTitle>
-              <CardDescription className="text-xs text-[#A1A1AA]">
+              <div className="flex items-center gap-2">
+                <h2 className="font-sans text-lg font-semibold text-white">Contas Cadastradas</h2>
+                <Badge className="bg-[#0A0A14] text-[#C084FC] border-[#27272A] font-mono text-[11px] rounded-full px-2.5 py-0.5">
+                  {filteredUsers.length} total
+                </Badge>
+              </div>
+              <p className="text-xs font-mono text-[#A1A1AA] mt-1">
                 Lista de psicólogas e administradoras com acesso ao sistema
-              </CardDescription>
+              </p>
             </div>
 
             <div className="relative w-full sm:w-72">
@@ -301,12 +315,13 @@ export const AdminDashboard: React.FC = () => {
                 placeholder="Buscar por nome, e-mail..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 h-9 text-xs bg-[#0A0A14] border-[#27272A] text-white rounded-[8px]"
+                className="pl-9 h-9 text-xs bg-[#0A0A14] border-[#27272A] text-white rounded-[8px] focus:border-[#C084FC] focus:ring-1 focus:ring-[#C084FC]"
               />
             </div>
-          </CardHeader>
+          </div>
 
-          <CardContent className="p-0">
+          {/* Superfície interna (#0A0A14) */}
+          <div className="bg-[#0A0A14] rounded-[12px] border border-[#27272A] overflow-hidden">
             {loading ? (
               <div className="p-12 text-center flex flex-col items-center justify-center gap-2 text-[#A1A1AA]">
                 <Loader2 className="w-6 h-6 animate-spin text-[#C084FC]" />
@@ -319,7 +334,7 @@ export const AdminDashboard: React.FC = () => {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#0A0A14] text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-[#27272A]">
+                  <thead className="bg-[#121216] text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-[#27272A]">
                     <tr>
                       <th className="py-3 px-4 sm:px-6">Usuária / Identificação</th>
                       <th className="py-3 px-4">E-mail</th>
@@ -334,14 +349,14 @@ export const AdminDashboard: React.FC = () => {
                       const isRoleAdmin = u.role === 'admin'
 
                       return (
-                        <tr key={u.id} className="hover:bg-[#121216] transition-colors">
+                        <tr key={u.id} className="hover:bg-[#18181B]/80 transition-colors">
                           <td className="py-3.5 px-4 sm:px-6">
                             <div className="flex items-center gap-3">
                               <div
-                                className={`w-8 h-8 rounded-[6px] flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 ${
+                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 ${
                                   isRoleAdmin
-                                    ? 'bg-[#C084FC] text-[#0A0A14]'
-                                    : 'bg-[#0A0A14] border border-[#27272A] text-[#A1A1AA]'
+                                    ? 'bg-[#C084FC] text-[#0A0A14] font-bold shadow-xs'
+                                    : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA]'
                                 }`}
                               >
                                 {(u.name || u.email || 'P')[0].toUpperCase()}
@@ -369,14 +384,14 @@ export const AdminDashboard: React.FC = () => {
 
                           <td className="py-3.5 px-4">
                             {isRoleAdmin ? (
-                              <Badge className="bg-[#18181B] text-[#C084FC] border-[#C084FC]/40 text-[10px] font-mono font-semibold">
+                              <Badge className="bg-[#18181B] text-[#C084FC] border-[#C084FC]/40 text-[10px] font-mono font-semibold rounded-full px-2.5 py-0.5">
                                 <Shield className="w-3 h-3 mr-1 text-[#FB923C]" />
                                 ADMIN
                               </Badge>
                             ) : (
                               <Badge
                                 variant="outline"
-                                className="text-[10px] font-mono text-[#A1A1AA] border-[#27272A] bg-[#0A0A14]"
+                                className="text-[10px] font-mono text-[#A1A1AA] border-[#27272A] bg-[#18181B] rounded-full px-2.5 py-0.5"
                               >
                                 USER
                               </Badge>
@@ -391,8 +406,8 @@ export const AdminDashboard: React.FC = () => {
                           </td>
 
                           <td className="py-3.5 px-4 text-right">
-                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-emerald-400">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2.5 py-0.5 rounded-full">
+                              <CheckCircle2 className="w-3 h-3" />
                               ATIVA
                             </span>
                           </td>
@@ -403,8 +418,8 @@ export const AdminDashboard: React.FC = () => {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Card Informativo sobre Políticas e LGPD Astral */}
         <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] text-xs text-[#A1A1AA] space-y-1">

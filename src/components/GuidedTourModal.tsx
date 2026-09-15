@@ -39,8 +39,8 @@ export const TOUR_STEPS: TourStep[] = [
       'Metodologia alinhada às diretrizes do CFP e DIEESE.',
     ],
     icon: Compass,
-    iconBg: 'bg-purple-100 dark:bg-purple-950/80',
-    iconColor: 'text-[#5B3A8E] dark:text-purple-300',
+    iconBg: 'bg-[#0A0A14]',
+    iconColor: 'text-[#C084FC]',
   },
   {
     id: 'journey',
@@ -57,8 +57,8 @@ export const TOUR_STEPS: TourStep[] = [
       'Passos 6 e 7: Painel Executivo e Comparativo de Modelos.',
     ],
     icon: Route,
-    iconBg: 'bg-emerald-100 dark:bg-emerald-950/80',
-    iconColor: 'text-[#16746E] dark:text-emerald-300',
+    iconBg: 'bg-[#0A0A14]',
+    iconColor: 'text-[#FB923C]',
   },
   {
     id: 'customization',
@@ -72,8 +72,8 @@ export const TOUR_STEPS: TourStep[] = [
       'Salvamento automático no seu navegador — continue de onde parou quando quiser.',
     ],
     icon: ReceiptText,
-    iconBg: 'bg-amber-100 dark:bg-amber-950/80',
-    iconColor: 'text-amber-700 dark:text-amber-300',
+    iconBg: 'bg-[#0A0A14]',
+    iconColor: 'text-[#C084FC]',
   },
   {
     id: 'results',
@@ -88,8 +88,8 @@ export const TOUR_STEPS: TourStep[] = [
       'Módulos integrados: Transição Tributária (PF vs. PJ), Reajuste Anual por inflação, Gerador de Proposta & Contrato Clínico e Consultor FAC.',
     ],
     icon: BarChart3,
-    iconBg: 'bg-purple-100 dark:bg-purple-950/80',
-    iconColor: 'text-[#5B3A8E] dark:text-purple-300',
+    iconBg: 'bg-[#0A0A14]',
+    iconColor: 'text-[#FB923C]',
   },
   {
     id: 'glossary',
@@ -103,8 +103,8 @@ export const TOUR_STEPS: TourStep[] = [
       'Você está pronta para transformar a sustentabilidade da sua clínica!',
     ],
     icon: BookOpen,
-    iconBg: 'bg-indigo-100 dark:bg-indigo-950/80',
-    iconColor: 'text-indigo-600 dark:text-indigo-300',
+    iconBg: 'bg-[#0A0A14]',
+    iconColor: 'text-[#C084FC]',
   },
 ]
 

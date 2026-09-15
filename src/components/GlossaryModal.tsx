@@ -67,14 +67,14 @@ const GLOSSARY_ITEMS = [
 export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#18181B] border-[#27272A] text-white rounded-[16px] shadow-2xl">
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#18181B] border-[#27272A] text-white rounded-[16px] shadow-2xl focus:outline-hidden focus:ring-2 focus:ring-[#C084FC]">
         <DialogHeader className="border-b border-[#27272A] pb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC]">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC]">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <DialogTitle className="font-sans text-xl font-semibold text-white">
+              <DialogTitle className="font-sans text-xl font-semibold text-white tracking-tight">
                 Glossário Clínico e Financeiro
               </DialogTitle>
               <DialogDescription className="text-xs text-[#A1A1AA] mt-0.5 font-mono">
@@ -85,14 +85,23 @@ export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose })
         </DialogHeader>
 
         <div className="py-2">
-          <Accordion type="single" collapsible defaultValue="pro-labore" className="w-full">
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue="pro-labore"
+            className="w-full space-y-1"
+          >
             {GLOSSARY_ITEMS.map((item) => {
               const Icon = item.icon
               return (
-                <AccordionItem key={item.id} value={item.id} className="border-[#27272A]">
-                  <AccordionTrigger className="text-left py-3 hover:no-underline group">
+                <AccordionItem
+                  key={item.id}
+                  value={item.id}
+                  className="border-[#27272A] rounded-[10px] px-2 transition-colors data-[state=open]:bg-[#0A0A14]/60"
+                >
+                  <AccordionTrigger className="text-left py-3 hover:no-underline group focus:outline-hidden focus:ring-2 focus:ring-[#C084FC] rounded-[8px] px-2">
                     <div className="flex items-center gap-3">
-                      <div className="p-1.5 rounded-[6px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] group-hover:border-[#C084FC]/50 transition-colors">
+                      <div className="p-1.5 rounded-[6px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] group-hover:border-[#C084FC]/50 group-hover:text-[#FB923C] transition-colors">
                         <Icon className="w-4 h-4" />
                       </div>
                       <span className="font-sans font-medium text-white group-hover:text-[#C084FC] transition-colors text-sm">
@@ -100,7 +109,7 @@ export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose })
                       </span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-[#A1A1AA] pl-10 text-xs leading-relaxed pr-2 pb-3">
+                  <AccordionContent className="text-[#A1A1AA] pl-11 pr-3 text-xs leading-relaxed pb-3 font-sans">
                     {item.content}
                   </AccordionContent>
                 </AccordionItem>
