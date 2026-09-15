@@ -127,14 +127,23 @@ export function useCloudSync() {
 
   // Cadastro de nova conta
   const signup = useCallback(
-    async (email: string, pass: string, name?: string) => {
+    async (email: string, pass: string, name?: string, passwordConfirm?: string) => {
       setIsLoading(true)
       setStatusMessage(null)
+      const finalConfirm = passwordConfirm ?? pass
+      if (pass !== finalConfirm) {
+        setStatusMessage({
+          type: 'error',
+          text: 'A confirmação de senha não confere com a nova senha digitada.',
+        })
+        setIsLoading(false)
+        return false
+      }
       try {
         await pb.collection('users').create({
           email: email.trim(),
           password: pass,
-          passwordConfirm: pass,
+          passwordConfirm: finalConfirm,
           name: name?.trim() || 'Psicóloga',
         })
         // Realiza login imediato após cadastro
@@ -160,10 +169,19 @@ export function useCloudSync() {
         console.warn('Erro ao criar conta:', err)
         let friendly = 'Erro ao criar conta. Tente novamente mais tarde.'
         const raw = getErrorMessage(err).toLowerCase()
-        if (raw.includes('email already exists') || raw.includes('unique')) {
+        if (
+          raw.includes('email already exists') ||
+          raw.includes('unique') ||
+          raw.includes('must be unique')
+        ) {
           friendly = 'Já existe uma conta com este e-mail. Faça login na aba Entrar.'
-        } else if (raw.includes('password') && (raw.includes('short') || raw.includes('length'))) {
+        } else if (
+          raw.includes('password') &&
+          (raw.includes('short') || raw.includes('length') || raw.includes('minimum'))
+        ) {
           friendly = 'A senha deve conter no mínimo 8 caracteres.'
+        } else if (raw.includes('confirm') || raw.includes('match')) {
+          friendly = 'A confirmação de senha não confere com a senha digitada.'
         } else if (raw.includes('network') || raw.includes('failed to fetch')) {
           friendly = 'Sem conexão com a nuvem no momento. Verifique sua internet.'
         }
@@ -176,6 +194,138 @@ export function useCloudSync() {
     [refreshRemoteInfo],
   )
 
+  // Solicitar recuperação de senha (Esqueci minha senha)
+  const requestPasswordReset = useCallback(async (email: string) => {
+    setIsLoading(true)
+    setStatusMessage(null)
+    try {
+      await pb.collection('users').requestPasswordReset(email.trim())
+      setStatusMessage({
+        type: 'success',
+        text: 'Se este e-mail estiver cadastrado, as instruções para redefinição de senha foram enviadas.',
+      })
+      return true
+    } catch (err: unknown) {
+      console.warn('Erro ao solicitar redefinição de senha:', err)
+      // Por segurança contra enumeração de usuários, manter feedback neutro e orientativo
+      setStatusMessage({
+        type: 'info',
+        text: 'Se este e-mail estiver cadastrado, você receberá um link de redefinição. Verifique também sua caixa de spam.',
+      })
+      return true
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  // Confirmar redefinição de senha com token recebido por e-mail
+  const confirmPasswordReset = useCallback(
+    async (token: string, newPassword: string, newPasswordConfirm: string) => {
+      setIsLoading(true)
+      setStatusMessage(null)
+      if (newPassword.length < 8) {
+        setStatusMessage({
+          type: 'error',
+          text: 'A nova senha deve ter no mínimo 8 caracteres.',
+        })
+        setIsLoading(false)
+        return false
+      }
+      if (newPassword !== newPasswordConfirm) {
+        setStatusMessage({
+          type: 'error',
+          text: 'A confirmação da nova senha não confere.',
+        })
+        setIsLoading(false)
+        return false
+      }
+      try {
+        await pb
+          .collection('users')
+          .confirmPasswordReset(token.trim(), newPassword, newPasswordConfirm)
+        setStatusMessage({
+          type: 'success',
+          text: 'Sua senha foi redefinida com sucesso! Você já pode entrar com a nova senha.',
+        })
+        return true
+      } catch (err: unknown) {
+        console.warn('Erro ao confirmar redefinição de senha:', err)
+        let friendly = 'Link de redefinição inválido ou expirado. Solicite um novo link.'
+        const raw = getErrorMessage(err).toLowerCase()
+        if (raw.includes('network') || raw.includes('failed to fetch')) {
+          friendly = 'Sem conexão no momento. Verifique sua internet e tente novamente.'
+        }
+        setStatusMessage({ type: 'error', text: friendly })
+        return false
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [],
+  )
+
+  // Alteração de senha da usuária autenticada
+  const changePassword = useCallback(
+    async (oldPassword: string, newPassword: string, newPasswordConfirm: string) => {
+      if (!pb.authStore.isValid || !pb.authStore.model) {
+        setStatusMessage({
+          type: 'error',
+          text: 'Você precisa estar conectada para alterar sua senha.',
+        })
+        return false
+      }
+      if (newPassword.length < 8) {
+        setStatusMessage({
+          type: 'error',
+          text: 'A nova senha deve ter no mínimo 8 caracteres.',
+        })
+        return false
+      }
+      if (newPassword !== newPasswordConfirm) {
+        setStatusMessage({
+          type: 'error',
+          text: 'A confirmação da nova senha não confere.',
+        })
+        return false
+      }
+      setIsLoading(true)
+      setStatusMessage(null)
+      try {
+        const userId = pb.authStore.model.id
+        await pb.collection('users').update(userId, {
+          oldPassword,
+          password: newPassword,
+          passwordConfirm: newPasswordConfirm,
+        })
+        setStatusMessage({
+          type: 'success',
+          text: 'Senha alterada com sucesso!',
+        })
+        return true
+      } catch (err: unknown) {
+        console.warn('Erro ao alterar senha:', err)
+        let friendly = 'Não foi possível alterar sua senha. Verifique sua senha atual.'
+        const raw = getErrorMessage(err).toLowerCase()
+        if (
+          raw.includes('oldpassword') ||
+          raw.includes('wrong password') ||
+          raw.includes('invalid credentials')
+        ) {
+          friendly = 'A senha atual informada está incorreta.'
+        } else if (raw.includes('length') || raw.includes('short')) {
+          friendly = 'A nova senha deve ter pelo menos 8 caracteres.'
+        } else if (raw.includes('network') || raw.includes('failed to fetch')) {
+          friendly = 'Sem conexão com a nuvem no momento. Verifique sua internet.'
+        }
+        setStatusMessage({ type: 'error', text: friendly })
+        return false
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [],
+  )
+
   // Logout
   const logout = useCallback(() => {
     pb.authStore.clear()
@@ -183,7 +333,7 @@ export function useCloudSync() {
     setRemoteBackup(null)
     setStatusMessage({
       type: 'info',
-      text: 'Você saiu da sua conta. Seus dados permanecem seguros neste aparelho.',
+      text: 'Você saiu da sua conta. Seus dados locais permanecem seguros neste aparelho.',
     })
   }, [])
 
@@ -289,6 +439,9 @@ export function useCloudSync() {
     setStatusMessage,
     login,
     signup,
+    requestPasswordReset,
+    confirmPasswordReset,
+    changePassword,
     logout,
     syncNow,
     restoreNow,

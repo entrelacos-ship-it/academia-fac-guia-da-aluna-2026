@@ -15,6 +15,7 @@ import {
   Laptop,
   Calendar,
   AlertTriangle,
+  KeyRound,
 } from 'lucide-react'
 import {
   Dialog,
@@ -63,6 +64,8 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
     setStatusMessage,
     login,
     signup,
+    requestPasswordReset,
+    changePassword,
     logout,
     syncNow,
     restoreNow,
@@ -72,7 +75,15 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
   const [name, setName] = useState('')
+
+  // Sub-estados para Alteração de senha e Esqueci senha dentro do modal
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState('')
 
   // Confirmation dialog state for destructive restore
   const [confirmRestoreOpen, setConfirmRestoreOpen] = useState(false)
@@ -89,10 +100,29 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
   const handleSignupSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email || !password) return
-    const ok = await signup(email, password, name)
+    const ok = await signup(email, password, name, passwordConfirm)
     if (ok) {
       setPassword('')
+      setPasswordConfirm('')
     }
+  }
+
+  const handleChangePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!oldPassword || !newPassword || !newPasswordConfirm) return
+    const ok = await changePassword(oldPassword, newPassword, newPasswordConfirm)
+    if (ok) {
+      setOldPassword('')
+      setNewPassword('')
+      setNewPasswordConfirm('')
+      setIsChangingPassword(false)
+    }
+  }
+
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+    await requestPasswordReset(email)
   }
 
   const handleConfirmRestore = async () => {
@@ -217,6 +247,75 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 )}
               </div>
 
+              {/* Painel de Alteração de Senha Opcional */}
+              {isChangingPassword ? (
+                <form
+                  onSubmit={handleChangePasswordSubmit}
+                  className="p-3.5 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800 space-y-2.5"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                      <KeyRound className="w-3.5 h-3.5 text-[#5B3A8E] dark:text-purple-400" />
+                      Alterar minha senha
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsChangingPassword(false)}
+                      className="text-xs h-7 text-slate-500"
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                      Senha atual
+                    </Label>
+                    <Input
+                      type="password"
+                      required
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      className="h-9 text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                      Nova senha (mínimo 8 caracteres)
+                    </Label>
+                    <Input
+                      type="password"
+                      required
+                      minLength={8}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="h-9 text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                      Confirmar nova senha
+                    </Label>
+                    <Input
+                      type="password"
+                      required
+                      minLength={8}
+                      value={newPasswordConfirm}
+                      onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                      className="h-9 text-xs"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full h-9 bg-[#5B3A8E] hover:bg-[#452A6F] text-white text-xs font-medium"
+                  >
+                    {isLoading ? 'Salvando...' : 'Atualizar Senha'}
+                  </Button>
+                </form>
+              ) : null}
+
               {/* Botões de Ação Principais */}
               <div className="space-y-2.5">
                 <Button
@@ -258,9 +357,19 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
               </div>
 
               <div className="pt-2 flex justify-between items-center text-xs">
-                <span className="text-slate-400 text-[11px]">
-                  Os dados locais continuam gravados offline.
-                </span>
+                {!isChangingPassword ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsChangingPassword(true)}
+                    className="text-slate-600 dark:text-slate-300 hover:text-[#5B3A8E] text-[11px] gap-1 p-0 h-auto"
+                  >
+                    <KeyRound className="w-3 h-3 text-[#5B3A8E]" />
+                    Alterar senha
+                  </Button>
+                ) : (
+                  <span />
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -322,18 +431,27 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     </div>
 
                     <div className="space-y-1">
-                      <Label
-                        htmlFor="cloud-login-password"
-                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
-                      >
-                        Senha
-                      </Label>
+                      <div className="flex items-center justify-between">
+                        <Label
+                          htmlFor="cloud-login-password"
+                          className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                        >
+                          Senha
+                        </Label>
+                        <button
+                          type="button"
+                          onClick={() => setIsForgotPassword(!isForgotPassword)}
+                          className="text-xs text-[#5B3A8E] dark:text-purple-400 hover:underline"
+                        >
+                          {isForgotPassword ? 'Lembrei a senha' : 'Esqueci minha senha'}
+                        </button>
+                      </div>
                       <div className="relative">
                         <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
                         <Input
                           id="cloud-login-password"
                           type="password"
-                          required
+                          required={!isForgotPassword}
                           placeholder="Sua senha"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -341,6 +459,23 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         />
                       </div>
                     </div>
+
+                    {isForgotPassword && (
+                      <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 space-y-2 text-xs">
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                          Enviaremos as orientações de redefinição para o seu e-mail cadastrado
+                          acima.
+                        </p>
+                        <Button
+                          type="button"
+                          onClick={handleForgotPasswordSubmit}
+                          disabled={isLoading || !email}
+                          className="w-full h-9 bg-[#5B3A8E] hover:bg-[#452A6F] text-white text-xs font-medium"
+                        >
+                          {isLoading ? 'Enviando...' : 'Enviar link de recuperação'}
+                        </Button>
+                      </div>
+                    )}
 
                     <Button
                       type="submit"
@@ -423,6 +558,28 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Crie uma senha segura"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
+                          className="pl-9 h-11 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor="cloud-signup-password-confirm"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                      >
+                        Confirmar senha
+                      </Label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                        <Input
+                          id="cloud-signup-password-confirm"
+                          type="password"
+                          required
+                          minLength={8}
+                          placeholder="Repita sua senha"
+                          value={passwordConfirm}
+                          onChange={(e) => setPasswordConfirm(e.target.value)}
                           className="pl-9 h-11 text-sm"
                         />
                       </div>

@@ -15,6 +15,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
 import { CloudBackupModal } from './CloudBackupModal'
+import { AuthModal, AuthMode } from './AuthModal'
+import { useCloudSync } from '@/hooks/useCloudSync'
 
 export interface StepDef {
   index: number
@@ -82,6 +84,7 @@ interface LayoutProps {
   onToggleTheme: () => void
   onOpenTour?: () => void
   onOpenCloudBackup?: () => void
+  onOpenAuth?: (mode?: AuthMode) => void
 }
 
 export const AppLayout: React.FC<LayoutProps> = ({
@@ -92,16 +95,34 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onToggleTheme,
   onOpenTour,
   onOpenCloudBackup,
+  onOpenAuth,
 }) => {
+  const { currentUser, isConnected } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authModalMode, setAuthModalMode] = useState<AuthMode>('login')
+
+  const handleOpenAuth = (mode: AuthMode = 'login') => {
+    if (onOpenAuth) {
+      onOpenAuth(mode)
+    } else {
+      setAuthModalMode(mode)
+      setAuthModalOpen(true)
+    }
+  }
 
   const handleOpenCloud = () => {
     if (onOpenCloudBackup) {
       onOpenCloudBackup()
     } else {
-      setCloudBackupOpen(true)
+      // Se não estiver conectada, abrir a tela rica de login/cadastro
+      if (!isConnected) {
+        handleOpenAuth('login')
+      } else {
+        setCloudBackupOpen(true)
+      }
     }
   }
 
@@ -153,16 +174,47 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
+            {/* Botão Nuvem / Login Inteligente */}
             <Button
               variant="outline"
               size="sm"
               onClick={handleOpenCloud}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
-              aria-label="Sincronização e Backup em Nuvem"
-              title="Backup em Nuvem Multi-dispositivo"
+              className={`min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300 ${
+                isConnected
+                  ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20'
+                  : ''
+              }`}
+              aria-label={
+                isConnected
+                  ? 'Conta conectada - Abrir backup em nuvem'
+                  : 'Entrar ou criar conta - Nuvem'
+              }
+              title={
+                isConnected
+                  ? `Conectada como ${currentUser?.name || currentUser?.email}`
+                  : 'Entrar ou sincronizar na nuvem'
+              }
             >
-              <Cloud className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
-              <span className="hidden sm:inline font-medium">Nuvem</span>
+              {isConnected ? (
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              ) : null}
+              <Cloud
+                className={`w-4 h-4 ${isConnected ? 'text-emerald-600 dark:text-emerald-400' : 'text-[#5B3A8E] dark:text-purple-400'}`}
+              />
+              <span className="hidden sm:inline font-medium">
+                {isConnected ? 'Conta Ativa' : 'Entrar / Nuvem'}
+              </span>
+            </Button>
+
+            {/* Acesso direto à tela de Login / Criar Conta quando deslogada, ou Perfil quando logada */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleOpenAuth(isConnected ? 'change-password' : 'login')}
+              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-semibold text-[#5B3A8E] dark:text-purple-300 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 px-2.5 hidden md:inline-flex"
+              title={isConnected ? 'Gerenciar credenciais e senha' : 'Fazer login ou cadastrar'}
+            >
+              {isConnected ? 'Minha Senha' : 'Login'}
             </Button>
 
             {onOpenTour && (
@@ -215,7 +267,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
             </Button>
           </div>
         </div>
-
         {/* Barra de Progresso Horizontal Fluida (Mobile & Desktop) */}
         <div className="w-full bg-slate-200 dark:bg-slate-800 h-1">
           <div
@@ -369,12 +420,23 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   variant="outline"
                   onClick={() => {
                     setMobileMenuOpen(false)
-                    handleOpenCloud()
+                    handleOpenAuth(isConnected ? 'change-password' : 'login')
                   }}
                   className="w-full justify-center gap-2 min-h-[44px]"
                 >
                   <Cloud className="w-4 h-4 text-[#5B3A8E]" />
-                  Backup em Nuvem
+                  {isConnected ? 'Minha Senha / Conta' : 'Login / Criar Conta'}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    setCloudBackupOpen(true)
+                  }}
+                  className="w-full justify-center gap-2 min-h-[44px]"
+                >
+                  <Cloud className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  Painel de Backup em Nuvem
                 </Button>
                 {onOpenTour && (
                   <Button
@@ -426,6 +488,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
       {/* Modal de Backup em Nuvem */}
       <CloudBackupModal isOpen={cloudBackupOpen} onClose={() => setCloudBackupOpen(false)} />
+
+      {/* Tela de Login / Cadastro / Recuperação de Senha (AuthModal) */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authModalMode}
+        onSuccess={() => {
+          // Após login/cadastro com sucesso, abrir o painel de sincronização
+          setTimeout(() => {
+            setAuthModalOpen(false)
+            setCloudBackupOpen(true)
+          }, 600)
+        }}
+      />
     </div>
   )
 }
