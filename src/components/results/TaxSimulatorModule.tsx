@@ -122,21 +122,23 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
   return (
     <div className="space-y-6">
       {/* Cabeçalho do Módulo */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-[#27272A] pb-4">
         <div>
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="border-purple-200 dark:border-[#C084FC] text-[#7c3aed] dark:text-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
+              className="border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
             >
-              Módulo 1 · Planejamento Fiscal
+              MÓDULO 1 · PLANEJAMENTO FISCAL
             </Badge>
-            <span className="text-xs text-slate-500">IRPF 2025 · Simples Nacional 2025/2026</span>
+            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              IRPF 2025 · Simples Nacional 2025/2026
+            </span>
           </div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
             Simulador de Transição Tributária: PF (Carnê-Leão) vs. PJ (Simples Nacional)
           </h3>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl mt-0.5">
             Compare o impacto real da tributação entre atuar como autônoma física com Livro-Caixa e
             abrir uma PJ clínica no Simples Nacional com benefício do Fator R.
           </p>
@@ -146,9 +148,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
           variant="outline"
           size="sm"
           onClick={handleResetToFacDefaults}
-          className="gap-1.5 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 self-start sm:self-auto shrink-0"
+          className="gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white font-mono text-xs rounded-[8px] self-start sm:self-auto shrink-0"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <RotateCcw className="w-3.5 h-3.5 text-slate-400 dark:text-[#71717A]" />
           Puxar Valores do Método FAC
         </Button>
       </div>
@@ -221,15 +223,15 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       </div>
 
       {/* Seção de Controles / Parâmetros */}
-      <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-[#C084FC]" />
-            <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
+            <Sliders className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+            <CardTitle className="font-sans text-base font-semibold text-slate-900 dark:text-white">
               Parâmetros da sua Clínica
             </CardTitle>
           </div>
-          <CardDescription className="text-xs">
+          <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Ajuste os valores para simular diferentes patamares de faturamento, despesas
             operacionais e folha de pró-labore.
           </CardDescription>
@@ -256,7 +258,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   }
                   className="py-1"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
                   <span>R$ 1.000</span>
                   <span>R$ 15.000</span>
                   <span>R$ 30.000</span>
@@ -279,7 +281,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="dependentes"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Número de Dependentes
               </Label>
@@ -296,11 +298,11 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                       numeroDependentes: Math.max(0, parseInt(e.target.value, 10) || 0),
                     }))
                   }
-                  className="font-mono text-base h-11"
+                  className="font-mono text-base h-11 bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
                 />
-                <div className="text-[11px] text-slate-500 leading-tight">
+                <div className="text-[11px] text-slate-500 dark:text-[#71717A] leading-tight">
                   Dedução legal de{' '}
-                  <strong className="text-slate-700 dark:text-slate-300">R$ 189,59/mês</strong> por
+                  <strong className="text-slate-800 dark:text-slate-200">R$ 189,59/mês</strong> por
                   dependente no IRPF.
                 </div>
               </div>
@@ -322,17 +324,19 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor="pro-labore-pct"
-                  className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1"
+                  className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA] flex items-center gap-1"
                 >
                   Pró-Labore no Simples (% Faturamento)
-                  <span className="text-[#C084FC] font-mono font-bold">{inputs.proLaborePct}%</span>
+                  <span className="text-[#7c3aed] dark:text-[#C084FC] font-mono font-bold">
+                    {inputs.proLaborePct}%
+                  </span>
                 </Label>
                 <Badge
                   variant="secondary"
-                  className={`text-[10px] ${
+                  className={`text-[10px] font-mono ${
                     pj.fatorR >= 0.28
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                      : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                      ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-500/40'
+                      : 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-500/40'
                   }`}
                 >
                   Fator R: {(pj.fatorR * 100).toFixed(1)}% ({pj.enquadramentoAnexo})
@@ -346,22 +350,22 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 onValueChange={(vals) => setInputs((prev) => ({ ...prev, proLaborePct: vals[0] }))}
                 className="py-2"
               />
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
                 Pelo menos 28% garante o <strong>Anexo III (~6%)</strong>. Abaixo de 28% cai no{' '}
                 <strong>Anexo V (~15,5%)</strong>.
               </p>
             </div>
 
             {/* 6. Opção de Reserva Técnica FAC */}
-            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <div className="flex items-center justify-between p-3 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A]">
               <div className="space-y-0.5">
                 <Label
                   htmlFor="toggle-reserva"
-                  className="text-xs font-semibold text-slate-800 dark:text-slate-200 cursor-pointer"
+                  className="text-xs font-mono font-semibold text-slate-800 dark:text-slate-200 cursor-pointer"
                 >
                   Incluir Reserva Técnica FAC ({inputs.reservaPct}%)
                 </Label>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
                   Subtrai a reserva do caixa líquido PJ para segurança clínica.
                 </p>
               </div>
@@ -436,43 +440,49 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
             </div>
 
             {/* Linhas de decomposição PF */}
-            <div className="space-y-2 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="space-y-2 text-xs divide-y divide-slate-100 dark:divide-[#27272A]">
               <div className="flex justify-between pt-1">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   Faturamento Bruto Mensal:
                 </span>
-                <span className="font-mono font-medium">{formatBRL(pf.faturamento)}</span>
+                <span className="font-mono font-medium text-slate-900 dark:text-white">
+                  {formatBRL(pf.faturamento)}
+                </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   (-) Despesas Dedutíveis (Livro-Caixa):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
                   -{formatBRL(pf.despesasLivroCaixa)}
                 </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   (-) INSS Autônomo (20% contribuição):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">-{formatBRL(pf.inssPf)}</span>
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
+                  -{formatBRL(pf.inssPf)}
+                </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   Base de Cálculo IRPF Mensal:
                 </span>
-                <span className="font-mono font-semibold">
+                <span className="font-mono font-semibold text-slate-900 dark:text-white">
                   {formatBRL(pf.baseCalculoIrpf)}
                   {pf.usouSimplificado && (
-                    <span className="text-[10px] text-amber-600 ml-1">(desconto simplificado)</span>
+                    <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-1">
+                      (desconto simplificado)
+                    </span>
                   )}
                 </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   (-) IRPF Carnê-Leão (Tabela Progressiva 2025):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
                   -{formatBRL(pf.irpfMensal)}
                 </span>
               </div>
@@ -482,14 +492,16 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   {formatBRL(pf.liquidoMensal)}
                 </span>
               </div>
-              <div className="flex justify-between pt-2 text-[11px] text-slate-500">
+              <div className="flex justify-between pt-2 text-[11px] text-slate-500 dark:text-[#71717A]">
                 <span>Total de Tributos em 12 meses:</span>
-                <span className="font-mono font-semibold">{formatBRL(pf.totalTributosAnual)}</span>
+                <span className="font-mono font-semibold text-slate-700 dark:text-[#A1A1AA]">
+                  {formatBRL(pf.totalTributosAnual)}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 leading-relaxed">
+          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-[#27272A] text-[11px] text-slate-500 dark:text-[#71717A] leading-relaxed">
             * Vantajoso principalmente para quem fatura até ~R$ 5.000 ou possui despesas elevadas no
             Livro-Caixa para abater a base de IRPF.
           </div>
@@ -545,23 +557,25 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
             </div>
 
             {/* Linhas de decomposição PJ */}
-            <div className="space-y-2 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+            <div className="space-y-2 text-xs divide-y divide-slate-100 dark:divide-[#27272A]">
               <div className="flex justify-between pt-1">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   Faturamento Bruto Mensal:
                 </span>
-                <span className="font-mono font-medium">{formatBRL(pj.faturamento)}</span>
+                <span className="font-mono font-medium text-slate-900 dark:text-white">
+                  {formatBRL(pj.faturamento)}
+                </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   DAS Simples ({pj.enquadramentoAnexo} - Faixa {pj.faixaSimples}):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
                   -{formatBRL(pj.dasMensal)}
                 </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   Pró-Labore ({inputs.proLaborePct}% faturamento):
                 </span>
                 <span className="font-mono font-semibold text-slate-900 dark:text-white">
@@ -569,27 +583,27 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   (-) INSS Pró-Labore (11% retido):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
                   -{formatBRL(pj.inssProLabore)}
                 </span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-600 dark:text-slate-400">
+                <span className="text-slate-600 dark:text-[#A1A1AA]">
                   (-) IRPF Pró-Labore (se houver):
                 </span>
-                <span className="font-mono text-rose-600 font-medium">
+                <span className="font-mono text-rose-600 dark:text-rose-400 font-medium">
                   -{formatBRL(pj.irpfProLabore)}
                 </span>
               </div>
               {inputs.incluirReservaFac && pj.reservaFacMensal > 0 && (
                 <div className="flex justify-between pt-2">
-                  <span className="text-slate-600 dark:text-slate-400">
+                  <span className="text-slate-600 dark:text-[#A1A1AA]">
                     (-) Reserva Técnica FAC ({inputs.reservaPct}%):
                   </span>
-                  <span className="font-mono text-purple-600 font-medium">
+                  <span className="font-mono text-purple-600 dark:text-[#C084FC] font-medium">
                     -{formatBRL(pj.reservaFacMensal)}
                   </span>
                 </div>
@@ -600,14 +614,16 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   {formatBRL(pj.liquidoMensal)}
                 </span>
               </div>
-              <div className="flex justify-between pt-2 text-[11px] text-slate-500">
+              <div className="flex justify-between pt-2 text-[11px] text-slate-500 dark:text-[#71717A]">
                 <span>Total de Tributos em 12 meses:</span>
-                <span className="font-mono font-semibold">{formatBRL(pj.totalTributosAnual)}</span>
+                <span className="font-mono font-semibold text-slate-700 dark:text-[#A1A1AA]">
+                  {formatBRL(pj.totalTributosAnual)}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 leading-relaxed">
+          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-[#27272A] text-[11px] text-slate-500 dark:text-[#71717A] leading-relaxed">
             * No Simples Nacional, os lucros distribuídos após apuração contábil são 100% isentos de
             IRPF. A CPP Patronal do INSS (20%) já vem embutida na guia DAS no Anexo III e V.
           </div>
@@ -615,20 +631,20 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       </div>
 
       {/* Tabela de Referência das Faixas de Alíquotas Simples Nacional */}
-      <Card className="border-slate-200 dark:border-slate-800">
-        <CardHeader className="py-3 px-4 sm:px-6">
-          <CardTitle className="text-xs uppercase font-bold tracking-wider text-slate-500 flex items-center justify-between">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
+        <CardHeader className="py-3 px-4 sm:px-6 border-b border-slate-200 dark:border-[#27272A]">
+          <CardTitle className="text-xs uppercase font-mono font-bold tracking-wider text-slate-600 dark:text-[#A1A1AA] flex items-center justify-between">
             <span>Tabela Oficial de Referência do Simples Nacional (LC 123/2006)</span>
-            <span className="text-[11px] normal-case text-slate-400">
+            <span className="text-[11px] normal-case text-slate-500 dark:text-[#71717A]">
               Receita Anual Projetada: {formatBRL(result.rbt12)}
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6 pb-4 pt-0">
+        <CardContent className="px-4 sm:px-6 pb-4 pt-3">
           <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left">
+            <table className="w-full text-xs text-left font-mono">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                <tr className="border-b border-slate-200 dark:border-[#27272A] text-slate-500 dark:text-[#71717A]">
                   <th className="py-2 pr-2">Faixa</th>
                   <th className="py-2 px-2">Receita Bruta 12 Meses (RBT12)</th>
                   <th className="py-2 px-2 text-emerald-700 dark:text-emerald-400">
@@ -640,10 +656,12 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   <th className="py-2 pl-2">Parcela a Deduzir (Anexo III)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-slate-100 dark:divide-[#27272A] text-slate-700 dark:text-[#A1A1AA]">
                 <tr
                   className={
-                    pj.faixaSimples === 1 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                    pj.faixaSimples === 1
+                      ? 'bg-purple-50/70 dark:bg-[#0A0A14] font-bold text-slate-900 dark:text-white'
+                      : ''
                   }
                 >
                   <td className="py-2 pr-2">1ª Faixa</td>
@@ -654,7 +672,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 </tr>
                 <tr
                   className={
-                    pj.faixaSimples === 2 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                    pj.faixaSimples === 2
+                      ? 'bg-purple-50/70 dark:bg-[#0A0A14] font-bold text-slate-900 dark:text-white'
+                      : ''
                   }
                 >
                   <td className="py-2 pr-2">2ª Faixa</td>
@@ -665,7 +685,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 </tr>
                 <tr
                   className={
-                    pj.faixaSimples === 3 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                    pj.faixaSimples === 3
+                      ? 'bg-purple-50/70 dark:bg-[#0A0A14] font-bold text-slate-900 dark:text-white'
+                      : ''
                   }
                 >
                   <td className="py-2 pr-2">3ª Faixa</td>
@@ -676,7 +698,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 </tr>
                 <tr
                   className={
-                    pj.faixaSimples === 4 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                    pj.faixaSimples === 4
+                      ? 'bg-purple-50/70 dark:bg-[#0A0A14] font-bold text-slate-900 dark:text-white'
+                      : ''
                   }
                 >
                   <td className="py-2 pr-2">4ª Faixa</td>

@@ -150,21 +150,23 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
   return (
     <div className="space-y-6">
       {/* Cabeçalho do Módulo */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-[#27272A] pb-4">
         <div>
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="border-[#16746E] text-[#16746E] dark:border-emerald-400 dark:text-emerald-300 font-semibold"
+              className="border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
             >
-              Módulo 2 · Manutenção Contratual
+              MÓDULO 2 · MANUTENÇÃO CONTRATUAL
             </Badge>
-            <span className="text-xs text-slate-500">IPCA (IBGE) · IGP-M (FGV) · Acumulado</span>
+            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              IPCA (IBGE) · IGP-M (FGV) · Acumulado
+            </span>
           </div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
             Reajuste Anual por Índice de Inflação (IPCA / IGP-M)
           </h3>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl mt-0.5">
             Atualize o valor dos atendimentos em contratos clínicos existentes para proteger seu
             poder de compra contra a inflação, com comunicação ética e transparente ao paciente.
           </p>
@@ -178,7 +180,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               onClick={() =>
                 setInputs((prev) => ({ ...prev, honorarioAtual: precoAtualCadastrado }))
               }
-              className="text-xs border-slate-300 dark:border-slate-700"
+              className="text-xs font-mono border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white rounded-[8px]"
             >
               Preço Atual ({formatBRL(precoAtualCadastrado)})
             </Button>
@@ -189,7 +191,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
             onClick={() =>
               setInputs((prev) => ({ ...prev, honorarioAtual: initialHonorario || 180 }))
             }
-            className="text-xs border-slate-300 dark:border-slate-700"
+            className="text-xs font-mono border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white rounded-[8px]"
           >
             Piso FAC ({formatBRL(initialHonorario)})
           </Button>
@@ -277,22 +279,24 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
       </div>
 
       {/* Tabela de Referência de Índices Históricos Oficiais */}
-      <Card className="border-slate-200 dark:border-slate-800">
-        <CardHeader className="py-3 px-4 sm:px-6">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
+        <CardHeader className="py-3 px-4 sm:px-6 border-b border-slate-200 dark:border-[#27272A]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <Percent className="w-4 h-4 text-[#16746E]" />
+              <CardTitle className="font-sans text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Percent className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                 Tabela de Referência Rápida: Índices Oficiais de Inflação
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
                 Clique em qualquer índice oficial para preencher o cálculo instantaneamente.
               </CardDescription>
             </div>
-            <span className="text-[11px] text-slate-500">Fontes: IBGE / SIDRA e FGV / IBRE</span>
+            <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+              Fontes: IBGE / SIDRA e FGV / IBRE
+            </span>
           </div>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6 pb-4 pt-0">
+        <CardContent className="px-4 sm:px-6 pb-4 pt-3">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {INFLATION_PRESETS.map((preset) => {
               const isSelected =
@@ -305,20 +309,20 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                   onClick={() => handleApplyPreset(preset)}
                   className={`p-3 rounded-xl border text-left transition-all ${
                     isSelected
-                      ? 'border-[#16746E] bg-emerald-50 dark:bg-emerald-950/60 shadow-xs ring-2 ring-[#16746E]/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900'
+                      ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] shadow-xs ring-2 ring-[#7c3aed]/20 dark:ring-[#C084FC]/30'
+                      : 'border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-[#18181B]'
                   }`}
                 >
-                  <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  <div className="flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#71717A]">
                     <span>{preset.indice}</span>
-                    <span className="text-[#16746E] dark:text-emerald-400">{preset.ano}</span>
+                    <span className="text-[#7c3aed] dark:text-[#C084FC]">{preset.ano}</span>
                   </div>
                   <div className="font-mono text-lg font-bold text-slate-900 dark:text-white mt-1">
                     {preset.taxaPct > 0
                       ? `+${preset.taxaPct.toFixed(2)}%`
                       : `${preset.taxaPct.toFixed(2)}%`}
                   </div>
-                  <span className="text-[10px] text-slate-400 block truncate mt-0.5">
+                  <span className="text-[10px] font-mono text-slate-400 dark:text-[#71717A] block truncate mt-0.5">
                     {preset.fonte}
                   </span>
                 </button>
@@ -329,16 +333,16 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
       </Card>
 
       {/* Configurações do Reajuste */}
-      <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
+        <CardHeader className="pb-3 border-b border-slate-200 dark:border-[#27272A]">
+          <CardTitle className="font-sans text-base font-semibold text-slate-900 dark:text-white">
             Parâmetros do Reajuste
           </CardTitle>
-          <CardDescription className="text-xs">
+          <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Personalize o índice, o número de períodos acumulados e os dados da comunicação.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Honorário Base */}
             <CurrencyInput
@@ -354,11 +358,11 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor="indice-pct"
-                  className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                  className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
                 >
                   Índice de Reajuste (%)
                 </Label>
-                <span className="text-[#16746E] dark:text-emerald-400 font-mono font-bold text-xs">
+                <span className="text-[#7c3aed] dark:text-[#C084FC] font-mono font-bold text-xs">
                   {inputs.indicePct.toFixed(2)}%
                 </span>
               </div>
@@ -376,9 +380,9 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                     tipoIndice: 'PERSONALIZADO',
                   }))
                 }
-                className="font-mono text-base h-11"
+                className="font-mono text-base h-11 bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
                 Ou selecione na tabela acima para preenchimento automático.
               </p>
             </div>
@@ -387,7 +391,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
             <div className="space-y-1.5">
               <Label
                 htmlFor="periodos"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Períodos Acumulados
               </Label>
@@ -403,9 +407,9 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                     numeroPeriodos: Math.max(1, parseInt(e.target.value, 10) || 1),
                   }))
                 }
-                className="font-mono text-base h-11"
+                className="font-mono text-base h-11 bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
                 1 para reajuste anual regular, ou 2+ se o valor ficou sem reajuste em anos
                 anteriores.
               </p>
@@ -415,7 +419,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
             <div className="space-y-1.5">
               <Label
                 htmlFor="mes-reajuste"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Mês de Vigência
               </Label>
@@ -423,7 +427,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                 id="mes-reajuste"
                 value={inputs.mesReajuste}
                 onChange={(e) => setInputs((prev) => ({ ...prev, mesReajuste: e.target.value }))}
-                className="w-full h-11 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 text-sm font-medium text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-[#16746E]"
+                className="w-full h-11 rounded-md border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] px-3 text-sm font-medium text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed]"
               >
                 {MESES.map((m) => (
                   <option key={m} value={m}>
@@ -431,7 +435,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
                 Geralmente o mês de aniversário do início da psicoterapia.
               </p>
             </div>
@@ -440,12 +444,12 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
       </Card>
 
       {/* Gerador de Mensagem Pronta para o Paciente */}
-      <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
-        <CardHeader className="pb-3">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
+        <CardHeader className="pb-3 border-b border-slate-200 dark:border-[#27272A]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#16746E]" />
-              <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
+              <MessageSquare className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+              <CardTitle className="font-sans text-base font-semibold text-slate-900 dark:text-white">
                 Mensagem Ética Pronta para o Paciente
               </CardTitle>
             </div>
@@ -453,11 +457,11 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               type="button"
               size="sm"
               onClick={handleCopyMessage}
-              className="gap-1.5 bg-[#16746E] hover:bg-[#125e59] text-white text-xs"
+              className="gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-mono rounded-[8px]"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5" />
+                  <Check className="w-3.5 h-3.5 text-emerald-300" />
                   Copiado!
                 </>
               ) : (
@@ -468,17 +472,17 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               )}
             </Button>
           </div>
-          <CardDescription className="text-xs">
+          <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Texto acolhedor, profissional e fundamentado no contrato terapêutico e no Código de
             Ética.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label
                 htmlFor="nome-paciente"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Nome do Paciente (opcional)
               </Label>
@@ -487,13 +491,13 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                 placeholder="Ex: Mariana"
                 value={inputs.nomePaciente}
                 onChange={(e) => setInputs((prev) => ({ ...prev, nomePaciente: e.target.value }))}
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
             <div className="space-y-1">
               <Label
                 htmlFor="nome-profissional"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Seu Nome / Assinatura
               </Label>
@@ -504,7 +508,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
                 onChange={(e) =>
                   setInputs((prev) => ({ ...prev, nomeProfissional: e.target.value }))
                 }
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
           </div>
@@ -514,7 +518,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               readOnly
               rows={9}
               value={result.mensagemComunicado}
-              className="font-sans text-xs sm:text-sm bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 leading-relaxed resize-none text-slate-800 dark:text-slate-200 p-4"
+              className="font-sans text-xs sm:text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] leading-relaxed resize-none text-slate-800 dark:text-[#A1A1AA] p-4 rounded-[12px]"
             />
           </div>
         </CardContent>

@@ -125,11 +125,11 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ calculation }) => {
                 className={`max-w-[85%] rounded-[12px] p-3.5 text-xs space-y-2 leading-relaxed ${
                   isUser
                     ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14] font-medium rounded-tr-none shadow-xs'
-                    : 'bg-slate-100 dark:bg-[#121216] text-slate-800 dark:text-[#E4E4E7] border border-slate-200 dark:border-[#27272A] rounded-tl-none'
+                    : 'bg-slate-50 dark:bg-[#121216] text-slate-800 dark:text-[#E4E4E7] border border-slate-200 dark:border-[#27272A] rounded-tl-none'
                 }`}
               >
+                {' '}
                 <p>{msg.text}</p>
-
                 {msg.bullets && msg.bullets.length > 0 && (
                   <ul className="space-y-1.5 pt-1 border-t border-slate-200 dark:border-[#27272A]/80">
                     {msg.bullets.map((b, i) => (
@@ -142,7 +142,6 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ calculation }) => {
                     ))}
                   </ul>
                 )}
-
                 <div
                   className={`text-[9px] font-mono text-right pt-0.5 ${
                     isUser

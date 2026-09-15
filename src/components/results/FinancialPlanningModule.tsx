@@ -440,16 +440,18 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
                   <CartesianGrid
                     strokeDasharray="3 3"
                     stroke="#e2e8f0"
-                    className="dark:opacity-20"
+                    className="dark:stroke-[#27272A]"
                   />
                   <XAxis
                     dataKey="name"
-                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tick={{ fontSize: 11, fill: 'currentColor' }}
+                    className="text-slate-500 dark:text-[#A1A1AA]"
                     interval={0}
                     tickFormatter={(v) => (v.length > 14 ? `${v.slice(0, 12)}…` : v)}
                   />
                   <YAxis
-                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tick={{ fontSize: 11, fill: 'currentColor' }}
+                    className="text-slate-500 dark:text-[#A1A1AA]"
                     tickFormatter={(v) => `R$ ${(v / 1000).toFixed(1)}k`}
                   />
                   <Tooltip
@@ -1193,15 +1195,17 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
                   <CartesianGrid
                     strokeDasharray="3 3"
                     stroke="#e2e8f0"
-                    className="dark:opacity-20"
+                    className="dark:stroke-[#27272A]"
                   />
                   <XAxis
                     dataKey="labelMes"
-                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tick={{ fontSize: 11, fill: 'currentColor' }}
+                    className="text-slate-500 dark:text-[#A1A1AA]"
                     interval="preserveStartEnd"
                   />
                   <YAxis
-                    tick={{ fontSize: 11, fill: '#64748b' }}
+                    tick={{ fontSize: 11, fill: 'currentColor' }}
+                    className="text-slate-500 dark:text-[#A1A1AA]"
                     tickFormatter={(val) => `R$ ${(val / 1000).toFixed(1)}k`}
                   />
                   <Tooltip

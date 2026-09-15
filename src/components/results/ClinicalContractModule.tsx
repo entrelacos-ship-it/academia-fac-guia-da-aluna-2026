@@ -283,7 +283,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-nome-prof"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Nome Completo da Profissional
               </Label>
@@ -294,7 +294,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, nomeProfissional: e.target.value }))
                 }
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -302,7 +302,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-crp"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Registro CRP
               </Label>
@@ -311,7 +311,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 placeholder="Ex: CRP 06/123456"
                 value={formData.crp}
                 onChange={(e) => setFormData((prev) => ({ ...prev, crp: e.target.value }))}
-                className="h-10 text-sm font-mono"
+                className="h-10 text-sm font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -319,7 +319,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-cidade"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Cidade / UF do Consultório ou Foro
               </Label>
@@ -328,7 +328,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 placeholder="Ex: São Paulo - SP"
                 value={formData.cidadeUf}
                 onChange={(e) => setFormData((prev) => ({ ...prev, cidadeUf: e.target.value }))}
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -336,7 +336,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-paciente"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Nome do Paciente (ou deixar em branco)
               </Label>
@@ -345,7 +345,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 placeholder="Ex: Maria Clara Silva (ou em branco)"
                 value={formData.nomePaciente}
                 onChange={(e) => setFormData((prev) => ({ ...prev, nomePaciente: e.target.value }))}
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -364,7 +364,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-duracao"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Duração da Sessão (minutos)
               </Label>
@@ -380,7 +380,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                     duracaoMinutos: parseInt(e.target.value, 10) || 50,
                   }))
                 }
-                className="h-10 text-sm font-mono"
+                className="h-10 text-sm font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -388,7 +388,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-forma-pagto"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Forma de Pagamento
               </Label>
@@ -399,7 +399,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, formaPagamento: e.target.value }))
                 }
-                className="h-10 text-sm"
+                className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -407,7 +407,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-vencimento"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Dia de Vencimento / Fechamento
               </Label>
@@ -423,7 +423,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                     diaVencimento: parseInt(e.target.value, 10) || 5,
                   }))
                 }
-                className="h-10 text-sm font-mono"
+                className="h-10 text-sm font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
               />
             </div>
 
@@ -431,7 +431,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="contrato-reajuste-indice"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Índice e Mês de Reajuste
               </Label>
@@ -443,7 +443,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, indiceReajusteNome: e.target.value }))
                   }
-                  className="h-10 text-sm"
+                  className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
                 />
                 <Input
                   placeholder="Mês (Ex: Janeiro)"
@@ -451,44 +451,46 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, mesReajusteAnual: e.target.value }))
                   }
-                  className="h-10 text-sm"
+                  className="h-10 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white"
                 />
               </div>
             </div>
           </div>
 
           {/* Política de Faltas e Cancelamentos */}
-          <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-[#27272A]">
             <div className="flex items-center justify-between">
               <Label
                 htmlFor="contrato-politica-faltas"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300"
+                className="text-xs font-mono font-semibold uppercase text-slate-600 dark:text-[#A1A1AA]"
               >
                 Cláusula de Faltas, Desmarcações e Cancelamentos (editável)
               </Label>
-              <span className="text-[11px] text-slate-400">Padrão ético: antecedência de 24h</span>
+              <span className="text-[11px] font-mono text-slate-400 dark:text-[#71717A]">
+                Padrão ético: antecedência de 24h
+              </span>
             </div>
             <Textarea
               id="contrato-politica-faltas"
               rows={3}
               value={formData.politicaFaltas}
               onChange={(e) => setFormData((prev) => ({ ...prev, politicaFaltas: e.target.value }))}
-              className="text-xs leading-relaxed bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+              className="text-xs leading-relaxed bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px]"
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Visualização e Ações de Exportação */}
-      <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
-        <CardHeader className="pb-3">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
+        <CardHeader className="pb-3 border-b border-slate-200 dark:border-[#27272A]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+              <CardTitle className="font-sans text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                 2. Visualização e Exportação do Documento
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
                 Selecione o formato desejado, imprima diretamente em PDF ou copie o texto.
               </CardDescription>
             </div>
@@ -499,11 +501,11 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={handleCopyText}
-                className="gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs"
+                className="gap-1.5 font-mono border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white text-xs rounded-[8px]"
               >
                 {copied ? (
                   <>
-                    <Check className="w-3.5 h-3.5" />
+                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     Copiado!
                   </>
                 ) : (
@@ -518,7 +520,7 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
                 type="button"
                 size="sm"
                 onClick={handlePrintDocument}
-                className="gap-1.5 bg-[#5B3A8E] hover:bg-[#452A6F] text-white text-xs shadow-xs"
+                className="gap-1.5 font-mono bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs rounded-[8px]"
               >
                 <Printer className="w-3.5 h-3.5" />
                 Imprimir / Salvar em PDF
@@ -527,36 +529,42 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-4">
           <Tabs
             value={activeDocTab}
             onValueChange={(val) => setActiveDocTab(val as 'contrato' | 'proposta')}
             className="w-full"
           >
-            <TabsList className="grid grid-cols-2 max-w-sm mb-4">
-              <TabsTrigger value="contrato" className="text-xs font-semibold">
+            <TabsList className="grid grid-cols-2 max-w-sm mb-4 bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A]">
+              <TabsTrigger
+                value="contrato"
+                className="text-xs font-mono data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC]"
+              >
                 Contrato Clínico Completo
               </TabsTrigger>
-              <TabsTrigger value="proposta" className="text-xs font-semibold">
+              <TabsTrigger
+                value="proposta"
+                className="text-xs font-mono data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC]"
+              >
                 Proposta Simplificada
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="contrato" className="m-0">
-              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-5 font-mono text-xs text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
+              <div className="relative rounded-xl border border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#0A0A14] p-5 font-mono text-xs text-slate-800 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
                 {contractText}
               </div>
             </TabsContent>
 
             <TabsContent value="proposta" className="m-0">
-              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-5 font-mono text-xs text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
+              <div className="relative rounded-xl border border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#0A0A14] p-5 font-mono text-xs text-slate-800 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto">
                 {proposalText}
               </div>
             </TabsContent>
           </Tabs>
 
-          <div className="flex items-center gap-2 p-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/80 dark:border-purple-900/40 text-xs text-purple-900 dark:text-purple-200">
-            <ShieldCheck className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400 shrink-0" />
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-purple-50/70 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-xs text-purple-950 dark:text-[#C084FC]">
+            <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
             <span>
               Cláusulas alinhadas à Resolução CFP nº 010/2005 (Código de Ética Profissional do
               Psicólogo) e às boas práticas de acolhimento do Método FAC.

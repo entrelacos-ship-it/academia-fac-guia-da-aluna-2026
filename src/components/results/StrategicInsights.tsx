@@ -139,7 +139,7 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-mono font-bold border-[#FB923C]/50 bg-[#0A0A14] text-[#FB923C] px-2 py-0.5 uppercase tracking-wider"
+            className="text-[10px] font-mono font-bold border-orange-200 dark:border-[#FB923C]/50 bg-orange-50 dark:bg-[#0A0A14] text-[#ea580c] dark:text-[#FB923C] px-2 py-0.5 uppercase tracking-wider"
           >
             Prioridade Alta
           </Badge>
@@ -148,9 +148,9 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-mono font-bold border-[#C084FC]/50 bg-[#0A0A14] text-[#C084FC] px-2 py-0.5 uppercase tracking-wider"
+            className="text-[10px] font-mono font-bold border-purple-200 dark:border-[#C084FC]/50 bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] dark:text-[#C084FC] px-2 py-0.5 uppercase tracking-wider"
           >
-            Oportunidade
+            Atenção
           </Badge>
         )
       case 'baixa':
@@ -158,9 +158,9 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-mono font-medium border-[#27272A] bg-[#0A0A14] text-[#A1A1AA] px-2 py-0.5 uppercase tracking-wider"
+            className="text-[10px] font-mono font-medium border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#0A0A14] text-slate-600 dark:text-[#A1A1AA] px-2 py-0.5 uppercase tracking-wider"
           >
-            Boas Práticas
+            Informativo
           </Badge>
         )
     }
@@ -178,7 +178,7 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return 'bg-purple-50 text-[#5B3A8E] border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900'
       case 'slate':
       default:
-        return 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700'
+        return 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-[#18181B] dark:text-[#E4E4E7] dark:border-[#27272A]'
     }
   }
 

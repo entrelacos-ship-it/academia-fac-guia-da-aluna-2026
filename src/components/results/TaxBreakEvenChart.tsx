@@ -256,14 +256,14 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
           </div>
 
           {/* Destaque da Posição Atual da Usuária */}
-          <div className="shrink-0 p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-right">
-            <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">
+          <div className="shrink-0 p-3 rounded-lg bg-white dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs text-right">
+            <div className="text-[10px] uppercase font-mono font-bold text-slate-500 dark:text-[#71717A]">
               Seu Faturamento Atual (FAC)
             </div>
             <div className="font-mono text-base font-bold text-[#7c3aed] dark:text-[#C084FC]">
               {formatBRL(userFaturamentoAtual)}
             </div>
-            <div className="text-[10px] text-slate-500 mt-0.5">
+            <div className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] mt-0.5">
               Regime atual mais barato:{' '}
               <strong
                 className={
@@ -284,14 +284,20 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
         <div className="h-80 sm:h-96 w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 20, right: 25, left: 15, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" className="dark:opacity-20" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#e2e8f0"
+                className="dark:stroke-[#27272A]"
+              />
               <XAxis
                 dataKey="faturamentoLabel"
-                tick={{ fontSize: 11, fill: '#64748b' }}
+                tick={{ fontSize: 11, fill: 'currentColor' }}
+                className="text-slate-500 dark:text-[#A1A1AA]"
                 interval="preserveStartEnd"
               />
               <YAxis
-                tick={{ fontSize: 11, fill: '#64748b' }}
+                tick={{ fontSize: 11, fill: 'currentColor' }}
+                className="text-slate-500 dark:text-[#A1A1AA]"
                 tickFormatter={(val) => `R$ ${(val / 1000).toFixed(1)}k`}
               />
               <Tooltip
@@ -433,31 +439,35 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
 
         {/* Resumo Interpretativo das Curvas */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
-            <span className="text-[10px] font-bold uppercase text-slate-500 block">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-1">
+            <span className="text-[10px] font-mono font-bold uppercase text-slate-500 dark:text-[#71717A] block">
               Curva Carnê-Leão (PF)
             </span>
-            <p className="text-slate-700 dark:text-slate-300 leading-snug">
+            <p className="text-slate-700 dark:text-[#A1A1AA] leading-snug">
               Cresce acentuadamente porque a alíquota marginal do IRPF atinge rapidamente{' '}
-              <strong>27,5%</strong> sobre o lucro tributável.
+              <strong className="text-slate-900 dark:text-white">27,5%</strong> sobre o lucro
+              tributável.
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
-            <span className="text-[10px] font-bold uppercase text-slate-500 block">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-1">
+            <span className="text-[10px] font-mono font-bold uppercase text-slate-500 dark:text-[#71717A] block">
               Curva Simples Nacional (PJ)
             </span>
-            <p className="text-slate-700 dark:text-slate-300 leading-snug">
-              Cresce de forma suave: no <strong>Anexo III (Fator R ≥ 28%)</strong> a alíquota
-              efetiva começa em <strong>6%</strong> e os lucros distribuídos são isentos.
+            <p className="text-slate-700 dark:text-[#A1A1AA] leading-snug">
+              Cresce de forma suave: no{' '}
+              <strong className="text-slate-900 dark:text-white">Anexo III (Fator R ≥ 28%)</strong>{' '}
+              a alíquota efetiva começa em{' '}
+              <strong className="text-slate-900 dark:text-white">6%</strong> e os lucros
+              distribuídos são isentos.
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
-            <span className="text-[10px] font-bold uppercase text-slate-500 block">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-1">
+            <span className="text-[10px] font-mono font-bold uppercase text-slate-500 dark:text-[#71717A] block">
               Decisão Estratégica
             </span>
-            <p className="text-slate-700 dark:text-slate-300 leading-snug">
+            <p className="text-slate-700 dark:text-[#A1A1AA] leading-snug">
               Se você pretende faturar acima do ponto de virada nos próximos 12 meses, planeje a
               abertura da PJ com antecedência de 30 a 60 dias.
             </p>

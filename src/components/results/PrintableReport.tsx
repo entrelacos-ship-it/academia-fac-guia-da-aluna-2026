@@ -17,16 +17,16 @@ export const PrintableReport: React.FC<PrintableReportProps> = ({ state, calcula
   return (
     <div className="hidden print:block p-8 bg-white text-slate-900 font-sans max-w-4xl mx-auto space-y-6">
       {/* Cabeçalho Institucional */}
-      <div className="border-b-2 border-[#5B3A8E] pb-4 flex items-center justify-between">
+      <div className="border-b-2 border-[#7c3aed] pb-4 flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-[#5B3A8E]">
+          <h1 className="font-sans text-2xl font-bold text-[#7c3aed]">
             Entrelaços Psicologia — Método FAC
           </h1>
           <p className="text-xs text-slate-600">
             Relatório Oficial de Precificação Clínica e Piso Ético Mínimo
           </p>
         </div>
-        <div className="text-right text-xs text-slate-500">
+        <div className="text-right text-xs text-slate-500 font-mono">
           <span>Data de Emissão: {dateStr}</span>
         </div>
       </div>
@@ -34,7 +34,7 @@ export const PrintableReport: React.FC<PrintableReportProps> = ({ state, calcula
       {/* Destaque do Piso */}
       <div className="p-6 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#5B3A8E]">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#7c3aed]">
             Piso Ético Mínimo Calculado por Sessão (V_min)
           </span>
           <div className="font-serif text-4xl font-bold text-slate-900 mt-1">
@@ -140,13 +140,13 @@ export const PrintableReport: React.FC<PrintableReportProps> = ({ state, calcula
                 {formatNumberBR(calculation.pctReservaTributos, 2)}%
               </td>
             </tr>
-            <tr className="bg-purple-50 font-bold border-t border-purple-200">
-              <td className="py-2 px-3 text-[#5B3A8E]">TOTAL (Piso Ético Mínimo FAC)</td>
-              <td className="py-2 px-3 font-mono text-[#5B3A8E]">
+            <tr className="bg-purple-50 font-bold border-t border-purple-200 font-mono">
+              <td className="py-2 px-3 text-[#7c3aed]">TOTAL (Piso Ético Mínimo FAC)</td>
+              <td className="py-2 px-3 font-mono text-[#7c3aed]">
                 {formatBRL(calculation.pisoMinimoSessao)}
               </td>
-              <td className="py-2 px-3 font-mono text-[#5B3A8E]">100,00%</td>
-            </tr>
+              <td className="py-2 px-3 font-mono text-[#7c3aed]">100,00%</td>
+            </tr>{' '}
           </tbody>
         </table>
       </div>
