@@ -11,6 +11,8 @@ import {
   Sparkles,
   HelpCircle,
   Cloud,
+  LogOut,
+  Shield,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
@@ -97,7 +99,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onOpenCloudBackup,
   onOpenAuth,
 }) => {
-  const { currentUser, isConnected } = useCloudSync()
+  const { currentUser, isConnected, logout } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
@@ -174,47 +176,53 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
-            {/* Botão Nuvem / Login Inteligente */}
+            {/* Botão Nuvem / Sincronização */}
             <Button
               variant="outline"
               size="sm"
               onClick={handleOpenCloud}
-              className={`min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300 ${
-                isConnected
-                  ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20'
-                  : ''
-              }`}
-              aria-label={
-                isConnected
-                  ? 'Conta conectada - Abrir backup em nuvem'
-                  : 'Entrar ou criar conta - Nuvem'
-              }
-              title={
-                isConnected
-                  ? `Conectada como ${currentUser?.name || currentUser?.email}`
-                  : 'Entrar ou sincronizar na nuvem'
-              }
+              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+              aria-label="Backup em Nuvem e Sincronização"
+              title={`Sincronização em Nuvem (${currentUser?.email || 'Conectada'})`}
             >
-              {isConnected ? (
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              ) : null}
-              <Cloud
-                className={`w-4 h-4 ${isConnected ? 'text-emerald-600 dark:text-emerald-400' : 'text-[#5B3A8E] dark:text-purple-400'}`}
-              />
-              <span className="hidden sm:inline font-medium">
-                {isConnected ? 'Conta Ativa' : 'Entrar / Nuvem'}
-              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <Cloud className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="hidden sm:inline font-medium">Nuvem</span>
             </Button>
 
-            {/* Acesso direto à tela de Login / Criar Conta quando deslogada, ou Perfil quando logada */}
+            {/* Identificação de Usuária no Desktop */}
+            <div
+              className="hidden xl:flex flex-col text-right pl-2 pr-1 border-l border-slate-200 dark:border-slate-800 max-w-[160px]"
+              title={`Usuária logada: ${currentUser?.email}`}
+            >
+              <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
+                {currentUser?.name || 'Psicóloga'}
+              </span>
+              <span className="text-[10px] text-slate-500 truncate -mt-0.5">
+                {currentUser?.email}
+              </span>
+            </div>
+            {/* Link para o Painel Admin se a usuária for admin */}
+            {currentUser?.role === 'admin' && (
+              <a
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#EDE8F5] text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900 transition-colors"
+                title="Painel de Administração FAC"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Admin</span>
+              </a>
+            )}
+
+            {/* Identidade da Usuária Logada e Acesso a Minha Senha */}
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => handleOpenAuth(isConnected ? 'change-password' : 'login')}
+              onClick={() => handleOpenAuth('change-password')}
               className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-semibold text-[#5B3A8E] dark:text-purple-300 hover:bg-[#F5F2F9] dark:hover:bg-slate-800 px-2.5 hidden md:inline-flex"
-              title={isConnected ? 'Gerenciar credenciais e senha' : 'Fazer login ou cadastrar'}
+              title="Gerenciar credenciais e senha"
             >
-              {isConnected ? 'Minha Senha' : 'Login'}
+              Minha Senha
             </Button>
 
             {onOpenTour && (
@@ -255,13 +263,29 @@ export const AppLayout: React.FC<LayoutProps> = ({
               )}
             </Button>
 
+            {/* Botão Sair Desktop */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                logout()
+                window.location.href = '/login'
+              }}
+              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 gap-1 px-2.5 hidden md:inline-flex"
+              title="Encerrar sessão e voltar ao login"
+              aria-label="Sair do sistema"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sair</span>
+            </Button>
+
             {/* Hambúrguer Mobile */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden h-9 w-9 text-slate-700 dark:text-slate-300"
-              aria-label="Abrir menu de passos"
+              aria-label="Abrir menu de navegação"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -416,16 +440,47 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 })}
               </div>
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                {/* Usuária logada no mobile */}
+                <div className="p-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 text-xs">
+                  <div className="font-semibold text-slate-900 dark:text-white truncate">
+                    {currentUser?.name || 'Psicóloga'}
+                  </div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                    {currentUser?.email}
+                  </div>
+                  {currentUser?.role === 'admin' && (
+                    <div className="mt-1">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#5B3A8E] dark:text-purple-300">
+                        <Shield className="w-3 h-3" /> Papel Administradora
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {currentUser?.role === 'admin' && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      window.location.href = '/admin'
+                    }}
+                    className="w-full justify-center gap-2 min-h-[44px] bg-purple-50 dark:bg-purple-950/40 border-purple-300 text-[#5B3A8E] dark:text-purple-300 font-semibold"
+                  >
+                    <Shield className="w-4 h-4" />
+                    Painel Administrativo
+                  </Button>
+                )}
+
                 <Button
                   variant="outline"
                   onClick={() => {
                     setMobileMenuOpen(false)
-                    handleOpenAuth(isConnected ? 'change-password' : 'login')
+                    handleOpenAuth('change-password')
                   }}
                   className="w-full justify-center gap-2 min-h-[44px]"
                 >
                   <Cloud className="w-4 h-4 text-[#5B3A8E]" />
-                  {isConnected ? 'Minha Senha / Conta' : 'Login / Criar Conta'}
+                  Minha Senha / Credenciais
                 </Button>
                 <Button
                   variant="outline"
@@ -461,6 +516,19 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 >
                   <BookOpen className="w-4 h-4 text-[#5B3A8E]" />
                   Abrir Glossário
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    logout()
+                    window.location.href = '/login'
+                  }}
+                  className="w-full justify-center gap-2 min-h-[44px] border-rose-300 text-rose-600 dark:border-rose-900 dark:text-rose-400 hover:bg-rose-50"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sair do Sistema
                 </Button>
               </div>{' '}
             </div>

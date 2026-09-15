@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-15T13:38:05.151Z",
+  "generatedAt": "2026-09-15T13:45:40.407Z",
   "collections": [
     {
       "name": "users",
       "type": "auth",
       "apiRules": {
-        "list": "id = @request.auth.id",
-        "view": "id = @request.auth.id",
+        "list": "@request.auth.id != '' && (id = @request.auth.id || @request.auth.role = 'admin')",
+        "view": "@request.auth.id != '' && (id = @request.auth.id || @request.auth.role = 'admin')",
         "create": "",
         "update": "id = @request.auth.id",
         "delete": "id = @request.auth.id"
@@ -37,6 +37,13 @@
           "required": false,
           "system": false,
           "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "role",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["user", "admin"]
         }
       ],
       "indexes": [
@@ -48,8 +55,8 @@
       "name": "fac_backups",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != '' && user_id = @request.auth.id",
-        "view": "@request.auth.id != '' && user_id = @request.auth.id",
+        "list": "@request.auth.id != '' && (user_id = @request.auth.id || @request.auth.role = 'admin')",
+        "view": "@request.auth.id != '' && (user_id = @request.auth.id || @request.auth.role = 'admin')",
         "create": "@request.auth.id != '' && @request.body.user_id = @request.auth.id",
         "update": "@request.auth.id != '' && user_id = @request.auth.id",
         "delete": "@request.auth.id != '' && user_id = @request.auth.id"

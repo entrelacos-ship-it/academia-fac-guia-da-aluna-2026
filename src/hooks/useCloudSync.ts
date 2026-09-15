@@ -13,15 +13,18 @@ export interface CloudUserState {
   id: string
   email: string
   name?: string
+  role?: 'admin' | 'user' | string
 }
 
 export function useCloudSync() {
   const [currentUser, setCurrentUser] = useState<CloudUserState | null>(() => {
     if (pb.authStore.isValid && pb.authStore.model) {
+      const record = pb.authStore.model as Record<string, unknown>
       return {
         id: pb.authStore.model.id,
         email: pb.authStore.model.email || '',
-        name: (pb.authStore.model as Record<string, unknown>).name as string | undefined,
+        name: record.name as string | undefined,
+        role: (record.role as string | undefined) || 'user',
       }
     }
     return null
@@ -48,10 +51,12 @@ export function useCloudSync() {
   useEffect(() => {
     const unsub = pb.authStore.onChange(() => {
       if (pb.authStore.isValid && pb.authStore.model) {
+        const record = pb.authStore.model as Record<string, unknown>
         setCurrentUser({
           id: pb.authStore.model.id,
           email: pb.authStore.model.email || '',
-          name: (pb.authStore.model as Record<string, unknown>).name as string | undefined,
+          name: record.name as string | undefined,
+          role: (record.role as string | undefined) || 'user',
         })
       } else {
         setCurrentUser(null)
@@ -96,10 +101,12 @@ export function useCloudSync() {
       setStatusMessage(null)
       try {
         const authData = await pb.collection('users').authWithPassword(email.trim(), pass)
+        const record = authData.record as Record<string, unknown>
         setCurrentUser({
           id: authData.record.id,
           email: authData.record.email || '',
           name: authData.record.name,
+          role: (record.role as string | undefined) || 'user',
         })
         setStatusMessage({
           type: 'success',
@@ -148,10 +155,12 @@ export function useCloudSync() {
         })
         // Realiza login imediato após cadastro
         const authData = await pb.collection('users').authWithPassword(email.trim(), pass)
+        const record = authData.record as Record<string, unknown>
         setCurrentUser({
           id: authData.record.id,
           email: authData.record.email || '',
           name: authData.record.name,
+          role: (record.role as string | undefined) || 'user',
         })
         setStatusMessage({
           type: 'success',
@@ -427,9 +436,12 @@ export function useCloudSync() {
     }, 4000) // 4 segundos de debounce
   }, [currentUser])
 
+  const isAdmin = currentUser?.role === 'admin'
+
   return {
     currentUser,
     isConnected: !!currentUser,
+    isAdmin,
     isLoading,
     isSyncing,
     isRestoring,

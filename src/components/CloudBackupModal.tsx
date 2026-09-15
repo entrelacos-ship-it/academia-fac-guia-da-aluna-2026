@@ -247,6 +247,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 )}
               </div>
 
+              {/* Informação sobre sessão ativa */}
+              <div className="p-3 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Você está autenticada no sistema. Salve suas alterações na nuvem ou restaure em
+                outro aparelho para manter seus dados sincronizados.
+              </div>
+
               {/* Painel de Alteração de Senha Opcional */}
               {isChangingPassword ? (
                 <form
