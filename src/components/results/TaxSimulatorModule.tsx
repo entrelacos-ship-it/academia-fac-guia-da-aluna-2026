@@ -127,7 +127,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="border-[#C084FC] text-[#C084FC] bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
+              className="border-purple-200 dark:border-[#C084FC] text-[#7c3aed] dark:text-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-mono text-[11px] font-semibold rounded-full px-2.5"
             >
               Módulo 1 · Planejamento Fiscal
             </Badge>
@@ -157,10 +157,10 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       <div
         className={`p-5 rounded-[16px] border transition-all ${
           isPjWinner
-            ? 'bg-[#18181B] border-[#C084FC]/50 shadow-xl'
+            ? 'bg-purple-50/50 dark:bg-[#18181B] border-purple-200 dark:border-[#C084FC]/50 shadow-md dark:shadow-xl'
             : isPfWinner
-              ? 'bg-[#18181B] border-[#FB923C]/50 shadow-xl'
-              : 'bg-[#18181B] border-[#27272A]'
+              ? 'bg-orange-50/50 dark:bg-[#18181B] border-orange-200 dark:border-[#FB923C]/50 shadow-md dark:shadow-xl'
+              : 'bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A]'
         }`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -168,19 +168,23 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
             <div className="flex items-center gap-2">
               <span
                 className={`w-2.5 h-2.5 rounded-full animate-pulse ${
-                  isPjWinner ? 'bg-[#C084FC]' : isPfWinner ? 'bg-[#FB923C]' : 'bg-[#71717A]'
+                  isPjWinner
+                    ? 'bg-[#7c3aed] dark:bg-[#C084FC]'
+                    : isPfWinner
+                      ? 'bg-[#ea580c] dark:bg-[#FB923C]'
+                      : 'bg-slate-400 dark:bg-[#71717A]'
                 }`}
               />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA]">
                 Diagnóstico Tributário Recomendado
               </span>
               <Badge
                 className={
                   isPjWinner
-                    ? 'bg-[#C084FC] text-[#0A0A14] font-mono font-bold text-[10px]'
+                    ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-mono font-bold text-[10px]'
                     : isPfWinner
-                      ? 'bg-[#FB923C] text-[#0A0A14] font-mono font-bold text-[10px]'
-                      : 'bg-[#18181B] text-white border border-[#27272A] font-mono'
+                      ? 'bg-[#ea580c] text-white dark:bg-[#FB923C] dark:text-[#0A0A14] font-mono font-bold text-[10px]'
+                      : 'bg-white dark:bg-[#18181B] text-slate-900 dark:text-white border border-slate-200 dark:border-[#27272A] font-mono'
                 }
               >
                 {isPjWinner
@@ -190,25 +194,25 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                     : 'Cargas Equivalentes'}
               </Badge>
             </div>
-            <p className="font-sans text-base sm:text-lg font-semibold text-white leading-snug">
+            <p className="font-sans text-base sm:text-lg font-semibold text-slate-900 dark:text-white leading-snug">
               {comparativo.mensagemVeredito}
             </p>
           </div>
 
-          <div className="flex items-center gap-6 shrink-0 bg-[#0A0A14] p-4 rounded-[12px] border border-[#27272A] font-mono">
+          <div className="flex items-center gap-6 shrink-0 bg-white dark:bg-[#0A0A14] p-4 rounded-[12px] border border-slate-200 dark:border-[#27272A] font-mono shadow-xs">
             <div>
-              <span className="text-[10px] uppercase font-bold text-[#71717A] block">
+              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-[#71717A] block">
                 Economia Mensal
               </span>
-              <span className="text-xl sm:text-2xl font-bold text-[#FB923C]">
+              <span className="text-xl sm:text-2xl font-bold text-[#ea580c] dark:text-[#FB923C]">
                 {formatBRL(comparativo.economiaMensal)}
               </span>
             </div>
-            <div className="border-l border-[#27272A] pl-6">
-              <span className="text-[10px] uppercase font-bold text-[#71717A] block">
+            <div className="border-l border-slate-200 dark:border-[#27272A] pl-6">
+              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-[#71717A] block">
                 Economia Anual
               </span>
-              <span className="text-xl sm:text-2xl font-bold text-[#C084FC]">
+              <span className="text-xl sm:text-2xl font-bold text-[#7c3aed] dark:text-[#C084FC]">
                 {formatBRL(comparativo.economiaAnual)}
               </span>
             </div>
@@ -385,43 +389,47 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* CARD PESSOA FÍSICA (Carnê-Leão) */}
         <div
-          className={`p-6 rounded-[16px] bg-[#18181B] border shadow-xl flex flex-col justify-between transition-all ${
-            isPfWinner ? 'border-[#FB923C]' : 'border-[#27272A]'
+          className={`p-6 rounded-[16px] bg-white dark:bg-[#18181B] border shadow-md dark:shadow-xl flex flex-col justify-between transition-all ${
+            isPfWinner
+              ? 'border-orange-300 dark:border-[#FB923C]'
+              : 'border-slate-200 dark:border-[#27272A]'
           }`}
         >
           <div className="space-y-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C] flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-[8px] bg-orange-50 dark:bg-[#0A0A14] border border-orange-200 dark:border-[#27272A] text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center font-bold">
                   <User className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-sans text-lg font-semibold text-white">
+                  <h4 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
                     Pessoa Física (Carnê-Leão)
                   </h4>
-                  <p className="text-xs text-[#A1A1AA]">Autônoma com Livro-Caixa e IRPF Mensal</p>
+                  <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+                    Autônoma com Livro-Caixa e IRPF Mensal
+                  </p>
                 </div>
               </div>
               {isPfWinner && (
-                <Badge className="bg-[#FB923C] text-[#0A0A14] font-mono font-bold gap-1 text-[10px]">
+                <Badge className="bg-[#ea580c] text-white dark:bg-[#FB923C] dark:text-[#0A0A14] font-mono font-bold gap-1 text-[10px]">
                   <CheckCircle2 className="w-3 h-3" /> MAIS ECONÔMICO
                 </Badge>
               )}
             </div>
 
             {/* Destaque Tributos PF */}
-            <div className="p-4 rounded-[12px] bg-[#121216] border border-[#27272A]">
+            <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
               <div className="flex justify-between items-baseline">
-                <span className="text-xs font-mono font-semibold text-[#A1A1AA]">
+                <span className="text-xs font-mono font-semibold text-slate-600 dark:text-[#A1A1AA]">
                   Total de Tributos Mensais:
                 </span>
-                <span className="font-mono text-2xl font-bold text-[#FB923C]">
+                <span className="font-mono text-2xl font-bold text-[#ea580c] dark:text-[#FB923C]">
                   {formatBRL(pf.totalTributosMensal)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-xs text-[#71717A] mt-1 font-mono">
+              <div className="flex justify-between items-center text-xs text-slate-500 dark:text-[#71717A] mt-1 font-mono">
                 <span>Alíquota Efetiva:</span>
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900 dark:text-white">
                   {formatNumberBR(pf.aliquotaEfetivaPct, 2)}%
                 </span>
               </div>
@@ -489,45 +497,47 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
 
         {/* CARD PESSOA JURÍDICA (Simples Nacional) */}
         <div
-          className={`p-6 rounded-[16px] bg-[#18181B] border shadow-xl flex flex-col justify-between transition-all ${
-            isPjWinner ? 'border-[#C084FC]' : 'border-[#27272A]'
+          className={`p-6 rounded-[16px] bg-white dark:bg-[#18181B] border shadow-md dark:shadow-xl flex flex-col justify-between transition-all ${
+            isPjWinner
+              ? 'border-purple-300 dark:border-[#C084FC]'
+              : 'border-slate-200 dark:border-[#27272A]'
           }`}
         >
           <div className="space-y-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-[8px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center font-bold">
                   <Building2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-sans text-lg font-semibold text-white">
+                  <h4 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
                     Pessoa Jurídica (Simples Nacional)
                   </h4>
-                  <p className="text-xs text-[#A1A1AA]">
+                  <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
                     SLU/LTDA · {pj.enquadramentoAnexo} (Fator R: {(pj.fatorR * 100).toFixed(1)}%)
                   </p>
                 </div>
               </div>
               {isPjWinner && (
-                <Badge className="bg-[#C084FC] text-[#0A0A14] font-mono font-bold gap-1 text-[10px]">
+                <Badge className="bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-mono font-bold gap-1 text-[10px]">
                   <CheckCircle2 className="w-3 h-3" /> MAIS ECONÔMICO
                 </Badge>
               )}
             </div>
 
             {/* Destaque Tributos PJ */}
-            <div className="p-4 rounded-[12px] bg-[#121216] border border-[#27272A]">
+            <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
               <div className="flex justify-between items-baseline">
-                <span className="text-xs font-mono font-semibold text-[#A1A1AA]">
+                <span className="text-xs font-mono font-semibold text-slate-600 dark:text-[#A1A1AA]">
                   Total de Tributos Mensais:
                 </span>
-                <span className="font-mono text-2xl font-bold text-[#C084FC]">
+                <span className="font-mono text-2xl font-bold text-[#7c3aed] dark:text-[#C084FC]">
                   {formatBRL(pj.totalTributosMensal)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-xs text-[#71717A] mt-1 font-mono">
+              <div className="flex justify-between items-center text-xs text-slate-500 dark:text-[#71717A] mt-1 font-mono">
                 <span>Alíquota Efetiva Global:</span>
-                <span className="font-bold text-white">
+                <span className="font-bold text-slate-900 dark:text-white">
                   {formatNumberBR(pj.aliquotaEfetivaTotalPct, 2)}% (DAS:{' '}
                   {formatNumberBR(pj.aliquotaEfetivaDasPct, 2)}%)
                 </span>
@@ -631,28 +641,44 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                <tr className={pj.faixaSimples === 1 ? 'bg-[#EDE8F5]/50 font-bold' : ''}>
+                <tr
+                  className={
+                    pj.faixaSimples === 1 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                  }
+                >
                   <td className="py-2 pr-2">1ª Faixa</td>
                   <td className="py-2 px-2">Até R$ 180.000,00</td>
                   <td className="py-2 px-2 text-emerald-700 dark:text-emerald-400">6,00%</td>
                   <td className="py-2 px-2 text-amber-700 dark:text-amber-400">15,50%</td>
                   <td className="py-2 pl-2">R$ 0,00</td>
                 </tr>
-                <tr className={pj.faixaSimples === 2 ? 'bg-[#EDE8F5]/50 font-bold' : ''}>
+                <tr
+                  className={
+                    pj.faixaSimples === 2 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                  }
+                >
                   <td className="py-2 pr-2">2ª Faixa</td>
                   <td className="py-2 px-2">R$ 180.000,01 a R$ 360.000,00</td>
                   <td className="py-2 px-2 text-emerald-700 dark:text-emerald-400">11,20%</td>
                   <td className="py-2 px-2 text-amber-700 dark:text-amber-400">18,00%</td>
                   <td className="py-2 pl-2">R$ 9.360,00</td>
                 </tr>
-                <tr className={pj.faixaSimples === 3 ? 'bg-[#EDE8F5]/50 font-bold' : ''}>
+                <tr
+                  className={
+                    pj.faixaSimples === 3 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                  }
+                >
                   <td className="py-2 pr-2">3ª Faixa</td>
                   <td className="py-2 px-2">R$ 360.000,01 a R$ 720.000,00</td>
                   <td className="py-2 px-2 text-emerald-700 dark:text-emerald-400">13,50%</td>
                   <td className="py-2 px-2 text-amber-700 dark:text-amber-400">19,50%</td>
                   <td className="py-2 pl-2">R$ 17.640,00</td>
                 </tr>
-                <tr className={pj.faixaSimples === 4 ? 'bg-[#EDE8F5]/50 font-bold' : ''}>
+                <tr
+                  className={
+                    pj.faixaSimples === 4 ? 'bg-purple-50 dark:bg-purple-950/40 font-bold' : ''
+                  }
+                >
                   <td className="py-2 pr-2">4ª Faixa</td>
                   <td className="py-2 px-2">R$ 720.000,01 a R$ 1.800.000,00</td>
                   <td className="py-2 px-2 text-emerald-700 dark:text-emerald-400">16,00%</td>
@@ -666,9 +692,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       </Card>
 
       {/* Nota Pedagógica / Disclaimer Legal Astral */}
-      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] text-xs text-[#A1A1AA] space-y-1">
-        <div className="flex items-center gap-1.5 font-bold text-white">
-          <Info className="w-4 h-4 text-[#C084FC] shrink-0" />
+      <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-1">
+        <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white">
+          <Info className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
           <span>Aviso Pedagógico e Metodológico Entrelaços Psicologia</span>
         </div>
         <p>

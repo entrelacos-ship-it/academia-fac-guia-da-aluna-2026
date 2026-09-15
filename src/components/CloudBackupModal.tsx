@@ -183,16 +183,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 statusMessage.type === 'success'
                   ? 'bg-emerald-950/40 text-emerald-300 border border-emerald-800/60'
                   : statusMessage.type === 'error'
-                    ? 'bg-rose-950/40 text-rose-300 border border-rose-800/60'
-                    : 'bg-[#0A0A14] text-[#C084FC] border border-[#27272A]'
+                    ? 'bg-rose-100 text-rose-800 border-rose-300 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/60'
+                    : 'bg-purple-50 text-[#7c3aed] border-purple-200 dark:bg-[#0A0A14] dark:text-[#C084FC] dark:border-[#27272A]'
               }`}
             >
               {statusMessage.type === 'success' ? (
-                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
               ) : statusMessage.type === 'error' ? (
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
               ) : (
-                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#C084FC]" />
+                <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#7c3aed] dark:text-[#C084FC]" />
               )}
               <span className="flex-1 font-medium">{statusMessage.text}</span>
             </div>
@@ -201,44 +201,48 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
           {/* ESTADO 1: CONECTADA */}
           {isConnected && currentUser ? (
             <div className="space-y-5 pt-2">
-              <div className="p-4 rounded-[12px] bg-[#0A0A14] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FB923C] animate-pulse" />
-                    <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse" />
+                    <span className="text-xs font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                       Conta Conectada
                     </span>
                   </div>
                   <Badge
                     variant="outline"
-                    className="text-[10px] font-mono bg-[#18181B] border-[#27272A] text-[#C084FC] rounded-full px-2.5"
+                    className="text-[10px] font-mono bg-purple-50 dark:bg-[#18181B] border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] rounded-full px-2.5"
                   >
                     Nuvem Ativa
                   </Badge>
                 </div>
 
                 <div className="text-xs space-y-1 font-mono">
-                  <div className="flex items-center gap-1.5 text-[#A1A1AA] font-medium truncate">
-                    <Mail className="w-3.5 h-3.5 text-[#71717A] shrink-0" />
-                    <span className="truncate text-white">{currentUser.email}</span>
+                  <div className="flex items-center gap-1.5 text-slate-600 dark:text-[#A1A1AA] font-medium truncate">
+                    <Mail className="w-3.5 h-3.5 text-slate-400 dark:text-[#71717A] shrink-0" />
+                    <span className="truncate text-slate-900 dark:text-white">
+                      {currentUser.email}
+                    </span>
                   </div>
                   {currentUser.name && (
-                    <div className="text-[#A1A1AA] text-[11px] pl-5">{currentUser.name}</div>
+                    <div className="text-slate-500 dark:text-[#A1A1AA] text-[11px] pl-5">
+                      {currentUser.name}
+                    </div>
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-[#27272A] text-[11px] font-mono text-[#A1A1AA] flex items-center justify-between">
-                  <span className="flex items-center gap-1 text-[#71717A]">
+                <div className="pt-2 border-t border-slate-200 dark:border-[#27272A] text-[11px] font-mono text-slate-600 dark:text-[#A1A1AA] flex items-center justify-between">
+                  <span className="flex items-center gap-1 text-slate-500 dark:text-[#71717A]">
                     <Calendar className="w-3.5 h-3.5" />
                     Última sincronização:
                   </span>
-                  <strong className="text-[#C084FC]">
+                  <strong className="text-[#7c3aed] dark:text-[#C084FC]">
                     {formatDate(lastSyncDate || remoteBackup?.updated)}
                   </strong>
                 </div>
 
                 {remoteBackup?.device_name && (
-                  <div className="text-[10px] font-mono text-[#71717A] flex items-center gap-1 pl-0.5">
+                  <div className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] flex items-center gap-1 pl-0.5">
                     <Laptop className="w-3 h-3" />
                     Dispositivo: {remoteBackup.device_name}
                   </div>
@@ -246,7 +250,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
               </div>
 
               {/* Informação sobre sessão ativa */}
-              <div className="p-3 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-xs text-[#A1A1AA] leading-relaxed font-sans">
+              <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-sans">
                 Você está autenticada no sistema. Salve suas alterações na nuvem ou restaure em
                 outro aparelho para manter seus dados sincronizados.
               </div>

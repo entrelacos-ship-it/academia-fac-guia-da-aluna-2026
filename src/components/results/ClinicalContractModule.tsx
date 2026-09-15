@@ -232,23 +232,23 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
   return (
     <div className="space-y-6">
       {/* Cabeçalho do Módulo Astral */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#27272A] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-[#27272A] pb-4">
         <div>
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="border-[#27272A] bg-[#0A0A14] text-[#C084FC] font-mono font-semibold text-[10px]"
+              className="border-purple-200 dark:border-[#27272A] bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] dark:text-[#C084FC] font-mono font-semibold text-[10px]"
             >
               MÓDULO 3 · FORMALIZAÇÃO ÉTICA
             </Badge>
-            <span className="text-xs font-mono text-[#71717A]">
+            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
               Contrato Formal & Proposta de Honorários
             </span>
           </div>
-          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-white mt-1.5">
+          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
             Exportação de Proposta de Honorários e Contrato Clínico
           </h3>
-          <p className="text-xs sm:text-sm text-[#A1A1AA] max-w-2xl mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl mt-0.5">
             Gere minutas prontas para uso profissional com cláusulas de sigilo (CFP), política de
             faltas (24h), reajuste anual por inflação e forma de pagamento, com exportação para
             impressão/PDF ou cópia.
@@ -259,20 +259,20 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
           variant="outline"
           size="sm"
           onClick={handleResetDefaults}
-          className="gap-1.5 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white self-start sm:self-auto shrink-0 font-mono text-xs rounded-[8px]"
+          className="gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white self-start sm:self-auto shrink-0 font-mono text-xs rounded-[8px]"
         >
-          <RotateCcw className="w-3.5 h-3.5 text-[#71717A]" />
+          <RotateCcw className="w-3.5 h-3.5 text-slate-400 dark:text-[#71717A]" />
           Restaurar Padrão
         </Button>
       </div>
 
       {/* Formulário de Personalização (2 Colunas) Astral */}
-      <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+      <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
         <CardHeader className="pb-3">
-          <CardTitle className="font-sans text-base font-semibold text-white">
+          <CardTitle className="font-sans text-base font-semibold text-slate-900 dark:text-white">
             1. Dados da Profissional e do Atendimento
           </CardTitle>
-          <CardDescription className="text-xs text-[#A1A1AA]">
+          <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Preencha seus dados para que todas as cláusulas do contrato e proposta sejam geradas
             automaticamente.
           </CardDescription>

@@ -257,7 +257,7 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
 
           {/* Destaque da Posição Atual da Usuária */}
           <div className="shrink-0 p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-right">
-            <div className="text-[10px] uppercase font-bold text-slate-400">
+            <div className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">
               Seu Faturamento Atual (FAC)
             </div>
             <div className="font-mono text-base font-bold text-[#7c3aed] dark:text-[#C084FC]">
@@ -370,41 +370,41 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                 wrapperStyle={{ paddingBottom: '12px', fontSize: '12px' }}
               />
 
-              {/* Linha da PF: Astral Accent (#FB923C) */}
+              {/* Linha da PF: Astral Accent (#ea580c / #FB923C) */}
               <Line
                 type="monotone"
                 dataKey={metricView === 'tributos' ? 'tributosPf' : 'liquidoPf'}
                 name={metricView === 'tributos' ? 'PF (Carnê-Leão)' : 'Líquido PF (Após tributos)'}
-                stroke="#FB923C"
+                stroke="#ea580c"
                 strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 6, fill: '#FB923C' }}
+                activeDot={{ r: 6, fill: '#ea580c' }}
               />
 
-              {/* Linha da PJ: Astral Primary (#C084FC) */}
+              {/* Linha da PJ: Astral Primary (#7c3aed / #C084FC) */}
               <Line
                 type="monotone"
                 dataKey={metricView === 'tributos' ? 'tributosPj' : 'liquidoPj'}
                 name={
                   metricView === 'tributos' ? 'PJ (Simples Nacional)' : 'Líquido PJ (Após tributos)'
                 }
-                stroke="#C084FC"
+                stroke="#7c3aed"
                 strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 6, fill: '#C084FC' }}
+                activeDot={{ r: 6, fill: '#7c3aed' }}
               />
 
               {/* Linha vertical no Faturamento Atual da Usuária */}
               {userFaturamentoAtual >= 2000 && userFaturamentoAtual <= 30000 && (
                 <ReferenceLine
                   x={`R$ ${(Math.round(userFaturamentoAtual / 1000) * 1000) / 1000}k`}
-                  stroke="#C084FC"
+                  stroke="#7c3aed"
                   strokeDasharray="4 4"
                   strokeWidth={2}
                   label={{
                     value: `Seu Faturamento (${formatBRL(userFaturamentoAtual)})`,
                     position: 'insideTopLeft',
-                    fill: '#C084FC',
+                    fill: '#7c3aed',
                     fontSize: 10,
                     fontWeight: 700,
                   }}
@@ -415,13 +415,13 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
               {primaryBreakEven && (
                 <ReferenceLine
                   x={`R$ ${(Math.round(primaryBreakEven.faturamento / 1000) * 1000) / 1000}k`}
-                  stroke="#FB923C"
+                  stroke="#ea580c"
                   strokeDasharray="3 3"
                   strokeWidth={1.5}
                   label={{
                     value: `Virada: ${formatBRL(primaryBreakEven.faturamento)}`,
                     position: 'insideBottomRight',
-                    fill: '#FB923C',
+                    fill: '#ea580c',
                     fontSize: 10,
                     fontWeight: 700,
                   }}
