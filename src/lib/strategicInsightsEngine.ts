@@ -24,6 +24,18 @@ export type ActionTarget =
   | 'step_tributos'
   | 'scroll_sensibilidade'
   | 'scroll_meta'
+  | 'submenu_visao_geral'
+  | 'submenu_analises'
+  | 'submenu_planejamento'
+  | 'submenu_ferramentas'
+  | 'submenu_consultor'
+
+export type ResultsSubmenu =
+  | 'visao_geral'
+  | 'analises'
+  | 'planejamento'
+  | 'ferramentas'
+  | 'consultor'
 
 export interface StrategicInsight {
   id: string
@@ -41,6 +53,8 @@ export interface StrategicInsight {
     label: string
     target: ActionTarget
     tab?: 'tributario' | 'planejamento' | 'reajuste' | 'contrato'
+    submenu?: ResultsSubmenu
+    submodule?: 'tributario' | 'reajuste' | 'contrato'
     step?: number
     anchorId?: string
   }
@@ -97,6 +111,8 @@ export function generateStrategicInsights(
         label: 'Simular Reajuste Anual',
         target: 'tab_reajuste',
         tab: 'reajuste',
+        submenu: 'ferramentas',
+        submodule: 'reajuste',
       },
     })
   }
@@ -127,6 +143,8 @@ export function generateStrategicInsights(
         label: 'Ver Transição PF×PJ',
         target: 'tab_tributario',
         tab: 'tributario',
+        submenu: 'ferramentas',
+        submodule: 'tributario',
       },
     })
   }
@@ -157,6 +175,8 @@ export function generateStrategicInsights(
         label: 'Gerar Contrato com Cláusula 24h',
         target: 'tab_contrato',
         tab: 'contrato',
+        submenu: 'ferramentas',
+        submodule: 'contrato',
       },
     })
   } else if (state.taxaFaltaPct === 0) {
@@ -172,6 +192,7 @@ export function generateStrategicInsights(
       action: {
         label: 'Testar Sensibilidade',
         target: 'scroll_sensibilidade',
+        submenu: 'analises',
         anchorId: 'sensibilidade-section',
       },
     })
@@ -195,6 +216,7 @@ export function generateStrategicInsights(
       action: {
         label: 'Ajustar Meta no Planejador',
         target: 'scroll_meta',
+        submenu: 'planejamento',
         anchorId: 'meta-section',
       },
     })
@@ -215,6 +237,7 @@ export function generateStrategicInsights(
       action: {
         label: 'Simular no Planejador Reverso',
         target: 'scroll_meta',
+        submenu: 'planejamento',
         anchorId: 'meta-section',
       },
     })
@@ -243,6 +266,8 @@ export function generateStrategicInsights(
         label: 'Formalizar em Contrato',
         target: 'tab_contrato',
         tab: 'contrato',
+        submenu: 'ferramentas',
+        submodule: 'contrato',
       },
     })
   }
@@ -285,6 +310,7 @@ export function generateStrategicInsights(
           label: 'Ver Planejamento Financeiro',
           target: 'tab_planejamento',
           tab: 'planejamento',
+          submenu: 'planejamento',
         },
       })
     }
@@ -310,6 +336,8 @@ export function generateStrategicInsights(
           label: 'Simular Reajuste de Honorários',
           target: 'tab_reajuste',
           tab: 'reajuste',
+          submenu: 'ferramentas',
+          submodule: 'reajuste',
         },
       })
     } else if (calc.cfpFaixaAtingida === 'superior') {
@@ -330,6 +358,8 @@ export function generateStrategicInsights(
           label: 'Ver Proposta Contratual',
           target: 'tab_contrato',
           tab: 'contrato',
+          submenu: 'ferramentas',
+          submodule: 'contrato',
         },
       })
     }
@@ -360,6 +390,8 @@ export function generateStrategicInsights(
         label: 'Abrir Módulo de Reajuste',
         target: 'tab_reajuste',
         tab: 'reajuste',
+        submenu: 'ferramentas',
+        submodule: 'reajuste',
       },
     })
   }

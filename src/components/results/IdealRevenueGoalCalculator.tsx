@@ -65,16 +65,19 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+    <div className="bg-[#18181B] rounded-[16px] p-6 border border-[#27272A] shadow-xl space-y-6">
       <div className="flex items-center gap-2.5">
-        <div className="p-2 rounded-lg bg-[#5B3A8E] text-white">
+        <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC]">
           <Target className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C084FC] block">
+            PLANEJAMENTO DE CAPACIDADE
+          </span>
+          <h3 className="font-sans text-lg font-semibold text-white">
             Planejador Reverso de Meta de Faturamento
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#A1A1AA]">
             Descubra quantas sessões semanais são necessárias para atingir seu objetivo financeiro
             sem entrar em burnout
           </p>
@@ -83,7 +86,7 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
 
       {/* Meta Input com Chips */}
       <div className="space-y-3">
-        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <span className="text-xs font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider block">
           Escolha uma meta de faturamento bruto mensal:
         </span>
         <div className="flex flex-wrap gap-2">
@@ -92,10 +95,10 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
               key={preset}
               type="button"
               onClick={() => setMetaFaturamento(preset)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-[8px] text-xs font-mono font-semibold transition-all ${
                 metaFaturamento === preset
-                  ? 'bg-[#5B3A8E] text-white shadow-2xs'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+                  ? 'bg-[#C084FC] text-[#0A0A14] font-bold shadow-md shadow-[#C084FC]/20'
+                  : 'bg-[#121216] border border-[#27272A] text-[#A1A1AA] hover:text-white'
               }`}
             >
               {formatBRL(preset)}
@@ -104,10 +107,10 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
           <button
             type="button"
             onClick={() => setMetaFaturamento(0)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+            className={`px-3 py-1.5 rounded-[8px] text-xs font-mono font-medium ${
               metaFaturamento === 0
-                ? 'bg-purple-100 text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300'
-                : 'text-slate-500 hover:text-slate-700'
+                ? 'bg-[#18181B] text-[#FB923C] border border-[#FB923C]/40 font-bold'
+                : 'text-[#71717A] hover:text-[#A1A1AA]'
             }`}
           >
             Personalizado
@@ -123,36 +126,38 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
       </div>
 
       {/* Seletor de Base de Preço */}
-      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+      <div className="space-y-2 pt-2 border-t border-[#27272A]">
+        <span className="text-xs font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider block">
           Base de preço considerada por atendimento:
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <button
             type="button"
             onClick={() => setPrecoReferencia('piso')}
-            className={`p-2.5 rounded-lg text-left border text-xs transition-all ${
+            className={`p-3 rounded-[8px] text-left border text-xs transition-all ${
               precoReferencia === 'piso'
-                ? 'border-[#5B3A8E] bg-[#F5F2F9] dark:bg-purple-950/40 text-[#5B3A8E] font-semibold'
-                : 'border-slate-200 dark:border-slate-800 text-slate-600'
+                ? 'border-[#C084FC] bg-[#0A0A14] text-[#C084FC] font-semibold'
+                : 'border-[#27272A] bg-[#121216] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            <span className="block font-medium">Piso Ético FAC</span>
-            <span className="font-mono font-bold">{formatBRL(calculation.pisoMinimoSessao)}</span>
+            <span className="block font-sans text-xs">Piso Ético FAC</span>
+            <span className="font-mono font-bold text-sm block mt-0.5">
+              {formatBRL(calculation.pisoMinimoSessao)}
+            </span>
           </button>
 
           <button
             type="button"
             disabled={!state.precoAtual || state.precoAtual <= 0}
             onClick={() => setPrecoReferencia('atual')}
-            className={`p-2.5 rounded-lg text-left border text-xs transition-all disabled:opacity-40 ${
+            className={`p-3 rounded-[8px] text-left border text-xs transition-all disabled:opacity-40 ${
               precoReferencia === 'atual'
-                ? 'border-[#5B3A8E] bg-[#F5F2F9] dark:bg-purple-950/40 text-[#5B3A8E] font-semibold'
-                : 'border-slate-200 dark:border-slate-800 text-slate-600'
+                ? 'border-[#C084FC] bg-[#0A0A14] text-[#C084FC] font-semibold'
+                : 'border-[#27272A] bg-[#121216] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            <span className="block font-medium">Preço Atual</span>
-            <span className="font-mono font-bold">
+            <span className="block font-sans text-xs">Preço Atual</span>
+            <span className="font-mono font-bold text-sm block mt-0.5">
               {state.precoAtual > 0 ? formatBRL(state.precoAtual) : 'Não informado'}
             </span>
           </button>
@@ -160,14 +165,16 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
           <button
             type="button"
             onClick={() => setPrecoReferencia('cfp')}
-            className={`p-2.5 rounded-lg text-left border text-xs transition-all ${
+            className={`p-3 rounded-[8px] text-left border text-xs transition-all ${
               precoReferencia === 'cfp'
-                ? 'border-[#5B3A8E] bg-[#F5F2F9] dark:bg-purple-950/40 text-[#5B3A8E] font-semibold'
-                : 'border-slate-200 dark:border-slate-800 text-slate-600'
+                ? 'border-[#C084FC] bg-[#0A0A14] text-[#C084FC] font-semibold'
+                : 'border-[#27272A] bg-[#121216] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            <span className="block font-medium">Tabela CFP</span>
-            <span className="font-mono font-bold">{formatBRL(calculation.cfpValorReferencia)}</span>
+            <span className="block font-sans text-xs">Tabela CFP</span>
+            <span className="font-mono font-bold text-sm block mt-0.5">
+              {formatBRL(calculation.cfpValorReferencia)}
+            </span>
           </button>
         </div>
       </div>
@@ -175,30 +182,26 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
       {/* Resultado do Planejador */}
       {metaFaturamento > 0 && sessoesNecessarias > 0 && (
         <div className="pt-3 space-y-4">
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+          <div className="p-4 rounded-[12px] bg-[#121216] border border-[#27272A] space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <span className="text-xs uppercase font-bold tracking-wider text-slate-500">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#71717A] block">
                   Carga Semanal Necessária
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="font-serif text-3xl font-bold text-slate-900 dark:text-white">
+                  <span className="font-mono text-3xl font-bold text-white">
                     {formatNumberBR(sessoesNecessarias, 1)}
                   </span>
-                  <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                    sessões / semana
-                  </span>
+                  <span className="text-xs font-mono text-[#A1A1AA]">sessões / semana</span>
                 </div>
               </div>
 
               {/* Dedicação Semanal Real */}
-              <div className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900 text-xs text-amber-900 dark:text-amber-200 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+              <div className="p-2.5 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-xs font-mono text-[#FB923C] flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#FB923C] shrink-0" />
                 <div>
-                  <span className="font-bold font-mono">
-                    {formatNumberBR(horasDedicacaoReal, 1)}h
-                  </span>
-                  <span className="text-[11px] block text-amber-700 dark:text-amber-300">
+                  <span className="font-bold">{formatNumberBR(horasDedicacaoReal, 1)}h</span>
+                  <span className="text-[10px] block text-[#A1A1AA]">
                     Dedicação real (1,5h por sessão)
                   </span>
                 </div>
@@ -207,8 +210,8 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
 
             {/* Banners de Risco de Burnout */}
             {isHealthy && (
-              <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900 text-emerald-800 dark:text-emerald-200 flex items-center gap-2 text-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="p-3 rounded-[8px] bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center gap-2 text-xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>
                   <strong>Carga Saudável e Equilibrada.</strong> Você tem margem para estudo,
                   supervisão e vida pessoal com tranquilidade.
@@ -217,8 +220,8 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
             )}
 
             {isModerate && (
-              <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900 text-amber-800 dark:text-amber-200 flex items-center gap-2 text-xs">
-                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+              <div className="p-3 rounded-[8px] bg-amber-950/60 border border-amber-500/40 text-amber-200 flex items-center gap-2 text-xs">
+                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>
                   <strong>Carga Moderada a Densa.</strong> Exija rigor absoluto com intervalos entre
                   sessões e evite acúmulo de prontuários.
@@ -227,15 +230,15 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
             )}
 
             {isBurnout && (
-              <div className="p-4 rounded-xl bg-rose-700 text-white flex items-start gap-3 text-xs shadow-md">
-                <Flame className="w-5 h-5 shrink-0 mt-0.5 text-rose-200 animate-pulse" />
+              <div className="p-4 rounded-[12px] bg-rose-950/90 border border-rose-500/60 text-white flex items-start gap-3 text-xs shadow-lg">
+                <Flame className="w-5 h-5 shrink-0 mt-0.5 text-rose-400 animate-pulse" />
                 <div className="space-y-1">
-                  <strong className="text-sm font-serif block">
-                    Alerta Crítico de Risco de Burnout
+                  <strong className="text-sm font-sans font-semibold text-rose-200 block">
+                    Alerta Crítico de Risco de Burnout (&gt;28 sessões/semana)
                   </strong>
-                  <p className="leading-relaxed text-rose-100">
-                    O caminho para crescer não é lotar a agenda até a exaustão, mas elevar o valor
-                    por sessão. Mais de 28 atendimentos semanais compromete a escuta ética e o
+                  <p className="leading-relaxed text-rose-100/90">
+                    O caminho ético para crescer não é lotar a agenda até a exaustão, mas elevar o
+                    valor por sessão. Mais de 28 atendimentos semanais compromete a escuta ética e o
                     equilíbrio psíquico do terapeuta.
                   </p>
                 </div>
@@ -246,7 +249,7 @@ export const IdealRevenueGoalCalculator: React.FC<RevenueGoalProps> = ({
           <Button
             type="button"
             onClick={handleApplyToGrade}
-            className="w-full gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white font-medium"
+            className="w-full gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] h-10 shadow-md shadow-[#C084FC]/20"
           >
             Ajustar minha grade para {Math.round(sessoesNecessarias)} sessões/semana
             <ArrowRight className="w-4 h-4" />

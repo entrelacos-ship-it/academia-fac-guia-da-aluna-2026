@@ -62,17 +62,20 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+    <div className="bg-[#18181B] rounded-[16px] p-6 border border-[#27272A] shadow-xl space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#5B3A8E] text-white">
+          <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C]">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FB923C] block">
+              GERENCIAMENTO DE PROJEÇÕES
+            </span>
+            <h3 className="font-sans text-lg font-semibold text-white">
               Gerenciador e Comparativo de Cenários
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-[#A1A1AA]">
               Compare modelos de atuação e salve projeções personalizadas da sua clínica
             </p>
           </div>
@@ -84,7 +87,7 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
             variant="outline"
             size="sm"
             onClick={() => setIsSaving(true)}
-            className="gap-1.5 border-purple-200 text-[#5B3A8E] hover:bg-purple-50 dark:hover:bg-purple-950/40"
+            className="gap-1.5 border-[#27272A] bg-[#0A0A14] text-[#C084FC] hover:border-[#C084FC]/50 hover:text-white rounded-[8px] text-xs font-mono font-semibold"
           >
             <BookmarkPlus className="w-4 h-4" />
             Salvar cenário atual
@@ -96,10 +99,10 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
       {isSaving && (
         <form
           onSubmit={handleSave}
-          className="p-4 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 space-y-3"
+          className="p-4 rounded-[12px] bg-[#0A0A14] border border-[#C084FC]/40 space-y-3"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#5B3A8E] dark:text-purple-300 uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#C084FC] uppercase tracking-wider">
               Novo Cenário Clínico
             </span>
             <Button
@@ -107,7 +110,7 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
               variant="ghost"
               size="sm"
               onClick={() => setIsSaving(false)}
-              className="h-7 text-xs text-slate-500"
+              className="h-7 text-xs text-[#A1A1AA] hover:text-white"
             >
               Cancelar
             </Button>
@@ -117,7 +120,7 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
             placeholder="Nome do cenário (ex: Consultório 100% Particular 2026)"
             value={scenarioName}
             onChange={(e) => setScenarioName(e.target.value)}
-            className="h-9 text-sm"
+            className="h-9 text-sm bg-[#18181B] border-[#27272A] text-white"
             autoFocus
           />
 
@@ -125,14 +128,14 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
             placeholder="Notas opcionais (ex: Redução de 2 planos de saúde e aumento do pró-labore)"
             value={scenarioNotes}
             onChange={(e) => setScenarioNotes(e.target.value)}
-            className="text-xs h-16 resize-none"
+            className="text-xs h-16 resize-none bg-[#18181B] border-[#27272A] text-white"
           />
 
           <Button
             type="submit"
             size="sm"
             disabled={!scenarioName.trim()}
-            className="w-full bg-[#5B3A8E] hover:bg-[#452A6F] text-white"
+            className="w-full bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px]"
           >
             Confirmar e Salvar Cenário
           </Button>
@@ -140,9 +143,9 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
       )}
 
       {/* Tabela Comparativa Lado a Lado (Base, Conservador, Otimista) */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
-          <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+      <div className="overflow-x-auto rounded-[12px] border border-[#27272A] bg-[#0A0A14]">
+        <table className="w-full text-left text-xs">
+          <thead className="bg-[#121216] text-[#A1A1AA] font-mono uppercase tracking-wider border-b border-[#27272A]">
             <tr>
               <th className="py-2.5 px-3 font-semibold">Cenário</th>
               <th className="py-2.5 px-3 font-semibold">Sessões / Mês</th>
@@ -151,23 +154,21 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
               <th className="py-2.5 px-3 font-semibold">Diagnóstico</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody className="divide-y divide-[#27272A] text-[#A1A1AA]">
             {/* Cenário Base */}
-            <tr className="bg-white dark:bg-slate-900 font-medium">
-              <td className="py-2.5 px-3 text-[#5B3A8E] dark:text-purple-300 font-bold">
-                Cenário Base (Atual)
-              </td>
-              <td className="py-2.5 px-3">{baseMetrics.sessoesAgendadas} agendadas</td>
-              <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
+            <tr className="bg-[#18181B]/80 font-medium">
+              <td className="py-2.5 px-3 text-[#C084FC] font-bold">Cenário Base (Atual)</td>
+              <td className="py-2.5 px-3 font-mono">{baseMetrics.sessoesAgendadas} agendadas</td>
+              <td className="py-2.5 px-3 font-mono font-bold text-white">
                 {formatBRL(baseMetrics.pisoMinimoSessao)}
               </td>
               <td className="py-2.5 px-3 font-mono">{formatBRL(baseMetrics.faturamentoBruto)}</td>
               <td className="py-2.5 px-3">
                 <span
-                  className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
+                  className={`px-2 py-0.5 rounded-[4px] text-[10px] font-mono font-bold uppercase ${
                     baseMetrics.isDeficit
-                      ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
-                      : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                      ? 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
+                      : 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40'
                   }`}
                 >
                   {baseMetrics.isDeficit ? 'Déficit Clínico' : 'Sustentável'}
@@ -176,38 +177,38 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
             </tr>
 
             {/* Cenário Conservador */}
-            <tr className="bg-slate-50/50 dark:bg-slate-900/50">
-              <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300">
-                Conservador (80% agenda, 15% falta)
+            <tr className="bg-[#121216]/60">
+              <td className="py-2.5 px-3 text-white">Conservador (80% agenda, 15% falta)</td>
+              <td className="py-2.5 px-3 font-mono">
+                {conservadorMetrics.sessoesAgendadas} agendadas
               </td>
-              <td className="py-2.5 px-3">{conservadorMetrics.sessoesAgendadas} agendadas</td>
-              <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
+              <td className="py-2.5 px-3 font-mono font-bold text-white">
                 {formatBRL(conservadorMetrics.pisoMinimoSessao)}
               </td>
               <td className="py-2.5 px-3 font-mono">
                 {formatBRL(conservadorMetrics.faturamentoBruto)}
               </td>
               <td className="py-2.5 px-3">
-                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-mono font-semibold bg-[#18181B] text-[#A1A1AA] border border-[#27272A]">
                   Resguardo
                 </span>
               </td>
             </tr>
 
             {/* Cenário Otimista */}
-            <tr className="bg-white dark:bg-slate-900">
-              <td className="py-2.5 px-3 text-slate-700 dark:text-slate-300">
-                Otimista (5% falta, 12% reserva)
+            <tr className="bg-[#121216]/40">
+              <td className="py-2.5 px-3 text-white">Otimista (5% falta, 12% reserva)</td>
+              <td className="py-2.5 px-3 font-mono">
+                {otimistaMetrics.sessoesAgendadas} agendadas
               </td>
-              <td className="py-2.5 px-3">{otimistaMetrics.sessoesAgendadas} agendadas</td>
-              <td className="py-2.5 px-3 font-mono font-bold text-slate-900 dark:text-white">
+              <td className="py-2.5 px-3 font-mono font-bold text-white">
                 {formatBRL(otimistaMetrics.pisoMinimoSessao)}
               </td>
               <td className="py-2.5 px-3 font-mono">
                 {formatBRL(otimistaMetrics.faturamentoBruto)}
               </td>
               <td className="py-2.5 px-3">
-                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <span className="px-2 py-0.5 rounded-[4px] text-[10px] font-mono font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-500/40">
                   Alta Eficiência
                 </span>
               </td>
@@ -218,15 +219,15 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
 
       {/* Lista de Cenários Salvos pelo Usuário */}
       {scenarios.length > 0 && (
-        <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+        <div className="space-y-3 pt-3 border-t border-[#27272A]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
               Seus Cenários Salvos ({scenarios.length})
             </span>
             <button
               type="button"
               onClick={onClearAll}
-              className="text-[11px] text-rose-600 hover:text-rose-700 underline"
+              className="text-[11px] font-mono text-rose-400 hover:text-rose-300 underline"
             >
               Limpar todos
             </button>
@@ -236,14 +237,12 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
             {scenarios.map((sc) => (
               <div
                 key={sc.id}
-                className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                className="p-3.5 rounded-[12px] bg-[#121216] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
               >
                 <div className="space-y-0.5">
-                  <span className="font-semibold text-slate-900 dark:text-slate-100 block">
-                    {sc.name}
-                  </span>
-                  {sc.notes && <p className="text-[11px] text-slate-500 italic">{sc.notes}</p>}
-                  <div className="flex items-center gap-3 text-[11px] text-slate-600 dark:text-slate-400 font-mono pt-1">
+                  <span className="font-sans font-semibold text-white block">{sc.name}</span>
+                  {sc.notes && <p className="text-[11px] text-[#71717A] italic">{sc.notes}</p>}
+                  <div className="flex items-center gap-3 text-[11px] text-[#A1A1AA] font-mono pt-1">
                     <span>Piso: {formatBRL(sc.vMin)}</span>
                     <span>•</span>
                     <span>Bruto: {formatBRL(sc.fBruto)}</span>
@@ -258,7 +257,7 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
                       onLoadScenario(sc)
                       toast.info(`Cenário "${sc.name}" carregado com sucesso!`)
                     }}
-                    className="h-8 gap-1 text-xs"
+                    className="h-8 gap-1 text-xs border-[#27272A] bg-[#0A0A14] text-[#C084FC] hover:text-white rounded-[6px]"
                   >
                     <UploadCloud className="w-3.5 h-3.5" />
                     Carregar
@@ -267,7 +266,7 @@ export const SavedScenariosManager: React.FC<ScenariosManagerProps> = ({
                     variant="ghost"
                     size="icon"
                     onClick={() => onDeleteScenario(sc.id)}
-                    className="h-8 w-8 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950"
+                    className="h-8 w-8 text-rose-400 hover:bg-rose-950/40 rounded-[6px]"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>

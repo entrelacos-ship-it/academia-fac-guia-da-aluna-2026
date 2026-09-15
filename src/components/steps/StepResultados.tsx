@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Sparkles,
-  Printer,
   ArrowRight,
   ArrowLeft,
   AlertOctagon,
   CheckCircle2,
   Scale,
-  TrendingDown,
-  TrendingUp,
   FileDown,
+  LayoutDashboard,
+  BarChart3,
+  CalendarDays,
+  Wrench,
+  Bot,
+  Receipt,
+  Percent,
+  FileCheck2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { PricingState, CalculationResult, CFP_VALUES } from '@/types/pricing'
-import { formatBRL, formatNumberBR } from '@/lib/currency'
+import { formatBRL } from '@/lib/currency'
 import { FinancialBreakdownCharts } from '@/components/results/FinancialBreakdownCharts'
 import { IdealRevenueGoalCalculator } from '@/components/results/IdealRevenueGoalCalculator'
 import { SensitivityAnalysis } from '@/components/results/SensitivityAnalysis'
@@ -26,9 +30,10 @@ import { TaxSimulatorModule } from '@/components/results/TaxSimulatorModule'
 import { AnnualReadjustmentModule } from '@/components/results/AnnualReadjustmentModule'
 import { ClinicalContractModule } from '@/components/results/ClinicalContractModule'
 import { FinancialPlanningModule } from '@/components/results/FinancialPlanningModule'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calculator, Receipt, Percent, FileCheck2, BarChart3, Compass } from 'lucide-react'
+import { StepModelos } from '@/components/steps/StepModelos'
 import { SavedScenario } from '@/types/pricing'
+import { ResultsSubmenu } from '@/lib/strategicInsightsEngine'
+import { cn } from '@/lib/utils'
 
 interface StepResultadosProps {
   state: PricingState
@@ -44,6 +49,52 @@ interface StepResultadosProps {
   onPrev: () => void
 }
 
+interface SubmenuItem {
+  id: ResultsSubmenu
+  label: string
+  shortLabel: string
+  description: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
+const SUBMENUS: SubmenuItem[] = [
+  {
+    id: 'visao_geral',
+    label: 'Visão Geral',
+    shortLabel: 'Visão Geral',
+    description: 'Piso Ético FAC, lacuna de faturamento e gráfico donut de decomposição.',
+    icon: LayoutDashboard,
+  },
+  {
+    id: 'analises',
+    label: 'Análises',
+    shortLabel: 'Análises',
+    description: 'Barras mensais, análise de sensibilidade e comparativo dos 4 modelos clínicos.',
+    icon: BarChart3,
+  },
+  {
+    id: 'planejamento',
+    label: 'Planejamento',
+    shortLabel: 'Planejamento',
+    description: 'Meta reversa sem burnout, cenários salvos e planejamento financeiro em 4 seções.',
+    icon: CalendarDays,
+  },
+  {
+    id: 'ferramentas',
+    label: 'Ferramentas',
+    shortLabel: 'Ferramentas',
+    description: 'Transição tributária PF×PJ, reajuste anual por inflação e proposta/contrato.',
+    icon: Wrench,
+  },
+  {
+    id: 'consultor',
+    label: 'Consultor',
+    shortLabel: 'Consultor',
+    description: 'Insights estratégicos priorizados e consultor heurístico inteligente.',
+    icon: Bot,
+  },
+]
+
 export const StepResultados: React.FC<StepResultadosProps> = ({
   state,
   calculation,
@@ -57,9 +108,10 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
   onNext,
   onPrev,
 }) => {
-  const [activeTab, setActiveTab] = React.useState<
-    'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato'
-  >('painel')
+  const [activeSubmenu, setActiveSubmenu] = useState<ResultsSubmenu>('visao_geral')
+  const [activeFerramentaTab, setActiveFerramentaTab] = useState<
+    'tributario' | 'reajuste' | 'contrato'
+  >('tributario')
 
   const handlePrint = () => {
     window.print()
@@ -69,6 +121,22 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
     const el = document.getElementById(elementId)
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  const handleNavigateSubmenu = (
+    submenu: ResultsSubmenu,
+    submodule?: 'tributario' | 'reajuste' | 'contrato',
+    anchorId?: string,
+  ) => {
+    setActiveSubmenu(submenu)
+    if (submodule) {
+      setActiveFerramentaTab(submodule)
+    }
+    if (anchorId) {
+      setTimeout(() => {
+        handleScrollToSection(anchorId)
+      }, 150)
     }
   }
 
@@ -82,11 +150,15 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18181B] border border-[#27272A] text-[11px] font-mono font-semibold uppercase tracking-wider text-[#C084FC]">
             <Sparkles className="w-3.5 h-3.5 text-[#FB923C]" />
-            <span>PASSO 6 · PAINEL EXECUTIVO ASTRAL</span>
+            <span>PASSO 6 · CENTRAL DE RESULTADOS</span>
           </div>
           <h2 className="font-sans text-2xl sm:text-3xl font-semibold text-white mt-1.5">
-            Seu Piso Ético e Diagnóstico Clínico
+            Central de Resultados & Tomada de Decisão
           </h2>
+          <p className="text-xs sm:text-sm text-[#A1A1AA] mt-0.5">
+            Navegue pelos 5 submenus organizados por intenção de uso para analisar, planejar e
+            formalizar sua clínica.
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -102,289 +174,565 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         </div>
       </div>
 
-      {/* Navegação por Abas Principais do Passo 6 */}
-      <Tabs
-        value={activeTab}
-        onValueChange={(val) =>
-          setActiveTab(val as 'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato')
-        }
-        className="w-full print:hidden"
-      >
-        <div className="overflow-x-auto pb-1">
-          <TabsList className="bg-[#0A0A14] border border-[#27272A] p-1 rounded-[12px] h-auto inline-flex min-w-full sm:min-w-0">
-            <TabsTrigger
-              value="painel"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
+      {/* HUB COM NAVEGAÇÃO: Abas horizontais no mobile (<1024px) / Layout com Sidebar no Desktop (>=1024px) */}
+      <div className="print:hidden">
+        {/* Navegação Mobile / Tablet (<1024px): scroll horizontal */}
+        <div className="lg:hidden mb-6">
+          <div className="overflow-x-auto pb-1 scrollbar-none">
+            <nav
+              className="bg-[#0A0A14] border border-[#27272A] p-1.5 rounded-[12px] inline-flex min-w-full gap-1"
+              aria-label="Submenus da Central de Resultados"
             >
-              <BarChart3 className="w-4 h-4" />
-              <span>PAINEL EXECUTIVO</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="planejamento"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#FB923C] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
-            >
-              <Compass className="w-4 h-4" />
-              <span>PLANEJAMENTO FINANCEIRO</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="tributario"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
-            >
-              <Receipt className="w-4 h-4" />
-              <span>TRANSIÇÃO TRIBUTÁRIA</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="reajuste"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#FB923C] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
-            >
-              <Percent className="w-4 h-4" />
-              <span>REAJUSTE ANUAL</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="contrato"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
-            >
-              <FileCheck2 className="w-4 h-4" />
-              <span>PROPOSTA & CONTRATO</span>
-            </TabsTrigger>
-          </TabsList>
+              {SUBMENUS.map((item) => {
+                const Icon = item.icon
+                const isActive = activeSubmenu === item.id
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setActiveSubmenu(item.id)}
+                    className={cn(
+                      'flex items-center gap-2 py-2 px-3 text-xs font-mono font-semibold rounded-[8px] whitespace-nowrap transition-all duration-200 shrink-0',
+                      isActive
+                        ? 'bg-[#18181B] text-[#C084FC] border border-[#C084FC]/50 shadow-md shadow-[#C084FC]/10'
+                        : 'text-[#A1A1AA] hover:text-white hover:bg-[#18181B]/50 border border-transparent',
+                    )}
+                  >
+                    <Icon
+                      className={cn('w-4 h-4', isActive ? 'text-[#C084FC]' : 'text-[#71717A]')}
+                    />
+                    <span>{item.shortLabel}</span>
+                  </button>
+                )
+              })}
+            </nav>
+          </div>
         </div>
 
-        {/* ABA 1: Painel Executivo Canônico FAC */}
-        <TabsContent value="painel" className="space-y-8 mt-6">
-          {/* MÓDULO A: Cartões Principais (Piso FAC, Lacuna e Comparativo CFP) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Card Destaque do Piso FAC (2 cols no desktop) — Astral Bento */}
-            <div className="lg:col-span-2 p-6 sm:p-8 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-[#C084FC]" />
-              <div className="space-y-2">
-                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C084FC]">
-                  Piso Ético Mínimo Calculado (Método FAC)
-                </span>
-                <div className="flex items-baseline gap-2">
-                  <span className="font-mono text-5xl sm:text-6xl font-bold tracking-tight text-white">
-                    {formatBRL(calculation.pisoMinimoSessao)}
-                  </span>
-                  <span className="text-sm font-mono text-[#A1A1AA]">/ sessão</span>
-                </div>
-                <p className="text-xs text-[#A1A1AA] leading-relaxed max-w-xl">
-                  Este é o valor mínimo por atendimento necessário para cobrir rigorosamente seu
-                  custo de vida, consultório, supervisão contínua, reserva técnica de{' '}
-                  {state.reservaPct}% e impostos ({state.tributosPct}%).
-                </p>
+        {/* Layout Desktop (>=1024px): Sidebar à esquerda + Conteúdo à direita */}
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+          {/* Sidebar Vertical Desktop */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-6 space-y-3">
+            <div className="p-3 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl space-y-1.5">
+              <div className="px-3 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[#71717A]">
+                SUBMENUS DA CENTRAL
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-[#27272A] text-xs font-mono">
-                <div>
-                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
-                    Faturamento Bruto Alvo
-                  </span>
-                  <span className="text-base font-bold text-white mt-0.5 block">
-                    {formatBRL(calculation.faturamentoBruto)}
-                  </span>
-                  <span className="text-[10px] text-[#71717A]">ao mês</span>
-                </div>
-
-                <div>
-                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
-                    Sessões Efetivas
-                  </span>
-                  <span className="text-base font-bold text-white mt-0.5 block">
-                    {calculation.sessoesEfetivas} / mês
-                  </span>
-                  <span className="text-[10px] text-[#71717A]">
-                    ({state.sessoesPorSemana} sem. - {state.taxaFaltaPct}% falta)
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
-                    Markup Divisor
-                  </span>
-                  <span className="text-base font-bold text-[#C084FC] mt-0.5 block">
-                    {calculation.divisor.toFixed(2)}
-                  </span>
-                  <span className="text-[10px] text-[#71717A]">
-                    ({state.reservaPct}% res. + {state.tributosPct}% imp.)
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card Diagnóstico da Lacuna (Gap Analysis) — Astral Surface */}
-            <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between">
-              <div className="space-y-3">
-                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA] block">
-                  Diagnóstico de Lacuna (Gap)
-                </span>
-
-                {calculation.hasPrecoAtual ? (
-                  calculation.isDeficit ? (
-                    <div className="space-y-3">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 border border-rose-500/40 text-rose-300">
-                        <AlertOctagon className="w-3.5 h-3.5" />
-                        DÉFICIT CLÍNICO
+              <nav className="space-y-1" aria-label="Navegação lateral do Passo 6">
+                {SUBMENUS.map((item) => {
+                  const Icon = item.icon
+                  const isActive = activeSubmenu === item.id
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setActiveSubmenu(item.id)}
+                      className={cn(
+                        'w-full flex items-center gap-3 p-3 text-left rounded-[10px] transition-all duration-200 group relative',
+                        isActive
+                          ? 'bg-[#0A0A14] text-white border border-[#C084FC]/60 shadow-lg shadow-[#C084FC]/10'
+                          : 'text-[#A1A1AA] hover:text-white hover:bg-[#0A0A14]/50 border border-transparent',
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          'w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border transition-colors',
+                          isActive
+                            ? 'bg-[#18181B] border-[#C084FC] text-[#C084FC]'
+                            : 'bg-[#121216] border-[#27272A] text-[#71717A] group-hover:text-[#A1A1AA]',
+                        )}
+                      >
+                        <Icon className="w-4 h-4" />
                       </div>
 
-                      <div className="space-y-1">
-                        <div className="text-xs text-[#A1A1AA]">Defasagem por atendimento:</div>
-                        <div className="font-mono text-2xl font-bold text-rose-400">
-                          -{formatBRL(calculation.deltaSessao)}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={cn(
+                              'font-sans text-sm font-semibold truncate',
+                              isActive ? 'text-white' : 'text-[#A1A1AA] group-hover:text-white',
+                            )}
+                          >
+                            {item.label}
+                          </span>
+                          {isActive && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#C084FC] animate-pulse" />
+                          )}
                         </div>
+                        <p className="text-[11px] text-[#71717A] truncate font-sans">
+                          {item.shortLabel}
+                        </p>
                       </div>
-
-                      <div className="p-3 rounded-[8px] bg-[#121216] border border-rose-900/40 text-xs text-rose-200 space-y-1 font-mono">
-                        <div className="flex justify-between">
-                          <span>Déficit Mensal:</span>
-                          <strong>{formatBRL(calculation.deltaMensal)}</strong>
-                        </div>
-                        <div className="flex justify-between font-bold pt-1 border-t border-rose-900/40">
-                          <span>Prejuízo Anual:</span>
-                          <strong>{formatBRL(calculation.prejuizoAnualProjetado)}</strong>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0A0A14] border border-[#FB923C]/40 text-[#FB923C]">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        SUSTENTÁVEL
-                      </div>
-
-                      <div className="space-y-1">
-                        <div className="text-xs text-[#A1A1AA]">Margem positiva por sessão:</div>
-                        <div className="font-mono text-2xl font-bold text-[#FB923C]">
-                          +{formatBRL(Math.abs(calculation.deltaSessao))}
-                        </div>
-                      </div>
-
-                      <div className="p-3 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] font-mono">
-                        Sua clínica gera superávit mensal de{' '}
-                        <strong className="text-white">
-                          {formatBRL(Math.abs(calculation.deltaMensal))}
-                        </strong>{' '}
-                        sobre o piso mínimo.
-                      </div>
-                    </div>
+                    </button>
                   )
-                ) : (
-                  <div className="p-4 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] space-y-2">
-                    <p>Você não informou seu preço atual no Passo 5.</p>
-                    <p className="text-[11px] font-mono text-[#71717A]">
-                      Preencha o valor atual para comparar sua remuneração real e descobrir seu
-                      eventual déficit clínico.
-                    </p>
-                  </div>
-                )}
-              </div>
+                })}
+              </nav>
 
-              {/* Comparativo com Faixas CFP */}
-              <div className="pt-4 mt-4 border-t border-[#27272A] space-y-2">
-                <span className="text-[11px] font-mono font-semibold text-[#A1A1AA] flex items-center gap-1">
-                  <Scale className="w-3.5 h-3.5 text-[#C084FC]" />
-                  COMPARATIVO TABELA CFP:
+              {/* Mini resumo de piso fixado na sidebar */}
+              <div className="pt-3 mt-3 border-t border-[#27272A] px-2 py-1">
+                <span className="text-[10px] font-mono text-[#71717A] uppercase block">
+                  Piso FAC Calculado
                 </span>
-                <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-mono">
-                  <div
-                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'inferior' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
-                  >
-                    <div>Inferior</div>
-                    <div>{formatBRL(CFP_VALUES.inferior)}</div>
+                <span className="font-mono text-lg font-bold text-[#C084FC] block">
+                  {formatBRL(calculation.pisoMinimoSessao)}
+                </span>
+                <span className="text-[10px] font-mono text-[#71717A]">
+                  {calculation.sessoesEfetivas} sessões efetivas/mês
+                </span>
+              </div>
+            </div>
+          </aside>
+
+          {/* Área Principal de Conteúdo (Colunas 4-12 no desktop) */}
+          <main className="lg:col-span-9 space-y-8 min-w-0">
+            {/* ================================================================= */}
+            {/* SUBMENU 1: VISÃO GERAL (limpa, curta, essencial)                  */}
+            {/* ================================================================= */}
+            {activeSubmenu === 'visao_geral' && (
+              <div className="space-y-8 animate-fadeIn">
+                {/* Cabeçalho da subpágina */}
+                <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center">
+                      <LayoutDashboard className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-base font-semibold text-white">
+                        1. Visão Geral Essencial
+                      </h3>
+                      <p className="text-xs text-[#A1A1AA]">
+                        O diagnóstico nuclear do seu trabalho: Piso Ético, lacuna de honorários e
+                        destino de cada centavo.
+                      </p>
+                    </div>
                   </div>
-                  <div
-                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'medio' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
-                  >
-                    <div>Médio</div>
-                    <div>{formatBRL(CFP_VALUES.medio)}</div>
+                  <span className="text-[11px] font-mono text-[#C084FC] bg-[#0A0A14] px-2.5 py-1 rounded-[6px] border border-[#27272A]">
+                    FOCO TOTAL
+                  </span>
+                </div>
+
+                {/* Cards Principais: Piso FAC + Lacuna & CFP */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Card Destaque do Piso FAC (2 cols no desktop) — Astral Bento */}
+                  <div className="lg:col-span-2 p-6 sm:p-8 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1.5 h-full bg-[#C084FC]" />
+                    <div className="space-y-2">
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C084FC]">
+                        Piso Ético Mínimo Calculado (Método FAC)
+                      </span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-mono text-5xl sm:text-6xl font-bold tracking-tight text-white">
+                          {formatBRL(calculation.pisoMinimoSessao)}
+                        </span>
+                        <span className="text-sm font-mono text-[#A1A1AA]">/ sessão</span>
+                      </div>
+                      <p className="text-xs text-[#A1A1AA] leading-relaxed max-w-xl">
+                        Este é o valor mínimo por atendimento necessário para cobrir rigorosamente
+                        seu custo de vida, consultório, supervisão contínua, reserva técnica de{' '}
+                        {state.reservaPct}% e impostos ({state.tributosPct}%).
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-[#27272A] text-xs font-mono">
+                      <div>
+                        <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
+                          Faturamento Bruto Alvo
+                        </span>
+                        <span className="text-base font-bold text-white mt-0.5 block">
+                          {formatBRL(calculation.faturamentoBruto)}
+                        </span>
+                        <span className="text-[10px] text-[#71717A]">ao mês</span>
+                      </div>
+
+                      <div>
+                        <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
+                          Sessões Efetivas
+                        </span>
+                        <span className="text-base font-bold text-white mt-0.5 block">
+                          {calculation.sessoesEfetivas} / mês
+                        </span>
+                        <span className="text-[10px] text-[#71717A]">
+                          ({state.sessoesPorSemana} sem. - {state.taxaFaltaPct}% falta)
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
+                          Markup Divisor
+                        </span>
+                        <span className="text-base font-bold text-[#C084FC] mt-0.5 block">
+                          {calculation.divisor.toFixed(2)}
+                        </span>
+                        <span className="text-[10px] text-[#71717A]">
+                          ({state.reservaPct}% res. + {state.tributosPct}% imp.)
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'superior' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
-                  >
-                    <div>Superior</div>
-                    <div>{formatBRL(CFP_VALUES.superior)}</div>
+
+                  {/* Card Diagnóstico da Lacuna (Gap Analysis) + Comparativo CFP */}
+                  <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA] block">
+                        Diagnóstico de Lacuna (Gap)
+                      </span>
+
+                      {calculation.hasPrecoAtual ? (
+                        calculation.isDeficit ? (
+                          <div className="space-y-3">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 border border-rose-500/40 text-rose-300">
+                              <AlertOctagon className="w-3.5 h-3.5" />
+                              DÉFICIT CLÍNICO
+                            </div>
+
+                            <div className="space-y-1">
+                              <div className="text-xs text-[#A1A1AA]">
+                                Defasagem por atendimento:
+                              </div>
+                              <div className="font-mono text-2xl font-bold text-rose-400">
+                                -{formatBRL(calculation.deltaSessao)}
+                              </div>
+                            </div>
+
+                            <div className="p-3 rounded-[8px] bg-[#121216] border border-rose-900/40 text-xs text-rose-200 space-y-1 font-mono">
+                              <div className="flex justify-between">
+                                <span>Déficit Mensal:</span>
+                                <strong>{formatBRL(calculation.deltaMensal)}</strong>
+                              </div>
+                              <div className="flex justify-between font-bold pt-1 border-t border-rose-900/40">
+                                <span>Prejuízo Anual:</span>
+                                <strong>{formatBRL(calculation.prejuizoAnualProjetado)}</strong>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-3">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0A0A14] border border-[#FB923C]/40 text-[#FB923C]">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              SUSTENTÁVEL
+                            </div>
+
+                            <div className="space-y-1">
+                              <div className="text-xs text-[#A1A1AA]">
+                                Margem positiva por sessão:
+                              </div>
+                              <div className="font-mono text-2xl font-bold text-[#FB923C]">
+                                +{formatBRL(Math.abs(calculation.deltaSessao))}
+                              </div>
+                            </div>
+
+                            <div className="p-3 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] font-mono">
+                              Sua clínica gera superávit mensal de{' '}
+                              <strong className="text-white">
+                                {formatBRL(Math.abs(calculation.deltaMensal))}
+                              </strong>{' '}
+                              sobre o piso mínimo.
+                            </div>
+                          </div>
+                        )
+                      ) : (
+                        <div className="p-4 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] space-y-2">
+                          <p>Você não informou seu preço atual no Passo 5.</p>
+                          <p className="text-[11px] font-mono text-[#71717A]">
+                            Preencha o valor atual para comparar sua remuneração real e descobrir
+                            seu eventual déficit clínico.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Comparativo com Faixas CFP */}
+                    <div className="pt-4 mt-4 border-t border-[#27272A] space-y-2">
+                      <span className="text-[11px] font-mono font-semibold text-[#A1A1AA] flex items-center gap-1">
+                        <Scale className="w-3.5 h-3.5 text-[#C084FC]" />
+                        COMPARATIVO TABELA CFP:
+                      </span>
+                      <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-mono">
+                        <div
+                          className={`p-1.5 rounded-[6px] border ${
+                            calculation.cfpFaixaAtingida === 'inferior'
+                              ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]'
+                              : 'border-[#27272A] bg-[#121216] text-[#71717A]'
+                          }`}
+                        >
+                          <div>Inferior</div>
+                          <div>{formatBRL(CFP_VALUES.inferior)}</div>
+                        </div>
+                        <div
+                          className={`p-1.5 rounded-[6px] border ${
+                            calculation.cfpFaixaAtingida === 'medio'
+                              ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]'
+                              : 'border-[#27272A] bg-[#121216] text-[#71717A]'
+                          }`}
+                        >
+                          <div>Médio</div>
+                          <div>{formatBRL(CFP_VALUES.medio)}</div>
+                        </div>
+                        <div
+                          className={`p-1.5 rounded-[6px] border ${
+                            calculation.cfpFaixaAtingida === 'superior'
+                              ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]'
+                              : 'border-[#27272A] bg-[#121216] text-[#71717A]'
+                          }`}
+                        >
+                          <div>Superior</div>
+                          <div>{formatBRL(CFP_VALUES.superior)}</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Gráfico Donut: Decomposição Financeira Visual (para onde vai cada centavo da sessão) */}
+                <div>
+                  <FinancialBreakdownCharts calculation={calculation} />
+                </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* MÓDULO ESTRATÉGICO: Insights e Recomendações Acionáveis */}
-          <div id="insights-section">
-            <StrategicInsights
-              state={state}
-              calculation={calculation}
-              onNavigateTab={(tab) => setActiveTab(tab)}
-              onNavigateStep={onSelectStep}
-              onScrollToSection={handleScrollToSection}
-            />
-          </div>
+            {/* ================================================================= */}
+            {/* SUBMENU 2: ANÁLISES (barras mensais, sensibilidade, 4 modelos)     */}
+            {/* ================================================================= */}
+            {activeSubmenu === 'analises' && (
+              <div className="space-y-8 animate-fadeIn">
+                <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C] flex items-center justify-center">
+                      <BarChart3 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-base font-semibold text-white">
+                        2. Análises Avançadas de Precificação
+                      </h3>
+                      <p className="text-xs text-[#A1A1AA]">
+                        Decomposição em barras, simulação dinâmica de sensibilidade e avaliação
+                        comparativa dos 4 modelos clínicos.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#FB923C] bg-[#0A0A14] px-2.5 py-1 rounded-[6px] border border-[#27272A]">
+                    3 MÓDULOS DE ANÁLISE
+                  </span>
+                </div>
 
-          {/* MÓDULO B: Visualização Gráfica Interativa (Recharts) */}
-          <div>
-            <FinancialBreakdownCharts calculation={calculation} />
-          </div>
+                {/* 1. Decomposição Financeira (Barras e Por Sessão) */}
+                <div>
+                  <FinancialBreakdownCharts calculation={calculation} />
+                </div>
 
-          {/* MÓDULO C & D: Planejador Reverso + Sensibilidade (2 cols desktop) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div id="meta-section">
-              <IdealRevenueGoalCalculator
-                state={state}
-                calculation={calculation}
-                onAdjustGrade={onAdjustGrade}
-              />
-            </div>
-            <div id="sensibilidade-section">
-              <SensitivityAnalysis baseState={state} baseCalculation={calculation} />
-            </div>
-          </div>
+                {/* 2. Análise de Sensibilidade */}
+                <div id="sensibilidade-section">
+                  <SensitivityAnalysis baseState={state} baseCalculation={calculation} />
+                </div>
 
-          {/* MÓDULO E & F: Gerenciador de Cenários + Consultor Inteligente (2 cols desktop) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SavedScenariosManager
-              currentState={state}
-              currentCalculation={calculation}
-              scenarios={scenarios}
-              onSaveScenario={onSaveScenario}
-              onLoadScenario={onLoadScenario}
-              onDeleteScenario={onDeleteScenario}
-              onClearAll={onClearAllScenarios}
-            />
-            <AIAdvisor calculation={calculation} />
-          </div>
-        </TabsContent>
+                {/* 3. Comparativo dos 4 Modelos Clínicos */}
+                <div className="pt-2">
+                  <StepModelos
+                    onReset={() => {
+                      if (onSelectStep) onSelectStep(0)
+                    }}
+                    onKeepData={() => setActiveSubmenu('visao_geral')}
+                    onPrev={() => setActiveSubmenu('visao_geral')}
+                  />
+                </div>
+              </div>
+            )}
 
-        {/* ABA NOVA: Módulo de Planejamento Financeiro */}
-        <TabsContent value="planejamento" className="mt-6">
-          <FinancialPlanningModule state={state} calculation={calculation} />
-        </TabsContent>
+            {/* ================================================================= */}
+            {/* SUBMENU 3: PLANEJAMENTO (meta reversa, cenários, fin planning)     */}
+            {/* ================================================================= */}
+            {activeSubmenu === 'planejamento' && (
+              <div className="space-y-8 animate-fadeIn">
+                <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center">
+                      <CalendarDays className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-base font-semibold text-white">
+                        3. Planejamento Clínico & Patrimonial
+                      </h3>
+                      <p className="text-xs text-[#A1A1AA]">
+                        Meta reversa com proteção de burnout, comparador de cenários salvos e
+                        planejamento financeiro em 4 seções.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#C084FC] bg-[#0A0A14] px-2.5 py-1 rounded-[6px] border border-[#27272A]">
+                    SUSTENTABILIDADE
+                  </span>
+                </div>
 
-        {/* ABA 2: Módulo 1 - Simulador de Transição Tributária */}
-        <TabsContent value="tributario" className="mt-6">
-          <TaxSimulatorModule
-            initialFaturamento={calculation.faturamentoBruto}
-            initialDespesasProfissionais={calculation.somaCustosProfissionais}
-            reservaPct={state.reservaPct}
-          />
-        </TabsContent>
+                {/* 1. Planejador Reverso de Meta (com alerta de burnout >28 e botão Ajustar Grade) */}
+                <div id="meta-section">
+                  <IdealRevenueGoalCalculator
+                    state={state}
+                    calculation={calculation}
+                    onAdjustGrade={onAdjustGrade}
+                  />
+                </div>
 
-        {/* ABA 3: Módulo 2 - Reajuste Anual por Índice */}
-        <TabsContent value="reajuste" className="mt-6">
-          <AnnualReadjustmentModule
-            initialHonorario={calculation.pisoMinimoSessao}
-            sessoesEfetivas={calculation.sessoesEfetivas}
-            precoAtualCadastrado={state.precoAtual}
-          />
-        </TabsContent>
+                {/* 2. Gerenciador de Cenários (Base, Conservador, Otimista + salvos) */}
+                <div id="cenarios-section">
+                  <SavedScenariosManager
+                    currentState={state}
+                    currentCalculation={calculation}
+                    scenarios={scenarios}
+                    onSaveScenario={onSaveScenario}
+                    onLoadScenario={onLoadScenario}
+                    onDeleteScenario={onDeleteScenario}
+                    onClearAll={onClearAllScenarios}
+                  />
+                </div>
 
-        {/* ABA 4: Módulo 3 - Contrato Clínico & Proposta */}
-        <TabsContent value="contrato" className="mt-6">
-          <ClinicalContractModule
-            initialPisoFac={calculation.pisoMinimoSessao}
-            precoAtual={state.precoAtual}
-            taxaFaltaPct={state.taxaFaltaPct}
-          />
-        </TabsContent>
-      </Tabs>
+                {/* 3. Módulo de Planejamento Financeiro Completo (4 seções internas) */}
+                <div id="planejamento-financeiro-section">
+                  <FinancialPlanningModule state={state} calculation={calculation} />
+                </div>
+              </div>
+            )}
+
+            {/* ================================================================= */}
+            {/* SUBMENU 4: FERRAMENTAS (Tributos PF×PJ, Reajuste, Contrato)       */}
+            {/* ================================================================= */}
+            {activeSubmenu === 'ferramentas' && (
+              <div className="space-y-6 animate-fadeIn">
+                <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C] flex items-center justify-center">
+                      <Wrench className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-base font-semibold text-white">
+                        4. Ferramentas Práticas de Gestão
+                      </h3>
+                      <p className="text-xs text-[#A1A1AA]">
+                        Simulação tributária PF×PJ com ponto de virada, reajuste por inflação
+                        oficial e minuta de contrato.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Seletor interno das 3 ferramentas */}
+                <div className="overflow-x-auto pb-1">
+                  <div className="bg-[#0A0A14] border border-[#27272A] p-1 rounded-[10px] inline-flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setActiveFerramentaTab('tributario')}
+                      className={cn(
+                        'flex items-center gap-2 py-2 px-3.5 text-xs font-mono font-semibold rounded-[8px] transition-all',
+                        activeFerramentaTab === 'tributario'
+                          ? 'bg-[#18181B] text-[#C084FC] border border-[#27272A]'
+                          : 'text-[#A1A1AA] hover:text-white',
+                      )}
+                    >
+                      <Receipt className="w-4 h-4" />
+                      <span>TRANSIÇÃO TRIBUTÁRIA PF×PJ</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFerramentaTab('reajuste')}
+                      className={cn(
+                        'flex items-center gap-2 py-2 px-3.5 text-xs font-mono font-semibold rounded-[8px] transition-all',
+                        activeFerramentaTab === 'reajuste'
+                          ? 'bg-[#18181B] text-[#FB923C] border border-[#27272A]'
+                          : 'text-[#A1A1AA] hover:text-white',
+                      )}
+                    >
+                      <Percent className="w-4 h-4" />
+                      <span>REAJUSTE ANUAL (IPCA/IGP-M)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFerramentaTab('contrato')}
+                      className={cn(
+                        'flex items-center gap-2 py-2 px-3.5 text-xs font-mono font-semibold rounded-[8px] transition-all',
+                        activeFerramentaTab === 'contrato'
+                          ? 'bg-[#18181B] text-[#C084FC] border border-[#27272A]'
+                          : 'text-[#A1A1AA] hover:text-white',
+                      )}
+                    >
+                      <FileCheck2 className="w-4 h-4" />
+                      <span>PROPOSTA & CONTRATO CLÍNICO</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Conteúdo da Ferramenta Selecionada */}
+                <div className="mt-4">
+                  {activeFerramentaTab === 'tributario' && (
+                    <TaxSimulatorModule
+                      initialFaturamento={calculation.faturamentoBruto}
+                      initialDespesasProfissionais={calculation.somaCustosProfissionais}
+                      reservaPct={state.reservaPct}
+                    />
+                  )}
+
+                  {activeFerramentaTab === 'reajuste' && (
+                    <AnnualReadjustmentModule
+                      initialHonorario={calculation.pisoMinimoSessao}
+                      sessoesEfetivas={calculation.sessoesEfetivas}
+                      precoAtualCadastrado={state.precoAtual}
+                    />
+                  )}
+
+                  {activeFerramentaTab === 'contrato' && (
+                    <ClinicalContractModule
+                      initialPisoFac={calculation.pisoMinimoSessao}
+                      precoAtual={state.precoAtual}
+                      taxaFaltaPct={state.taxaFaltaPct}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* ================================================================= */}
+            {/* SUBMENU 5: CONSULTOR (StrategicInsights + AIAdvisor)               */}
+            {/* ================================================================= */}
+            {activeSubmenu === 'consultor' && (
+              <div className="space-y-8 animate-fadeIn">
+                <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans text-base font-semibold text-white">
+                        5. Consultoria Estratégica & Heurística
+                      </h3>
+                      <p className="text-xs text-[#A1A1AA]">
+                        Diagnósticos automáticos acionáveis e suporte com respostas às dúvidas
+                        clínicas mais frequentes.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#C084FC] bg-[#0A0A14] px-2.5 py-1 rounded-[6px] border border-[#27272A]">
+                    100% PRIVADO
+                  </span>
+                </div>
+
+                {/* 1. Insights Estratégicos Acionáveis */}
+                <div id="insights-section">
+                  <StrategicInsights
+                    state={state}
+                    calculation={calculation}
+                    onNavigateSubmenu={handleNavigateSubmenu}
+                    onNavigateStep={onSelectStep}
+                    onScrollToSection={handleScrollToSection}
+                  />
+                </div>
+
+                {/* 2. Consultor Inteligente Heurístico */}
+                <div id="ai-advisor-section">
+                  <AIAdvisor calculation={calculation} />
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
+      </div>
 
       {/* Barra Inferior de Ação Astral */}
       <div className="flex items-center justify-between pt-6 border-t border-[#27272A] print:hidden">

@@ -25,12 +25,18 @@ import {
   InsightCategory,
   generateStrategicInsights,
   ActionTarget,
+  ResultsSubmenu,
 } from '@/lib/strategicInsightsEngine'
 
 interface StrategicInsightsProps {
   state: PricingState
   calculation: CalculationResult
   onNavigateTab?: (tab: 'painel' | 'planejamento' | 'tributario' | 'reajuste' | 'contrato') => void
+  onNavigateSubmenu?: (
+    submenu: ResultsSubmenu,
+    submodule?: 'tributario' | 'reajuste' | 'contrato',
+    anchorId?: string,
+  ) => void
   onNavigateStep?: (step: number) => void
   onScrollToSection?: (elementId: string) => void
 }
@@ -39,6 +45,7 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
   state,
   calculation,
   onNavigateTab,
+  onNavigateSubmenu,
   onNavigateStep,
   onScrollToSection,
 }) => {
@@ -60,16 +67,32 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
   const handleAction = (insight: StrategicInsight) => {
     if (!insight.action) return
 
-    const { target, tab, step, anchorId } = insight.action
-
-    if (tab && onNavigateTab) {
-      onNavigateTab(tab)
-      return
-    }
+    const { target, tab, submenu, submodule, step, anchorId } = insight.action
 
     if (step !== undefined && onNavigateStep) {
       onNavigateStep(step)
       return
+    }
+
+    if (submenu && onNavigateSubmenu) {
+      onNavigateSubmenu(submenu, submodule, anchorId)
+      return
+    }
+
+    // Fallback legado de tab
+    if (tab) {
+      if (onNavigateSubmenu) {
+        if (tab === 'tributario') onNavigateSubmenu('ferramentas', 'tributario')
+        else if (tab === 'reajuste') onNavigateSubmenu('ferramentas', 'reajuste')
+        else if (tab === 'contrato') onNavigateSubmenu('ferramentas', 'contrato')
+        else if (tab === 'planejamento') onNavigateSubmenu('planejamento')
+        else onNavigateSubmenu('visao_geral')
+        return
+      }
+      if (onNavigateTab) {
+        onNavigateTab(tab)
+        return
+      }
     }
 
     if (anchorId && onScrollToSection) {
