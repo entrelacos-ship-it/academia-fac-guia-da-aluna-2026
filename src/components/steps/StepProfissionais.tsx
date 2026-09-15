@@ -55,16 +55,19 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Banner de Explicação Verde Esmeralda */}
-      <div className="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-[#16746E] text-white shrink-0 mt-0.5">
+      {/* Banner de Explicação Astral */}
+      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-start gap-3">
+        <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C] shrink-0 mt-0.5">
           <Briefcase className="w-4 h-4" />
         </div>
         <div>
-          <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
-            Passo 2: Custos Profissionais da Prática Clínica
+          <span className="text-[10px] font-mono font-bold text-[#FB923C] uppercase tracking-wider">
+            PASSO 2 / 7
+          </span>
+          <h2 className="font-sans text-lg font-semibold text-white">
+            Custos Profissionais da Prática Clínica
           </h2>
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-0.5">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed mt-0.5">
             Custos operacionais do consultório. Para atender com excelência e segurança ética, você
             precisa manter supervisão, ferramentas e espaço qualificado.
           </p>
@@ -248,49 +251,47 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
         {/* Card Sticky de Totalização Verde Esmeralda */}
         <div className="lg:sticky lg:top-24 space-y-4">
           <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-900/60 shadow-sm space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#16746E] dark:text-emerald-400">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FB923C]">
               Subtotal Profissional
             </span>
 
             <div className="space-y-1">
-              <div className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+              <div className="font-mono text-3xl sm:text-4xl font-bold text-white">
                 {formatBRL(totalProfissionais)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-[#A1A1AA]">
                 Manutenção mensal da sua prática clínica ética
               </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-                <Info className="w-3.5 h-3.5 text-[#16746E] shrink-0" />
+            <div className="pt-4 border-t border-[#27272A] space-y-2">
+              <div className="flex items-center gap-2 text-xs text-[#A1A1AA]">
+                <Info className="w-3.5 h-3.5 text-[#FB923C] shrink-0" />
                 <span>
-                  Supervisão e formação contínua são pilares éticos inegociáveis previstos pelo CFP.
+                  Supervisão e terapia pessoal são custos técnicos obrigatórios para a sustentabilidade
+                  emocional da prática clínica.
                 </span>
               </div>
-            </div>
-          </div>
-        </div>
+            </div>        </div>
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between pt-6 border-t border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-2 border-slate-300 dark:border-slate-700"
+          className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white rounded-[8px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar aos Custos Pessoais
         </Button>
         <Button
           onClick={onNext}
-          className="gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white px-6 font-medium shadow-sm"
+          className="gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#C084FC]/20"
         >
-          Continuar para Retirada Desejada
+          Continuar para Retirada (Pró-Labore)
           <ArrowRight className="w-4 h-4" />
         </Button>
-      </div>
-    </div>
+      </div>    </div>
   )
 }

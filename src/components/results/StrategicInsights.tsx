@@ -89,24 +89,24 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
   const getCategoryIcon = (category: InsightCategory) => {
     switch (category) {
       case 'deficit':
-        return <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+        return <AlertTriangle className="w-4 h-4 text-rose-400" />
       case 'tributos':
-        return <Receipt className="w-4 h-4 text-[#5B3A8E] dark:text-purple-300" />
+        return <Receipt className="w-4 h-4 text-[#C084FC]" />
       case 'faltas':
-        return <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+        return <AlertTriangle className="w-4 h-4 text-[#FB923C]" />
       case 'capacidade':
-        return <Flame className="w-4 h-4 text-rose-500 dark:text-rose-400" />
+        return <Flame className="w-4 h-4 text-[#FB923C]" />
       case 'superavit':
-        return <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+        return <CheckCircle2 className="w-4 h-4 text-emerald-400" />
       case 'retirada':
-        return <Target className="w-4 h-4 text-[#5B3A8E] dark:text-purple-300" />
+        return <Target className="w-4 h-4 text-[#C084FC]" />
       case 'cfp':
-        return <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+        return <Sparkles className="w-4 h-4 text-[#C084FC]" />
       case 'reajuste':
-        return <Percent className="w-4 h-4 text-[#16746E] dark:text-emerald-400" />
+        return <Percent className="w-4 h-4 text-[#FB923C]" />
       case 'reserva':
       default:
-        return <Lightbulb className="w-4 h-4 text-amber-500 dark:text-amber-300" />
+        return <Lightbulb className="w-4 h-4 text-[#C084FC]" />
     }
   }
 
@@ -116,16 +116,16 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-bold border-rose-300 bg-rose-50 text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-300 px-2 py-0.5"
+            className="text-[10px] font-mono font-bold border-[#FB923C]/50 bg-[#0A0A14] text-[#FB923C] px-2 py-0.5 uppercase tracking-wider"
           >
-            Atenção Crítica
+            Prioridade Alta
           </Badge>
         )
       case 'media':
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-bold border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 px-2 py-0.5"
+            className="text-[10px] font-mono font-bold border-[#C084FC]/50 bg-[#0A0A14] text-[#C084FC] px-2 py-0.5 uppercase tracking-wider"
           >
             Oportunidade
           </Badge>
@@ -135,7 +135,7 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
         return (
           <Badge
             variant="outline"
-            className="text-[10px] font-medium border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-400 px-2 py-0.5"
+            className="text-[10px] font-mono font-medium border-[#27272A] bg-[#0A0A14] text-[#A1A1AA] px-2 py-0.5 uppercase tracking-wider"
           >
             Boas Práticas
           </Badge>
@@ -160,110 +160,110 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
   }
 
   return (
-    <Card className="border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
-      {/* Header com identidade Entrelaços */}
-      <CardHeader className="bg-gradient-to-r from-purple-500/5 via-transparent to-emerald-500/5 dark:from-purple-950/20 dark:to-transparent border-b border-slate-100 dark:border-slate-800/80 pb-4">
+    <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px] overflow-hidden">
+      {/* Header com identidade Astral */}
+      <CardHeader className="bg-[#0A0A14] border-b border-[#27272A] pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-[#5B3A8E] text-white flex items-center justify-center shadow-xs">
+              <div className="w-7 h-7 rounded-[8px] bg-[#18181B] border border-[#27272A] text-[#C084FC] flex items-center justify-center">
                 <Lightbulb className="w-4 h-4" />
               </div>
-              <CardTitle className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <CardTitle className="font-sans text-lg font-semibold text-white flex items-center gap-2">
                 Insights Estratégicos & Decisões Clínicas
                 <Badge
                   variant="secondary"
-                  className="bg-[#EDE8F5] text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300 text-xs font-semibold px-2"
+                  className="bg-[#18181B] text-[#C084FC] border border-[#27272A] text-[10px] font-mono font-semibold px-2"
                 >
-                  {insights.length} {insights.length === 1 ? 'dica' : 'dicas'}
+                  {insights.length} INSIGHTS
                 </Badge>
               </CardTitle>
             </div>
-            <CardDescription className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+            <CardDescription className="text-xs text-[#A1A1AA]">
               Diagnósticos curtos e recomendações práticas acionáveis geradas a partir dos seus
               números reais.
             </CardDescription>
           </div>
 
           {highPriorityCount > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs font-semibold text-rose-700 dark:text-rose-300 self-start sm:self-auto shrink-0">
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              <span>{highPriorityCount} ponto(s) de atenção crítica</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#18181B] border border-[#FB923C]/40 text-xs font-mono font-semibold text-[#FB923C] self-start sm:self-auto shrink-0">
+              <span className="w-2 h-2 rounded-full bg-[#FB923C] animate-pulse" />
+              <span>{highPriorityCount} ATENÇÃO CRÍTICA</span>
             </div>
           )}
         </div>
 
-        {/* Filtros rápidos por categoria */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pt-3 pb-1 text-xs">
-          <span className="text-[11px] font-semibold text-slate-500 shrink-0 flex items-center gap-1 mr-1">
+        {/* Filtros rápidos por categoria — Astral Style */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pt-3 pb-1 text-xs font-mono">
+          <span className="text-[10px] font-semibold text-[#71717A] shrink-0 flex items-center gap-1 mr-1 uppercase">
             <Filter className="w-3 h-3" />
-            Filtrar:
+            FILTRAR:
           </span>
           <button
             type="button"
             onClick={() => setSelectedCategory('all')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'all'
-                ? 'bg-[#5B3A8E] text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[#C084FC] text-[#0A0A14] font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Todos ({insights.length})
+            TODOS ({insights.length})
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('deficit')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'deficit'
-                ? 'bg-rose-700 text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[#FB923C] text-[#0A0A14] font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Piso & Lacuna
+            PISO & LACUNA
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('tributos')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'tributos'
-                ? 'bg-[#5B3A8E] text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[#C084FC] text-[#0A0A14] font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Tributos & PF×PJ
+            TRIBUTOS PF×PJ
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('faltas')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'faltas'
-                ? 'bg-amber-600 text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[#FB923C] text-[#0A0A14] font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Faltas
+            FALTAS
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('capacidade')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'capacidade'
-                ? 'bg-rose-700 text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-rose-500 text-white font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Burnout & Grade
+            BURNOUT & GRADE
           </button>
           <button
             type="button"
             onClick={() => setSelectedCategory('reajuste')}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
+            className={`px-2.5 py-1 rounded-[6px] text-xs font-medium transition-all shrink-0 ${
               selectedCategory === 'reajuste'
-                ? 'bg-[#16746E] text-white shadow-xs'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[#FB923C] text-[#0A0A14] font-bold'
+                : 'bg-[#18181B] border border-[#27272A] text-[#A1A1AA] hover:text-white'
             }`}
           >
-            Reajuste
+            REAJUSTE
           </button>
         </div>
       </CardHeader>
@@ -279,16 +279,16 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
             {filteredInsights.map((insight) => (
               <div
                 key={insight.id}
-                className="group relative p-4 rounded-xl bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-900 transition-all flex flex-col justify-between space-y-3 shadow-2xs hover:shadow-xs"
+                className="group relative p-4 rounded-[12px] bg-[#121216] border border-[#27272A] hover:border-[#C084FC]/40 transition-all flex flex-col justify-between space-y-3"
               >
                 {/* Linha Top: Ícone, Título e Badge de Prioridade */}
                 <div className="space-y-1.5">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-md bg-white dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700 shadow-2xs">
+                      <div className="w-6 h-6 rounded-[6px] bg-[#0A0A14] flex items-center justify-center shrink-0 border border-[#27272A]">
                         {getCategoryIcon(insight.category)}
                       </div>
-                      <h4 className="font-sans font-bold text-sm text-slate-900 dark:text-white leading-tight">
+                      <h4 className="font-sans font-semibold text-sm text-white leading-tight">
                         {insight.title}
                       </h4>
                     </div>
@@ -296,31 +296,25 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
                   </div>
 
                   {/* Descrição curta dos dados */}
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-0.5">
+                  <p className="text-xs text-[#A1A1AA] leading-relaxed pt-0.5">
                     {insight.description}
                   </p>
                 </div>
 
                 {/* Badge métrica em destaque (se houver) */}
                 {insight.metricBadge && (
-                  <div
-                    className={`inline-flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs font-medium self-start ${getMetricBadgeStyle(
-                      insight.metricBadge.variant,
-                    )}`}
-                  >
-                    <span className="text-[11px] opacity-80 mr-2">
+                  <div className="inline-flex items-center justify-between px-2.5 py-1.5 rounded-[6px] border border-[#27272A] bg-[#0A0A14] text-xs font-mono self-start text-[#C084FC]">
+                    <span className="text-[10px] text-[#71717A] mr-2 uppercase">
                       {insight.metricBadge.label}:
                     </span>
-                    <strong className="font-mono font-bold">{insight.metricBadge.value}</strong>
+                    <strong className="font-bold">{insight.metricBadge.value}</strong>
                   </div>
                 )}
 
                 {/* Recomendação Prática e Ação de Navegação */}
-                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                  <div className="text-[11px] text-slate-700 dark:text-slate-300 font-medium leading-snug flex-1">
-                    <span className="text-[#5B3A8E] dark:text-purple-400 font-bold mr-1">
-                      Recomendação:
-                    </span>
+                <div className="pt-2 border-t border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                  <div className="text-[11px] text-[#A1A1AA] leading-snug flex-1">
+                    <span className="text-[#C084FC] font-mono font-bold mr-1">RECOMENDAÇÃO:</span>
                     {insight.recommendation}
                   </div>
 
@@ -330,7 +324,7 @@ export const StrategicInsights: React.FC<StrategicInsightsProps> = ({
                       size="sm"
                       variant="ghost"
                       onClick={() => handleAction(insight)}
-                      className="text-xs font-semibold text-[#5B3A8E] dark:text-purple-300 hover:text-[#452A6F] hover:bg-purple-50 dark:hover:bg-purple-950/50 p-1.5 h-auto self-end sm:self-auto shrink-0 gap-1"
+                      className="text-xs font-mono font-semibold text-[#C084FC] hover:text-white hover:bg-[#18181B] p-1.5 h-auto self-end sm:self-auto shrink-0 gap-1 rounded-[6px]"
                     >
                       <span>{insight.action.label}</span>
                       <ChevronRight className="w-3.5 h-3.5" />

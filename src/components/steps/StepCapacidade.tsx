@@ -45,46 +45,49 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
-      {/* Banner */}
-      <div className="p-4 rounded-xl bg-[#F5F2F9] dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-[#5B3A8E] text-white shrink-0 mt-0.5">
-          <CalendarDays className="w-4 h-4" />
+      {/* Banner Astral */}
+      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-start gap-3">
+        <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] shrink-0 mt-0.5">
+          <CalendarDays className="w-4 h-4 text-[#FB923C]" />
         </div>
         <div>
-          <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
-            Passo 5: Capacidade Clínica & Parâmetros de Mercado
+          <span className="text-[10px] font-mono font-bold text-[#C084FC] uppercase tracking-wider">
+            PASSO 5 / 7
+          </span>
+          <h2 className="font-sans text-lg font-semibold text-white">
+            Capacidade Clínica & Parâmetros de Mercado
           </h2>
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-0.5">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed mt-0.5">
             Defina sua grade semanal de atendimentos e considere as faltas reais. Uma agenda
             sustentável protege seu tempo de estudo, prontuário e descanso.
           </p>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-7">
-        {/* Sessões / Semana (Stepper 1-60) */}
+      <div className="bg-[#18181B] rounded-[16px] p-6 sm:p-8 border border-[#27272A] shadow-xl space-y-7">
+        {/* Sessões / Semana (Stepper 1-60) Astral */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 block">
+              <span className="text-sm font-semibold text-white block">
                 Sessões Planejadas por Semana
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] text-[#A1A1AA]">
                 Capacidade máxima realista de atendimentos semanais (1 a 60)
               </span>
             </div>
-            <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+            <div className="flex items-center gap-2 bg-[#0A0A14] border border-[#27272A] p-1 rounded-[8px]">
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 disabled={sessoesPorSemana <= 1}
                 onClick={() => onSetSessoesPorSemana(sessoesPorSemana - 1)}
-                className="h-8 w-8 rounded-lg"
+                className="h-8 w-8 rounded-[6px] text-[#A1A1AA] hover:text-white"
               >
                 <Minus className="w-4 h-4" />
               </Button>
-              <span className="w-12 text-center font-mono font-bold text-lg text-slate-900 dark:text-white">
+              <span className="w-12 text-center font-mono font-bold text-lg text-[#C084FC]">
                 {sessoesPorSemana}
               </span>
               <Button
@@ -93,7 +96,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
                 size="icon"
                 disabled={sessoesPorSemana >= 60}
                 onClick={() => onSetSessoesPorSemana(sessoesPorSemana + 1)}
-                className="h-8 w-8 rounded-lg"
+                className="h-8 w-8 rounded-[6px] text-[#A1A1AA] hover:text-white"
               >
                 <Plus className="w-4 h-4" />
               </Button>
@@ -101,14 +104,14 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
           </div>
         </div>
 
-        {/* Semanas / Mês (Stepper 3-5) */}
-        <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+        {/* Semanas / Mês (Stepper 3-5) Astral */}
+        <div className="space-y-2 pt-4 border-t border-[#27272A]">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 block">
+              <span className="text-sm font-semibold text-white block">
                 Semanas Efetivas por Mês
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] text-[#A1A1AA]">
                 Padrão de 4 semanas de trabalho por mês clínico
               </span>
             </div>
@@ -118,10 +121,10 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
                   key={w}
                   type="button"
                   onClick={() => onSetSemanasPorMes(w)}
-                  className={`w-10 h-9 rounded-lg font-mono font-semibold text-sm transition-all ${
+                  className={`w-12 h-9 rounded-[8px] font-mono font-semibold text-xs transition-all ${
                     semanasPorMes === w
-                      ? 'bg-[#5B3A8E] text-white shadow-2xs'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+                      ? 'bg-[#C084FC] text-[#0A0A14] shadow-sm'
+                      : 'bg-[#0A0A14] border border-[#27272A] text-[#A1A1AA] hover:border-[#3F3F46]'
                   }`}
                 >
                   {w} sem
@@ -131,23 +134,23 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
           </div>
         </div>
 
-        {/* Taxa de Falta % Slider (0-50%) */}
-        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+        {/* Taxa de Falta % Slider (0-50%) Astral */}
+        <div className="space-y-3 pt-4 border-t border-[#27272A]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <div className="p-1.5 rounded-[6px] bg-[#0A0A14] border border-[#27272A] text-[#FB923C]">
                 <CalendarX className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 block">
+                <span className="text-sm font-semibold text-white block">
                   Taxa de Falta e Absenteísmo
                 </span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                <span className="text-[11px] text-[#A1A1AA]">
                   Perda por cancelamentos, feriados e faltas não remuneradas
                 </span>
               </div>
             </div>
-            <span className="font-mono text-lg font-bold text-amber-600 dark:text-amber-400 px-2.5 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900">
+            <span className="font-mono text-lg font-bold text-[#FB923C] px-2.5 py-0.5 rounded-[8px] bg-[#0A0A14] border border-[#27272A]">
               {taxaFalta}%
             </span>
           </div>
@@ -161,22 +164,23 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
             className="py-1"
           />
 
-          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between text-xs">
-            <span className="text-slate-600 dark:text-slate-400">
-              {sessoesAgendadas} agendadas → <strong>{sessoesEfetivas} sessões remuneradas</strong>
+          <div className="p-3 rounded-[8px] bg-[#121216] border border-[#27272A] flex items-center justify-between text-xs font-mono">
+            <span className="text-[#A1A1AA]">
+              {sessoesAgendadas} agendadas →{' '}
+              <strong className="text-white">{sessoesEfetivas} sessões remuneradas</strong>
             </span>
-            <span className="text-slate-500">
-              Perda mensal: ~{(sessoesAgendadas - sessoesEfetivas).toFixed(1)} atendimentos
+            <span className="text-[#FB923C]">
+              Perda: ~{(sessoesAgendadas - sessoesEfetivas).toFixed(1)} sessões
             </span>
           </div>
         </div>
 
         {/* Preço Atual Opcional */}
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div className="pt-4 border-t border-[#27272A]">
           <CurrencyInput
             id="preco-atual"
             label="Preço Atual por Sessão (Opcional — para diagnóstico da lacuna)"
-            icon={<BadgeDollarSign className="w-4 h-4" />}
+            icon={<BadgeDollarSign className="w-4 h-4 text-[#C084FC]" />}
             value={state.precoAtual || 0}
             onChange={onSetPrecoAtual}
             placeholder="0,00"
@@ -184,17 +188,17 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
           />
         </div>
 
-        {/* Seletor Segmentado CFP */}
-        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+        {/* Seletor Segmentado CFP Astral */}
+        <div className="space-y-3 pt-4 border-t border-[#27272A]">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-[#5B3A8E]/10 text-[#5B3A8E] dark:text-purple-400">
+            <div className="p-1.5 rounded-[6px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC]">
               <Scale className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 block">
+              <span className="text-sm font-semibold text-white block">
                 Referência da Tabela de Honorários CFP
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] text-[#A1A1AA]">
                 Parâmetro oficial do Conselho Federal de Psicologia / FENAPSI
               </span>
             </div>
@@ -217,14 +221,14 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
                   key={t.id}
                   type="button"
                   onClick={() => onSetCfpTier(t.id)}
-                  className={`p-2.5 rounded-xl border text-center transition-all ${
+                  className={`p-2.5 rounded-[8px] border text-center transition-all ${
                     isSelected
-                      ? 'border-[#5B3A8E] bg-[#F5F2F9] dark:bg-purple-950/50 text-[#5B3A8E] dark:text-purple-300 ring-2 ring-[#5B3A8E]/30 font-semibold'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-purple-200 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                      ? 'border-[#C084FC] bg-[#121216] text-[#C084FC] font-semibold'
+                      : 'border-[#27272A] bg-[#0A0A14] text-[#A1A1AA] hover:border-[#3F3F46]'
                   }`}
                 >
                   <span className="text-xs block">{t.label}</span>
-                  <span className="font-mono text-xs font-bold block mt-0.5 text-slate-900 dark:text-white">
+                  <span className="font-mono text-xs font-bold block mt-0.5 text-white">
                     {t.id === 'personalizado' ? 'Valor próprio' : formatBRL(t.val)}
                   </span>
                 </button>
@@ -247,18 +251,18 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between pt-6 border-t border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-2 border-slate-300 dark:border-slate-700"
+          className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white rounded-[8px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar a Reserva & Tributos
         </Button>
         <Button
           onClick={onNext}
-          className="gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white px-7 font-medium shadow-md text-base"
+          className="gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold px-7 rounded-[8px] shadow-md shadow-[#C084FC]/20 text-base"
         >
           Ver Painel Executivo de Resultados
           <ArrowRight className="w-4 h-4" />

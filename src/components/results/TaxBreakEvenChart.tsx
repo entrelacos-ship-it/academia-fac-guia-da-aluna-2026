@@ -156,51 +156,51 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
   }, [currentInputs, userFaturamentoAtual])
 
   return (
-    <Card className="border-slate-200 dark:border-slate-800 shadow-2xs">
+    <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
       <CardHeader className="pb-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="border-[#5B3A8E] text-[#5B3A8E] dark:border-purple-400 dark:text-purple-300 font-semibold text-[11px]"
+                className="border-[#27272A] bg-[#0A0A14] text-[#C084FC] font-mono font-semibold text-[10px]"
               >
-                Curva de Faturamento & Ponto de Virada
+                CURVA DE FATURAMENTO & BREAK-EVEN
               </Badge>
-              <span className="text-xs text-slate-500">Faixa de R$ 2.000 a R$ 30.000/mês</span>
+              <span className="text-xs font-mono text-[#71717A]">Faixa de R$ 2k a R$ 30k/mês</span>
             </div>
-            <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mt-1">
+            <CardTitle className="font-sans text-lg font-semibold text-white mt-1.5">
               Comparador Visual da Carga Tributária: PF vs. PJ
             </CardTitle>
-            <CardDescription className="text-xs">
+            <CardDescription className="text-xs text-[#A1A1AA]">
               Veja exatamente como a carga tributária evolui conforme sua clínica cresce e descubra
               em que faturamento abrir CNPJ passa a ser mais barato.
             </CardDescription>
           </div>
 
           {/* Seletor de Métrica: Carga Tributária vs. Líquido Disponível */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1 rounded-xl self-start sm:self-auto shrink-0">
+          <div className="flex items-center gap-1 bg-[#0A0A14] border border-[#27272A] p-1 rounded-[8px] self-start sm:self-auto shrink-0">
             <button
               type="button"
               onClick={() => setMetricView('tributos')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-semibold transition-all ${
                 metricView === 'tributos'
-                  ? 'bg-white dark:bg-slate-900 text-[#5B3A8E] dark:text-purple-300 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-[#18181B] text-[#C084FC] shadow-sm'
+                  : 'text-[#A1A1AA] hover:text-white'
               }`}
             >
-              Carga Tributária (Impostos)
+              CARGA TRIBUTÁRIA
             </button>
             <button
               type="button"
               onClick={() => setMetricView('liquido')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-semibold transition-all ${
                 metricView === 'liquido'
-                  ? 'bg-white dark:bg-slate-900 text-[#16746E] dark:text-emerald-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-[#18181B] text-[#FB923C] shadow-sm'
+                  : 'text-[#A1A1AA] hover:text-white'
               }`}
             >
-              Líquido Disponível
+              LÍQUIDO DISPONÍVEL
             </button>
           </div>
         </div>
@@ -366,41 +366,41 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                 wrapperStyle={{ paddingBottom: '12px', fontSize: '12px' }}
               />
 
-              {/* Linha da PF: Roxo do Design System (#5B3A8E) */}
+              {/* Linha da PF: Astral Accent (#FB923C) */}
               <Line
                 type="monotone"
                 dataKey={metricView === 'tributos' ? 'tributosPf' : 'liquidoPf'}
                 name={metricView === 'tributos' ? 'PF (Carnê-Leão)' : 'Líquido PF (Após tributos)'}
-                stroke="#5B3A8E"
+                stroke="#FB923C"
                 strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 6, fill: '#5B3A8E' }}
+                activeDot={{ r: 6, fill: '#FB923C' }}
               />
 
-              {/* Linha da PJ: Esmeralda (#16746E) */}
+              {/* Linha da PJ: Astral Primary (#C084FC) */}
               <Line
                 type="monotone"
                 dataKey={metricView === 'tributos' ? 'tributosPj' : 'liquidoPj'}
                 name={
                   metricView === 'tributos' ? 'PJ (Simples Nacional)' : 'Líquido PJ (Após tributos)'
                 }
-                stroke="#16746E"
+                stroke="#C084FC"
                 strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 6, fill: '#16746E' }}
+                activeDot={{ r: 6, fill: '#C084FC' }}
               />
 
               {/* Linha vertical no Faturamento Atual da Usuária */}
               {userFaturamentoAtual >= 2000 && userFaturamentoAtual <= 30000 && (
                 <ReferenceLine
                   x={`R$ ${(Math.round(userFaturamentoAtual / 1000) * 1000) / 1000}k`}
-                  stroke="#5B3A8E"
+                  stroke="#C084FC"
                   strokeDasharray="4 4"
                   strokeWidth={2}
                   label={{
                     value: `Seu Faturamento (${formatBRL(userFaturamentoAtual)})`,
                     position: 'insideTopLeft',
-                    fill: '#5B3A8E',
+                    fill: '#C084FC',
                     fontSize: 10,
                     fontWeight: 700,
                   }}
@@ -411,13 +411,13 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
               {primaryBreakEven && (
                 <ReferenceLine
                   x={`R$ ${(Math.round(primaryBreakEven.faturamento / 1000) * 1000) / 1000}k`}
-                  stroke="#16746E"
+                  stroke="#FB923C"
                   strokeDasharray="3 3"
                   strokeWidth={1.5}
                   label={{
                     value: `Virada: ${formatBRL(primaryBreakEven.faturamento)}`,
                     position: 'insideBottomRight',
-                    fill: '#16746E',
+                    fill: '#FB923C',
                     fontSize: 10,
                     fontWeight: 700,
                   }}

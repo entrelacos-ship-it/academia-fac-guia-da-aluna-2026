@@ -76,17 +76,14 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
       {/* Elemento de impressão invisível na tela normal */}
       <PrintableReport state={state} calculation={calculation} />
 
-      {/* Top Banner de Ações do Painel */}
+      {/* Top Banner de Ações do Painel — Astral Style */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
         <div>
-          <Badge
-            variant="secondary"
-            className="bg-[#EDE8F5] text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300 font-semibold px-3 py-1 rounded-full text-xs inline-flex items-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Passo 6 · Painel Executivo & Ferramentas Estratégicas
-          </Badge>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18181B] border border-[#27272A] text-[11px] font-mono font-semibold uppercase tracking-wider text-[#C084FC]">
+            <Sparkles className="w-3.5 h-3.5 text-[#FB923C]" />
+            <span>PASSO 6 · PAINEL EXECUTIVO ASTRAL</span>
+          </div>
+          <h2 className="font-sans text-2xl sm:text-3xl font-semibold text-white mt-1.5">
             Seu Piso Ético e Diagnóstico Clínico
           </h2>
         </div>
@@ -96,10 +93,10 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             type="button"
             variant="outline"
             onClick={handlePrint}
-            className="gap-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-[#F5F2F9] hover:text-[#5B3A8E]"
+            className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white hover:border-[#C084FC]/40 rounded-[8px] font-mono text-xs font-semibold"
           >
-            <FileDown className="w-4 h-4 text-[#5B3A8E]" />
-            Exportar Relatório em PDF
+            <FileDown className="w-4 h-4 text-[#C084FC]" />
+            EXPORTAR PDF
           </Button>
         </div>
       </div>
@@ -113,34 +110,34 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         className="w-full print:hidden"
       >
         <div className="overflow-x-auto pb-1">
-          <TabsList className="bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl h-auto inline-flex min-w-full sm:min-w-0">
+          <TabsList className="bg-[#0A0A14] border border-[#27272A] p-1 rounded-[12px] h-auto inline-flex min-w-full sm:min-w-0">
             <TabsTrigger
               value="painel"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-semibold rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:text-[#5B3A8E] dark:data-[state=active]:text-purple-300 data-[state=active]:shadow-xs"
+              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
             >
               <BarChart3 className="w-4 h-4" />
-              <span>Painel Executivo</span>
+              <span>PAINEL EXECUTIVO</span>
             </TabsTrigger>
             <TabsTrigger
               value="tributario"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-semibold rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:text-[#5B3A8E] dark:data-[state=active]:text-purple-300 data-[state=active]:shadow-xs"
+              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
             >
               <Receipt className="w-4 h-4" />
-              <span>Transição Tributária (PF vs PJ)</span>
+              <span>TRANSIÇÃO TRIBUTÁRIA</span>
             </TabsTrigger>
             <TabsTrigger
               value="reajuste"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-semibold rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:text-[#16746E] dark:data-[state=active]:text-emerald-400 data-[state=active]:shadow-xs"
+              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#FB923C] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
             >
               <Percent className="w-4 h-4" />
-              <span>Reajuste Anual (IPCA/IGP-M)</span>
+              <span>REAJUSTE ANUAL</span>
             </TabsTrigger>
             <TabsTrigger
               value="contrato"
-              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-semibold rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:text-[#5B3A8E] dark:data-[state=active]:text-purple-300 data-[state=active]:shadow-xs"
+              className="gap-2 py-2.5 px-3 sm:px-4 text-xs font-mono font-semibold rounded-[8px] data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] data-[state=active]:border data-[state=active]:border-[#27272A] text-[#A1A1AA]"
             >
               <FileCheck2 className="w-4 h-4" />
-              <span>Proposta & Contrato Clínico</span>
+              <span>PROPOSTA & CONTRATO</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -149,128 +146,123 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         <TabsContent value="painel" className="space-y-8 mt-6">
           {/* MÓDULO A: Cartões Principais (Piso FAC, Lacuna e Comparativo CFP) */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Card Destaque do Piso FAC (2 cols no desktop) */}
-            <div className="lg:col-span-2 p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border-l-8 border-[#5B3A8E] border-t border-r border-b border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            {/* Card Destaque do Piso FAC (2 cols no desktop) — Astral Bento */}
+            <div className="lg:col-span-2 p-6 sm:p-8 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-[#C084FC]" />
               <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#5B3A8E] dark:text-purple-400">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C084FC]">
                   Piso Ético Mínimo Calculado (Método FAC)
                 </span>
                 <div className="flex items-baseline gap-2">
-                  <span className="font-serif text-5xl sm:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
+                  <span className="font-mono text-5xl sm:text-6xl font-bold tracking-tight text-white">
                     {formatBRL(calculation.pisoMinimoSessao)}
                   </span>
-                  <span className="text-sm font-medium text-slate-500">/ sessão</span>
+                  <span className="text-sm font-mono text-[#A1A1AA]">/ sessão</span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
+                <p className="text-xs text-[#A1A1AA] leading-relaxed max-w-xl">
                   Este é o valor mínimo por atendimento necessário para cobrir rigorosamente seu
                   custo de vida, consultório, supervisão contínua, reserva técnica de{' '}
                   {state.reservaPct}% e impostos ({state.tributosPct}%).
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-slate-100 dark:border-slate-800 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-[#27272A] text-xs font-mono">
                 <div>
-                  <span className="text-slate-500 uppercase tracking-wider text-[10px] block">
+                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
                     Faturamento Bruto Alvo
                   </span>
-                  <span className="font-mono text-base font-bold text-slate-900 dark:text-white mt-0.5 block">
+                  <span className="text-base font-bold text-white mt-0.5 block">
                     {formatBRL(calculation.faturamentoBruto)}
                   </span>
-                  <span className="text-[10px] text-slate-500">ao mês</span>
+                  <span className="text-[10px] text-[#71717A]">ao mês</span>
                 </div>
 
                 <div>
-                  <span className="text-slate-500 uppercase tracking-wider text-[10px] block">
+                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
                     Sessões Efetivas
                   </span>
-                  <span className="font-mono text-base font-bold text-slate-900 dark:text-white mt-0.5 block">
+                  <span className="text-base font-bold text-white mt-0.5 block">
                     {calculation.sessoesEfetivas} / mês
                   </span>
-                  <span className="text-[10px] text-slate-500">
+                  <span className="text-[10px] text-[#71717A]">
                     ({state.sessoesPorSemana} sem. - {state.taxaFaltaPct}% falta)
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-slate-500 uppercase tracking-wider text-[10px] block">
+                  <span className="text-[#71717A] uppercase tracking-wider text-[10px] block">
                     Markup Divisor
                   </span>
-                  <span className="font-mono text-base font-bold text-[#5B3A8E] dark:text-purple-300 mt-0.5 block">
+                  <span className="text-base font-bold text-[#C084FC] mt-0.5 block">
                     {calculation.divisor.toFixed(2)}
                   </span>
-                  <span className="text-[10px] text-slate-500">
+                  <span className="text-[10px] text-[#71717A]">
                     ({state.reservaPct}% res. + {state.tributosPct}% imp.)
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Card Diagnóstico da Lacuna (Gap Analysis) */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+            {/* Card Diagnóstico da Lacuna (Gap Analysis) — Astral Surface */}
+            <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl flex flex-col justify-between">
               <div className="space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA] block">
                   Diagnóstico de Lacuna (Gap)
                 </span>
 
                 {calculation.hasPrecoAtual ? (
                   calculation.isDeficit ? (
                     <div className="space-y-3">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-700 text-white shadow-2xs">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 border border-rose-500/40 text-rose-300">
                         <AlertOctagon className="w-3.5 h-3.5" />
-                        Déficit Clínico (Abaixo do Piso)
+                        DÉFICIT CLÍNICO
                       </div>
 
                       <div className="space-y-1">
-                        <div className="text-xs text-slate-600 dark:text-slate-400">
-                          Defasagem por atendimento:
-                        </div>
-                        <div className="font-mono text-2xl font-bold text-rose-700 dark:text-rose-400">
+                        <div className="text-xs text-[#A1A1AA]">Defasagem por atendimento:</div>
+                        <div className="font-mono text-2xl font-bold text-rose-400">
                           -{formatBRL(calculation.deltaSessao)}
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs text-rose-800 dark:text-rose-200 space-y-1">
+                      <div className="p-3 rounded-[8px] bg-[#121216] border border-rose-900/40 text-xs text-rose-200 space-y-1 font-mono">
                         <div className="flex justify-between">
                           <span>Déficit Mensal:</span>
-                          <strong className="font-mono">
-                            {formatBRL(calculation.deltaMensal)}
-                          </strong>
+                          <strong>{formatBRL(calculation.deltaMensal)}</strong>
                         </div>
-                        <div className="flex justify-between font-bold pt-1 border-t border-rose-200/60 dark:border-rose-900/60">
-                          <span>Prejuízo Anual Projetado:</span>
-                          <strong className="font-mono">
-                            {formatBRL(calculation.prejuizoAnualProjetado)}
-                          </strong>
+                        <div className="flex justify-between font-bold pt-1 border-t border-rose-900/40">
+                          <span>Prejuízo Anual:</span>
+                          <strong>{formatBRL(calculation.prejuizoAnualProjetado)}</strong>
                         </div>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-700 text-white shadow-2xs">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#0A0A14] border border-[#FB923C]/40 text-[#FB923C]">
                         <CheckCircle2 className="w-3.5 h-3.5" />
-                        Sustentável (Acima do Piso)
+                        SUSTENTÁVEL
                       </div>
 
                       <div className="space-y-1">
-                        <div className="text-xs text-slate-600 dark:text-slate-400">
-                          Margem positiva por sessão:
-                        </div>
-                        <div className="font-mono text-2xl font-bold text-emerald-700 dark:text-emerald-400">
+                        <div className="text-xs text-[#A1A1AA]">Margem positiva por sessão:</div>
+                        <div className="font-mono text-2xl font-bold text-[#FB923C]">
                           +{formatBRL(Math.abs(calculation.deltaSessao))}
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-800 dark:text-emerald-200">
+                      <div className="p-3 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] font-mono">
                         Sua clínica gera superávit mensal de{' '}
-                        <strong>{formatBRL(Math.abs(calculation.deltaMensal))}</strong> sobre o piso
-                        mínimo.
+                        <strong className="text-white">
+                          {formatBRL(Math.abs(calculation.deltaMensal))}
+                        </strong>{' '}
+                        sobre o piso mínimo.
                       </div>
                     </div>
                   )
                 ) : (
-                  <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-400 space-y-2">
+                  <div className="p-4 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs text-[#A1A1AA] space-y-2">
                     <p>Você não informou seu preço atual no Passo 5.</p>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] font-mono text-[#71717A]">
                       Preencha o valor atual para comparar sua remuneração real e descobrir seu
                       eventual déficit clínico.
                     </p>
@@ -279,29 +271,29 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
               </div>
 
               {/* Comparativo com Faixas CFP */}
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 flex items-center gap-1">
-                  <Scale className="w-3.5 h-3.5 text-[#5B3A8E]" />
-                  Comparativo Tabela CFP:
+              <div className="pt-4 mt-4 border-t border-[#27272A] space-y-2">
+                <span className="text-[11px] font-mono font-semibold text-[#A1A1AA] flex items-center gap-1">
+                  <Scale className="w-3.5 h-3.5 text-[#C084FC]" />
+                  COMPARATIVO TABELA CFP:
                 </span>
-                <div className="grid grid-cols-3 gap-1.5 text-center text-[10px]">
+                <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-mono">
                   <div
-                    className={`p-1.5 rounded-lg border ${calculation.cfpFaixaAtingida === 'inferior' ? 'border-[#5B3A8E] bg-[#EDE8F5] font-bold text-[#5B3A8E]' : 'border-slate-200 text-slate-500'}`}
+                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'inferior' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
                   >
                     <div>Inferior</div>
-                    <div className="font-mono">{formatBRL(CFP_VALUES.inferior)}</div>
+                    <div>{formatBRL(CFP_VALUES.inferior)}</div>
                   </div>
                   <div
-                    className={`p-1.5 rounded-lg border ${calculation.cfpFaixaAtingida === 'medio' ? 'border-[#5B3A8E] bg-[#EDE8F5] font-bold text-[#5B3A8E]' : 'border-slate-200 text-slate-500'}`}
+                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'medio' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
                   >
                     <div>Médio</div>
-                    <div className="font-mono">{formatBRL(CFP_VALUES.medio)}</div>
+                    <div>{formatBRL(CFP_VALUES.medio)}</div>
                   </div>
                   <div
-                    className={`p-1.5 rounded-lg border ${calculation.cfpFaixaAtingida === 'superior' ? 'border-[#5B3A8E] bg-[#EDE8F5] font-bold text-[#5B3A8E]' : 'border-slate-200 text-slate-500'}`}
+                    className={`p-1.5 rounded-[6px] border ${calculation.cfpFaixaAtingida === 'superior' ? 'border-[#C084FC] bg-[#0A0A14] font-bold text-[#C084FC]' : 'border-[#27272A] bg-[#121216] text-[#71717A]'}`}
                   >
                     <div>Superior</div>
-                    <div className="font-mono">{formatBRL(CFP_VALUES.superior)}</div>
+                    <div>{formatBRL(CFP_VALUES.superior)}</div>
                   </div>
                 </div>
               </div>
@@ -381,19 +373,19 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         </TabsContent>
       </Tabs>
 
-      {/* Barra Inferior de Ação */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800 print:hidden">
+      {/* Barra Inferior de Ação Astral */}
+      <div className="flex items-center justify-between pt-6 border-t border-[#27272A] print:hidden">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-2 border-slate-300 dark:border-slate-700"
+          className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white rounded-[8px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar ao Passo 5
         </Button>
         <Button
           onClick={onNext}
-          className="gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white px-7 font-medium shadow-md text-base"
+          className="gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold px-7 rounded-[8px] shadow-md shadow-[#C084FC]/20 text-base"
         >
           Comparar Modelos Clínicos
           <ArrowRight className="w-4 h-4" />

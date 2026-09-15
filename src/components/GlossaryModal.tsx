@@ -67,18 +67,18 @@ const GLOSSARY_ITEMS = [
 export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-        <DialogHeader className="border-b pb-4">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#5B3A8E]/10 text-[#5B3A8E]">
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#18181B] border-[#27272A] text-white rounded-[16px] shadow-2xl">
+        <DialogHeader className="border-b border-[#27272A] pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC]">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <DialogTitle className="font-serif text-2xl text-slate-900 dark:text-slate-100">
+              <DialogTitle className="font-sans text-xl font-semibold text-white">
                 Glossário Clínico e Financeiro
               </DialogTitle>
-              <DialogDescription className="text-slate-600 dark:text-slate-400 mt-0.5">
-                Conceitos essenciais do Método FAC para uma gestão ética e sustentável
+              <DialogDescription className="text-xs text-[#A1A1AA] mt-0.5 font-mono">
+                CONCEITOS DO MÉTODO FAC · DIRETRIZES ASTRAL
               </DialogDescription>
             </div>
           </div>
@@ -89,22 +89,18 @@ export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose })
             {GLOSSARY_ITEMS.map((item) => {
               const Icon = item.icon
               return (
-                <AccordionItem
-                  key={item.id}
-                  value={item.id}
-                  className="border-slate-200 dark:border-slate-800"
-                >
+                <AccordionItem key={item.id} value={item.id} className="border-[#27272A]">
                   <AccordionTrigger className="text-left py-3 hover:no-underline group">
                     <div className="flex items-center gap-3">
-                      <div className="p-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[#5B3A8E] group-hover:bg-[#EDE8F5] transition-colors">
+                      <div className="p-1.5 rounded-[6px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] group-hover:border-[#C084FC]/50 transition-colors">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="font-medium text-slate-900 dark:text-slate-100 group-hover:text-[#5B3A8E] transition-colors">
+                      <span className="font-sans font-medium text-white group-hover:text-[#C084FC] transition-colors text-sm">
                         {item.title}
                       </span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-700 dark:text-slate-300 pl-10 text-sm leading-relaxed pr-2 pb-3">
+                  <AccordionContent className="text-[#A1A1AA] pl-10 text-xs leading-relaxed pr-2 pb-3">
                     {item.content}
                   </AccordionContent>
                 </AccordionItem>
@@ -113,9 +109,9 @@ export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose })
           </Accordion>
         </div>
 
-        <div className="pt-3 border-t text-xs text-slate-500 dark:text-slate-400 text-center">
+        <div className="pt-3 border-t border-[#27272A] text-[11px] font-mono text-[#71717A] text-center">
           Pressione{' '}
-          <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 border rounded text-[10px]">
+          <kbd className="px-1.5 py-0.5 bg-[#0A0A14] border border-[#27272A] rounded-[4px] text-[10px] text-white">
             ESC
           </kbd>{' '}
           para fechar a qualquer momento.

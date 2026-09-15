@@ -27,11 +27,28 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Lora', 'Georgia', 'serif'],
-        display: ['Lora', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
+        // Astral tokens
+        astral: {
+          bg: '#03000A',
+          surface: '#18181B',
+          surfaceElevated: '#1f1f23',
+          surfaceNested: '#121216',
+          border: '#27272A',
+          borderSubtle: '#1f1f23',
+          primary: '#C084FC',
+          primaryHover: '#A855F7',
+          accent: '#FB923C',
+          accentHover: '#F97316',
+          secondary: '#0A0A14',
+          textPrimary: '#FFFFFF',
+          textSecondary: '#A1A1AA',
+          textMuted: '#71717A',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -84,6 +101,9 @@ export default {
         },
       },
       borderRadius: {
+        card: '16px',
+        control: '8px',
+        pill: '9999px',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',

@@ -38,7 +38,7 @@ export function usePricingManager() {
     return DEFAULT_PRICING_STATE
   })
 
-  // 2. Tema: Light mode por padrão (QA-01)
+  // 2. Tema: Astral Dark por padrão (diretriz de identidade visual Astral)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_THEME)
@@ -48,7 +48,7 @@ export function usePricingManager() {
     } catch {
       // ignore
     }
-    return 'light'
+    return 'dark'
   })
 
   // 3. Cenários salvos

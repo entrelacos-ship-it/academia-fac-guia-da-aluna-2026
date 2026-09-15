@@ -53,16 +53,17 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Banner de Explicação */}
-      <div className="p-4 rounded-xl bg-[#F5F2F9] dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-[#5B3A8E] text-white shrink-0 mt-0.5">
-          <Sparkles className="w-4 h-4" />
+      {/* Banner de Explicação Astral */}
+      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-start gap-3">
+        <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] shrink-0 mt-0.5">
+          <Sparkles className="w-4 h-4 text-[#FB923C]" />
         </div>
         <div>
-          <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
-            Passo 1: Custos Pessoais de Vida
-          </h2>
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-0.5">
+          <span className="text-[10px] font-mono font-bold text-[#C084FC] uppercase tracking-wider">
+            PASSO 1 / 7
+          </span>
+          <h2 className="font-sans text-lg font-semibold text-white">Custos Pessoais de Vida</h2>
+          <p className="text-xs text-[#A1A1AA] leading-relaxed mt-0.5">
             Despesas básicas de sobrevivência e dignidade pessoal. O Método FAC começa aqui: sua
             clínica deve, antes de tudo, sustentar sua existência digna no mundo.
           </p>
@@ -136,28 +137,26 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
 
           {/* Itens Personalizados */}
           {state.custosPessoais.customItems.length > 0 && (
-            <div className="pt-4 space-y-2 border-t border-slate-200 dark:border-slate-800">
-              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <div className="pt-4 space-y-2 border-t border-[#27272A]">
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#A1A1AA]">
                 Itens Personalizados Adicionados:
               </span>
               <div className="space-y-2">
                 {state.custosPessoais.customItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm"
+                    className="flex items-center justify-between p-3 rounded-[8px] bg-[#18181B] border border-[#27272A] text-sm"
                   >
-                    <span className="font-medium text-slate-800 dark:text-slate-200">
-                      {item.label}
-                    </span>
+                    <span className="font-medium text-white">{item.label}</span>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
+                      <span className="font-mono font-semibold text-[#C084FC]">
                         {formatBRL(item.value)}
                       </span>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => onRemoveCustom(item.id)}
-                        className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950"
+                        className="h-8 w-8 text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 rounded-[6px]"
                         aria-label={`Remover item ${item.label}`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -175,18 +174,18 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
               type="button"
               variant="outline"
               onClick={() => setIsAdding(true)}
-              className="gap-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-950/40 hover:text-[#5B3A8E] hover:border-purple-300"
+              className="gap-2 border-dashed border-[#27272A] bg-[#18181B]/50 text-[#A1A1AA] hover:text-white hover:border-[#C084FC]/50 rounded-[8px]"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 text-[#C084FC]" />
               Adicionar item personalizado
             </Button>
           ) : (
             <form
               onSubmit={handleAddCustom}
-              className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/50 space-y-3"
+              className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#5B3A8E] uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-[#C084FC] uppercase tracking-wider">
                   Novo Custo Pessoal
                 </span>
                 <Button
@@ -194,7 +193,7 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsAdding(false)}
-                  className="h-7 text-xs text-slate-500"
+                  className="h-7 text-xs text-[#A1A1AA]"
                 >
                   Cancelar
                 </Button>
@@ -205,7 +204,7 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
                   placeholder="Nome do item (ex: Academia, Seguro)"
                   value={customLabel}
                   onChange={(e) => setCustomLabel(e.target.value)}
-                  className="h-10 text-sm"
+                  className="h-10 text-sm bg-[#0A0A14] border-[#27272A] text-white focus:border-[#C084FC] rounded-[8px]"
                   autoFocus
                 />
                 <CurrencyInput value={customVal} onChange={setCustomVal} placeholder="0,00" />
@@ -215,7 +214,7 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
                 type="submit"
                 size="sm"
                 disabled={!customLabel.trim()}
-                className="w-full bg-[#5B3A8E] hover:bg-[#452A6F] text-white"
+                className="w-full bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px]"
               >
                 Salvar Item
               </Button>
@@ -223,25 +222,25 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
           )}
         </div>
 
-        {/* Card Sticky de Totalização */}
+        {/* Card Sticky de Totalização Astral */}
         <div className="lg:sticky lg:top-24 space-y-4">
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border-2 border-purple-200 dark:border-purple-900/60 shadow-sm space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#5B3A8E] dark:text-purple-400">
+          <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl space-y-4">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C084FC]">
               Subtotal Pessoal
             </span>
 
             <div className="space-y-1">
-              <div className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+              <div className="font-mono text-3xl sm:text-4xl font-bold text-white">
                 {formatBRL(totalPessoais)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-[#A1A1AA]">
                 Necessidade mensal de sobrevivência e dignidade
               </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-                <Info className="w-3.5 h-3.5 text-[#5B3A8E] shrink-0" />
+            <div className="pt-4 border-t border-[#27272A] space-y-2">
+              <div className="flex items-center gap-2 text-xs text-[#A1A1AA]">
+                <Info className="w-3.5 h-3.5 text-[#C084FC] shrink-0" />
                 <span>Você pode preencher valores estimados e ajustá-los a qualquer momento.</span>
               </div>
             </div>
@@ -250,18 +249,18 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between pt-6 border-t border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-2 border-slate-300 dark:border-slate-700"
+          className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white rounded-[8px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
         </Button>
         <Button
           onClick={onNext}
-          className="gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white px-6 font-medium shadow-sm"
+          className="gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#C084FC]/20"
         >
           Continuar para Custos Profissionais
           <ArrowRight className="w-4 h-4" />

@@ -1,104 +1,150 @@
 /* Global styles - Theme, font, utilities, animations and global components */
 
 /* CHANGE THE FONT BELOW TO WHATEVER YOU WANT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Design System "Astral — AI Insights"
+     Paleta prescrita:
+     - primary: #C084FC (271 95% 75%)
+     - secondary: #0A0A14 (240 33% 6%)
+     - accent: #FB923C (27 96% 61%)
+     - background: #03000A (264 100% 2%)
+     - surface: #18181B (240 5% 10%)
+     - text-primary: #FFFFFF
+     - text-secondary: #A1A1AA (240 5% 65%)
+     - border: #27272A (240 4% 16%)
+  */
   :root {
-    /* Editorial Elegance - Entrelaços FAC Theme */
-    --background: 36 29% 97%; /* #FAF8F5 */
-    --foreground: 222 47% 11%; /* #0f172a / text-slate-900 */
+    --background: 264 100% 2%; /* #03000A Astral Background */
+    --foreground: 0 0% 100%; /* #FFFFFF Astral Text Primary */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 240 5% 10%; /* #18181B Astral Surface */
+    --card-foreground: 0 0% 100%; /* #FFFFFF */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 240 5% 10%; /* #18181B Astral Surface */
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 264 42% 39%; /* #5B3A8E Roxo Principal */
-    --primary-foreground: 0 0% 100%;
+    --primary: 271 95% 75%; /* #C084FC Astral Primary */
+    --primary-foreground: 264 100% 4%; /* Quase preto para máximo contraste */
 
-    --secondary: 267 36% 96%; /* #F5F2F9 */
-    --secondary-foreground: 264 42% 39%;
+    --secondary: 240 33% 6%; /* #0A0A14 Astral Secondary */
+    --secondary-foreground: 240 5% 85%;
 
-    --muted: 210 20% 94%;
-    --muted-foreground: 215 16% 38%; /* #475569 - high contrast */
+    --muted: 240 4% 14%; /* Surface nested sutil */
+    --muted-foreground: 240 5% 65%; /* #A1A1AA Astral Text Secondary */
 
-    --accent: 268 33% 94%; /* #EDE8F5 */
-    --accent-foreground: 264 42% 39%;
+    --accent: 27 96% 61%; /* #FB923C Astral Accent */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 12 71% 58%; /* #DF694B Terracota */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
-    --input: 214 20% 88%;
-    --ring: 264 42% 39%;
+    --border: 240 4% 16%; /* #27272A Astral Border */
+    --input: 240 4% 18%;
+    --ring: 271 95% 75%; /* #C084FC */
 
-    --radius: 0.75rem;
+    --radius: 1rem; /* 16px */
 
-    --sidebar-background: 36 25% 95%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 264 42% 39%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 267 36% 94%;
-    --sidebar-accent-foreground: 264 42% 39%;
-    --sidebar-border: 214 20% 88%;
-    --sidebar-ring: 264 42% 39%;
+    --sidebar-background: 240 33% 6%; /* #0A0A14 */
+    --sidebar-foreground: 240 5% 85%;
+    --sidebar-primary: 271 95% 75%;
+    --sidebar-primary-foreground: 264 100% 4%;
+    --sidebar-accent: 240 5% 12%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 271 95% 75%;
 
-    --chart-1: 264 42% 39%; /* #5B3A8E Roxo */
-    --chart-2: 176 68% 27%; /* #16746E Esmeralda */
-    --chart-3: 26 74% 45%; /* #C86A1F Âmbar */
-    --chart-4: 12 71% 58%; /* #DF694B Terracota */
-    --chart-5: 268 33% 85%;
+    --chart-1: 271 95% 75%; /* #C084FC Primary */
+    --chart-2: 27 96% 61%; /* #FB923C Accent */
+    --chart-3: 280 85% 60%; /* Roxo complementar */
+    --chart-4: 160 84% 39%; /* Esmeralda discreto */
+    --chart-5: 217 91% 60%; /* Azul elétrico */
   }
 
   .dark {
-    --background: 222 47% 6%; /* #080C16 */
-    --foreground: 210 40% 98%;
+    --background: 264 100% 2%; /* #03000A */
+    --foreground: 0 0% 100%; /* #FFFFFF */
 
-    --card: 222 44% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 5% 10%; /* #18181B */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 44% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 5% 10%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 268 60% 64%; /* Lighter purple for dark mode readability */
-    --primary-foreground: 0 0% 100%;
+    --primary: 271 95% 75%; /* #C084FC */
+    --primary-foreground: 264 100% 4%;
 
-    --secondary: 222 35% 15%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 33% 6%; /* #0A0A14 */
+    --secondary-foreground: 240 5% 85%;
 
-    --muted: 222 35% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 240 4% 14%;
+    --muted-foreground: 240 5% 65%; /* #A1A1AA */
 
-    --accent: 268 40% 20%;
-    --accent-foreground: 268 60% 75%;
+    --accent: 27 96% 61%; /* #FB923C */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 12 71% 58%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 30% 20%;
-    --input: 222 30% 22%;
-    --ring: 268 60% 64%;
+    --border: 240 4% 16%; /* #27272A */
+    --input: 240 4% 18%;
+    --ring: 271 95% 75%;
 
-    --sidebar-background: 222 47% 8%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 268 60% 64%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 35% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 30% 20%;
-    --sidebar-ring: 268 60% 64%;
+    --sidebar-background: 240 33% 6%;
+    --sidebar-foreground: 240 5% 85%;
+    --sidebar-primary: 271 95% 75%;
+    --sidebar-primary-foreground: 264 100% 4%;
+    --sidebar-accent: 240 5% 12%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 271 95% 75%;
 
-    --chart-1: 268 60% 64%;
-    --chart-2: 176 60% 45%;
-    --chart-3: 26 75% 55%;
-    --chart-4: 12 75% 62%;
-    --chart-5: 220 30% 60%;
+    --chart-1: 271 95% 75%;
+    --chart-2: 27 96% 61%;
+    --chart-3: 280 85% 60%;
+    --chart-4: 160 84% 39%;
+    --chart-5: 217 91% 60%;
+  }
+
+  .light {
+    --background: 240 10% 98%;
+    --foreground: 240 10% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 8%;
+
+    --primary: 271 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 94%;
+    --secondary-foreground: 240 10% 10%;
+
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 5% 45%;
+
+    --accent: 27 96% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5% 88%;
+    --input: 240 5% 88%;
+    --ring: 271 80% 55%;
+
+    --chart-1: 271 80% 55%;
+    --chart-2: 27 96% 55%;
+    --chart-3: 280 75% 50%;
+    --chart-4: 160 84% 35%;
+    --chart-5: 217 91% 55%;
   }
 
   /* NEVER REMOVE THIS */
@@ -279,5 +325,64 @@
 
   .animate-spotlight {
     animation: spotlight 2s ease forwards;
+  }
+
+  /* Astral Utility Tokens */
+  .astral-card {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .astral-card-interactive {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.45);
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .astral-card-interactive:hover {
+    transform: translateY(-2px);
+    border-color: rgba(192, 132, 252, 0.45);
+    box-shadow: 0 12px 32px -4px rgba(192, 132, 252, 0.12);
+  }
+
+  .astral-surface-nested {
+    background-color: #121216;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+  }
+
+  .astral-display {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+
+  .astral-mono-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Ambient atmospheric glow */
+  .astral-glow-bg {
+    background-image:
+      radial-gradient(circle at 50% -20%, rgba(192, 132, 252, 0.18), transparent 60%),
+      radial-gradient(circle at 100% 40%, rgba(251, 146, 60, 0.08), transparent 45%),
+      radial-gradient(circle at 0% 80%, rgba(192, 132, 252, 0.06), transparent 50%);
   }
 }

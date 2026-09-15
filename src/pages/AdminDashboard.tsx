@@ -98,21 +98,21 @@ export const AdminDashboard: React.FC = () => {
   // Se não estiver logada ou não for admin
   if (!isConnected || !isAdmin) {
     return (
-      <div className="min-h-screen bg-[#080C16] text-white flex items-center justify-center p-6">
-        <div className="max-w-md w-full p-8 rounded-2xl bg-[#0F111E] border border-rose-500/30 text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-rose-950/60 border border-rose-500/40 text-rose-400 mx-auto flex items-center justify-center">
+      <div className="min-h-screen bg-[#03000A] text-white flex items-center justify-center p-6 select-none">
+        <div className="max-w-md w-full p-8 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl text-center space-y-4">
+          <div className="w-14 h-14 rounded-[12px] bg-[#0A0A14] border border-rose-500/40 text-rose-400 mx-auto flex items-center justify-center">
             <ShieldAlert className="w-7 h-7" />
           </div>
-          <h1 className="font-serif text-2xl font-bold">Acesso Restrito</h1>
-          <p className="text-sm text-slate-300 leading-relaxed">
+          <h1 className="font-sans text-2xl font-semibold text-white">Acesso Restrito</h1>
+          <p className="text-sm text-[#A1A1AA] leading-relaxed">
             Esta área é exclusiva para administradoras do sistema. Sua conta atual (
-            <span className="text-purple-300">{currentUser?.email || 'anônima'}</span>) não possui
-            papel de administrador.
+            <span className="text-[#C084FC] font-mono">{currentUser?.email || 'anônima'}</span>) não
+            possui papel de administrador.
           </p>
           <div className="pt-2 flex flex-col gap-2">
             <Button
               onClick={() => navigate('/')}
-              className="bg-[#5B3A8E] hover:bg-[#4d3079] text-white min-h-[44px]"
+              className="bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
             >
               Voltar para a Calculadora
             </Button>
@@ -122,7 +122,7 @@ export const AdminDashboard: React.FC = () => {
                 logout()
                 navigate('/login')
               }}
-              className="border-white/10 text-slate-300 hover:text-white min-h-[44px]"
+              className="border-[#27272A] bg-[#0A0A14] text-[#A1A1AA] hover:text-white min-h-[44px] rounded-[8px]"
             >
               Entrar com outra conta
             </Button>
@@ -159,166 +159,167 @@ export const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#080C16] text-slate-900 dark:text-slate-100 font-sans transition-colors">
-      {/* Topbar Admin */}
-      <header className="sticky top-0 z-30 bg-white/95 dark:bg-[#0d1322]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-2xs">
+    <div className="min-h-screen bg-[#03000A] text-white font-sans transition-colors">
+      {/* Topbar Admin Astral */}
+      <header className="sticky top-0 z-30 bg-[#0A0A14]/90 backdrop-blur-md border-b border-[#27272A] shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate('/')}
-              className="gap-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-[#5B3A8E] dark:hover:text-purple-300"
+              className="gap-1.5 text-xs font-mono text-[#A1A1AA] hover:text-white rounded-[8px]"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Voltar à Calculadora</span>
+              <span>CALCULADORA</span>
             </Button>
-            <div className="h-4 w-px bg-slate-300 dark:bg-slate-700" />
+            <div className="h-4 w-px bg-[#27272A]" />
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#5B3A8E] text-white flex items-center justify-center">
-                <Shield className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-[8px] bg-[#18181B] border border-[#27272A] text-[#C084FC] flex items-center justify-center">
+                <Shield className="w-4 h-4 text-[#FB923C]" />
               </div>
-              <span className="font-serif font-bold text-lg text-slate-900 dark:text-white">
+              <span className="font-sans font-semibold text-base text-white">
                 Painel Administrativo
               </span>
-              <Badge className="bg-purple-100 text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300 border-purple-200 dark:border-purple-800 text-[10px]">
-                FAC Entrelaços
+              <Badge className="bg-[#18181B] text-[#C084FC] border-[#27272A] text-[10px] font-mono">
+                ASTRAL · FAC
               </Badge>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
-              <p className="text-xs font-semibold text-slate-900 dark:text-white">
+              <p className="text-xs font-semibold text-white">
                 {currentUser?.name || 'Administradora'}
               </p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">{currentUser?.email}</p>
+              <p className="text-[10px] font-mono text-[#A1A1AA]">{currentUser?.email}</p>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={loadAdminData}
               disabled={loading}
-              className="gap-1.5 text-xs min-h-[38px]"
+              className="gap-1.5 text-xs font-mono min-h-[38px] border-[#27272A] bg-[#18181B] text-white hover:border-[#C084FC]/50 rounded-[8px]"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Atualizar</span>
+              <span className="hidden sm:inline">ATUALIZAR</span>
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Conteúdo Principal */}
+      {/* Conteúdo Principal Astral */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Banner de Boas-Vindas & Métricas */}
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C084FC] block">
+            GESTÃO ADMINISTRATIVA
+          </span>
+          <h1 className="font-sans text-2xl sm:text-3xl font-semibold tracking-tight text-white mt-1">
             Visão Geral de Usuárias & Backups
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-sm text-[#A1A1AA] mt-1">
             Gestão de contas cadastradas e monitoramento de sincronizações na nuvem do Método FAC.
           </p>
         </div>
 
         {errorMessage && (
-          <div className="p-4 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900 text-sm">
+          <div className="p-4 rounded-[8px] bg-rose-950/60 text-rose-200 border border-rose-500/40 text-sm">
             {errorMessage}
           </div>
         )}
 
-        {/* Cards de Métricas */}
+        {/* Cards de Métricas Astral */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Card className="border-slate-200 dark:border-slate-800 shadow-xs">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Total de Contas
               </CardTitle>
-              <Users className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+              <Users className="w-4 h-4 text-[#C084FC]" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+              <div className="text-3xl font-mono font-bold text-white">
                 {loading ? '...' : users.length}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
-                <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
+              <p className="text-xs font-mono text-[#A1A1AA] mt-1 flex items-center gap-1">
+                <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
                 {users.filter((u) => u.role === 'admin').length} com acesso admin
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 dark:border-slate-800 shadow-xs">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Contas com Backup
               </CardTitle>
-              <Database className="w-4 h-4 text-[#16746E] dark:text-teal-400" />
+              <Database className="w-4 h-4 text-[#FB923C]" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 dark:text-white">
+              <div className="text-3xl font-mono font-bold text-white">
                 {loading ? '...' : backupStat.uniqueUsersWithBackup}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-xs font-mono text-[#A1A1AA] mt-1">
                 {backupStat.totalBackups} snapshots registrados
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 dark:border-slate-800 shadow-xs">
+          <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <CardTitle className="text-[11px] font-mono font-semibold text-[#A1A1AA] uppercase tracking-wider">
                 Último Backup na Nuvem
               </CardTitle>
-              <HardDrive className="w-4 h-4 text-amber-500" />
+              <HardDrive className="w-4 h-4 text-[#C084FC]" />
             </CardHeader>
             <CardContent>
-              <div className="text-sm font-semibold font-mono text-slate-900 dark:text-white truncate">
+              <div className="text-sm font-semibold font-mono text-white truncate">
                 {loading ? '...' : formatDate(backupStat.latestBackupDate)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Instância Skip Cloud ativa
-              </p>
+              <p className="text-xs font-mono text-[#71717A] mt-1">Instância Skip Cloud ativa</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Tabela de Contas Cadastradas */}
-        <Card className="border-slate-200 dark:border-slate-800 shadow-xs">
-          <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+        {/* Tabela de Contas Cadastradas Astral */}
+        <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#27272A]">
             <div>
-              <CardTitle className="font-serif text-lg text-slate-900 dark:text-white">
+              <CardTitle className="font-sans text-lg font-semibold text-white">
                 Contas Cadastradas ({filteredUsers.length})
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
+              <CardDescription className="text-xs text-[#A1A1AA]">
                 Lista de psicólogas e administradoras com acesso ao sistema
               </CardDescription>
             </div>
 
             <div className="relative w-full sm:w-72">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#71717A] absolute left-3 top-2.5" />
               <Input
                 type="text"
                 placeholder="Buscar por nome, e-mail..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 h-9 text-xs"
+                className="pl-9 h-9 text-xs bg-[#0A0A14] border-[#27272A] text-white rounded-[8px]"
               />
             </div>
           </CardHeader>
 
           <CardContent className="p-0">
             {loading ? (
-              <div className="p-12 text-center flex flex-col items-center justify-center gap-2 text-slate-500">
-                <Loader2 className="w-6 h-6 animate-spin text-[#5B3A8E]" />
-                <span className="text-xs">Carregando usuárias cadastradas...</span>
+              <div className="p-12 text-center flex flex-col items-center justify-center gap-2 text-[#A1A1AA]">
+                <Loader2 className="w-6 h-6 animate-spin text-[#C084FC]" />
+                <span className="text-xs font-mono">Carregando usuárias...</span>
               </div>
             ) : filteredUsers.length === 0 ? (
-              <div className="p-12 text-center text-xs text-slate-500">
+              <div className="p-12 text-center text-xs text-[#71717A] font-mono">
                 Nenhuma usuária encontrada para o termo pesquisado.
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-200 dark:border-slate-800">
+                  <thead className="bg-[#0A0A14] text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-[#27272A]">
                     <tr>
                       <th className="py-3 px-4 sm:px-6">Usuária / Identificação</th>
                       <th className="py-3 px-4">E-mail</th>
@@ -327,75 +328,72 @@ export const AdminDashboard: React.FC = () => {
                       <th className="py-3 px-4 text-right">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <tbody className="divide-y divide-[#27272A]">
                     {filteredUsers.map((u) => {
                       const isCurrentAdmin = u.id === currentUser?.id
                       const isRoleAdmin = u.role === 'admin'
 
                       return (
-                        <tr
-                          key={u.id}
-                          className="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition-colors"
-                        >
+                        <tr key={u.id} className="hover:bg-[#121216] transition-colors">
                           <td className="py-3.5 px-4 sm:px-6">
                             <div className="flex items-center gap-3">
                               <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 ${
+                                className={`w-8 h-8 rounded-[6px] flex items-center justify-center text-xs font-mono font-bold text-white shrink-0 ${
                                   isRoleAdmin
-                                    ? 'bg-linear-to-br from-[#5B3A8E] to-[#452A6F]'
-                                    : 'bg-slate-500 dark:bg-slate-700'
+                                    ? 'bg-[#C084FC] text-[#0A0A14]'
+                                    : 'bg-[#0A0A14] border border-[#27272A] text-[#A1A1AA]'
                                 }`}
                               >
                                 {(u.name || u.email || 'P')[0].toUpperCase()}
                               </div>
                               <div className="min-w-0">
-                                <p className="font-semibold text-slate-900 dark:text-white truncate">
+                                <p className="font-semibold text-white truncate">
                                   {u.name || 'Sem nome informado'}
                                   {isCurrentAdmin && (
-                                    <span className="ml-2 text-[10px] text-purple-600 dark:text-purple-300 font-normal">
+                                    <span className="ml-2 text-[10px] font-mono text-[#C084FC] font-normal">
                                       (você)
                                     </span>
                                   )}
                                 </p>
-                                <p className="text-[10px] text-slate-500 font-mono">ID: {u.id}</p>
+                                <p className="text-[10px] text-[#71717A] font-mono">ID: {u.id}</p>
                               </div>
                             </div>
                           </td>
 
-                          <td className="py-3.5 px-4 font-mono text-slate-700 dark:text-slate-300">
+                          <td className="py-3.5 px-4 font-mono text-[#A1A1AA]">
                             <div className="flex items-center gap-1.5 truncate">
-                              <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              <Mail className="w-3.5 h-3.5 text-[#71717A] shrink-0" />
                               <span className="truncate">{u.email}</span>
                             </div>
                           </td>
 
                           <td className="py-3.5 px-4">
                             {isRoleAdmin ? (
-                              <Badge className="bg-purple-100 text-[#5B3A8E] dark:bg-purple-950 dark:text-purple-300 border-purple-200 dark:border-purple-800 text-[10px] font-semibold">
-                                <Shield className="w-3 h-3 mr-1" />
-                                Admin
+                              <Badge className="bg-[#18181B] text-[#C084FC] border-[#C084FC]/40 text-[10px] font-mono font-semibold">
+                                <Shield className="w-3 h-3 mr-1 text-[#FB923C]" />
+                                ADMIN
                               </Badge>
                             ) : (
                               <Badge
                                 variant="outline"
-                                className="text-[10px] text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700"
+                                className="text-[10px] font-mono text-[#A1A1AA] border-[#27272A] bg-[#0A0A14]"
                               >
-                                Psicóloga (user)
+                                USER
                               </Badge>
                             )}
                           </td>
 
-                          <td className="py-3.5 px-4 text-slate-600 dark:text-slate-400">
+                          <td className="py-3.5 px-4 text-[#A1A1AA] font-mono">
                             <div className="flex items-center gap-1.5">
-                              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                              <Calendar className="w-3.5 h-3.5 text-[#71717A]" />
                               <span>{formatDate(u.created)}</span>
                             </div>
                           </td>
 
                           <td className="py-3.5 px-4 text-right">
-                            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-emerald-400">
                               <CheckCircle2 className="w-3.5 h-3.5" />
-                              Ativa
+                              ATIVA
                             </span>
                           </td>
                         </tr>
@@ -408,18 +406,17 @@ export const AdminDashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Card Informativo sobre Políticas e LGPD */}
-        <div className="p-4 rounded-xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/40 text-xs text-slate-600 dark:text-slate-400 space-y-1">
-          <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-            <Shield className="w-4 h-4 text-[#5B3A8E] dark:text-purple-400" />
+        {/* Card Informativo sobre Políticas e LGPD Astral */}
+        <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] text-xs text-[#A1A1AA] space-y-1">
+          <p className="font-semibold text-white flex items-center gap-1.5">
+            <Shield className="w-4 h-4 text-[#C084FC]" />
             Políticas de Acesso & Privacidade
           </p>
           <p className="leading-relaxed">
             As contas comuns possuem restrição de acesso por RLS (Row Level Security), impedindo a
-            leitura de dados ou backups de terceiros. Apenas contas com a role <code>
-              admin
-            </code>{' '}
-            possuem privilégio para visualizar a listagem geral de contas.
+            leitura de dados ou backups de terceiros. Apenas contas com a role{' '}
+            <code className="text-[#C084FC] font-mono">admin</code> possuem privilégio para
+            visualizar a listagem geral de contas.
           </p>
         </div>
       </main>

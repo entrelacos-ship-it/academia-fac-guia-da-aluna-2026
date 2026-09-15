@@ -20,10 +20,10 @@ interface ChartsProps {
 }
 
 const COLORS = {
-  pessoal: '#5B3A8E', // Roxo FAC
-  profissional: '#16746E', // Esmeralda
-  retirada: '#C86A1F', // Âmbar
-  reserva: '#DF694B', // Terracota
+  pessoal: '#C084FC', // Astral Primary
+  profissional: '#FB923C', // Astral Accent
+  retirada: '#A855F7', // Purple complementary
+  reserva: '#F97316', // Orange complementary
 }
 
 export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation }) => {
@@ -95,26 +95,38 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
   ]
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+    <div className="bg-[#18181B] rounded-[16px] p-6 border border-[#27272A] shadow-xl space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C084FC] block">
+            VISUALIZAÇÃO ASTRAL
+          </span>
+          <h3 className="font-sans text-lg font-semibold text-white">
             Decomposição Financeira Visual
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#A1A1AA]">
             Entenda como cada centavo do seu faturamento e do preço da sessão é distribuído
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-auto">
-          <TabsList className="bg-slate-100 dark:bg-slate-800 h-9 p-1">
-            <TabsTrigger value="donut" className="text-xs gap-1.5 h-7">
+          <TabsList className="bg-[#0A0A14] border border-[#27272A] h-9 p-1 rounded-[8px]">
+            <TabsTrigger
+              value="donut"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+            >
               <PieIcon className="w-3.5 h-3.5" /> Donut
             </TabsTrigger>
-            <TabsTrigger value="barras" className="text-xs gap-1.5 h-7">
+            <TabsTrigger
+              value="barras"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+            >
               <BarChart3 className="w-3.5 h-3.5" /> Barras
             </TabsTrigger>
-            <TabsTrigger value="sessao" className="text-xs gap-1.5 h-7">
+            <TabsTrigger
+              value="sessao"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+            >
               <Layers className="w-3.5 h-3.5" /> Por Sessão
             </TabsTrigger>
           </TabsList>
@@ -152,48 +164,48 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
                     'Total Mensal',
                   ]}
                   contentStyle={{
-                    backgroundColor: '#ffffff',
+                    backgroundColor: '#18181B',
                     borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                    border: '1px solid #27272A',
                     fontSize: '12px',
+                    color: '#FFFFFF',
                   }}
+                  itemStyle={{ color: '#FFFFFF' }}
                 />
               </PieChart>
             </ResponsiveContainer>
 
-            {/* Centro do Donut */}
+            {/* Centro do Donut Astral */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
                 Faturamento Bruto
               </span>
-              <span className="font-serif font-bold text-lg sm:text-xl text-slate-900 dark:text-white">
+              <span className="font-mono font-bold text-lg sm:text-xl text-white">
                 {formatBRL(calculation.faturamentoBruto)}
               </span>
-              <span className="text-[10px] text-slate-500">ao mês</span>
+              <span className="text-[10px] font-mono text-[#71717A]">ao mês</span>
             </div>
           </div>
 
-          {/* Legenda em 4 colunas */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          {/* Legenda em 4 colunas Astral */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[#27272A]">
             {donutData.map((item) => (
               <div
                 key={item.name}
-                className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/40 text-xs"
+                className="p-2 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs font-mono"
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span
                     className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="font-medium text-slate-700 dark:text-slate-300 truncate text-[11px]">
+                  <span className="font-medium text-[#A1A1AA] truncate text-[11px]">
                     {item.name}
                   </span>
                 </div>
-                <div className="font-mono font-bold text-slate-900 dark:text-slate-100 text-xs">
-                  {formatBRL(item.value)}
-                </div>
-                <div className="text-[10px] text-slate-500">
+                <div className="font-bold text-white text-xs">{formatBRL(item.value)}</div>
+                <div className="text-[10px] text-[#71717A]">
                   {formatNumberBR(item.pct, 1)}% do bruto
                 </div>
               </div>
@@ -224,12 +236,14 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
                     'Mensal',
                   ]}
                   contentStyle={{
-                    backgroundColor: '#ffffff',
+                    backgroundColor: '#18181B',
                     borderRadius: '8px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                    border: '1px solid #27272A',
                     fontSize: '12px',
+                    color: '#FFFFFF',
                   }}
+                  itemStyle={{ color: '#FFFFFF' }}
                 />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {donutData.map((entry, index) => (
@@ -245,29 +259,28 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
       {/* Tab 3: Por Sessão (Decomposição Horizontal) */}
       {activeTab === 'sessao' && (
         <div className="space-y-4">
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Cada sessão de <strong>{formatBRL(calculation.pisoMinimoSessao)}</strong> cobre
-            exatamente as quatro obrigações abaixo:
+          <p className="text-xs text-[#A1A1AA]">
+            Cada sessão de{' '}
+            <strong className="text-white font-mono">
+              {formatBRL(calculation.pisoMinimoSessao)}
+            </strong>{' '}
+            cobre exatamente as quatro obrigações abaixo:
           </p>
 
           <div className="space-y-3 pt-1">
             {sessionData.map((item) => (
               <div key={item.category} className="space-y-1">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">
-                    {item.category}
-                  </span>
+                  <span className="font-medium text-white">{item.category}</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-slate-900 dark:text-white">
-                      {formatBRL(item.valor)}
-                    </span>
-                    <span className="text-[11px] text-slate-500 font-mono">
+                    <span className="font-mono font-bold text-white">{formatBRL(item.valor)}</span>
+                    <span className="text-[11px] text-[#A1A1AA] font-mono">
                       ({formatNumberBR(item.pct, 2)}%)
                     </span>
                   </div>
                 </div>
 
-                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-[#0A0A14] border border-[#27272A] rounded-full h-3 overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -280,8 +293,8 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
             ))}
           </div>
 
-          <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/60 text-center">
-            <span className="text-xs font-semibold text-[#5B3A8E] dark:text-purple-300">
+          <div className="p-3 rounded-[8px] bg-[#121216] border border-[#C084FC]/30 text-center font-mono">
+            <span className="text-xs font-semibold text-[#C084FC]">
               A soma das 4 parcelas é exatamente {formatBRL(calculation.pisoMinimoSessao)} (100% do
               Piso Ético).
             </span>

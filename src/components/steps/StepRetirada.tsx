@@ -28,27 +28,32 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
-      {/* Banner de Explicação */}
-      <div className="p-4 rounded-xl bg-[#F5F2F9] dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 flex items-start gap-3">
-        <div className="p-2 rounded-lg bg-[#5B3A8E] text-white shrink-0 mt-0.5">
+      {/* Banner de Explicação Astral */}
+      <div className="p-4 rounded-[12px] bg-[#18181B] border border-[#27272A] flex items-start gap-3">
+        <div className="p-2 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] shrink-0 mt-0.5">
           <Coins className="w-4 h-4" />
         </div>
         <div>
-          <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
-            Passo 3: Retirada Desejada (Pró-Labore)
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold text-[#C084FC] uppercase tracking-wider">
+              PASSO 3 / 7
+            </span>
+          </div>
+          <h2 className="font-sans text-lg font-semibold text-white">
+            Retirada Desejada (Pró-Labore)
           </h2>
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-0.5">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed mt-0.5">
             Valor livre para lazer, projetos futuros e qualidade de vida, além dos seus custos
             fixos. Este é o seu verdadeiro &ldquo;salário líquido pessoal&rdquo; do consultório.
           </p>
         </div>
       </div>
 
-      {/* Caixa Central de Entrada */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+      {/* Caixa Central de Entrada Astral */}
+      <div className="bg-[#18181B] rounded-[16px] p-6 sm:p-8 border border-[#27272A] shadow-xl space-y-6">
         {/* Atalhos Rápidos */}
         <div className="space-y-2">
-          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#A1A1AA]">
             Sugestões de Atividade Sugerida:
           </span>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -59,20 +64,20 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
                   key={p.value}
                   type="button"
                   onClick={() => onSetRetirada(p.value)}
-                  className={`p-3 rounded-xl text-left border transition-all ${
+                  className={`p-3 rounded-[12px] text-left border transition-all ${
                     isSelected
-                      ? 'border-[#5B3A8E] bg-[#F5F2F9] dark:bg-purple-950/50 text-[#5B3A8E] dark:text-purple-300 ring-2 ring-[#5B3A8E]/30'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-purple-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                      ? 'border-[#C084FC] bg-[#121216] text-[#C084FC] shadow-sm'
+                      : 'border-[#27272A] bg-[#0A0A14] hover:border-[#3F3F46] text-[#A1A1AA]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold block">{p.label}</span>
-                    {isSelected && <Check className="w-3.5 h-3.5 text-[#5B3A8E]" />}
+                    <span className="text-xs font-semibold block">{p.label}</span>
+                    {isSelected && <Check className="w-3.5 h-3.5 text-[#C084FC]" />}
                   </div>
-                  <div className="font-mono text-base font-bold mt-1 text-slate-900 dark:text-white">
+                  <div className="font-mono text-base font-bold mt-1 text-white">
                     {formatBRL(p.value)}
                   </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
+                  <span className="text-[10px] font-mono text-[#71717A] block mt-0.5">
                     {p.desc}
                   </span>
                 </button>
@@ -86,7 +91,7 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
           <CurrencyInput
             id="retirada-input"
             label="Sua Retirada Mensal Desejada"
-            icon={<Coins className="w-4 h-4" />}
+            icon={<Coins className="w-4 h-4 text-[#C084FC]" />}
             value={currentRetirada}
             onChange={onSetRetirada}
             size="large"
@@ -97,8 +102,8 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
 
         {/* Feedback Contextual Dinâmico */}
         {currentRetirada > 0 && currentRetirada < 1000 && (
-          <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 flex items-start gap-2.5 text-xs text-amber-800 dark:text-amber-200">
-            <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-[12px] bg-[#121216] border border-[#FB923C]/40 flex items-start gap-2.5 text-xs text-[#FB923C]">
+            <Info className="w-4 h-4 text-[#FB923C] shrink-0 mt-0.5" />
             <p>
               Você está considerando uma retirada conservadora. Lembre-se de incluir lazer, descanso
               remunerado e reservas pessoais para manter a saúde mental ao longo da carreira.
@@ -107,8 +112,8 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
         )}
 
         {currentRetirada >= 5000 && (
-          <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 flex items-start gap-2.5 text-xs text-emerald-800 dark:text-emerald-200">
-            <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-[12px] bg-[#121216] border border-[#C084FC]/40 flex items-start gap-2.5 text-xs text-purple-200">
+            <TrendingUp className="w-4 h-4 text-[#C084FC] shrink-0 mt-0.5" />
             <p>
               Excelente ambição clínica! O Método FAC permite estruturar sua agenda com qualidade e
               tempo de estudo para atingir faturamento elevado de forma sustentável e sem burnout.
@@ -118,18 +123,18 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between pt-6 border-t border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-2 border-slate-300 dark:border-slate-700"
+          className="gap-2 border-[#27272A] bg-[#18181B] text-[#A1A1AA] hover:text-white rounded-[8px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar aos Custos Profissionais
         </Button>
         <Button
           onClick={onNext}
-          className="gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white px-6 font-medium shadow-sm"
+          className="gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#C084FC]/20"
         >
           Continuar para Reserva & Tributação
           <ArrowRight className="w-4 h-4" />

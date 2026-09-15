@@ -196,30 +196,30 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
         </div>
       </div>
 
-      {/* Destaque Editorial: Antes e Depois */}
-      <div className="p-6 rounded-2xl bg-linear-to-br from-[#16746E]/10 via-[#FAF8F5] to-purple-500/10 dark:from-emerald-950/30 dark:via-slate-900 dark:to-purple-950/20 border border-emerald-200 dark:border-emerald-900 shadow-sm">
+      {/* Destaque Astral: Antes e Depois */}
+      <div className="p-6 rounded-[16px] bg-[#18181B] border border-[#27272A] shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           {/* Valor Anterior */}
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#71717A] block">
               Honorário Anterior / Atual
             </span>
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-slate-700 dark:text-slate-300 line-through decoration-slate-400/60">
+            <div className="font-mono text-3xl sm:text-4xl font-bold text-[#71717A] line-through">
               {formatBRL(result.honorarioAtual)}
             </div>
-            <span className="text-xs text-slate-500">por atendimento de 50 min</span>
+            <span className="text-xs text-[#71717A]">por atendimento</span>
           </div>
 
           {/* Seta e Variação */}
-          <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-emerald-300 dark:border-emerald-800 shadow-2xs text-center">
-            <div className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold text-sm">
+          <div className="flex flex-col items-center justify-center p-3 rounded-[12px] bg-[#0A0A14] border border-[#27272A] text-center font-mono">
+            <div className="inline-flex items-center gap-1 text-[#FB923C] font-bold text-sm">
               <ArrowUpRight className="w-4 h-4" />
               <span>+{formatNumberBR(result.deltaPercentualTotal, 2)}%</span>
             </div>
-            <span className="text-[11px] font-mono text-slate-600 dark:text-slate-400 mt-0.5">
+            <span className="text-[11px] text-[#A1A1AA] mt-0.5">
               +{formatBRL(result.deltaAbsolutoSessao)} por sessão
             </span>
-            <span className="text-[10px] text-slate-400 mt-1 font-medium">
+            <span className="text-[10px] text-[#71717A] mt-1 font-medium">
               ({inputs.tipoIndice} {result.indiceEfetivoPct.toFixed(2)}% · {inputs.numeroPeriodos}{' '}
               ano(s))
             </span>
@@ -227,47 +227,45 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
 
           {/* Novo Valor Reajustado */}
           <div className="space-y-1 md:text-right">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#16746E] dark:text-emerald-400 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C084FC] block">
               Novo Honorário Reajustado
             </span>
-            <div className="font-serif text-3xl sm:text-5xl font-bold text-[#16746E] dark:text-emerald-300">
+            <div className="font-mono text-3xl sm:text-5xl font-bold text-white">
               {formatBRL(result.novoHonorario)}
             </div>
-            <span className="text-xs text-slate-500">por atendimento</span>
+            <span className="text-xs font-mono text-[#A1A1AA]">por atendimento</span>
           </div>
         </div>
 
         {/* Impacto Mensal e Anual no Faturamento da Clínica */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-emerald-200/60 dark:border-emerald-900/60 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-[#27272A] text-xs font-mono">
           <div>
-            <span className="text-slate-500 text-[10px] uppercase font-bold block">
+            <span className="text-[#71717A] text-[10px] uppercase font-bold block">
               Sessões Efetivas / Mês
             </span>
-            <span className="font-mono text-base font-bold text-slate-800 dark:text-slate-200">
-              {result.sessoesEfetivasMes}
-            </span>
+            <span className="text-base font-bold text-white">{result.sessoesEfetivasMes}</span>
           </div>
           <div>
-            <span className="text-slate-500 text-[10px] uppercase font-bold block">
-              Faturamento Mensal Atual
+            <span className="text-[#71717A] text-[10px] uppercase font-bold block">
+              Faturamento Atual
             </span>
-            <span className="font-mono text-base font-medium text-slate-700 dark:text-slate-300">
+            <span className="text-base font-medium text-[#A1A1AA]">
               {formatBRL(result.faturamentoMensalAntes)}
             </span>
           </div>
           <div>
-            <span className="text-slate-500 text-[10px] uppercase font-bold block">
+            <span className="text-[#71717A] text-[10px] uppercase font-bold block">
               Novo Faturamento Mensal
             </span>
-            <span className="font-mono text-base font-bold text-emerald-700 dark:text-emerald-400">
+            <span className="text-base font-bold text-[#FB923C]">
               {formatBRL(result.faturamentoMensalDepois)}
             </span>
           </div>
           <div>
-            <span className="text-slate-500 text-[10px] uppercase font-bold block">
+            <span className="text-[#71717A] text-[10px] uppercase font-bold block">
               Ganho Anual Protegido
             </span>
-            <span className="font-mono text-base font-bold text-[#5B3A8E] dark:text-purple-300">
+            <span className="text-base font-bold text-[#C084FC]">
               +{formatBRL(result.deltaAnual)}
             </span>
           </div>

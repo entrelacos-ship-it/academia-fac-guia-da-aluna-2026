@@ -159,18 +159,18 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-[#0f172a] border-slate-200 dark:border-slate-800 p-6 max-h-[92vh] overflow-y-auto">
-          <DialogHeader className="space-y-1.5 pb-2 border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-950/80 text-[#5B3A8E] dark:text-purple-300 flex items-center justify-center shrink-0">
+        <DialogContent className="sm:max-w-md bg-[#18181B] border-[#27272A] text-white p-6 max-h-[92vh] overflow-y-auto rounded-[16px] shadow-2xl">
+          <DialogHeader className="space-y-1.5 pb-2 border-b border-[#27272A]">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-[8px] bg-[#0A0A14] border border-[#27272A] text-[#C084FC] flex items-center justify-center shrink-0">
                 <Cloud className="w-5 h-5" />
               </div>
               <div>
-                <DialogTitle className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                <DialogTitle className="font-sans text-lg sm:text-xl font-semibold text-white">
                   Backup em Nuvem Multi-dispositivo
                 </DialogTitle>
-                <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
-                  Sincronize sua calculadora entre o consultório e seu celular
+                <DialogDescription className="text-xs text-[#A1A1AA] font-mono">
+                  SINCRONIZAÇÃO ASTRAL · FAC
                 </DialogDescription>
               </div>
             </div>
@@ -201,54 +201,52 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
           {/* ESTADO 1: CONECTADA */}
           {isConnected && currentUser ? (
             <div className="space-y-5 pt-2">
-              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+              <div className="p-4 rounded-[12px] bg-[#121216] border border-[#27272A] space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FB923C] animate-pulse" />
+                    <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
                       Conta Conectada
                     </span>
                   </div>
                   <Badge
                     variant="outline"
-                    className="text-[10px] bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300"
+                    className="text-[10px] font-mono bg-[#0A0A14] border-[#27272A] text-[#C084FC]"
                   >
                     Nuvem Ativa
                   </Badge>
                 </div>
 
-                <div className="text-xs space-y-1">
-                  <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium truncate">
-                    <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                    <span className="truncate">{currentUser.email}</span>
+                <div className="text-xs space-y-1 font-mono">
+                  <div className="flex items-center gap-1.5 text-[#A1A1AA] font-medium truncate">
+                    <Mail className="w-3.5 h-3.5 text-[#71717A] shrink-0" />
+                    <span className="truncate text-white">{currentUser.email}</span>
                   </div>
                   {currentUser.name && (
-                    <div className="text-slate-500 dark:text-slate-400 text-[11px] pl-5">
-                      {currentUser.name}
-                    </div>
+                    <div className="text-[#A1A1AA] text-[11px] pl-5">{currentUser.name}</div>
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-400 flex items-center justify-between">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                <div className="pt-2 border-t border-[#27272A] text-[11px] font-mono text-[#A1A1AA] flex items-center justify-between">
+                  <span className="flex items-center gap-1 text-[#71717A]">
+                    <Calendar className="w-3.5 h-3.5" />
                     Última sincronização:
                   </span>
-                  <strong className="font-mono text-slate-800 dark:text-slate-200">
+                  <strong className="text-[#C084FC]">
                     {formatDate(lastSyncDate || remoteBackup?.updated)}
                   </strong>
                 </div>
 
                 {remoteBackup?.device_name && (
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 pl-0.5">
+                  <div className="text-[10px] font-mono text-[#71717A] flex items-center gap-1 pl-0.5">
                     <Laptop className="w-3 h-3" />
-                    Dispositivo do último envio: {remoteBackup.device_name}
+                    Dispositivo: {remoteBackup.device_name}
                   </div>
                 )}
               </div>
 
               {/* Informação sobre sessão ativa */}
-              <div className="p-3 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <div className="p-3 rounded-[8px] bg-[#18181B] border border-[#27272A] text-xs text-[#A1A1AA] leading-relaxed">
                 Você está autenticada no sistema. Salve suas alterações na nuvem ou restaure em
                 outro aparelho para manter seus dados sincronizados.
               </div>
@@ -322,22 +320,22 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 </form>
               ) : null}
 
-              {/* Botões de Ação Principais */}
+              {/* Botões de Ação Principais Astral */}
               <div className="space-y-2.5">
                 <Button
                   onClick={syncNow}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 bg-[#5B3A8E] hover:bg-[#452A6F] text-white font-medium shadow-sm transition-all"
+                  className="w-full min-h-[44px] gap-2 bg-[#C084FC] hover:bg-[#a855f7] text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#C084FC]/20 transition-all font-mono text-xs"
                 >
                   {isSyncing ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#0A0A14]" />
                       Salvando na nuvem...
                     </>
                   ) : (
                     <>
-                      <CloudUpload className="w-4 h-4" />
-                      Sincronizar agora (Salvar na nuvem)
+                      <CloudUpload className="w-4 h-4 text-[#0A0A14]" />
+                      SINCRONIZAR AGORA (SALVAR NA NUVEM)
                     </>
                   )}
                 </Button>
@@ -346,17 +344,17 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                   variant="outline"
                   onClick={() => setConfirmRestoreOpen(true)}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-950/30 hover:border-amber-300 dark:hover:border-amber-800 transition-all"
+                  className="w-full min-h-[44px] gap-2 border-[#27272A] bg-[#0A0A14] text-white hover:border-[#FB923C]/50 rounded-[8px] transition-all font-mono text-xs"
                 >
                   {isRestoring ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#FB923C]" />
                       Restaurando dados...
                     </>
                   ) : (
                     <>
-                      <CloudDownload className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                      Restaurar da nuvem neste aparelho
+                      <CloudDownload className="w-4 h-4 text-[#FB923C]" />
+                      RESTAURAR DA NUVEM NESTE APARELHO
                     </>
                   )}
                 </Button>
