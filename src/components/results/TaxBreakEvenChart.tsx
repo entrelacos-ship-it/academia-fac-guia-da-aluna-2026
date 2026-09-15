@@ -156,37 +156,39 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
   }, [currentInputs, userFaturamentoAtual])
 
   return (
-    <Card className="bg-[#18181B] border-[#27272A] shadow-xl rounded-[16px]">
+    <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px]">
       <CardHeader className="pb-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="border-[#27272A] bg-[#0A0A14] text-[#C084FC] font-mono font-semibold text-[10px]"
+                className="border-purple-200 dark:border-[#27272A] bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] dark:text-[#C084FC] font-mono font-semibold text-[10px]"
               >
                 CURVA DE FATURAMENTO & BREAK-EVEN
               </Badge>
-              <span className="text-xs font-mono text-[#71717A]">Faixa de R$ 2k a R$ 30k/mês</span>
+              <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                Faixa de R$ 2k a R$ 30k/mês
+              </span>
             </div>
-            <CardTitle className="font-sans text-lg font-semibold text-white mt-1.5">
+            <CardTitle className="font-sans text-lg font-semibold text-slate-900 dark:text-white mt-1.5">
               Comparador Visual da Carga Tributária: PF vs. PJ
             </CardTitle>
-            <CardDescription className="text-xs text-[#A1A1AA]">
+            <CardDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
               Veja exatamente como a carga tributária evolui conforme sua clínica cresce e descubra
               em que faturamento abrir CNPJ passa a ser mais barato.
             </CardDescription>
           </div>
 
           {/* Seletor de Métrica: Carga Tributária vs. Líquido Disponível */}
-          <div className="flex items-center gap-1 bg-[#0A0A14] border border-[#27272A] p-1 rounded-[8px] self-start sm:self-auto shrink-0">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] p-1 rounded-[8px] self-start sm:self-auto shrink-0">
             <button
               type="button"
               onClick={() => setMetricView('tributos')}
               className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-semibold transition-all ${
                 metricView === 'tributos'
-                  ? 'bg-[#18181B] text-[#C084FC] shadow-sm'
-                  : 'text-[#A1A1AA] hover:text-white'
+                  ? 'bg-white dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] shadow-xs'
+                  : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               CARGA TRIBUTÁRIA
@@ -196,8 +198,8 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
               onClick={() => setMetricView('liquido')}
               className={`px-3 py-1.5 rounded-[6px] text-xs font-mono font-semibold transition-all ${
                 metricView === 'liquido'
-                  ? 'bg-[#18181B] text-[#FB923C] shadow-sm'
-                  : 'text-[#A1A1AA] hover:text-white'
+                  ? 'bg-white dark:bg-[#18181B] text-[#ea580c] dark:text-[#FB923C] shadow-xs'
+                  : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               LÍQUIDO DISPONÍVEL
@@ -218,7 +220,9 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
           <div className="flex items-start gap-2.5">
             <div
               className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                primaryBreakEven ? 'bg-[#5B3A8E] text-white' : 'bg-emerald-600 text-white'
+                primaryBreakEven
+                  ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14]'
+                  : 'bg-emerald-600 text-white'
               }`}
             >
               <Sparkles className="w-4 h-4" />
@@ -231,7 +235,7 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                 {primaryBreakEven ? (
                   <>
                     A partir de{' '}
-                    <span className="font-mono text-[#5B3A8E] dark:text-purple-300 font-bold">
+                    <span className="font-mono text-[#7c3aed] dark:text-[#C084FC] font-bold">
                       {formatBRL(primaryBreakEven.faturamento)}/mês
                     </span>
                     , o regime <strong>Pessoa Jurídica (Simples Nacional)</strong> passa a ser mais
@@ -256,7 +260,7 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
             <div className="text-[10px] uppercase font-bold text-slate-400">
               Seu Faturamento Atual (FAC)
             </div>
-            <div className="font-mono text-base font-bold text-[#5B3A8E] dark:text-purple-300">
+            <div className="font-mono text-base font-bold text-[#7c3aed] dark:text-[#C084FC]">
               {formatBRL(userFaturamentoAtual)}
             </div>
             <div className="text-[10px] text-slate-500 mt-0.5">
@@ -298,8 +302,8 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                   const isPjBetter = econ > 0
 
                   return (
-                    <div className="bg-white dark:bg-[#0f172a] p-3.5 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 text-xs space-y-2 min-w-[240px]">
-                      <div className="font-bold border-b border-slate-100 dark:border-slate-800 pb-1 flex justify-between items-center">
+                    <div className="bg-white dark:bg-[#18181B] p-3.5 rounded-xl shadow-lg border border-slate-200 dark:border-[#27272A] text-xs space-y-2 min-w-[240px]">
+                      <div className="font-bold border-b border-slate-200 dark:border-[#27272A] pb-1 flex justify-between items-center">
                         <span className="text-slate-800 dark:text-slate-200">
                           Faturamento Bruto:
                         </span>
@@ -309,9 +313,9 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                       </div>
 
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center text-amber-700 dark:text-amber-400">
+                        <div className="flex justify-between items-center text-orange-700 dark:text-[#FB923C]">
                           <span className="flex items-center gap-1">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#5B3A8E]" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
                             {metricView === 'tributos' ? 'PF (Carnê-Leão):' : 'Líquido PF:'}
                           </span>
                           <span className="font-mono font-bold">
@@ -320,15 +324,15 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                             )}
                           </span>
                         </div>
-                        <div className="text-[10px] text-slate-400 pl-4">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 pl-4">
                           Alíquota efetiva PF: {formatNumberBR(item.aliquotaPf, 2)}%
                         </div>
                       </div>
 
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center text-emerald-700 dark:text-emerald-400">
+                        <div className="flex justify-between items-center text-purple-700 dark:text-[#C084FC]">
                           <span className="flex items-center gap-1">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#16746E]" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#7c3aed] dark:bg-[#C084FC]" />
                             {metricView === 'tributos' ? 'PJ (Simples Nacional):' : 'Líquido PJ:'}
                           </span>
                           <span className="font-mono font-bold">
@@ -337,18 +341,18 @@ export const TaxBreakEvenChart: React.FC<TaxBreakEvenChartProps> = ({
                             )}
                           </span>
                         </div>
-                        <div className="text-[10px] text-slate-400 pl-4">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 pl-4">
                           Alíquota global PJ: {formatNumberBR(item.aliquotaPj, 2)}% ({item.anexoPj})
                         </div>
                       </div>
 
-                      <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                      <div className="pt-1.5 border-t border-slate-200 dark:border-[#27272A] flex justify-between items-center">
                         <span className="font-medium text-slate-600 dark:text-slate-400">
                           Regime mais econômico:
                         </span>
                         <Badge
                           className={`text-[10px] font-bold ${
-                            isPjBetter ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'
+                            isPjBetter ? 'bg-emerald-600 text-white' : 'bg-orange-600 text-white'
                           }`}
                         >
                           {isPjBetter ? 'PJ Simples' : 'PF Carnê-Leão'} (+

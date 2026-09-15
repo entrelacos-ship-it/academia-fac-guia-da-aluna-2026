@@ -95,37 +95,37 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
   ]
 
   return (
-    <div className="bg-[#18181B] rounded-[16px] p-6 border border-[#27272A] shadow-xl space-y-4">
+    <div className="bg-white dark:bg-[#18181B] rounded-[16px] p-6 border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C084FC] block">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
             VISUALIZAÇÃO ASTRAL
           </span>
-          <h3 className="font-sans text-lg font-semibold text-white">
+          <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
             Decomposição Financeira Visual
           </h3>
-          <p className="text-xs text-[#A1A1AA]">
+          <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Entenda como cada centavo do seu faturamento e do preço da sessão é distribuído
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-auto">
-          <TabsList className="bg-[#0A0A14] border border-[#27272A] h-9 p-1 rounded-[8px]">
+          <TabsList className="bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] h-9 p-1 rounded-[8px]">
             <TabsTrigger
               value="donut"
-              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC] rounded-[6px] data-[state=active]:shadow-xs"
             >
               <PieIcon className="w-3.5 h-3.5" /> Donut
             </TabsTrigger>
             <TabsTrigger
               value="barras"
-              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC] rounded-[6px] data-[state=active]:shadow-xs"
             >
               <BarChart3 className="w-3.5 h-3.5" /> Barras
             </TabsTrigger>
             <TabsTrigger
               value="sessao"
-              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-[#18181B] data-[state=active]:text-[#C084FC] rounded-[6px]"
+              className="text-xs font-mono gap-1.5 h-7 data-[state=active]:bg-white dark:data-[state=active]:bg-[#18181B] data-[state=active]:text-[#7c3aed] dark:data-[state=active]:text-[#C084FC] rounded-[6px] data-[state=active]:shadow-xs"
             >
               <Layers className="w-3.5 h-3.5" /> Por Sessão
             </TabsTrigger>
@@ -153,7 +153,8 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
                     <Cell
                       key={`cell-${index}`}
                       fill={entry.color}
-                      stroke="#ffffff"
+                      stroke="currentColor"
+                      className="text-white dark:text-[#18181B]"
                       strokeWidth={2}
                     />
                   ))}
@@ -163,49 +164,58 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
                     formatBRL(typeof val === 'number' ? val : 0),
                     'Total Mensal',
                   ]}
-                  contentStyle={{
-                    backgroundColor: '#18181B',
-                    borderRadius: '8px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-                    border: '1px solid #27272A',
-                    fontSize: '12px',
-                    color: '#FFFFFF',
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0]
+                      return (
+                        <div className="bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] rounded-[8px] p-2.5 shadow-lg text-xs font-mono">
+                          <p className="text-slate-600 dark:text-[#A1A1AA]">{data.name}</p>
+                          <p className="text-slate-900 dark:text-white font-bold text-sm">
+                            {formatBRL(typeof data.value === 'number' ? data.value : 0)}
+                          </p>
+                        </div>
+                      )
+                    }
+                    return null
                   }}
-                  itemStyle={{ color: '#FFFFFF' }}
                 />
               </PieChart>
             </ResponsiveContainer>
 
             {/* Centro do Donut Astral */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA]">
                 Faturamento Bruto
               </span>
-              <span className="font-mono font-bold text-lg sm:text-xl text-white">
+              <span className="font-mono font-bold text-lg sm:text-xl text-slate-900 dark:text-white">
                 {formatBRL(calculation.faturamentoBruto)}
               </span>
-              <span className="text-[10px] font-mono text-[#71717A]">ao mês</span>
+              <span className="text-[10px] font-mono text-slate-400 dark:text-[#71717A]">
+                ao mês
+              </span>
             </div>
           </div>
 
           {/* Legenda em 4 colunas Astral */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[#27272A]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-200 dark:border-[#27272A]">
             {donutData.map((item) => (
               <div
                 key={item.name}
-                className="p-2 rounded-[8px] bg-[#121216] border border-[#27272A] text-xs font-mono"
+                className="p-2 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs font-mono shadow-xs"
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span
                     className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="font-medium text-[#A1A1AA] truncate text-[11px]">
+                  <span className="font-medium text-slate-700 dark:text-[#A1A1AA] truncate text-[11px]">
                     {item.name}
                   </span>
                 </div>
-                <div className="font-bold text-white text-xs">{formatBRL(item.value)}</div>
-                <div className="text-[10px] text-[#71717A]">
+                <div className="font-bold text-slate-900 dark:text-white text-xs">
+                  {formatBRL(item.value)}
+                </div>
+                <div className="text-[10px] text-slate-500 dark:text-[#71717A]">
                   {formatNumberBR(item.pct, 1)}% do bruto
                 </div>
               </div>
@@ -231,19 +241,20 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
                   tickFormatter={(v) => `R$ ${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`}
                 />
                 <Tooltip
-                  formatter={(val: unknown) => [
-                    formatBRL(typeof val === 'number' ? val : 0),
-                    'Mensal',
-                  ]}
-                  contentStyle={{
-                    backgroundColor: '#18181B',
-                    borderRadius: '8px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-                    border: '1px solid #27272A',
-                    fontSize: '12px',
-                    color: '#FFFFFF',
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0]
+                      return (
+                        <div className="bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] rounded-[8px] p-2.5 shadow-lg text-xs font-mono">
+                          <p className="text-slate-600 dark:text-[#A1A1AA]">{data.payload?.name}</p>
+                          <p className="text-slate-900 dark:text-white font-bold text-sm">
+                            {formatBRL(typeof data.value === 'number' ? data.value : 0)}
+                          </p>
+                        </div>
+                      )
+                    }
+                    return null
                   }}
-                  itemStyle={{ color: '#FFFFFF' }}
                 />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {donutData.map((entry, index) => (
@@ -259,9 +270,9 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
       {/* Tab 3: Por Sessão (Decomposição Horizontal) */}
       {activeTab === 'sessao' && (
         <div className="space-y-4">
-          <p className="text-xs text-[#A1A1AA]">
+          <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
             Cada sessão de{' '}
-            <strong className="text-white font-mono">
+            <strong className="text-slate-900 dark:text-white font-mono">
               {formatBRL(calculation.pisoMinimoSessao)}
             </strong>{' '}
             cobre exatamente as quatro obrigações abaixo:
@@ -271,16 +282,20 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
             {sessionData.map((item) => (
               <div key={item.category} className="space-y-1">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-white">{item.category}</span>
+                  <span className="font-medium text-slate-800 dark:text-white">
+                    {item.category}
+                  </span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-white">{formatBRL(item.valor)}</span>
-                    <span className="text-[11px] text-[#A1A1AA] font-mono">
+                    <span className="font-mono font-bold text-slate-900 dark:text-white">
+                      {formatBRL(item.valor)}
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-[#A1A1AA] font-mono">
                       ({formatNumberBR(item.pct, 2)}%)
                     </span>
                   </div>
                 </div>
 
-                <div className="w-full bg-[#0A0A14] border border-[#27272A] rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] rounded-full h-3 overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -293,8 +308,8 @@ export const FinancialBreakdownCharts: React.FC<ChartsProps> = ({ calculation })
             ))}
           </div>
 
-          <div className="p-3 rounded-[8px] bg-[#121216] border border-[#C084FC]/30 text-center font-mono">
-            <span className="text-xs font-semibold text-[#C084FC]">
+          <div className="p-3 rounded-[8px] bg-purple-50 dark:bg-[#121216] border border-purple-200 dark:border-[#C084FC]/30 text-center font-mono">
+            <span className="text-xs font-semibold text-[#7c3aed] dark:text-[#C084FC]">
               A soma das 4 parcelas é exatamente {formatBRL(calculation.pisoMinimoSessao)} (100% do
               Piso Ético).
             </span>
