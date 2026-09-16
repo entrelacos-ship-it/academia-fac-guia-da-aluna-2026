@@ -85,7 +85,6 @@ interface LayoutProps {
   theme: 'light' | 'dark'
   onToggleTheme: () => void
   onOpenTour?: () => void
-  onOpenCloudBackup?: () => void
   onOpenAuth?: (mode?: AuthMode) => void
 }
 
@@ -96,7 +95,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
   theme,
   onToggleTheme,
   onOpenTour,
-  onOpenCloudBackup,
   onOpenAuth,
 }) => {
   const {
@@ -122,19 +120,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
     } else {
       setAuthModalMode(mode)
       setAuthModalOpen(true)
-    }
-  }
-
-  const handleOpenCloud = () => {
-    if (onOpenCloudBackup) {
-      onOpenCloudBackup()
-    } else {
-      // Se não estiver conectada, abrir a tela rica de login/cadastro
-      if (!isConnected) {
-        handleOpenAuth('login')
-      } else {
-        setCloudBackupOpen(true)
-      }
     }
   }
 
@@ -174,13 +159,10 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
-            {/* Indicador de Status de Sincronização Automática em Nuvem (clicável para gerenciar/restaurar) */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleOpenCloud}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 rounded-[8px]"
-              aria-label="Status da Nuvem e Opções de Restauração"
+            {/* Indicador de Status da Nuvem no Cabeçalho (somente leitura / sem ação de botão) */}
+            <div
+              className="inline-flex items-center min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 px-2.5 py-1.5 border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white rounded-[8px] select-none"
+              aria-label="Status da sincronização em nuvem"
               title={
                 isSyncing
                   ? 'Sincronizando alterações automaticamente com a nuvem...'
@@ -207,7 +189,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
               <span className="hidden sm:inline font-mono text-xs font-semibold">
                 {isSyncing ? 'Sincronizando' : 'Nuvem'}
               </span>
-            </Button>
+            </div>
 
             {/* Identificação de Usuária no Desktop */}
             <div
@@ -548,22 +530,40 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   </Button>
                 )}
 
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    setCloudBackupOpen(true)
-                  }}
-                  className="w-full justify-center gap-2 min-h-[44px] bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
+                {/* Status da Nuvem no menu mobile (apenas indicador informativo, sem ação de botão) */}
+                <div
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 font-mono text-xs rounded-[8px] select-none"
+                  title={
+                    isSyncing
+                      ? 'Sincronizando alterações automaticamente com a nuvem...'
+                      : isConnected
+                        ? `Nuvem conectada e sincronizada (${currentUser?.email || 'Conectada'})`
+                        : 'Desconectada da nuvem'
+                  }
                 >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isSyncing
+                        ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
+                        : isConnected
+                          ? 'bg-emerald-500'
+                          : 'bg-amber-500'
+                    }`}
+                  />
                   <CloudStatusIcon
                     status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
                     size={16}
                     strokeWidth={1.75}
-                    className="text-[#ea580c] dark:text-[#FB923C]"
+                    className="text-[#7c3aed] dark:text-[#C084FC]"
                   />
-                  NUVEM & SINCRONIZAÇÃO
-                </Button>
+                  <span>
+                    {isSyncing
+                      ? 'SINCRONIZANDO COM A NUVEM...'
+                      : isConnected
+                        ? 'NUVEM SINCRONIZADA'
+                        : 'NUVEM DESCONECTADA'}
+                  </span>
+                </div>
                 {onOpenTour && (
                   <Button
                     variant="outline"
@@ -636,11 +636,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
         onClose={() => setAuthModalOpen(false)}
         initialMode={authModalMode}
         onSuccess={() => {
-          // Após login/cadastro com sucesso, abrir o painel de sincronização
-          setTimeout(() => {
-            setAuthModalOpen(false)
-            setCloudBackupOpen(true)
-          }, 600)
+          setAuthModalOpen(false)
         }}
       />
     </div>
