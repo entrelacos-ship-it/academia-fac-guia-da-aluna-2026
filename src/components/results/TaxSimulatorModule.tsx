@@ -93,6 +93,9 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_TAXSIM, JSON.stringify(inputs))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
       console.warn('Erro ao salvar simulador tributário:', e)
     }

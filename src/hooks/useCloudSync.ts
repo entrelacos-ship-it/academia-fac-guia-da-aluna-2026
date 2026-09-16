@@ -6,6 +6,7 @@ import {
   fetchLatestCloudBackup,
   saveCloudBackup,
   restoreBackupDataToLocal,
+  hasSignificantLocalData,
 } from '@/services/cloudBackup'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 
@@ -418,23 +419,87 @@ export function useCloudSync() {
     [currentUser],
   )
 
-  // Debounce de sincronização automática após edições locais (opcional, só quando logada)
+  // Prompt de restauração detectado quando há backup na nuvem mais recente/relevante
+  const [cloudRestoreAvailable, setCloudRestoreAvailable] = useState<boolean>(false)
+
+  // Debounce de sincronização automática após edições locais (quando autenticada)
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const scheduleAutoSync = useCallback(() => {
-    if (!currentUser) return
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current)
-    }
-    debounceTimerRef.current = setTimeout(async () => {
-      try {
-        const record = await saveCloudBackup()
-        setRemoteBackup(record)
-        setLastSyncDate(record.updated)
-      } catch {
-        // auto-sync falha silenciosamente sem incomodar a psicóloga
+  const scheduleAutoSync = useCallback(
+    (delayMs = 2000) => {
+      if (!currentUser) return
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current)
       }
-    }, 4000) // 4 segundos de debounce
-  }, [currentUser])
+      debounceTimerRef.current = setTimeout(async () => {
+        setIsSyncing(true)
+        try {
+          const record = await saveCloudBackup()
+          setRemoteBackup(record)
+          setLastSyncDate(record.updated)
+        } catch (err) {
+          console.warn('[AutoSync] Erro na sincronização automática em background:', err)
+        } finally {
+          setIsSyncing(false)
+        }
+      }, delayMs)
+    },
+    [currentUser],
+  )
+
+  // Ao montar ou mudar currentUser, escuta eventos de storage locais de outras abas ou componentes
+  useEffect(() => {
+    if (!currentUser) return
+
+    // Checar se a conta tem backup na nuvem e se o estado local é vazio/mais antigo
+    const checkForCloudRestore = async () => {
+      try {
+        const backup = await fetchLatestCloudBackup()
+        if (backup && backup.payload?.data) {
+          setRemoteBackup(backup)
+          const localHasData = hasSignificantLocalData()
+          const localLastSync = localStorage.getItem(BACKUP_STORAGE_KEYS.LAST_SYNC)
+
+          // Se o dispositivo local estiver vazio OU não tiver registro de sync enquanto a nuvem tem
+          if (!localHasData) {
+            setCloudRestoreAvailable(true)
+          } else if (
+            backup.updated &&
+            (!localLastSync || new Date(backup.updated) > new Date(localLastSync))
+          ) {
+            setCloudRestoreAvailable(true)
+          } else {
+            setCloudRestoreAvailable(false)
+          }
+        } else {
+          // Nuvem ainda vazia: se temos dados locais significativos, salva automaticamente o primeiro backup
+          if (hasSignificantLocalData()) {
+            scheduleAutoSync(500)
+          }
+        }
+      } catch {
+        // falhas de rede silenciosas
+      }
+    }
+
+    checkForCloudRestore()
+
+    // Ouve evento customizado disparado quando qualquer dado da calculadora é modificado
+    const handleLocalDataChanged = () => {
+      scheduleAutoSync(2500)
+    }
+
+    window.addEventListener('entrelacos_fac_data_changed', handleLocalDataChanged)
+    return () => {
+      window.removeEventListener('entrelacos_fac_data_changed', handleLocalDataChanged)
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current)
+      }
+    }
+  }, [currentUser, scheduleAutoSync])
+
+  const dismissCloudRestorePrompt = useCallback(() => {
+    setCloudRestoreAvailable(false)
+  }, [])
 
   const isAdmin = currentUser?.role === 'admin'
 
@@ -459,5 +524,8 @@ export function useCloudSync() {
     restoreNow,
     scheduleAutoSync,
     refreshRemoteInfo,
+    cloudRestoreAvailable,
+    restoreLatestBackup: restoreNow,
+    dismissCloudRestorePrompt,
   }
 }

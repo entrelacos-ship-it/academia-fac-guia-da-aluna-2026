@@ -107,11 +107,13 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_REAJUSTE, JSON.stringify(inputs))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
-      console.warn('Erro ao salvar reajuste anual:', e)
+      console.warn('Erro ao salvar reajuste:', e)
     }
   }, [inputs])
-
   // Cálculo reativo
   const result = useMemo(() => {
     return calculateAnnualReadjustment(inputs, sessoesEfetivas)

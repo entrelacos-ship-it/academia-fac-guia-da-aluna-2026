@@ -93,6 +93,9 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_FINPLAN, JSON.stringify(finState))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
       console.warn('Erro ao salvar planejamento financeiro:', e)
     }

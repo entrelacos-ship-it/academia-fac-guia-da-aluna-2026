@@ -67,7 +67,6 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
     requestPasswordReset,
     changePassword,
     logout,
-    syncNow,
     restoreNow,
   } = useCloudSync()
 
@@ -167,7 +166,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
               </div>
               <div>
                 <DialogTitle className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-                  Backup em Nuvem Multi-dispositivo
+                  Sincronização em Nuvem & Restauração
                 </DialogTitle>
                 <DialogDescription className="text-xs text-slate-500 dark:text-[#A1A1AA] font-mono">
                   SINCRONIZAÇÃO ASTRAL · FAC
@@ -213,7 +212,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                     variant="outline"
                     className="text-[10px] font-mono bg-purple-50 dark:bg-[#18181B] border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] rounded-full px-2.5"
                   >
-                    Nuvem Ativa
+                    Auto-Sync Ativo
                   </Badge>
                 </div>
 
@@ -234,25 +233,34 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 <div className="pt-2 border-t border-slate-200 dark:border-[#27272A] text-[11px] font-mono text-slate-600 dark:text-[#A1A1AA] flex items-center justify-between">
                   <span className="flex items-center gap-1 text-slate-500 dark:text-[#71717A]">
                     <Calendar className="w-3.5 h-3.5" />
-                    Última sincronização:
+                    Última sincronização automática:
                   </span>
                   <strong className="text-[#7c3aed] dark:text-[#C084FC]">
-                    {formatDate(lastSyncDate || remoteBackup?.updated)}
+                    {isSyncing
+                      ? 'Sincronizando agora...'
+                      : formatDate(lastSyncDate || remoteBackup?.updated)}
                   </strong>
                 </div>
 
                 {remoteBackup?.device_name && (
                   <div className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] flex items-center gap-1 pl-0.5">
                     <Laptop className="w-3 h-3" />
-                    Dispositivo: {remoteBackup.device_name}
+                    Último dispositivo gravado: {remoteBackup.device_name}
                   </div>
                 )}
               </div>
 
-              {/* Informação sobre sessão ativa */}
-              <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-sans">
-                Você está autenticada no sistema. Salve suas alterações na nuvem ou restaure em
-                outro aparelho para manter seus dados sincronizados.
+              {/* Informação sobre sincronização automática */}
+              <div className="p-3.5 rounded-[12px] bg-purple-50/70 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-xs text-slate-700 dark:text-[#A1A1AA] leading-relaxed font-sans space-y-1.5">
+                <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  Sincronização 100% Automática
+                </div>
+                <p>
+                  Suas alterações em custos, cenários salvos, simulador tributário e planejamento
+                  financeiro são salvas na nuvem automaticamente. Você não precisa apertar nenhum
+                  botão de backup.
+                </p>
               </div>
 
               {/* Painel de Alteração de Senha Opcional */}
@@ -324,41 +332,31 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 </form>
               ) : null}
 
-              {/* Botões de Ação Principais Astral */}
-              <div className="space-y-2.5">
-                <Button
-                  onClick={syncNow}
-                  disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
-                >
-                  {isSyncing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin text-white dark:text-[#0A0A14]" />
-                      Salvando na nuvem...
-                    </>
-                  ) : (
-                    <>
-                      <CloudUpload className="w-4 h-4 text-white dark:text-[#0A0A14]" />
-                      SINCRONIZAR AGORA (SALVAR NA NUVEM)
-                    </>
-                  )}
-                </Button>
-
+              {/* Painel de Restauração Explícita (para troca de dispositivo) */}
+              <div className="space-y-2 p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A]">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
+                  <CloudDownload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                  Trocou de aparelho ou limpou o navegador?
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
+                  Se você preencheu seus cálculos em outro computador ou celular e deseja trazê-los
+                  para este dispositivo agora:
+                </p>
                 <Button
                   variant="outline"
                   onClick={() => setConfirmRestoreOpen(true)}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[44px] gap-2 border-slate-200 dark:border-[#27272A] bg-slate-100 dark:bg-[#0A0A14] text-slate-800 dark:text-white hover:border-[#ea580c]/50 dark:hover:border-[#FB923C]/50 rounded-[8px] transition-all font-mono text-xs focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                  className="w-full min-h-[42px] gap-2 border-orange-300 dark:border-orange-500/40 bg-white dark:bg-[#18181B] text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-[8px] transition-all font-mono text-xs font-semibold"
                 >
                   {isRestoring ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin text-[#ea580c] dark:text-[#FB923C]" />
-                      Restaurando dados...
+                      Restaurando da nuvem...
                     </>
                   ) : (
                     <>
                       <CloudDownload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                      RESTAURAR DA NUVEM NESTE APARELHO
+                      RESTAURAR DADOS DA NUVEM NESTE APARELHO
                     </>
                   )}
                 </Button>
@@ -504,7 +502,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       ) : (
                         <>
                           <Cloud className="w-4 h-4 text-white dark:text-[#0A0A14]" />
-                          Conectar e Sincronizar
+                          Entrar na Conta
                         </>
                       )}
                     </Button>
@@ -612,7 +610,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                       ) : (
                         <>
                           <CloudUpload className="w-4 h-4 text-white dark:text-[#0A0A14]" />
-                          Criar Conta e Ativar Nuvem
+                          Criar Conta
                         </>
                       )}
                     </Button>
@@ -647,16 +645,28 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 Substituir dados deste dispositivo?
               </AlertDialogTitle>
             </div>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
-              Esta ação{' '}
-              <strong className="text-slate-900 dark:text-white">
-                substituirá todos os dados locais deste navegador
-              </strong>{' '}
-              (custos, cenários salvos e simulador tributário) pela versão mais recente salva na
-              nuvem.
-              <br />
-              <br />
-              Certifique-se de que a versão em nuvem é a que você deseja manter antes de prosseguir.
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed space-y-2">
+              <p>
+                Esta ação{' '}
+                <strong className="text-slate-900 dark:text-white">
+                  substituirá os dados locais deste navegador
+                </strong>{' '}
+                (custos, cenários salvos, simulador tributário e planejamento financeiro) pela
+                versão salva na nuvem.
+              </p>
+              {remoteBackup?.updated && (
+                <div className="p-2.5 rounded-[8px] bg-slate-100 dark:bg-[#0A0A14] font-mono text-[11px] text-slate-700 dark:text-[#A1A1AA]">
+                  Data do backup na nuvem:{' '}
+                  <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                    {formatDate(remoteBackup.updated)}
+                  </span>
+                  {remoteBackup.device_name && <span> ({remoteBackup.device_name})</span>}
+                </div>
+              )}
+              <p>
+                Certifique-se de que a versão em nuvem é a que você deseja manter antes de
+                prosseguir.
+              </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

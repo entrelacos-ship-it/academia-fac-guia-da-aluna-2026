@@ -99,12 +99,22 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onOpenCloudBackup,
   onOpenAuth,
 }) => {
-  const { currentUser, isConnected, isSyncing, logout } = useCloudSync()
+  const {
+    currentUser,
+    isConnected,
+    isSyncing,
+    logout,
+    cloudRestoreAvailable,
+    remoteBackup,
+    restoreLatestBackup,
+    dismissCloudRestorePrompt,
+  } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authModalMode, setAuthModalMode] = useState<AuthMode>('login')
+  const [isRestoringPrompt, setIsRestoringPrompt] = useState(false)
 
   const handleOpenAuth = (mode: AuthMode = 'login') => {
     if (onOpenAuth) {
@@ -164,14 +174,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
-            {/* Botão Nuvem / Sincronização com ícone premium e estados distintos */}
+            {/* Indicador de Status de Sincronização Automática em Nuvem (clicável para gerenciar/restaurar) */}
             <Button
               variant="outline"
               size="sm"
               onClick={handleOpenCloud}
               className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 rounded-[8px]"
-              aria-label="Backup em Nuvem e Sincronização"
-              title={`Sincronização em Nuvem (${currentUser?.email || 'Conectada'})`}
+              aria-label="Status da Nuvem e Opções de Restauração"
+              title={
+                isSyncing
+                  ? 'Sincronizando alterações automaticamente com a nuvem...'
+                  : isConnected
+                    ? `Nuvem conectada e sincronizada (${currentUser?.email || 'Conectada'})`
+                    : 'Desconectada da nuvem'
+              }
             >
               <span
                 className={`w-2 h-2 rounded-full ${
@@ -301,6 +317,56 @@ export const AppLayout: React.FC<LayoutProps> = ({
             style={{ width: `${Math.max(5, (activeStep / 7) * 100)}%` }}
           />
         </div>
+
+        {/* Prompt Explícito de Restauração para Troca de Dispositivo / Dados na Nuvem Detectados */}
+        {cloudRestoreAvailable && remoteBackup?.payload?.data && (
+          <div className="bg-gradient-to-r from-purple-50 via-orange-50 to-purple-50 dark:from-[#181028] dark:via-[#1e1310] dark:to-[#181028] border-b border-purple-200 dark:border-purple-900/50 px-4 py-2.5 transition-all">
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5 text-slate-800 dark:text-slate-100">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#7c3aed] dark:bg-[#C084FC]" />
+                </span>
+                <span>
+                  <strong>Backup encontrado na nuvem:</strong> sua conta possui dados salvos
+                  {remoteBackup.updated
+                    ? ` (${new Date(remoteBackup.updated).toLocaleString('pt-BR')})`
+                    : ''}
+                  . Deseja restaurar para este dispositivo?
+                </span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                <Button
+                  size="sm"
+                  onClick={async () => {
+                    setIsRestoringPrompt(true)
+                    try {
+                      await restoreLatestBackup()
+                      dismissCloudRestorePrompt()
+                      window.location.reload()
+                    } catch (err) {
+                      console.error('Erro ao restaurar prompt:', err)
+                    } finally {
+                      setIsRestoringPrompt(false)
+                    }
+                  }}
+                  disabled={isRestoringPrompt}
+                  className="h-8 text-xs font-mono font-semibold bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] rounded-[8px]"
+                >
+                  {isRestoringPrompt ? 'Restaurando...' : 'Restaurar da nuvem'}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={dismissCloudRestorePrompt}
+                  className="h-8 text-xs font-mono text-slate-600 dark:text-[#A1A1AA] hover:bg-black/5 dark:hover:bg-white/5 rounded-[8px]"
+                >
+                  Manter dados deste aparelho
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Conteúdo Principal com Sidebar */}
@@ -496,7 +562,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                     strokeWidth={1.75}
                     className="text-[#ea580c] dark:text-[#FB923C]"
                   />
-                  BACKUP EM NUVEM
+                  NUVEM & SINCRONIZAÇÃO
                 </Button>
                 {onOpenTour && (
                   <Button

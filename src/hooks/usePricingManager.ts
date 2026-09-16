@@ -87,6 +87,9 @@ export function usePricingManager() {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(state))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
       console.warn('Erro ao salvar estado:', e)
     }
@@ -96,6 +99,9 @@ export function usePricingManager() {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_SCENARIOS, JSON.stringify(scenarios))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
       console.warn('Erro ao salvar cenários:', e)
     }

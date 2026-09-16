@@ -10,6 +10,17 @@ export const BACKUP_STORAGE_KEYS = {
   LAST_SYNC: 'entrelacos_fac_last_cloud_sync',
 } as const
 
+export const NOTIFY_DATA_CHANGED_EVENT = 'entrelacos_fac_data_changed'
+
+/**
+ * Dispara notificação no navegador para que useCloudSync sincronize com debounce
+ */
+export function notifyLocalDataChanged(): void {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent(NOTIFY_DATA_CHANGED_EVENT))
+  }
+}
+
 export interface BackupPayload {
   version: 2
   timestamp: string
@@ -59,6 +70,70 @@ export function collectLocalBackupData(): BackupPayload {
       contrato: getJson(BACKUP_STORAGE_KEYS.CONTRATO),
       finplan: getJson(BACKUP_STORAGE_KEYS.FINPLAN),
     },
+  }
+}
+
+/**
+ * Verifica se os dados locais contêm conteúdo significativo da calculadora
+ * ou se estão vazios / no estado padrão recém-inicializado.
+ */
+export function hasSignificantLocalData(): boolean {
+  try {
+    const rawState = localStorage.getItem(BACKUP_STORAGE_KEYS.STATE)
+    if (rawState) {
+      const parsed = JSON.parse(rawState)
+      const cp = parsed?.custosPessoais || {}
+      const cprof = parsed?.custosProfissionais || {}
+      const sumP =
+        (cp.moradia || 0) +
+        (cp.alimentacao || 0) +
+        (cp.transporte || 0) +
+        (cp.saude || 0) +
+        (cp.dependentes || 0) +
+        (cp.outros || 0) +
+        ((cp.customItems || []).length > 0 ? 1 : 0)
+      const sumProf =
+        (cprof.sala || 0) +
+        (cprof.internet || 0) +
+        (cprof.softwares || 0) +
+        (cprof.supervisao || 0) +
+        (cprof.formacao || 0) +
+        (cprof.contador || 0) +
+        (cprof.marketing || 0) +
+        (cprof.outros || 0) +
+        ((cprof.customItems || []).length > 0 ? 1 : 0)
+      const ret = parsed?.retiradaDesejada || 0
+      const preco = parsed?.precoAtual || 0
+      const step = parsed?.activeStep || 0
+
+      if (sumP > 0 || sumProf > 0 || ret > 0 || preco > 0 || step > 0) {
+        return true
+      }
+    }
+
+    const rawScenarios = localStorage.getItem(BACKUP_STORAGE_KEYS.SCENARIOS)
+    if (rawScenarios) {
+      const scenarios = JSON.parse(rawScenarios)
+      if (Array.isArray(scenarios) && scenarios.length > 0) return true
+    }
+
+    const rawTaxsim = localStorage.getItem(BACKUP_STORAGE_KEYS.TAXSIM)
+    if (rawTaxsim) return true
+
+    const rawFinplan = localStorage.getItem(BACKUP_STORAGE_KEYS.FINPLAN)
+    if (rawFinplan) {
+      const fin = JSON.parse(rawFinplan)
+      if (
+        (fin.goals && fin.goals.length > 0) ||
+        (fin.capitalAcumuladoReserva && fin.capitalAcumuladoReserva > 0)
+      ) {
+        return true
+      }
+    }
+
+    return false
+  } catch {
+    return false
   }
 }
 

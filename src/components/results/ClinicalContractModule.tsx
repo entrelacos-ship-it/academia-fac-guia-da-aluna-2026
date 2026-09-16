@@ -82,11 +82,13 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY_CONTRATO, JSON.stringify(formData))
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
+      }
     } catch (e) {
-      console.warn('Erro ao salvar contrato clínico:', e)
+      console.warn('Erro ao salvar contrato:', e)
     }
   }, [formData])
-
   // Geração reativa dos documentos
   const contractText = useMemo(() => generateContractText(formData), [formData])
   const proposalText = useMemo(() => generateProposalText(formData), [formData])
