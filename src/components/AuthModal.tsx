@@ -229,7 +229,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="absolute -bottom-24 -right-24 w-56 h-56 rounded-full bg-orange-400/15 dark:bg-[#FB923C]/10 blur-3xl pointer-events-none"
             aria-hidden="true"
           />
-
           {/* Botão Fechar no Canto Superior */}
           <button
             onClick={onClose}
@@ -238,7 +237,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           >
             <X className="w-4 h-4" />
           </button>
-
           {/* Cabeçalho Visual com Monograma FAC Entrelaços */}
           <div className="flex flex-col items-center text-center mb-5 relative z-10">
             <div className="relative mb-3 group">
@@ -270,7 +268,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {mode === 'reset-token' && 'Digite sua nova senha de acesso à calculadora.'}
             </DialogDescription>
           </div>
-
           {/* Feedback de status (sucesso, erro ou info) */}
           {statusMessage && (
             <div
@@ -292,7 +289,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <span className="flex-1 font-medium leading-relaxed">{statusMessage.text}</span>
             </div>
           )}
-
           {/* 1. MODO: LOGIN */}
           {mode === 'login' && (
             <div className="relative z-10">
@@ -465,7 +461,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               )}
             </div>
           )}
-
           {/* 2. MODO: CRIAÇÃO DE CREDENCIAIS (CADASTRO) */}
           {mode === 'signup' && (
             <form onSubmit={handleSignup} className="space-y-3 relative z-10">
@@ -599,14 +594,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-purple-300 hover:text-purple-200 font-semibold underline-offset-4 hover:underline"
+                  className="text-[#7c3aed] dark:text-purple-300 hover:underline font-semibold"
                 >
                   Entrar
                 </button>
               </div>
             </form>
           )}
-
           {/* 3. MODO: ESQUECI MINHA SENHA */}
           {mode === 'forgot' && (
             <form onSubmit={handleForgotPassword} className="space-y-4 relative z-10">
@@ -635,7 +629,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   a caixa de spam/promoções.
                 </p>
               </div>
-
               {/* Opção para inserir token se já recebeu link por e-mail */}
               <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs flex items-center justify-between">
                 <span className="text-slate-700 dark:text-slate-300">
@@ -649,7 +642,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Inserir token
                 </button>
               </div>
-
               <Button
                 type="submit"
                 disabled={isLoading}
@@ -667,20 +659,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </>
                 )}
               </Button>
-
               <div className="pt-2 text-center text-xs">
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-slate-400 hover:text-white inline-flex items-center gap-1 transition-colors"
+                  className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Voltar para o login
                 </button>
-              </div>
+              </div>{' '}
             </form>
           )}
-
           {/* 4. MODO: ALTERAÇÃO DE SENHA (USUÁRIA LOGADA) */}
           {mode === 'change-password' && (
             <form onSubmit={handleChangePassword} className="space-y-3.5 relative z-10">
@@ -806,7 +796,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-slate-400 hover:text-white inline-flex items-center gap-1 transition-colors"
+                  className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Voltar para os detalhes da conta
@@ -814,8 +804,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
             </form>
           )}
-
-          {/* 5. MODO: REDEFINIÇÃO COM TOKEN DO LINK DE E-MAIL */}
+          {/* 5. MODO: REDEFINIÇÃO COM TOKEN DO LINK DE E-MAIL */}{' '}
           {mode === 'reset-token' && (
             <form onSubmit={handleResetWithToken} className="space-y-3.5 relative z-10">
               <div className="space-y-1">
@@ -929,7 +918,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <button
                   type="button"
                   onClick={() => switchMode('login')}
-                  className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
+                  className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Voltar para o login
@@ -937,7 +926,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
             </form>
           )}
-
           {/* Nota LGPD Ética & Segurança */}
           <div className="mt-5 pt-3 border-t border-slate-200 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400 flex items-start gap-2 leading-relaxed relative z-10">
             <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-purple-400 shrink-0 mt-0.5" />

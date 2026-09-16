@@ -42,8 +42,8 @@
     --muted: 240 5% 94%; /* #EFEFF2 */
     --muted-foreground: 240 5% 40%; /* #64646E Contraste WCAG AA */
 
-    --accent: 27 96% 48%; /* Laranja Astral ajustado para alto contraste em fundo claro */
-    --accent-foreground: 0 0% 100%;
+    --accent: 240 5% 92%; /* Fundo sutil de destaque no hover para botões neutros/ghost/outline */
+    --accent-foreground: 240 10% 10%; /* Texto escuro com alto contraste */
 
     --destructive: 0 84% 56%;
     --destructive-foreground: 0 0% 100%;
@@ -89,8 +89,8 @@
     --muted: 240 4% 14%; /* #121216 */
     --muted-foreground: 240 5% 65%; /* #A1A1AA */
 
-    --accent: 27 96% 61%; /* #FB923C */
-    --accent-foreground: 0 0% 100%;
+    --accent: 240 5% 15%; /* #242429 Surface interativo no hover */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;

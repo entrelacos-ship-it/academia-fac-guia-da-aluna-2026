@@ -176,11 +176,11 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
       {/* HUB COM NAVEGAÇÃO: Abas horizontais no mobile (<1024px) / Layout com Sidebar no Desktop (>=1024px) */}
       <div className="print:hidden">
-        {/* Navegação Mobile / Tablet (<1024px): scroll horizontal */}
-        <div className="lg:hidden mb-6">
-          <div className="overflow-x-auto pb-1 scrollbar-none">
+        {/* Navegação Mobile / Tablet (<1024px): abas fixas no topo durante scroll */}
+        <div className="lg:hidden sticky top-[57px] sm:top-[65px] z-30 mb-6 bg-slate-50/95 dark:bg-[#0A0A14]/95 backdrop-blur-md pt-2 pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 border-b border-slate-200/80 dark:border-[#27272A]/80 shadow-xs">
+          <div className="overflow-x-auto pb-0.5 scrollbar-none">
             <nav
-              className="bg-slate-100 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] p-1.5 rounded-[12px] inline-flex min-w-full gap-1"
+              className="bg-slate-100 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] p-1.5 rounded-[12px] inline-flex min-w-full gap-1 shadow-xs"
               aria-label="Submenus da Central de Resultados"
             >
               {SUBMENUS.map((item) => {
@@ -216,8 +216,8 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
         {/* Layout Desktop (>=1024px): Sidebar à esquerda + Conteúdo à direita */}
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
-          {/* Sidebar Vertical Desktop */}
-          <aside className="hidden lg:block lg:col-span-3 sticky top-6 space-y-3">
+          {/* Sidebar Vertical Desktop: fixa no viewport considerando offset do header */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-20 z-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto space-y-3 pr-1">
             <div className="p-3 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-1.5">
               <div className="px-3 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#71717A]">
                 SUBMENUS DA CENTRAL

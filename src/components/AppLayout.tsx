@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  Heart,
   Moon,
   Sun,
   BookOpen,
@@ -10,10 +9,11 @@ import {
   ChevronRight,
   Sparkles,
   HelpCircle,
-  Cloud,
   LogOut,
   Shield,
 } from 'lucide-react'
+import { FACLogo } from '@/components/FACLogo'
+import { CloudStatusIcon } from '@/components/CloudStatusIcon'
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
 import { CloudBackupModal } from './CloudBackupModal'
@@ -141,24 +141,12 @@ export const AppLayout: React.FC<LayoutProps> = ({
           {/* Logo & Marca Astral */}
           <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => onSelectStep(0)}
-              className="flex items-center gap-2.5 text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1"
-              aria-label="Ir para a página inicial"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
+              aria-label="Ir para a página inicial do Método FAC"
             >
-              <div className="w-9 h-9 rounded-[8px] bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shadow-xs group-hover:border-[#7c3aed]/50 dark:group-hover:border-[#C084FC]/50 transition-colors">
-                <Heart className="w-4.5 h-4.5 fill-[#7c3aed]/20 dark:fill-[#C084FC]/25 stroke-[2]" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-sans font-semibold text-base tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                  Método FAC
-                  <span className="text-[10px] font-mono font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded-[4px] bg-purple-100/70 dark:bg-[#18181B] border border-purple-300 dark:border-[#27272A] text-[#6d28d9] dark:text-[#C084FC]">
-                    Astral
-                  </span>
-                </span>
-                <span className="text-[11px] text-slate-500 dark:text-[#A1A1AA] -mt-0.5 font-normal">
-                  Precificação Clínica Ética
-                </span>
-              </div>
+              <FACLogo size="md" />
             </button>
           </div>
 
@@ -176,7 +164,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
-            {/* Botão Nuvem / Sincronização */}
+            {/* Botão Nuvem / Sincronização com ícone premium e estados distintos */}
             <Button
               variant="outline"
               size="sm"
@@ -185,9 +173,24 @@ export const AppLayout: React.FC<LayoutProps> = ({
               aria-label="Backup em Nuvem e Sincronização"
               title={`Sincronização em Nuvem (${currentUser?.email || 'Conectada'})`}
             >
-              <span className="w-2 h-2 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse" />
-              <Cloud className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">Nuvem</span>
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isSyncing
+                    ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
+                    : isConnected
+                      ? 'bg-emerald-500'
+                      : 'bg-amber-500'
+                }`}
+              />
+              <CloudStatusIcon
+                status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
+                size={16}
+                strokeWidth={1.75}
+                className="text-[#7c3aed] dark:text-[#C084FC]"
+              />
+              <span className="hidden sm:inline font-mono text-xs font-semibold">
+                {isSyncing ? 'Sincronizando' : 'Nuvem'}
+              </span>
             </Button>
 
             {/* Identificação de Usuária no Desktop */}
@@ -470,26 +473,15 @@ export const AppLayout: React.FC<LayoutProps> = ({
                     variant="outline"
                     onClick={() => {
                       setMobileMenuOpen(false)
-                      window.location.href = '/admin'
+                      handleOpenAuth('change-password')
                     }}
-                    className="w-full justify-center gap-2 min-h-[44px] bg-purple-50 dark:bg-[#18181B] border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-semibold rounded-[8px]"
+                    className="w-full justify-center gap-2 min-h-[44px] bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
                   >
-                    <Shield className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                    PAINEL ADMIN
+                    <Sparkles className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                    MINHA SENHA
                   </Button>
                 )}
 
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    handleOpenAuth('change-password')
-                  }}
-                  className="w-full justify-center gap-2 min-h-[44px] bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
-                >
-                  <Cloud className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                  MINHA SENHA
-                </Button>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -498,7 +490,12 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   }}
                   className="w-full justify-center gap-2 min-h-[44px] bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
                 >
-                  <Cloud className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                  <CloudStatusIcon
+                    status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
+                    size={16}
+                    strokeWidth={1.75}
+                    className="text-[#ea580c] dark:text-[#FB923C]"
+                  />
                   BACKUP EM NUVEM
                 </Button>
                 {onOpenTour && (

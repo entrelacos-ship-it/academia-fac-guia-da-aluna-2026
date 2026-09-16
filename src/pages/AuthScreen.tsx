@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Heart,
   Mail,
   Lock,
   User,
@@ -16,6 +15,7 @@ import {
   Sparkles,
   ChevronLeft,
 } from 'lucide-react'
+import { FACSymbol } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -222,15 +222,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         <div className="flex flex-col items-center text-center mb-6 relative z-10">
           <div className="relative mb-3 group cursor-default">
             <div
-              className="absolute inset-0 rounded-[12px] bg-purple-400/30 dark:bg-[#C084FC]/30 blur-md opacity-60 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 rounded-[14px] bg-purple-400/30 dark:bg-[#C084FC]/30 blur-md opacity-60 group-hover:opacity-100 transition-opacity"
               aria-hidden="true"
             />
-            <div className="relative w-12 h-12 rounded-[12px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-inner">
-              <Heart className="w-6 h-6 fill-[#7c3aed]/20 dark:fill-[#C084FC]/20 stroke-[2] text-[#7c3aed] dark:text-[#C084FC]" />
+            <div className="relative w-14 h-14 rounded-[14px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-inner">
+              <FACSymbol size={30} glow />
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2">
             <span>Método FAC</span>
             <span className="text-slate-400 dark:text-[#A1A1AA]/50">•</span>
             <span>Entrelaços</span>
