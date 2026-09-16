@@ -15,6 +15,7 @@ export interface CloudUserState {
   email: string
   name?: string
   role?: 'admin' | 'user' | string
+  is_active?: boolean
 }
 
 export function useCloudSync() {
@@ -53,11 +54,22 @@ export function useCloudSync() {
     const unsub = pb.authStore.onChange(() => {
       if (pb.authStore.isValid && pb.authStore.model) {
         const record = pb.authStore.model as Record<string, unknown>
+        if (record.is_active === false) {
+          pb.authStore.clear()
+          setCurrentUser(null)
+          setRemoteBackup(null)
+          setStatusMessage({
+            type: 'error',
+            text: 'Conta desativada. Entre em contato com a administração.',
+          })
+          return
+        }
         setCurrentUser({
           id: pb.authStore.model.id,
           email: pb.authStore.model.email || '',
           name: record.name as string | undefined,
           role: (record.role as string | undefined) || 'user',
+          is_active: record.is_active !== false,
         })
       } else {
         setCurrentUser(null)
@@ -103,11 +115,24 @@ export function useCloudSync() {
       try {
         const authData = await pb.collection('users').authWithPassword(email.trim(), pass)
         const record = authData.record as Record<string, unknown>
+
+        // Validação defensiva client-side para garantir que contas desativadas não fiquem logadas
+        if (record.is_active === false) {
+          pb.authStore.clear()
+          setCurrentUser(null)
+          setStatusMessage({
+            type: 'error',
+            text: 'Conta desativada. Entre em contato com a administração.',
+          })
+          return false
+        }
+
         setCurrentUser({
           id: authData.record.id,
           email: authData.record.email || '',
           name: authData.record.name,
           role: (record.role as string | undefined) || 'user',
+          is_active: record.is_active !== false,
         })
         setStatusMessage({
           type: 'success',
@@ -119,7 +144,9 @@ export function useCloudSync() {
         console.warn('Erro ao fazer login:', err)
         let friendly = 'Não foi possível entrar. Verifique seu e-mail e senha.'
         const raw = getErrorMessage(err).toLowerCase()
-        if (raw.includes('failed to authenticate') || raw.includes('invalid credentials')) {
+        if (raw.includes('conta desativada') || raw.includes('desativada')) {
+          friendly = 'Conta desativada. Entre em contato com a administração.'
+        } else if (raw.includes('failed to authenticate') || raw.includes('invalid credentials')) {
           friendly = 'E-mail ou senha incorretos. Confira os dados informados.'
         } else if (raw.includes('network') || raw.includes('failed to fetch')) {
           friendly = 'Sem conexão com a nuvem no momento. Verifique sua internet.'
