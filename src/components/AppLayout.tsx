@@ -99,7 +99,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onOpenCloudBackup,
   onOpenAuth,
 }) => {
-  const { currentUser, isConnected, logout } = useCloudSync()
+  const { currentUser, isConnected, isSyncing, logout } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
