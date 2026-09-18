@@ -1,42 +1,59 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { PricingState, CalculationResult, SavedScenario } from '@/types/pricing'
 import { DEFAULT_PRICING_STATE, calculateFacMetrics } from '@/lib/facMath'
+import {
+  BASE_STORAGE_KEYS,
+  getUserStorageItem,
+  setUserStorageItem,
+  removeUserStorageItem,
+  NOTIFY_DATA_LOADED_EVENT,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 
-const STORAGE_KEY_STATE = 'entrelacos_fac_pricing_state_v2'
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
-const STORAGE_KEY_SCENARIOS = 'entrelacos_fac_scenarios_v1'
+
+function getInitialPricingState(): PricingState {
+  try {
+    const parsed = getUserStorageItem<Partial<PricingState> | null>(BASE_STORAGE_KEYS.STATE, null)
+    if (parsed) {
+      return {
+        ...DEFAULT_PRICING_STATE,
+        ...parsed,
+        custosPessoais: {
+          ...DEFAULT_PRICING_STATE.custosPessoais,
+          ...(parsed.custosPessoais || {}),
+          customItems: parsed.custosPessoais?.customItems || [],
+        },
+        custosProfissionais: {
+          ...DEFAULT_PRICING_STATE.custosProfissionais,
+          ...(parsed.custosProfissionais || {}),
+          customItems: parsed.custosProfissionais?.customItems || [],
+        },
+        cfpConfig: {
+          ...DEFAULT_PRICING_STATE.cfpConfig,
+          ...(parsed.cfpConfig || {}),
+        },
+      }
+    }
+  } catch (e) {
+    console.warn('Erro ao restaurar estado do pricing:', e)
+  }
+  return DEFAULT_PRICING_STATE
+}
+
+function getInitialScenarios(): SavedScenario[] {
+  try {
+    const saved = getUserStorageItem<SavedScenario[]>(BASE_STORAGE_KEYS.SCENARIOS, [])
+    if (Array.isArray(saved)) return saved
+  } catch (e) {
+    console.warn('Erro ao restaurar cenários:', e)
+  }
+  return []
+}
 
 export function usePricingManager() {
   // 1. Estado da calculadora
-  const [state, setState] = useState<PricingState>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY_STATE)
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        return {
-          ...DEFAULT_PRICING_STATE,
-          ...parsed,
-          custosPessoais: {
-            ...DEFAULT_PRICING_STATE.custosPessoais,
-            ...(parsed.custosPessoais || {}),
-            customItems: parsed.custosPessoais?.customItems || [],
-          },
-          custosProfissionais: {
-            ...DEFAULT_PRICING_STATE.custosProfissionais,
-            ...(parsed.custosProfissionais || {}),
-            customItems: parsed.custosProfissionais?.customItems || [],
-          },
-          cfpConfig: {
-            ...DEFAULT_PRICING_STATE.cfpConfig,
-            ...(parsed.cfpConfig || {}),
-          },
-        }
-      }
-    } catch (e) {
-      console.warn('Erro ao restaurar estado do pricing:', e)
-    }
-    return DEFAULT_PRICING_STATE
-  })
+  const [state, setState] = useState<PricingState>(getInitialPricingState)
 
   // 2. Tema: Modo Claro por padrão na primeira visita (com persistência no localStorage)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -52,17 +69,22 @@ export function usePricingManager() {
   })
 
   // 3. Cenários salvos
-  const [scenarios, setScenarios] = useState<SavedScenario[]>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY_SCENARIOS)
-      if (saved) {
-        return JSON.parse(saved)
-      }
-    } catch (e) {
-      console.warn('Erro ao restaurar cenários:', e)
+  const [scenarios, setScenarios] = useState<SavedScenario[]>(getInitialScenarios)
+
+  // Ouvir hidratação de dados vindos da nuvem (ao logar ou sincronizar com outra conta)
+  useEffect(() => {
+    const handleCloudLoaded = () => {
+      setState(getInitialPricingState())
+      setScenarios(getInitialScenarios())
     }
-    return []
-  })
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+      return () => {
+        window.removeEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+      }
+    }
+  }, [])
 
   // Sincronizar tema no DOM e no localStorage
   useEffect(() => {
@@ -86,10 +108,8 @@ export function usePricingManager() {
   // Persistir estado ao alterar
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(state))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.STATE, state)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar estado:', e)
     }
@@ -98,10 +118,8 @@ export function usePricingManager() {
   // Persistir cenários
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_SCENARIOS, JSON.stringify(scenarios))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.SCENARIOS, scenarios)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar cenários:', e)
     }
@@ -128,7 +146,7 @@ export function usePricingManager() {
   // Reset total
   const resetToZero = useCallback(() => {
     try {
-      localStorage.removeItem(STORAGE_KEY_STATE)
+      removeUserStorageItem(BASE_STORAGE_KEYS.STATE)
     } catch {
       // ignore
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Building2,
   User,
@@ -28,8 +28,13 @@ import {
   TETO_INSS_2025,
 } from '@/lib/taxSimulatorMath'
 import { TaxBreakEvenChart } from './TaxBreakEvenChart'
-
-const STORAGE_KEY_TAXSIM = 'entrelacos_fac_taxsim_v1'
+import {
+  BASE_STORAGE_KEYS,
+  getUserStorageItem,
+  setUserStorageItem,
+  NOTIFY_DATA_LOADED_EVENT,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 
 interface TaxSimulatorModuleProps {
   initialFaturamento?: number
@@ -42,12 +47,13 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
   initialDespesasProfissionais = 1200,
   reservaPct = 10,
 }) => {
-  // Carrega ou inicializa entradas persistidas
-  const [inputs, setInputs] = useState<TaxSimulatorInputs>(() => {
+  const getStoredTaxInputs = useCallback((): TaxSimulatorInputs => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY_TAXSIM)
-      if (saved) {
-        const parsed = JSON.parse(saved)
+      const parsed = getUserStorageItem<Partial<TaxSimulatorInputs> | null>(
+        BASE_STORAGE_KEYS.TAXSIM,
+        null,
+      )
+      if (parsed) {
         return {
           faturamentoBrutoMensal:
             parsed.faturamentoBrutoMensal ?? (initialFaturamento > 0 ? initialFaturamento : 8000),
@@ -72,7 +78,19 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
       incluirReservaFac: true,
       reservaPct: reservaPct || 10,
     }
-  })
+  }, [initialFaturamento, initialDespesasProfissionais, reservaPct])
+
+  // Carrega ou inicializa entradas persistidas
+  const [inputs, setInputs] = useState<TaxSimulatorInputs>(getStoredTaxInputs)
+
+  // Ouvir hidratação da nuvem
+  useEffect(() => {
+    const handleCloudLoaded = () => {
+      setInputs(getStoredTaxInputs())
+    }
+    window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+    return () => window.removeEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+  }, [getStoredTaxInputs])
 
   // Sincroniza faturamento/despesas se mudarem no cálculo principal e não houver customização salva
   useEffect(() => {
@@ -92,10 +110,8 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
   // Persistência
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_TAXSIM, JSON.stringify(inputs))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.TAXSIM, inputs)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar simulador tributário:', e)
     }

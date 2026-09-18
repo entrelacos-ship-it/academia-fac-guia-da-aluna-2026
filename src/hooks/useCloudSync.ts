@@ -6,7 +6,8 @@ import {
   fetchLatestCloudBackup,
   saveCloudBackup,
   restoreBackupDataToLocal,
-  hasSignificantLocalData,
+  loadUserCloudDataAndHydrate,
+  clearUserLocalData,
 } from '@/services/cloudBackup'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 
@@ -365,14 +366,23 @@ export function useCloudSync() {
 
   // Logout
   const logout = useCallback(() => {
+    const exitingUid = currentUser?.id || (pb.authStore.isValid && pb.authStore.model?.id) || null
+    if (exitingUid) {
+      clearUserLocalData(exitingUid)
+    }
     pb.authStore.clear()
     setCurrentUser(null)
     setRemoteBackup(null)
+    setCloudRestoreAvailable(false)
     setStatusMessage({
       type: 'info',
-      text: 'Você saiu da sua conta. Seus dados locais permanecem seguros neste aparelho.',
+      text: 'Você saiu da sua conta com sucesso.',
     })
-  }, [])
+    // Notifica a aplicação para redefinir para o estado inicial neutro da próxima conta
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('entrelacos_fac_cloud_data_loaded'))
+    }
+  }, [currentUser?.id])
 
   // Sincronizar Agora (Upload do estado local para a nuvem)
   const syncNow = useCallback(async () => {
@@ -473,42 +483,27 @@ export function useCloudSync() {
     [currentUser],
   )
 
-  // Ao montar ou mudar currentUser, escuta eventos de storage locais de outras abas ou componentes
+  // Ao montar ou mudar currentUser, hidrata os dados da nuvem como fonte da verdade
   useEffect(() => {
     if (!currentUser) return
 
-    // Checar se a conta tem backup na nuvem e se o estado local é vazio/mais antigo
-    const checkForCloudRestore = async () => {
-      try {
-        const backup = await fetchLatestCloudBackup()
-        if (backup && backup.payload?.data) {
-          setRemoteBackup(backup)
-          const localHasData = hasSignificantLocalData()
-          const localLastSync = localStorage.getItem(BACKUP_STORAGE_KEYS.LAST_SYNC)
+    let isMounted = true
 
-          // Se o dispositivo local estiver vazio OU não tiver registro de sync enquanto a nuvem tem
-          if (!localHasData) {
-            setCloudRestoreAvailable(true)
-          } else if (
-            backup.updated &&
-            (!localLastSync || new Date(backup.updated) > new Date(localLastSync))
-          ) {
-            setCloudRestoreAvailable(true)
-          } else {
-            setCloudRestoreAvailable(false)
-          }
-        } else {
-          // Nuvem ainda vazia: se temos dados locais significativos, salva automaticamente o primeiro backup
-          if (hasSignificantLocalData()) {
-            scheduleAutoSync(500)
-          }
+    // Carrega da nuvem como FONTE DA VERDADE da conta logada
+    const hydrateFromCloud = async () => {
+      try {
+        const backup = await loadUserCloudDataAndHydrate(currentUser.id)
+        if (!isMounted) return
+        if (backup) {
+          setRemoteBackup(backup)
+          setLastSyncDate(backup.updated)
         }
-      } catch {
-        // falhas de rede silenciosas
+      } catch (err) {
+        console.warn('[CloudSync] Erro ao carregar dados da nuvem:', err)
       }
     }
 
-    checkForCloudRestore()
+    hydrateFromCloud()
 
     // Ouve evento customizado disparado quando qualquer dado da calculadora é modificado
     const handleLocalDataChanged = () => {
@@ -517,6 +512,7 @@ export function useCloudSync() {
 
     window.addEventListener('entrelacos_fac_data_changed', handleLocalDataChanged)
     return () => {
+      isMounted = false
       window.removeEventListener('entrelacos_fac_data_changed', handleLocalDataChanged)
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current)

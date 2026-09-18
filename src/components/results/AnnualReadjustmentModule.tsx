@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   TrendingUp,
   Copy,
@@ -27,8 +27,13 @@ import {
   INFLATION_PRESETS,
   InflationIndexPreset,
 } from '@/lib/readjustmentMath'
-
-const STORAGE_KEY_REAJUSTE = 'entrelacos_fac_reajuste_v1'
+import {
+  BASE_STORAGE_KEYS,
+  getUserStorageItem,
+  setUserStorageItem,
+  NOTIFY_DATA_LOADED_EVENT,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 
 interface AnnualReadjustmentModuleProps {
   initialHonorario: number // V_min ou precoAtual do FAC
@@ -59,12 +64,13 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
   const { toast } = useToast()
   const [copied, setCopied] = useState(false)
 
-  // Estado inicial recuperado do localStorage
-  const [inputs, setInputs] = useState<AnnualReadjustmentInputs>(() => {
+  const getStoredInputs = useCallback((): AnnualReadjustmentInputs => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY_REAJUSTE)
-      if (saved) {
-        const parsed = JSON.parse(saved)
+      const parsed = getUserStorageItem<Partial<AnnualReadjustmentInputs> | null>(
+        BASE_STORAGE_KEYS.REAJUSTE,
+        null,
+      )
+      if (parsed) {
         return {
           honorarioAtual:
             parsed.honorarioAtual ??
@@ -91,7 +97,19 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
       nomeProfissional: '',
       nomePaciente: '',
     }
-  })
+  }, [initialHonorario, precoAtualCadastrado])
+
+  // Estado inicial recuperado do storage da conta
+  const [inputs, setInputs] = useState<AnnualReadjustmentInputs>(getStoredInputs)
+
+  // Ouvir hidratação da nuvem
+  useEffect(() => {
+    const handleCloudLoaded = () => {
+      setInputs(getStoredInputs())
+    }
+    window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+    return () => window.removeEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+  }, [getStoredInputs])
 
   // Sincroniza honorário se o usuário mudar de cenário/cálculo e o valor atual estiver zerado
   useEffect(() => {
@@ -106,10 +124,8 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
   // Persistência
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_REAJUSTE, JSON.stringify(inputs))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.REAJUSTE, inputs)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar reajuste:', e)
     }

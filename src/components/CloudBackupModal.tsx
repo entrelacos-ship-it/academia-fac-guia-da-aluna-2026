@@ -250,16 +250,16 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 )}
               </div>
 
-              {/* Informação sobre sincronização automática */}
+              {/* Informação sobre sincronização automática e nuvem como fonte da verdade */}
               <div className="p-3.5 rounded-[12px] bg-purple-50/70 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-xs text-slate-700 dark:text-[#A1A1AA] leading-relaxed font-sans space-y-1.5">
                 <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  Sincronização 100% Automática
+                  Dados Vinculados à Sua Conta (Nuvem como Fonte da Verdade)
                 </div>
                 <p>
-                  Suas alterações em custos, cenários salvos, simulador tributário e planejamento
-                  financeiro são salvas na nuvem automaticamente. Você não precisa apertar nenhum
-                  botão de backup.
+                  Ao entrar na sua conta em qualquer computador ou celular, seus custos, cenários,
+                  simuladores e planejamento financeiro são carregados automaticamente da nuvem.
+                  Edições são sincronizadas em tempo real.
                 </p>
               </div>
 
@@ -332,31 +332,31 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 </form>
               ) : null}
 
-              {/* Painel de Restauração Explícita (para troca de dispositivo) */}
+              {/* Painel de Recarregar da Nuvem (Atualização manual sob demanda) */}
               <div className="space-y-2 p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A]">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
-                  <CloudDownload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                  Trocou de aparelho ou limpou o navegador?
+                  <CloudDownload className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                  Recarregar dados da nuvem agora
                 </div>
                 <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
-                  Se você preencheu seus cálculos em outro computador ou celular e deseja trazê-los
-                  para este dispositivo agora:
+                  Seus dados já são atualizados automaticamente da nuvem ao logar. Use o botão
+                  abaixo caso queira forçar uma reidratação imediata da sua conta.
                 </p>
                 <Button
                   variant="outline"
                   onClick={() => setConfirmRestoreOpen(true)}
                   disabled={isSyncing || isRestoring}
-                  className="w-full min-h-[42px] gap-2 border-orange-300 dark:border-orange-500/40 bg-white dark:bg-[#18181B] text-slate-900 dark:text-white hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-[8px] transition-all font-mono text-xs font-semibold"
+                  className="w-full min-h-[42px] gap-2 border-purple-300 dark:border-purple-500/40 bg-white dark:bg-[#18181B] text-slate-900 dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/20 rounded-[8px] transition-all font-mono text-xs font-semibold"
                 >
                   {isRestoring ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-[#ea580c] dark:text-[#FB923C]" />
-                      Restaurando da nuvem...
+                      <Loader2 className="w-4 h-4 animate-spin text-[#7c3aed] dark:text-[#C084FC]" />
+                      Recarregando da nuvem...
                     </>
                   ) : (
                     <>
-                      <CloudDownload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                      RESTAURAR DADOS DA NUVEM NESTE APARELHO
+                      <CloudDownload className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                      FORÇAR RECARGA DA NUVEM
                     </>
                   )}
                 </Button>
@@ -642,31 +642,23 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
             <div className="flex items-center gap-2 text-[#ea580c] dark:text-[#FB923C] mb-1">
               <AlertTriangle className="w-5 h-5" />
               <AlertDialogTitle className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-                Substituir dados deste dispositivo?
+                Recarregar dados da sua conta na nuvem?
               </AlertDialogTitle>
             </div>
             <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed space-y-2">
               <p>
-                Esta ação{' '}
-                <strong className="text-slate-900 dark:text-white">
-                  substituirá os dados locais deste navegador
-                </strong>{' '}
-                (custos, cenários salvos, simulador tributário e planejamento financeiro) pela
-                versão salva na nuvem.
+                A aplicação atualizará os dados da tela trazendo a versão mais recente salva na
+                nuvem.
               </p>
               {remoteBackup?.updated && (
                 <div className="p-2.5 rounded-[8px] bg-slate-100 dark:bg-[#0A0A14] font-mono text-[11px] text-slate-700 dark:text-[#A1A1AA]">
-                  Data do backup na nuvem:{' '}
+                  Data na nuvem:{' '}
                   <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
                     {formatDate(remoteBackup.updated)}
                   </span>
                   {remoteBackup.device_name && <span> ({remoteBackup.device_name})</span>}
                 </div>
               )}
-              <p>
-                Certifique-se de que a versão em nuvem é a que você deseja manter antes de
-                prosseguir.
-              </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -675,9 +667,9 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmRestore}
-              className="bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
+              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
             >
-              Sim, restaurar da nuvem
+              Sim, recarregar da nuvem
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

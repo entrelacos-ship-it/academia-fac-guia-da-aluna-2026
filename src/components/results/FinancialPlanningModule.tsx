@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Wallet,
   ShieldCheck,
@@ -56,8 +56,13 @@ import {
 } from '@/lib/financialPlanningMath'
 import { INFLATION_PRESETS } from '@/lib/readjustmentMath'
 import { PricingState, CalculationResult } from '@/types/pricing'
-
-const STORAGE_KEY_FINPLAN = 'entrelacos_fac_finplan_v1'
+import {
+  BASE_STORAGE_KEYS,
+  getUserStorageItem,
+  setUserStorageItem,
+  NOTIFY_DATA_LOADED_EVENT,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 
 interface FinancialPlanningModuleProps {
   state: PricingState
@@ -68,12 +73,13 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
   state,
   calculation,
 }) => {
-  // Estado local com persistência em localStorage
-  const [finState, setFinState] = useState<FinancialPlanningState>(() => {
+  const getStoredFinState = useCallback((): FinancialPlanningState => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY_FINPLAN)
-      if (saved) {
-        const parsed = JSON.parse(saved)
+      const parsed = getUserStorageItem<Partial<FinancialPlanningState> | null>(
+        BASE_STORAGE_KEYS.FINPLAN,
+        null,
+      )
+      if (parsed) {
         return {
           ...DEFAULT_FINANCIAL_PLANNING_STATE,
           ...parsed,
@@ -87,15 +93,25 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
       console.warn('Erro ao carregar planejamento financeiro:', e)
     }
     return DEFAULT_FINANCIAL_PLANNING_STATE
-  })
+  }, [])
 
-  // Salvar no localStorage sempre que finState for modificado
+  // Estado local com persistência na conta do usuário
+  const [finState, setFinState] = useState<FinancialPlanningState>(getStoredFinState)
+
+  // Ouvir hidratação da nuvem
+  useEffect(() => {
+    const handleCloudLoaded = () => {
+      setFinState(getStoredFinState())
+    }
+    window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+    return () => window.removeEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+  }, [getStoredFinState])
+
+  // Salvar no storage namespaced sempre que finState for modificado
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_FINPLAN, JSON.stringify(finState))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.FINPLAN, finState)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar planejamento financeiro:', e)
     }

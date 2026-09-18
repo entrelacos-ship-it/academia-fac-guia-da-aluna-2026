@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   FileText,
   Printer,
@@ -24,13 +24,18 @@ import { useToast } from '@/hooks/use-toast'
 import { formatBRL } from '@/lib/currency'
 import {
   ClinicalContractData,
-  DEFAULT_CONTRACT_DATA,
   DEFAULT_POLITICA_FALTAS,
+  DEFAULT_CONTRACT_DATA,
   generateContractText,
   generateProposalText,
 } from '@/lib/clinicalContractMath'
-
-const STORAGE_KEY_CONTRATO = 'entrelacos_fac_contrato_v1'
+import {
+  BASE_STORAGE_KEYS,
+  getUserStorageItem,
+  setUserStorageItem,
+  NOTIFY_DATA_LOADED_EVENT,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 
 interface ClinicalContractModuleProps {
   initialPisoFac: number
@@ -47,12 +52,13 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
   const [activeDocTab, setActiveDocTab] = useState<'contrato' | 'proposta'>('contrato')
   const [copied, setCopied] = useState(false)
 
-  // Estado inicial carregado do localStorage
-  const [formData, setFormData] = useState<ClinicalContractData>(() => {
+  const getStoredContract = useCallback((): ClinicalContractData => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY_CONTRATO)
-      if (saved) {
-        const parsed = JSON.parse(saved)
+      const parsed = getUserStorageItem<Partial<ClinicalContractData> | null>(
+        BASE_STORAGE_KEYS.CONTRATO,
+        null,
+      )
+      if (parsed) {
         return {
           ...DEFAULT_CONTRACT_DATA,
           ...parsed,
@@ -66,7 +72,19 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
       ...DEFAULT_CONTRACT_DATA,
       valorSessao: initialPisoFac > 0 ? initialPisoFac : 180,
     }
-  })
+  }, [initialPisoFac])
+
+  // Estado inicial carregado do storage da conta
+  const [formData, setFormData] = useState<ClinicalContractData>(getStoredContract)
+
+  // Ouvir hidratação da nuvem
+  useEffect(() => {
+    const handleCloudLoaded = () => {
+      setFormData(getStoredContract())
+    }
+    window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+    return () => window.removeEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)
+  }, [getStoredContract])
 
   // Sincroniza se o piso FAC mudar e o formulário ainda estiver com o padrão
   useEffect(() => {
@@ -81,10 +99,8 @@ export const ClinicalContractModule: React.FC<ClinicalContractModuleProps> = ({
   // Persistência
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_CONTRATO, JSON.stringify(formData))
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('entrelacos_fac_data_changed'))
-      }
+      setUserStorageItem(BASE_STORAGE_KEYS.CONTRATO, formData)
+      notifyLocalDataChanged()
     } catch (e) {
       console.warn('Erro ao salvar contrato:', e)
     }
