@@ -92,7 +92,8 @@ onMailerRecordPasswordResetSend((e) => {
   if (resendApiKey && userEmail) {
     try {
       const resendSender =
-        $os.getenv('EMAIL_FROM') || 'Entrelaços Psicologia <noreply@entrelacospsi.com.br>'
+        $os.getenv('EMAIL_FROM') ||
+        'Entrelaços Psicologia <noreply@entrelacos.entrelacospsicologia.com.br>'
       $http.send({
         url: 'https://api.resend.com/emails',
         method: 'POST',

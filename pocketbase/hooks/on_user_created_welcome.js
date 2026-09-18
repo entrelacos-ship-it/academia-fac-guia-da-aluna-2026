@@ -63,7 +63,7 @@ onRecordAfterCreateSuccess((e) => {
 
       <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0; line-height: 1.5;">
         Entrelaços Psicologia — Cursos e Formação Clínica<br>
-        Dúvidas ou suporte: contato@entrelacospsi.com.br
+        Dúvidas ou suporte: contato@entrelacos.entrelacospsicologia.com.br
       </p>
     </div>
   </div>
@@ -76,7 +76,8 @@ onRecordAfterCreateSuccess((e) => {
   if (resendApiKey && userEmail) {
     try {
       const resendSender =
-        $os.getenv('EMAIL_FROM') || 'Entrelaços Psicologia <noreply@entrelacospsi.com.br>'
+        $os.getenv('EMAIL_FROM') ||
+        'Entrelaços Psicologia <noreply@entrelacos.entrelacospsicologia.com.br>'
       $http.send({
         url: 'https://api.resend.com/emails',
         method: 'POST',
@@ -100,7 +101,8 @@ onRecordAfterCreateSuccess((e) => {
     // 2. Se não houver Resend, tentar via MailClient padrão do PocketBase (se SMTP estiver configurado)
     try {
       const mailer = $app.newMailClient()
-      const senderAddress = $app.settings().meta.senderAddress || 'noreply@entrelacospsi.com.br'
+      const senderAddress =
+        $app.settings().meta.senderAddress || 'noreply@entrelacos.entrelacospsicologia.com.br'
       const senderName = $app.settings().meta.senderName || 'Entrelaços Psicologia'
 
       const msg = new MailerMessage({
