@@ -32,6 +32,7 @@ export interface BackupPayload {
     reajuste: unknown
     contrato: unknown
     finplan?: unknown
+    ikigai?: unknown
   }
 }
 
@@ -78,6 +79,7 @@ export function collectLocalBackupData(explicitUserId?: string | null): BackupPa
       reajuste: getVal(BASE_STORAGE_KEYS.REAJUSTE),
       contrato: getVal(BASE_STORAGE_KEYS.CONTRATO),
       finplan: getVal(BASE_STORAGE_KEYS.FINPLAN),
+      ikigai: getVal(BASE_STORAGE_KEYS.IKIGAI),
     },
   }
 }
@@ -149,6 +151,24 @@ export function hasSignificantLocalData(explicitUserId?: string | null): boolean
       }
     }
 
+    const rawIkigai =
+      localStorage.getItem(getUserStorageKey(BASE_STORAGE_KEYS.IKIGAI, uid)) ||
+      (uid ? localStorage.getItem(BASE_STORAGE_KEYS.IKIGAI) : null)
+    if (rawIkigai) {
+      const iki = JSON.parse(rawIkigai)
+      const circles = iki?.circles || {}
+      const hasCircles =
+        (circles.love?.length || 0) +
+          (circles.goodAt?.length || 0) +
+          (circles.worldNeeds?.length || 0) +
+          (circles.paidFor?.length || 0) >
+        0
+      const hasMission = !!iki?.missionStatement?.trim()
+      if (hasCircles || hasMission || (iki?.activeStep || 0) > 0) {
+        return true
+      }
+    }
+
     return false
   } catch {
     return false
@@ -205,6 +225,12 @@ export function restoreBackupDataToLocal(
       JSON.stringify(data.finplan),
     )
   }
+  if (data.ikigai !== undefined && data.ikigai !== null) {
+    localStorage.setItem(
+      getUserStorageKey(BASE_STORAGE_KEYS.IKIGAI, uid),
+      JSON.stringify(data.ikigai),
+    )
+  }
 
   // Grava carimbo da restauração
   localStorage.setItem(
@@ -228,6 +254,7 @@ export function clearUserLocalData(userId?: string | null): void {
     BASE_STORAGE_KEYS.REAJUSTE,
     BASE_STORAGE_KEYS.CONTRATO,
     BASE_STORAGE_KEYS.FINPLAN,
+    BASE_STORAGE_KEYS.IKIGAI,
     BASE_STORAGE_KEYS.LAST_SYNC,
   ]
   keysToRemove.forEach((baseKey) => {

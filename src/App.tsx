@@ -7,6 +7,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import Index from './pages/Index'
 import HubPage from './pages/HubPage'
 import GuiaPage from './pages/GuiaPage'
+import IkigaiPage from './pages/IkigaiPage'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import AuthScreen from './pages/AuthScreen'
@@ -94,6 +95,23 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <GuiaPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* App Meu IKIGAI da Academia Método FAC */}
+        <Route
+          path="/ikigai"
+          element={
+            <ProtectedRoute>
+              <IkigaiPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ikigai/*"
+          element={
+            <ProtectedRoute>
+              <IkigaiPage />
             </ProtectedRoute>
           }
         />

@@ -10,6 +10,7 @@ export const BASE_STORAGE_KEYS = {
   REAJUSTE: 'entrelacos_fac_reajuste_v1',
   CONTRATO: 'entrelacos_fac_contrato_v1',
   FINPLAN: 'entrelacos_fac_finplan_v1',
+  IKIGAI: 'entrelacos_fac_ikigai_v1',
   LAST_SYNC: 'entrelacos_fac_last_cloud_sync',
 } as const
 
