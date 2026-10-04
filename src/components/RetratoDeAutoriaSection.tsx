@@ -52,6 +52,8 @@ export const RetratoDeAutoriaSection: React.FC = () => {
     setDownloading(true)
     try {
       downloadRetratoZip()
+    } catch (err) {
+      console.error('Erro ao gerar download do ZIP:', err)
     } finally {
       setTimeout(() => setDownloading(false), 1500)
     }
@@ -491,37 +493,32 @@ export const RetratoDeAutoriaSection: React.FC = () => {
               </h3>
             </div>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
-              Baixe o pacote oficial da skill (arquivo ZIP íntegro contendo as instruções do Retrato,
-              o Design System da Academia e o inventário de referências).
+              Baixe o pacote oficial da skill (arquivo ZIP íntegro contendo as instruções do
+              Retrato, o Design System da Academia e o inventário de referências).
             </p>
             <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
               Pacote pronto para download imediato · retrato-de-autoria.zip
             </p>
           </div>
 
-          <a
-            href="/downloads/retrato-de-autoria.zip"
-            download="retrato-de-autoria.zip"
+          <Button
+            size="lg"
             onClick={handleDownloadZip}
-            className="w-full sm:w-auto"
+            disabled={downloading}
+            className="w-full sm:w-auto min-h-[48px] px-6 gap-2.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 transition-all cursor-pointer"
           >
-            <Button
-              size="lg"
-              className="w-full sm:w-auto min-h-[48px] px-6 gap-2.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 transition-all cursor-pointer"
-            >
-              {downloading ? (
-                <>
-                  <Check className="w-4 h-4 shrink-0 text-emerald-300" />
-                  <span>Baixando arquivo...</span>
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4 shrink-0" />
-                  <span>Baixar a skill Retrato de Autoria</span>
-                </>
-              )}
-            </Button>
-          </a>
+            {downloading ? (
+              <>
+                <Check className="w-4 h-4 shrink-0 text-emerald-300 dark:text-emerald-800" />
+                <span>Baixando retrato-de-autoria.zip...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 shrink-0" />
+                <span>Baixar a skill Retrato de Autoria</span>
+              </>
+            )}
+          </Button>
         </div>
       </section>
     </article>
