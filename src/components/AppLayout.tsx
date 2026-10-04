@@ -125,14 +125,13 @@ export const AppLayout: React.FC<LayoutProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo & Marca Astral */}
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => onSelectStep(0)}
+            <a
+              href="/"
               className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
-              aria-label="Ir para a página inicial do Método FAC"
+              aria-label="Voltar para a página inicial da Academia Entrelaços"
             >
               <FACLogo size="md" />
-            </button>
+            </a>
           </div>
 
           {/* Progresso Compacto Mobile (<1024px) */}
@@ -204,6 +203,24 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 <span className="hidden sm:inline">ADMIN</span>
               </a>
             )}
+
+            {/* Botão de Retorno ao Hub da Academia */}
+            <a
+              href="/"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:border-[#7c3aed]/40 transition-colors"
+              title="Ir para o Hub de Aplicações da Academia"
+            >
+              <span className="hidden sm:inline">HUB ACADEMIA</span>
+            </a>
+
+            {/* Link para o Guia / Retrato de Autoria */}
+            <a
+              href="/guia/retrato-de-autoria"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/60 transition-colors"
+              title="Guia da Skill: Retrato de Autoria"
+            >
+              <span className="hidden sm:inline">RETRATO</span>
+            </a>
 
             {/* Identidade da Usuária Logada e Acesso a Minha Senha */}
             <Button
@@ -455,6 +472,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
                     </div>
                   )}
                 </div>
+
+                {/* Links Rápidos Mobile: Hub e Retrato */}
+                <a
+                  href="/"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
+                >
+                  HUB DA ACADEMIA
+                </a>
+                <a
+                  href="/guia/retrato-de-autoria"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px]"
+                >
+                  RETRATO DE AUTORIA (GUIA)
+                </a>
 
                 {currentUser?.role === 'admin' && (
                   <Button

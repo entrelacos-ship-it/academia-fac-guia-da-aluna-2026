@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Index from './pages/Index'
+import HubPage from './pages/HubPage'
+import GuiaPage from './pages/GuiaPage'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import AuthScreen from './pages/AuthScreen'
@@ -58,13 +60,40 @@ const AppRoutes = () => {
       {/* 2. Área Administrativa Exclusiva */}
       <Route path="/admin" element={<AdminRoute />} />
 
-      {/* 3. Rotas Protegidas do Sistema Principal (Calculadora FAC) */}
+      {/* 3. Rotas Protegidas do Sistema Principal (Hub da Academia, Calculadora e Guia) */}
       <Route element={<Layout />}>
+        {/* Rota inicial: Hub da Academia */}
         <Route
           path="/"
           element={
             <ProtectedRoute>
+              <HubPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Calculadora de Precificação FAC */}
+        <Route
+          path="/calculadora"
+          element={
+            <ProtectedRoute>
               <Index />
+            </ProtectedRoute>
+          }
+        />
+        {/* Guia Metodológico da Academia / Retrato de Autoria */}
+        <Route
+          path="/guia"
+          element={
+            <ProtectedRoute>
+              <GuiaPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/guia/retrato-de-autoria"
+          element={
+            <ProtectedRoute>
+              <GuiaPage />
             </ProtectedRoute>
           }
         />
