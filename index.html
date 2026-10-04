@@ -1,5 +1,4 @@
-<!-- HTML template for the frontend react app: https://developer.mozilla.org/en-US/docs/Web/HTML -->
-<!doctype html>
+<!-- HTML template for the frontend react app: https://developer.mozilla.org/en-US/docs/Web/HTML --><!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -7,13 +6,13 @@
     <title>Calculadora de Precificação Clínica — Método FAC · Astral</title>
     <script>
       /* Shield against cross-origin CSSStyleSheet SecurityError thrown by html-to-image/dom-to-image */
-      (function() {
+      (function () {
         try {
-          var descriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, 'cssRules');
+          var descriptor = Object.getOwnPropertyDescriptor(CSSStyleSheet.prototype, "cssRules");
           if (descriptor && descriptor.get) {
             var originalGet = descriptor.get;
-            Object.defineProperty(CSSStyleSheet.prototype, 'cssRules', {
-              get: function() {
+            Object.defineProperty(CSSStyleSheet.prototype, "cssRules", {
+              get: function () {
                 try {
                   return originalGet.call(this);
                 } catch (e) {
@@ -21,16 +20,22 @@
                 }
               },
               configurable: true,
-              enumerable: descriptor.enumerable
+              enumerable: descriptor.enumerable,
             });
           }
         } catch (_) {}
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <meta name="description" content="Descubra o piso ético por sessão a partir do seu custo real de vida e da prática clínica com o Método FAC (Entrelaços Psicologia)." />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <meta
+      name="description"
+      content="Descubra o piso ético por sessão a partir do seu custo real de vida e da prática clínica com o Método FAC (Entrelaços Psicologia)."
+    />
     <meta name="author" content="Skip (https://goskip.dev)" />
     <meta property="og:image" content="/og-image.png" />
   </head>
