@@ -9,15 +9,49 @@ import {
   FileText,
   Lightbulb,
   Compass,
-  ArrowRight,
-  ShieldAlert,
   Bot,
-  HelpCircle,
   FolderArchive,
+  ExternalLink,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { downloadRetratoZip } from '@/lib/retratoZipBuilder'
+
+/**
+ * Logo oficial do Claude (Anthropic):
+ * Asterisco orgânico com braços arredondados característico da identidade Anthropic Claude.
+ * Tom coral/terracota #D97757.
+ */
+const ClaudeLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    {/* Asterisco de 8 braços arredondados característico do Claude */}
+    <path d="M12 2c.6 0 1.1.4 1.2 1l.6 5.3 4.2-3.3c.5-.4 1.2-.3 1.6.2.4.5.3 1.2-.2 1.6l-4.2 3.3 5.3.6c.6.1 1 .6 1 1.2s-.4 1.1-1 1.2l-5.3.6 4.2 3.3c.5.4.6 1.1.2 1.6-.4.5-1.1.6-1.6.2l-4.2-3.3-.6 5.3c-.1.6-.6 1-1.2 1s-1.1-.4-1.2-1l-.6-5.3-4.2 3.3c-.5.4-1.2.3-1.6-.2-.4-.5-.3-1.2.2-1.6l4.2-3.3-5.3-.6c-.6-.1-1-.6-1-1.2s.4-1.1 1-1.2l5.3-.6-4.2-3.3c-.5-.4-.6-1.1-.2-1.6.4-.5 1.1-.6 1.6-.2l4.2 3.3.6-5.3c.1-.6.6-1 1.2-1z" />
+  </svg>
+)
+
+/**
+ * Logo oficial do ChatGPT (OpenAI):
+ * Nó geométrico de 6 pétalas hexagonais entrelaçadas, fiel à referência enviada pela usuária.
+ */
+const ChatGPTLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={className}
+  >
+    <path d="M19.2 14.8a4.6 4.6 0 0 0 .5-3.3 4.8 4.8 0 0 0-3.4-3.5 5 5 0 0 0-1.1-.1v-1.4a4.8 4.8 0 0 0-4.1-4.7 4.7 4.7 0 0 0-4.7 2.7 4.6 4.6 0 0 0-2.3 2.5 4.8 4.8 0 0 0 .6 4.9v1.4a4.8 4.8 0 0 0 4.1 4.7 4.7 4.7 0 0 0 4.7-2.7 4.6 4.6 0 0 0 2.3-2.5 4.8 4.8 0 0 0-.6-4.9z" />
+    <path d="M10.5 7.5l4.5 2.6" />
+    <path d="M13.5 16.5l-4.5-2.6" />
+    <path d="M7.5 13.5V8.3" />
+    <path d="M16.5 10.5v5.2" />
+    <path d="M9 14.8l4.5-7.8" />
+  </svg>
+)
 
 export const RetratoDeAutoriaSection: React.FC = () => {
   const [copiedPlanB, setCopiedPlanB] = useState(false)
@@ -141,7 +175,7 @@ export const RetratoDeAutoriaSection: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. Como instalar a skill: dois caminhos lado a lado (Claude x ChatGPT) + Plano B */}
+      {/* 3. Como instalar a skill / Acesso às ferramentas */}
       <section className="space-y-4">
         <div className="flex items-center gap-2 text-[#7c3aed] dark:text-[#C084FC]">
           <Bot className="w-5 h-5 shrink-0" />
@@ -151,193 +185,123 @@ export const RetratoDeAutoriaSection: React.FC = () => {
         </div>
 
         <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
-          Escolha a ferramenta que voce ja utiliza no seu dia a dia. Os passos abaixo serao
-          validados na tela.
+          Abra a ferramenta de inteligência artificial de sua preferência. Em seguida, utilize o
+          método do Plano B logo abaixo para colar as instruções e conduzir o seu Retrato.
         </p>
 
-        {/* Dois caminhos lado a lado em desktop, empilhados no mobile */}
+        {/* Cartões lado a lado no desktop, empilhados no mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Coluna Claude */}
-          <div className="p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs flex flex-col justify-between">
+          {/* Cartão Claude */}
+          <div className="p-5 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-[#D97757]/40 transition-all flex flex-col justify-between gap-5 group">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
-                  <h3 className="font-semibold text-base text-slate-900 dark:text-white">
-                    Instalar no Claude
-                  </h3>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#D97757]/10 dark:bg-[#D97757]/20 flex items-center justify-center text-[#D97757] shrink-0 border border-[#D97757]/30">
+                    <ClaudeLogoIcon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                      Claude
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Anthropic</p>
+                  </div>
                 </div>
-                <Badge variant="secondary" className="font-mono text-[10px]">
-                  Anthropic
+                <Badge
+                  variant="outline"
+                  className="font-mono text-[10px] text-[#D97757] border-[#D97757]/30 bg-[#D97757]/5"
+                >
+                  Recomendado
                 </Badge>
               </div>
 
-              <ol className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    1
-                  </span>
-                  <div>
-                    Acesse sua conta no Claude e abra o menu{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>
-                    .
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    2
-                  </span>
-                  <div>
-                    Selecione a opcao{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>{' '}
-                    para adicionar ou carregar uma nova skill/projeto.
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    3
-                  </span>
-                  <div>
-                    Envie o arquivo baixado ou cole o conteudo instrucional no campo{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>
-                    .
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    4
-                  </span>
-                  <div>
-                    Confirme clicando em{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>{' '}
-                    e inicie a conversa.
-                  </div>
-                </li>
-              </ol>
-
-              {/* Espaco reservado para captura de tela Claude */}
-              <div className="mt-4 border-2 border-dashed border-slate-200 dark:border-[#27272A] rounded-[12px] p-6 text-center bg-slate-50/50 dark:bg-[#121216]/50">
-                <HelpCircle className="w-6 h-6 mx-auto text-slate-400 dark:text-slate-500 mb-2" />
-                <p className="text-xs font-mono font-medium text-slate-500 dark:text-[#A1A1AA]">
-                  [ESPACO RESERVADO PARA CAPTURA DE TELA: CLAUDE]
-                </p>
-                <p className="text-[11px] text-slate-400 dark:text-[#71717A] mt-1">
-                  Validacao visual dos menus do Claude antes da publicacao
-                </p>
-              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Faça login na sua conta do Claude. Após abrir a ferramenta, siga o{' '}
+                <strong className="text-slate-900 dark:text-white">Plano B abaixo</strong> para
+                iniciar seu Retrato colando o conteúdo do{' '}
+                <code className="font-mono text-[12px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+                  SKILL.md
+                </code>
+                .
+              </p>
             </div>
+
+            <a
+              href="https://claude.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full h-10 px-4 rounded-[8px] bg-[#D97757] hover:bg-[#c66747] text-white font-medium text-sm transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D97757]/40"
+            >
+              <span>Abrir o Claude</span>
+              <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
+            </a>
           </div>
 
-          {/* Coluna ChatGPT */}
-          <div className="p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs flex flex-col justify-between">
+          {/* Cartão ChatGPT */}
+          <div className="p-5 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-slate-400 dark:hover:border-slate-600 transition-all flex flex-col justify-between gap-5 group">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#7c3aed] dark:text-[#C084FC]" />
-                  <h3 className="font-semibold text-base text-slate-900 dark:text-white">
-                    Instalar no ChatGPT
-                  </h3>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#27272A] flex items-center justify-center text-slate-900 dark:text-white shrink-0 border border-slate-200 dark:border-[#3F3F46]">
+                    <ChatGPTLogoIcon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                      ChatGPT
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">OpenAI</p>
+                  </div>
                 </div>
                 <Badge variant="secondary" className="font-mono text-[10px]">
                   OpenAI
                 </Badge>
               </div>
 
-              <ol className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    1
-                  </span>
-                  <div>
-                    No ChatGPT, clique no menu lateral em{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>
-                    .
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    2
-                  </span>
-                  <div>
-                    Acesse a secao de configuracao{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>
-                    .
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    3
-                  </span>
-                  <div>
-                    Faca o upload dos arquivos ou insira os dados no campo{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>
-                    .
-                  </div>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                    4
-                  </span>
-                  <div>
-                    Salve clicando em{' '}
-                    <span className="inline-block px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-mono text-[11px] font-semibold border border-amber-300 dark:border-amber-800/60">
-                      [CONFIRMAR NA TELA]
-                    </span>{' '}
-                    e comece seu Retrato.
-                  </div>
-                </li>
-              </ol>
-
-              {/* Espaco reservado para captura de tela ChatGPT */}
-              <div className="mt-4 border-2 border-dashed border-slate-200 dark:border-[#27272A] rounded-[12px] p-6 text-center bg-slate-50/50 dark:bg-[#121216]/50">
-                <HelpCircle className="w-6 h-6 mx-auto text-slate-400 dark:text-slate-500 mb-2" />
-                <p className="text-xs font-mono font-medium text-slate-500 dark:text-[#A1A1AA]">
-                  [ESPACO RESERVADO PARA CAPTURA DE TELA: CHATGPT]
-                </p>
-                <p className="text-[11px] text-slate-400 dark:text-[#71717A] mt-1">
-                  Validacao visual dos menus do ChatGPT antes da publicacao
-                </p>
-              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Faça login na sua conta do ChatGPT. Após abrir a ferramenta, siga o{' '}
+                <strong className="text-slate-900 dark:text-white">Plano B abaixo</strong> para
+                iniciar seu Retrato colando o conteúdo do{' '}
+                <code className="font-mono text-[12px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+                  SKILL.md
+                </code>
+                .
+              </p>
             </div>
+
+            <a
+              href="https://chatgpt.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full h-10 px-4 rounded-[8px] bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950 font-medium text-sm transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+            >
+              <span>Abrir o ChatGPT</span>
+              <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
+            </a>
           </div>
         </div>
 
-        {/* Plano B (valido para as duas ferramentas) */}
+        {/* Plano B (caminho principal sem necessidade de configuração prévia de skill) */}
         <div className="p-5 rounded-[14px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] shadow-xs space-y-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
               <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
-                Plano B (valido para as duas ferramentas)
+                Plano B: Como usar diretamente na conversa
               </h3>
             </div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA]">
-              Metodo direto sem configuracao previa
+            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
+              Caminho recomendado · sem configuração
             </span>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 dark:text-[#A1A1AA] leading-relaxed">
-            Abra o arquivo <strong>SKILL.md</strong> que esta dentro do zip, copie todo o texto,
-            cole em uma conversa nova e escreva em seguida:
+            Após abrir o Claude ou ChatGPT, abra o arquivo <strong>SKILL.md</strong> que está dentro
+            do pacote baixado (no botão abaixo), copie todo o seu texto, cole em uma nova conversa e
+            escreva em seguida:
           </p>
 
           <div className="flex items-center justify-between gap-3 p-3 rounded-[8px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
             <code className="font-mono text-xs sm:text-sm text-[#7c3aed] dark:text-[#C084FC] select-all">
-              Siga estas instrucoes. Quero fazer meu Retrato de Autoria.
+              Siga estas instruções. Quero fazer meu Retrato de Autoria.
             </code>
             <Button
               variant="outline"
