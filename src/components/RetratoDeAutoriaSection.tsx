@@ -119,57 +119,60 @@ export const RetratoDeAutoriaSection: React.FC = () => {
         </p>
       </header>
 
-      {/* 1. O que e e para que serve (ate 5 linhas) */}
-      <section className="space-y-3">
+      {/* 1. O que é e para que serve */}
+      <section className="space-y-2.5">
         <div className="flex items-center gap-2 text-[#7c3aed] dark:text-[#C084FC]">
           <Compass className="w-5 h-5 shrink-0" />
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-            1. O que e e para que serve
+            1. O que é e para que serve
           </h2>
         </div>
-        <div className="p-5 rounded-[14px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
-          <p className="text-sm sm:text-[15px] text-slate-700 dark:text-slate-200 leading-relaxed">
-            A aluna sai com um documento que traz: padrao central, dom profissional, fonte de
-            energia, o que trava, coerencia entre valor e pratica, sustentacao, ponto de partida no
-            Metodo FAC, tres movimentos para 7 dias, perguntas para levar ao encontro e sinais para
-            a investigacao de nicho. No final vem um &ldquo;bloco de contexto&rdquo; que ela vai
-            colar em todos os agentes da Academia.
+        <div className="p-4 sm:p-5 rounded-[14px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed mb-2.5">
+            Gera um retrato profundo da sua atuação clínica e entrega:
           </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-600 dark:text-[#A1A1AA]">
+            <li>• Padrão central, dom profissional e fonte de energia</li>
+            <li>• O que trava, sustentação e coerência valor-prática</li>
+            <li>• Ponto de partida no Método FAC e 3 movimentos p/ 7 dias</li>
+            <li>
+              • Perguntas p/ o Encontro 2 e <strong>bloco de contexto</strong> p/ os demais agentes
+            </li>
+          </ul>
         </div>
       </section>
 
-      {/* 2. Antes de comecar */}
-      <section className="space-y-3">
+      {/* 2. Antes de começar */}
+      <section className="space-y-2.5">
         <div className="flex items-center gap-2 text-[#ea580c] dark:text-[#FB923C]">
           <Clock className="w-5 h-5 shrink-0" />
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-            2. Antes de comecar
+            2. Antes de começar
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div className="p-3.5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
               Tempo sugerido
             </span>
-            <p className="text-sm text-slate-700 dark:text-[#A1A1AA] leading-snug">
-              Reserve de 30 a 45 minutos sem interrupcao.
+            <p className="text-xs text-slate-700 dark:text-[#A1A1AA] leading-snug">
+              Reserve de 30 a 45 minutos sem interrupção.
             </p>
           </div>
-          <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
-              Autenticidade e Sigilo
+          <div className="p-3.5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+              Autenticidade & Sigilo
             </span>
-            <p className="text-sm text-slate-700 dark:text-[#A1A1AA] leading-snug">
-              Responda com cenas reais, nao com respostas bonitas. Nao inclua nome nem dado que
-              identifique paciente.
+            <p className="text-xs text-slate-700 dark:text-[#A1A1AA] leading-snug">
+              Traga cenas reais. Não inclua nomes nem dados identificáveis de pacientes.
             </p>
           </div>
-          <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
-              Diagnostico FAC
+          <div className="p-3.5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
+              Diagnóstico FAC
             </span>
-            <p className="text-sm text-slate-700 dark:text-[#A1A1AA] leading-snug">
-              Se ja fez o Diagnostico FAC, tenha em maos a pontuacao por pilar.
+            <p className="text-xs text-slate-700 dark:text-[#A1A1AA] leading-snug">
+              Se já fez o Diagnóstico FAC, tenha em mãos a pontuação por pilar.
             </p>
           </div>
         </div>
@@ -185,70 +188,25 @@ export const RetratoDeAutoriaSection: React.FC = () => {
         </div>
 
         <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
-          Abra a ferramenta de inteligência artificial de sua preferência. Em seguida, utilize o
-          método do Plano B logo abaixo para colar as instruções e conduzir o seu Retrato.
+          Abra a IA de sua preferência (ChatGPT ou Claude), baixe o pacote da skill logo abaixo e
+          cole as instruções na conversa.
         </p>
 
-        {/* Cartões lado a lado no desktop, empilhados no mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Cartão Claude */}
-          <div className="p-5 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-[#D97757]/40 transition-all flex flex-col justify-between gap-5 group">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A]">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#D97757]/10 dark:bg-[#D97757]/20 flex items-center justify-center text-[#D97757] shrink-0 border border-[#D97757]/30">
-                    <ClaudeLogoIcon className="w-6 h-6" />
+        {/* Cartões de IA: ChatGPT primeiro (esquerda/em cima), Claude em seguida */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Cartão ChatGPT (PRIMEIRO) */}
+          <div className="p-4 sm:p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-slate-400 dark:hover:border-slate-600 transition-all flex flex-col justify-between gap-4 group">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-[#27272A]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-[#27272A] flex items-center justify-center text-slate-900 dark:text-white shrink-0 border border-slate-200 dark:border-[#3F3F46]">
+                    <ChatGPTLogoIcon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-base text-slate-900 dark:text-white flex items-center gap-2">
-                      Claude
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Anthropic</p>
-                  </div>
-                </div>
-                <Badge
-                  variant="outline"
-                  className="font-mono text-[10px] text-[#D97757] border-[#D97757]/30 bg-[#D97757]/5"
-                >
-                  Recomendado
-                </Badge>
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Faça login na sua conta do Claude. Após abrir a ferramenta, siga o{' '}
-                <strong className="text-slate-900 dark:text-white">Plano B abaixo</strong> para
-                iniciar seu Retrato colando o conteúdo do{' '}
-                <code className="font-mono text-[12px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
-                  SKILL.md
-                </code>
-                .
-              </p>
-            </div>
-
-            <a
-              href="https://claude.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full h-10 px-4 rounded-[8px] bg-[#D97757] hover:bg-[#c66747] text-white font-medium text-sm transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D97757]/40"
-            >
-              <span>Abrir o Claude</span>
-              <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
-            </a>
-          </div>
-
-          {/* Cartão ChatGPT */}
-          <div className="p-5 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-slate-400 dark:hover:border-slate-600 transition-all flex flex-col justify-between gap-5 group">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A]">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#27272A] flex items-center justify-center text-slate-900 dark:text-white shrink-0 border border-slate-200 dark:border-[#3F3F46]">
-                    <ChatGPTLogoIcon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                    <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
                       ChatGPT
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">OpenAI</p>
+                    <p className="text-[11px] text-slate-500 dark:text-[#A1A1AA]">OpenAI</p>
                   </div>
                 </div>
                 <Badge variant="secondary" className="font-mono text-[10px]">
@@ -256,11 +214,10 @@ export const RetratoDeAutoriaSection: React.FC = () => {
                 </Badge>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Faça login na sua conta do ChatGPT. Após abrir a ferramenta, siga o{' '}
-                <strong className="text-slate-900 dark:text-white">Plano B abaixo</strong> para
-                iniciar seu Retrato colando o conteúdo do{' '}
-                <code className="font-mono text-[12px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Abra sua conta do ChatGPT e inicie o Retrato pelo <strong>Plano B</strong> colando o
+                conteúdo do{' '}
+                <code className="font-mono text-[11px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
                   SKILL.md
                 </code>
                 .
@@ -271,43 +228,127 @@ export const RetratoDeAutoriaSection: React.FC = () => {
               href="https://chatgpt.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full h-10 px-4 rounded-[8px] bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950 font-medium text-sm transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="inline-flex items-center justify-center gap-2 w-full h-9 px-4 rounded-[8px] bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950 font-medium text-xs sm:text-sm transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-slate-400"
             >
               <span>Abrir o ChatGPT</span>
-              <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
+              <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-80" />
+            </a>
+          </div>
+
+          {/* Cartão Claude (SEGUNDO) */}
+          <div className="p-4 sm:p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs hover:border-[#D97757]/40 transition-all flex flex-col justify-between gap-4 group">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-[#27272A]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#D97757]/10 dark:bg-[#D97757]/20 flex items-center justify-center text-[#D97757] shrink-0 border border-[#D97757]/30">
+                    <ClaudeLogoIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
+                      Claude
+                    </h3>
+                    <p className="text-[11px] text-slate-500 dark:text-[#A1A1AA]">Anthropic</p>
+                  </div>
+                </div>
+                <Badge
+                  variant="outline"
+                  className="font-mono text-[10px] text-[#D97757] border-[#D97757]/30 bg-[#D97757]/5"
+                >
+                  Recomendado
+                </Badge>
+              </div>
+
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                Abra sua conta do Claude e inicie o Retrato pelo <strong>Plano B</strong> colando o
+                conteúdo do{' '}
+                <code className="font-mono text-[11px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+                  SKILL.md
+                </code>
+                .
+              </p>
+            </div>
+
+            <a
+              href="https://claude.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full h-9 px-4 rounded-[8px] bg-[#D97757] hover:bg-[#c66747] text-white font-medium text-xs sm:text-sm transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-[#D97757]/40"
+            >
+              <span>Abrir o Claude</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-80" />
             </a>
           </div>
         </div>
 
-        {/* Plano B (caminho principal sem necessidade de configuração prévia de skill) */}
-        <div className="p-5 rounded-[14px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] shadow-xs space-y-3">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <div className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+        {/* Download da skill: posicionado IMEDIATAMENTE após os cartões de IA */}
+        <div className="p-4 sm:p-5 rounded-[14px] bg-white dark:bg-[#18181B] border border-purple-200 dark:border-purple-900/40 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3.5">
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <FolderArchive className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
               <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
-                Plano B: Como usar diretamente na conversa
+                Baixar pacote da skill
+              </h3>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+              Contém o{' '}
+              <code className="font-mono text-[11px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+                SKILL.md
+              </code>{' '}
+              pronto para uso no ChatGPT ou Claude.
+            </p>
+          </div>
+
+          <Button
+            size="default"
+            onClick={handleDownloadZip}
+            disabled={downloading}
+            className="w-full sm:w-auto min-h-[42px] px-5 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-xs cursor-pointer text-xs sm:text-sm shrink-0"
+          >
+            {downloading ? (
+              <>
+                <Check className="w-4 h-4 shrink-0 text-emerald-300 dark:text-emerald-800" />
+                <span>Baixando ZIP...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 shrink-0" />
+                <span>Baixar a skill Retrato de Autoria</span>
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Plano B (caminho direto sem configuração) */}
+        <div className="p-4 rounded-[14px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] shadow-xs space-y-2.5">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <Lightbulb className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+              <h3 className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">
+                Plano B: Direto na conversa
               </h3>
             </div>
             <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
-              Caminho recomendado · sem configuração
+              Sem configuração prévia
             </span>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-700 dark:text-[#A1A1AA] leading-relaxed">
-            Após abrir o Claude ou ChatGPT, abra o arquivo <strong>SKILL.md</strong> que está dentro
-            do pacote baixado (no botão abaixo), copie todo o seu texto, cole em uma nova conversa e
-            escreva em seguida:
+          <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+            Abra o{' '}
+            <code className="font-mono text-[11px] bg-slate-100 dark:bg-[#27272A] px-1 py-0.5 rounded">
+              SKILL.md
+            </code>{' '}
+            do pacote baixado, copie todo o texto, cole na conversa da IA e envie:
           </p>
 
-          <div className="flex items-center justify-between gap-3 p-3 rounded-[8px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
-            <code className="font-mono text-xs sm:text-sm text-[#7c3aed] dark:text-[#C084FC] select-all">
+          <div className="flex items-center justify-between gap-2 p-2.5 rounded-[8px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
+            <code className="font-mono text-xs text-[#7c3aed] dark:text-[#C084FC] select-all truncate">
               Siga estas instruções. Quero fazer meu Retrato de Autoria.
             </code>
             <Button
               variant="outline"
               size="sm"
               onClick={handleCopyPlanB}
-              className="gap-1.5 h-8 text-xs font-mono shrink-0"
+              className="gap-1.5 h-7 text-xs font-mono shrink-0 px-2.5"
             >
               {copiedPlanB ? (
                 <>
@@ -334,10 +375,10 @@ export const RetratoDeAutoriaSection: React.FC = () => {
           </h2>
         </div>
 
-        <div className="p-5 rounded-[14px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs space-y-4">
-          <div className="flex items-center justify-between gap-3 flex-wrap p-3 rounded-[8px] bg-purple-50/70 dark:bg-[#121216] border border-purple-200 dark:border-[#27272A]">
+        <div className="p-4 sm:p-5 rounded-[14px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs space-y-3">
+          <div className="flex items-center justify-between gap-2.5 flex-wrap p-2.5 sm:p-3 rounded-[8px] bg-purple-50/70 dark:bg-[#121216] border border-purple-200 dark:border-[#27272A]">
             <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-200">
-              Comece escrevendo:{' '}
+              Frase de início:{' '}
               <strong className="font-mono text-[#7c3aed] dark:text-[#C084FC]">
                 &ldquo;Quero fazer meu Retrato de Autoria&rdquo;
               </strong>
@@ -346,7 +387,7 @@ export const RetratoDeAutoriaSection: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={handleCopyStarter}
-              className="gap-1.5 h-8 text-xs font-mono shrink-0 bg-white dark:bg-[#18181B]"
+              className="gap-1.5 h-7 text-xs font-mono shrink-0 bg-white dark:bg-[#18181B] px-2.5"
             >
               {copiedContext ? (
                 <>
@@ -362,31 +403,28 @@ export const RetratoDeAutoriaSection: React.FC = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs sm:text-sm text-slate-700 dark:text-[#A1A1AA]">
-            <div className="p-3 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
-              <strong className="block text-slate-900 dark:text-white font-medium mb-1">
-                6 blocos de conversa
-              </strong>
-              A conversa tem 6 blocos, um de cada vez. Responda no seu ritmo, com calma e
-              profundidade.
-            </div>
-
-            <div className="p-3 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
-              <strong className="block text-slate-900 dark:text-white font-medium mb-1">
-                Leitura preliminar
-              </strong>
-              Antes do documento final, a IA devolve uma leitura preliminar. Corrija o que soar
-              forcado. Voce e a autoridade sobre a sua historia.
-            </div>
-
-            <div className="p-3 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] sm:col-span-2">
-              <strong className="block text-slate-900 dark:text-white font-medium mb-1">
-                Se precisar parar
-              </strong>
-              Se precisar parar, peca um resumo do que ja foi respondido e retome depois colando
-              esse resumo em uma nova mensagem.
-            </div>
-          </div>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
+            <li className="flex items-start gap-2">
+              <span className="text-[#7c3aed] dark:text-[#C084FC] font-bold">•</span>
+              <span>
+                <strong>6 blocos:</strong> responda no seu ritmo, com calma e profundidade.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#7c3aed] dark:text-[#C084FC] font-bold">•</span>
+              <span>
+                <strong>Leitura preliminar:</strong> corrija o que soar forçado antes da versão
+                final — você é a autoridade sobre a sua história.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#7c3aed] dark:text-[#C084FC] font-bold">•</span>
+              <span>
+                <strong>Pausas:</strong> se precisar interromper, peça um resumo e retome colando-o
+                em uma nova mensagem.
+              </span>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -400,89 +438,61 @@ export const RetratoDeAutoriaSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+          <div className="p-3.5 sm:p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Guarde seu documento
             </span>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-[#A1A1AA] leading-relaxed">
-              Salve o Retrato completo. Guarde o bloco de contexto em um lugar facil. Voce vai colar
-              esse bloco no inicio das conversas com os proximos agentes da Academia.
-            </p>
+            <ul className="text-xs text-slate-600 dark:text-[#A1A1AA] space-y-1">
+              <li>• Salve o Retrato completo.</li>
+              <li>
+                • Guarde o <em>bloco de contexto</em> para colar no início das conversas com os
+                próximos agentes da Academia.
+              </li>
+            </ul>
           </div>
 
-          <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+          <div className="p-3.5 sm:p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
               Comunidade e Encontro 2
             </span>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-[#A1A1AA] leading-relaxed">
-              Poste na comunidade apenas o que quiser compartilhar. Sugestao: seu padrao central e
-              seu pilar de partida. Leve para o Encontro 2 as &lsquo;perguntas para levar ao
-              encontro&rsquo; que o Retrato gerou.
-            </p>
+            <ul className="text-xs text-slate-600 dark:text-[#A1A1AA] space-y-1">
+              <li>• Compartilhe apenas o que quiser (ex.: padrão central e pilar de partida).</li>
+              <li>• Leve para o Encontro 2 as perguntas geradas pelo Retrato.</li>
+            </ul>
           </div>
         </div>
       </section>
 
       {/* 6. Avisos (caixa de destaque visual: estilo callout amarelo/laranja do sistema) */}
       <section className="space-y-3">
-        <div className="p-5 sm:p-6 rounded-[16px] bg-amber-50/90 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-600/50 shadow-md space-y-3 text-amber-950 dark:text-amber-200">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-[6px] bg-amber-200/80 dark:bg-amber-900/60 text-amber-900 dark:text-amber-300">
-              <AlertTriangle className="w-5 h-5 shrink-0 stroke-[2.2]" />
+        <div className="p-4 sm:p-5 rounded-[14px] bg-amber-50/90 dark:bg-amber-950/30 border-2 border-amber-300 dark:border-amber-600/50 shadow-xs space-y-2.5 text-amber-950 dark:text-amber-200">
+          <div className="flex items-center gap-2">
+            <div className="p-1 rounded-[6px] bg-amber-200/80 dark:bg-amber-900/60 text-amber-900 dark:text-amber-300">
+              <AlertTriangle className="w-4 h-4 shrink-0 stroke-[2.2]" />
             </div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight">Avisos importantes</h2>
+            <h2 className="text-sm sm:text-base font-bold tracking-tight">Avisos importantes</h2>
           </div>
 
-          <div className="text-xs sm:text-sm leading-relaxed space-y-2 font-normal text-amber-900 dark:text-amber-200">
-            <p>
-              O Retrato e uma leitura em forma de hipotese, feita a partir do que voce escreveu. Nao
-              e avaliacao psicologica nem diagnostico. Ele nao substitui terapia nem supervisao.
-            </p>
-            <p>
-              Se a entrevista mexer com voce, leve isso para o seu espaco de cuidado. A IA pode
-              errar. O que nao fizer sentido, descarte.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Botao de download */}
-      <section className="pt-2">
-        <div className="p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="space-y-1.5 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <FolderArchive className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
-              <h3 className="font-semibold text-base sm:text-lg text-slate-900 dark:text-white">
-                Pronta para iniciar seu Retrato?
-              </h3>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
-              Baixe o pacote oficial da skill (arquivo ZIP íntegro contendo as instruções do
-              Retrato, o Design System da Academia e o inventário de referências).
-            </p>
-            <p className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
-              Pacote pronto para download imediato · retrato-de-autoria.zip
-            </p>
-          </div>
-
-          <Button
-            size="lg"
-            onClick={handleDownloadZip}
-            disabled={downloading}
-            className="w-full sm:w-auto min-h-[48px] px-6 gap-2.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 transition-all cursor-pointer"
-          >
-            {downloading ? (
-              <>
-                <Check className="w-4 h-4 shrink-0 text-emerald-300 dark:text-emerald-800" />
-                <span>Baixando retrato-de-autoria.zip...</span>
-              </>
-            ) : (
-              <>
-                <Download className="w-4 h-4 shrink-0" />
-                <span>Baixar a skill Retrato de Autoria</span>
-              </>
-            )}
-          </Button>
+          <ul className="text-xs sm:text-sm leading-relaxed space-y-1.5 font-normal text-amber-900 dark:text-amber-200">
+            <li className="flex items-start gap-2">
+              <span className="font-bold">•</span>
+              <span>
+                O Retrato é uma leitura em forma de hipótese, feita a partir do que você escreveu.
+                Não é avaliação psicológica nem diagnóstico.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold">•</span>
+              <span>
+                Não substitui terapia nem supervisão. Se a entrevista mexer com você, leve para o
+                seu espaço de cuidado.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold">•</span>
+              <span>A IA pode errar — o que não fizer sentido, descarte.</span>
+            </li>
+          </ul>
         </div>
       </section>
     </article>
