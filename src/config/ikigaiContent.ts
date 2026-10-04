@@ -44,7 +44,7 @@ export const CIRCLE_DEFINITIONS: Record<CircleId, CircleDefinition> = {
       'Em que momento você perde a noção do tempo?',
     ],
     badgeText: 'Círculo 1',
-    placeholder: 'Ex: Escuta de luto parental, supervisão clínica acolhedora...',
+    placeholder: 'Digite aqui um tema ou prática que você ama...',
     minSuggested: 3,
     maxStars: 3,
   },
@@ -61,7 +61,7 @@ export const CIRCLE_DEFINITIONS: Record<CircleId, CircleDefinition> = {
       'Que repertório sua trajetória deixou, inclusive fora da psicologia?',
     ],
     badgeText: 'Círculo 2',
-    placeholder: 'Ex: Capacidade de síntese em devoluções, facilidade para mediar crises...',
+    placeholder: 'Digite aqui uma habilidade ou facilidade que você domina...',
     minSuggested: 3,
     maxStars: 3,
   },
@@ -78,7 +78,7 @@ export const CIRCLE_DEFINITIONS: Record<CircleId, CircleDefinition> = {
       'Quem sai perdendo quando esse cuidado não existe?',
     ],
     badgeText: 'Círculo 3',
-    placeholder: 'Ex: Mães sobrecarregadas sem rede de apoio, jovens em transição de carreira...',
+    placeholder: 'Digite aqui uma dor social ou demanda que clama por cuidado...',
     minSuggested: 3,
     maxStars: 3,
   },
@@ -95,7 +95,7 @@ export const CIRCLE_DEFINITIONS: Record<CircleId, CircleDefinition> = {
       'O que precisaria ser verdade para você cobrar sem culpa?',
     ],
     badgeText: 'Círculo 4',
-    placeholder: 'Ex: Psicoterapia individual particular, grupos temáticos de puerpério...',
+    placeholder: 'Digite aqui um serviço ou formato pelo qual você pode cobrar...',
     minSuggested: 3,
     maxStars: 3,
   },
@@ -113,7 +113,7 @@ export const INTERSECTION_DEFINITIONS: Record<IntersectionId, IntersectionDefini
     prompt:
       'Olhe para os itens dos dois círculos abaixo e escreva uma frase síntese que una seu amor espontâneo ao seu domínio real.',
     examplePlaceholder:
-      'Ex: Minha paixão é conduzir atendimentos profundos de transição profissional com leveza e escuta sensível.',
+      'Escreva sua frase síntese conectando o que você ama e no que você é boa...',
   },
   mission: {
     id: 'mission',
@@ -126,7 +126,7 @@ export const INTERSECTION_DEFINITIONS: Record<IntersectionId, IntersectionDefini
     prompt:
       'Olhe para o que você ama e o sofrimento que você deseja aliviar. Como o seu entusiasmo se coloca a serviço do mundo?',
     examplePlaceholder:
-      'Ex: Minha missão é acolher o luto silencioso de quem cuida dos outros sem nunca ter colo.',
+      'Escreva sua frase síntese conectando o que você ama e do que o mundo precisa...',
   },
   vocation: {
     id: 'vocation',
@@ -139,7 +139,7 @@ export const INTERSECTION_DEFINITIONS: Record<IntersectionId, IntersectionDefini
     prompt:
       'Existe uma necessidade real no mundo e pessoas dispostas a remunerar essa transformação. Como esses dois lados se conectam no seu trabalho?',
     examplePlaceholder:
-      'Ex: Oferecer programas estruturados de acolhimento perinatal contratados por famílias e instituições parceiras.',
+      'Escreva sua frase síntese conectando a necessidade do mundo e a remuneração digna...',
   },
   profession: {
     id: 'profession',
@@ -152,7 +152,7 @@ export const INTERSECTION_DEFINITIONS: Record<IntersectionId, IntersectionDefini
     prompt:
       'Suas habilidades sólidas convertidas em serviços com remuneração digna. Como sua competência se traduz em sustento?',
     examplePlaceholder:
-      'Ex: Cobrar consultas particulares e supervisões clínicas com base na segurança do meu método e tempo de prática.',
+      'Escreva sua frase síntese conectando suas habilidades técnicas e a remuneração viável...',
   },
 }
 

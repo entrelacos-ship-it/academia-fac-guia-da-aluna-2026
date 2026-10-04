@@ -407,7 +407,7 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
             <Textarea
               value={missionInput}
               onChange={(e) => setMissionInput(e.target.value)}
-              placeholder="Eu ajudo [quem] a [transformação], por meio de [como eu faço]."
+              placeholder="Escreva sua declaração de missão (quem você cuida, transformação e método)..."
               rows={3}
               className="font-sans text-sm bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] focus:border-[#7c3aed]"
             />

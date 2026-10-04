@@ -13,7 +13,7 @@ import {
   notifyLocalDataChanged,
   NOTIFY_DATA_LOADED_EVENT,
 } from '@/services/userStorage'
-import { INITIAL_EMPTY_IKIGAI_STATE, FICTITIOUS_FACILITATOR_EXAMPLE } from '@/config/ikigaiContent'
+import { INITIAL_EMPTY_IKIGAI_STATE } from '@/config/ikigaiContent'
 import { sanitizeTypography } from '@/lib/ikigaiEngine'
 
 export function useIkigaiManager() {
@@ -247,14 +247,6 @@ export function useIkigaiManager() {
     [persistState],
   )
 
-  // Carregar exemplo fictício da facilitadora (apenas temporário ou em visualização)
-  const loadFictitiousExample = useCallback(() => {
-    persistState({
-      ...FICTITIOUS_FACILITATOR_EXAMPLE,
-      updatedAt: new Date().toISOString(),
-    })
-  }, [persistState])
-
   return {
     state,
     setStep,
@@ -268,6 +260,5 @@ export function useIkigaiManager() {
     restoreMissionVersion,
     resetToEmpty,
     replaceEntireState,
-    loadFictitiousExample,
   }
 }

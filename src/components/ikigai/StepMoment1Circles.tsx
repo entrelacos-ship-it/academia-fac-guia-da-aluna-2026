@@ -127,7 +127,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
         </p>
       </div>
 
-      {/* Resumo Concreto do Progresso em cada círculo */}
+      {/* Seletor único dos 4 Círculos com status de progresso integrado */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {CIRCLE_ORDER.map((id) => {
           const def = CIRCLE_DEFINITIONS[id]
@@ -141,87 +141,61 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
               key={id}
               type="button"
               onClick={() => setActiveCircle(id)}
-              className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer ${
+              aria-pressed={isSelected}
+              className={`p-3.5 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-purple-50/70 dark:bg-[#1f1730] border-[#7c3aed] ring-2 ring-[#7c3aed]/20 shadow-xs'
+                  ? 'bg-purple-50/80 dark:bg-[#1f1730] border-[#7c3aed] ring-2 ring-[#7c3aed]/25 shadow-xs'
                   : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
-                  {CIRCLE_ICONS[id]}
-                  <span className="truncate">
-                    {def.title.split(' ')[0]} {def.title.split(' ')[1] || ''}
+              {/* Topo do cartão: Ícone, Nome completo do Círculo e Ponto de status */}
+              <div>
+                <div className="flex items-center justify-between gap-1.5 mb-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
+                    {CIRCLE_ICONS[id]}
+                    <span className="line-clamp-1">{def.title}</span>
+                  </div>
+                  {missing === 0 ? (
+                    <span
+                      className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"
+                      title="Mínimo atingido"
+                    />
+                  ) : (
+                    <span
+                      className="w-2 h-2 rounded-full bg-amber-500 shrink-0"
+                      title={`Faltam ${missing}`}
+                    />
+                  )}
+                </div>
+
+                <div className="text-[11px] text-slate-500 dark:text-[#71717A] mb-2 truncate">
+                  {def.badgeText}
+                </div>
+              </div>
+
+              {/* Base do cartão: Quantidade de itens cadastrados, estrelas e status */}
+              <div className="pt-2 border-t border-slate-100 dark:border-[#27272A]/80">
+                <div className="flex items-baseline justify-between text-xs">
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {count} {count === 1 ? 'item' : 'itens'}
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                    ★ {stars}/3
                   </span>
                 </div>
-                {missing === 0 ? (
-                  <span
-                    className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"
-                    title="Mínimo atingido"
-                  />
-                ) : (
-                  <span
-                    className="w-2 h-2 rounded-full bg-amber-500 shrink-0"
-                    title={`Faltam ${missing}`}
-                  />
-                )}
+
+                <div className="mt-1 text-[11px] font-mono">
+                  {missing === 0 ? (
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                      ✓ Pronto
+                    </span>
+                  ) : (
+                    <span className="text-amber-600 dark:text-amber-400 font-medium">
+                      Falta {missing}
+                    </span>
+                  )}
+                </div>
               </div>
-
-              <div className="flex items-baseline justify-between text-xs">
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  {count} {count === 1 ? 'item' : 'itens'}
-                </span>
-                <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-                  ★ {stars}/3
-                </span>
-              </div>
-
-              <div className="mt-1 text-[11px] font-mono">
-                {missing === 0 ? (
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    ✓ Pronto
-                  </span>
-                ) : (
-                  <span className="text-amber-600 dark:text-amber-400 font-medium">
-                    Falta {missing}
-                  </span>
-                )}
-              </div>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Abas Superiores para Alternar os 4 Círculos com Clareza */}
-      <div className="flex border-b border-slate-200 dark:border-[#27272A] gap-1 overflow-x-auto scrollbar-none">
-        {CIRCLE_ORDER.map((id) => {
-          const def = CIRCLE_DEFINITIONS[id]
-          const isSelected = activeCircle === id
-          const count = (circles[id] || []).length
-          const missing = missingCounts[id]
-
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setActiveCircle(id)}
-              className={`px-3.5 py-2.5 text-xs sm:text-sm font-medium border-b-2 transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                isSelected
-                  ? 'border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-semibold'
-                  : 'border-transparent text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {CIRCLE_ICONS[id]}
-              <span>{def.title}</span>
-              <span
-                className={`text-[11px] font-mono px-1.5 py-0.2 rounded ${
-                  missing === 0
-                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-semibold'
-                    : 'bg-slate-100 dark:bg-[#18181B] text-slate-600 dark:text-[#A1A1AA]'
-                }`}
-              >
-                {count}
-              </span>
             </button>
           )
         })}
