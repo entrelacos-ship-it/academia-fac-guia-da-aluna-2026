@@ -5,8 +5,14 @@ import {
   sanitizeTypography,
   generateCleanTextForAI,
   generateCommunityShareText,
+  sanitizeIkigaiState,
+  isContaminatedItem,
 } from './ikigaiEngine'
-import { FICTITIOUS_FACILITATOR_EXAMPLE, INITIAL_EMPTY_IKIGAI_STATE } from '@/config/ikigaiContent'
+import {
+  FICTITIOUS_FACILITATOR_EXAMPLE,
+  INITIAL_EMPTY_IKIGAI_STATE,
+  CIRCLE_SUGGESTIONS,
+} from '@/config/ikigaiContent'
 import { STEPS_CONFIG } from '@/components/ikigai/IkigaiWorkflow'
 
 describe('ikigaiEngine e Novo Fluxo dos 3 Momentos', () => {
@@ -62,5 +68,89 @@ describe('ikigaiEngine e Novo Fluxo dos 3 Momentos', () => {
     const commText = generateCommunityShareText(FICTITIOUS_FACILITATOR_EXAMPLE)
     expect(commText).toContain('Compartilhando meu IKIGAI')
     expect(commText).toContain('Minha Declaração de Missão')
+  })
+
+  it('descontamina itens do caso fictício da Marina e IDs ex-* com sanitizeIkigaiState', () => {
+    // Caso exato relatado pela usuária com itens de teste da Marina
+    const contaminatedState = {
+      version: 1,
+      activeStep: 1,
+      circles: {
+        love: [
+          {
+            id: 'item-1',
+            text: 'Marina é psicóloga há seis anos. Atua principalmente numa plataforma e atende quatro pacientes particulares vindos de indicações. Está construindo o consultório.',
+            starred: false,
+            createdAt: '2026-03-01T10:00:00.000Z',
+          },
+          {
+            id: 'item-2',
+            text: 'Trava estrutural: dependência de receita associada a volume de atendimentos e regras externas.',
+            starred: false,
+            createdAt: '2026-03-01T10:00:00.000Z',
+          },
+          {
+            id: 'item-legitimo',
+            text: 'Atendimento clínico particular com acolhimento e escuta sensível',
+            starred: true,
+            createdAt: '2026-03-01T10:00:00.000Z',
+          },
+          {
+            id: 'ex-l1',
+            text: 'Item com ID de exemplo',
+            starred: false,
+            createdAt: '2026-03-01T10:00:00.000Z',
+          },
+        ],
+        goodAt: [],
+        worldNeeds: [],
+        paidFor: [],
+      },
+      intersections: {
+        passion: { text: '', notFound: false },
+        mission: { text: '', notFound: false },
+        vocation: { text: '', notFound: false },
+        profession: { text: '', notFound: false },
+      },
+      missionStatement: '',
+      missionHistory: [],
+      updatedAt: '2026-03-01T10:00:00.000Z',
+    }
+
+    const { sanitizedState, wasSanitized, removedCount } = sanitizeIkigaiState(contaminatedState)
+
+    expect(wasSanitized).toBe(true)
+    expect(removedCount).toBe(3) // Removeu Marina, Trava estrutural e ex-l1
+    expect(sanitizedState.circles.love).toHaveLength(1)
+    expect(sanitizedState.circles.love[0].text).toBe(
+      'Atendimento clínico particular com acolhimento e escuta sensível',
+    )
+    expect(isContaminatedItem(contaminatedState.circles.love[0])).toBe(true)
+    expect(isContaminatedItem(contaminatedState.circles.love[1])).toBe(true)
+    expect(isContaminatedItem(contaminatedState.circles.love[2])).toBe(false)
+    expect(isContaminatedItem(contaminatedState.circles.love[3])).toBe(true)
+  })
+
+  it('possui 5 sugestões específicas e válidas para cada um dos 4 círculos em CIRCLE_SUGGESTIONS', () => {
+    const circles = ['love', 'goodAt', 'worldNeeds', 'paidFor'] as const
+    circles.forEach((circleId) => {
+      const suggestions = CIRCLE_SUGGESTIONS[circleId]
+      expect(Array.isArray(suggestions)).toBe(true)
+      expect(suggestions).toHaveLength(5)
+      suggestions.forEach((s) => {
+        expect(typeof s).toBe('string')
+        expect(s.trim().length).toBeGreaterThan(10)
+      })
+    })
+
+    // Checagem de itens canônicos solicitados no enunciado
+    expect(CIRCLE_SUGGESTIONS.love).toContain('Escuta profunda de mulheres em transição de vida')
+    expect(CIRCLE_SUGGESTIONS.goodAt).toContain('Síntese clínica e devoluções sem jargões técnicos')
+    expect(CIRCLE_SUGGESTIONS.worldNeeds).toContain(
+      'Acolhimento da sobrecarga invisível do cuidado feminino',
+    )
+    expect(CIRCLE_SUGGESTIONS.paidFor).toContain(
+      'Sessão individual particular com contrato transparente',
+    )
   })
 })

@@ -247,6 +247,37 @@ ${circleObservations || 'Investigando a harmonia entre vocação clínica e remu
 
 #AcademiaFAC #EntrelaçosPsicologia #IKIGAIClinico`
 
+export const CIRCLE_SUGGESTIONS: Record<CircleId, string[]> = {
+  love: [
+    'Escuta profunda de mulheres em transição de vida',
+    'Condução de grupos terapêuticos e rodas de conversa',
+    'Atendimento focado em criatividade e autoria',
+    'Supervisão clínica acolhedora para recém-formadas',
+    'Estudo e escrita sobre psicologia clínica',
+  ],
+  goodAt: [
+    'Síntese clínica e devoluções sem jargões técnicos',
+    'Manejo seguro em momentos de crise e alta angústia',
+    'Organização de processos e materiais de apoio',
+    'Construção rápida de vínculo e acolhimento ético',
+    'Diagnóstico contextualizado além do sintoma evidente',
+  ],
+  worldNeeds: [
+    'Acolhimento da sobrecarga invisível do cuidado feminino',
+    'Espaços seguros para falar de ambição e dinheiro sem culpa',
+    'Alternativas à medicalização precipitada do sofrimento',
+    'Psicoterapia ética para populações vulnerabilizadas',
+    'Desmistificação da saúde mental no cotidiano',
+  ],
+  paidFor: [
+    'Sessão individual particular com contrato transparente',
+    'Grupos terapêuticos temáticos com ciclo fechado',
+    'Supervisão clínica quinzenal individual ou em dupla',
+    'Oficinas e palestras formativas para instituições',
+    'Programas breves de reorganização profissional',
+  ],
+}
+
 export const FICTITIOUS_FACILITATOR_EXAMPLE: IkigaiState = {
   version: 1,
   activeStep: 7,

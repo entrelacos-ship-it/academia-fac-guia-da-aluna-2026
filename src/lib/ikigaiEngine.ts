@@ -1,10 +1,17 @@
-import { CircleId, IntersectionId, IkigaiState, EmptyIntersectionsDiagnostic } from '@/types/ikigai'
+import {
+  CircleId,
+  IntersectionId,
+  CircleItem,
+  IkigaiState,
+  EmptyIntersectionsDiagnostic,
+} from '@/types/ikigai'
 import {
   CIRCLE_DEFINITIONS,
   INTERSECTION_DEFINITIONS,
   EMPTY_COMBINATIONS_TEXTS,
   DISCUSSION_QUESTIONS_SUGGESTIONS,
   COMMUNITY_SHARE_TEMPLATE,
+  INITIAL_EMPTY_IKIGAI_STATE,
   IKIGAI_WARNING_NOTE,
   IKIGAI_ETHICAL_REMINDER,
 } from '@/config/ikigaiContent'
@@ -399,4 +406,155 @@ export function generateCommunityShareText(state: IkigaiState): string {
   }
 
   return COMMUNITY_SHARE_TEMPLATE(state.missionStatement?.trim() || '', observation)
+}
+
+/**
+ * Padrões de texto ou frases típicas de contaminação do exemplo fictício ou matérias-primas de teste da Marina
+ */
+const CONTAMINATED_PHRASES = [
+  'marina',
+  'marina é psicóloga',
+  'marina e psicóloga',
+  'construindo o consultório',
+  'trava estrutural:',
+  'trava estrutural',
+  'dependência de receita associada a volume de atendimentos',
+]
+
+/**
+ * IDs conhecidos dos itens do exemplo fictício
+ */
+const FICTITIOUS_ITEM_ID_REGEX = /^ex-[lgwp]\d+$/i
+
+/**
+ * Verifica se um texto ou ID pertence ao bloco de exemplo contaminado da Marina
+ */
+export function isContaminatedItem(item: { id?: string; text?: string }): boolean {
+  if (!item) return false
+  if (item.id && (FICTITIOUS_ITEM_ID_REGEX.test(item.id) || item.id.startsWith('pres-'))) {
+    return true
+  }
+  if (item.text) {
+    const lower = item.text.toLowerCase()
+    return CONTAMINATED_PHRASES.some((phrase) => lower.includes(phrase))
+  }
+  return false
+}
+
+export interface SanitizeResult {
+  sanitizedState: IkigaiState
+  wasSanitized: boolean
+  removedCount: number
+}
+
+/**
+ * Função de descontaminação do estado IKIGAI:
+ * Descarta itens cujo texto menciona "Marina" (case-insensitive) ou contém frases
+ * típicas do bloco de contexto de exemplo ("Trava estrutural:", "Marina é psicóloga",
+ * "construindo o consultório") ou cujos IDs correspondam aos itens fictícios (ex-l1, ex-l2 etc.).
+ */
+export function sanitizeIkigaiState(rawState: unknown): SanitizeResult {
+  if (!rawState || typeof rawState !== 'object') {
+    return {
+      sanitizedState: INITIAL_EMPTY_IKIGAI_STATE,
+      wasSanitized: false,
+      removedCount: 0,
+    }
+  }
+
+  const candidate = rawState as Partial<IkigaiState>
+  const circles = candidate.circles || {
+    love: [],
+    goodAt: [],
+    worldNeeds: [],
+    paidFor: [],
+  }
+
+  let removedCount = 0
+
+  const sanitizeList = (list: unknown[]): CircleItem[] => {
+    if (!Array.isArray(list)) return []
+    return list.filter((item): item is CircleItem => {
+      if (!item || typeof item !== 'object') {
+        removedCount++
+        return false
+      }
+      const candidateItem = item as Partial<CircleItem>
+      if (typeof candidateItem.id !== 'string' || typeof candidateItem.text !== 'string') {
+        removedCount++
+        return false
+      }
+      const isBad = isContaminatedItem({ id: candidateItem.id, text: candidateItem.text })
+      if (isBad) {
+        removedCount++
+        return false
+      }
+      return true
+    })
+  }
+
+  const cleanedLove = sanitizeList(circles.love as unknown[])
+  const cleanedGoodAt = sanitizeList(circles.goodAt as unknown[])
+  const cleanedWorldNeeds = sanitizeList(circles.worldNeeds as unknown[])
+  const cleanedPaidFor = sanitizeList(circles.paidFor as unknown[])
+
+  // Também verifica se missionStatement ou missionHistory foram contaminados por frases da Marina
+  let cleanedMissionStatement = candidate.missionStatement || ''
+  if (
+    cleanedMissionStatement &&
+    CONTAMINATED_PHRASES.some((p) => cleanedMissionStatement.toLowerCase().includes(p))
+  ) {
+    cleanedMissionStatement = ''
+    removedCount++
+  }
+
+  const cleanedHistory = Array.isArray(candidate.missionHistory)
+    ? candidate.missionHistory.filter((entry) => {
+        if (!entry || typeof entry !== 'object') return false
+        const lower = (entry.text || '').toLowerCase()
+        const isBad = CONTAMINATED_PHRASES.some((p) => lower.includes(p))
+        if (isBad) removedCount++
+        return !isBad
+      })
+    : []
+
+  // Sanitiza bandeja legada se existir
+  const cleanedTray = Array.isArray(candidate.rawRetratoTray)
+    ? candidate.rawRetratoTray.filter((line) => {
+        if (typeof line !== 'string') return false
+        const lower = line.toLowerCase()
+        const isBad = CONTAMINATED_PHRASES.some((p) => lower.includes(p))
+        if (isBad) removedCount++
+        return !isBad
+      })
+    : []
+
+  const wasSanitized = removedCount > 0
+
+  const sanitizedState: IkigaiState = {
+    version: 1,
+    activeStep: typeof candidate.activeStep === 'number' ? candidate.activeStep : 0,
+    circles: {
+      love: cleanedLove,
+      goodAt: cleanedGoodAt,
+      worldNeeds: cleanedWorldNeeds,
+      paidFor: cleanedPaidFor,
+    },
+    intersections: candidate.intersections || {
+      passion: { text: '', notFound: false },
+      mission: { text: '', notFound: false },
+      vocation: { text: '', notFound: false },
+      profession: { text: '', notFound: false },
+    },
+    missionStatement: cleanedMissionStatement,
+    missionHistory: cleanedHistory,
+    rawRetratoTray: cleanedTray,
+    updatedAt: candidate.updatedAt || new Date().toISOString(),
+  }
+
+  return {
+    sanitizedState,
+    wasSanitized,
+    removedCount,
+  }
 }

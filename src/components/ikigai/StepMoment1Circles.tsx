@@ -23,7 +23,11 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { CircleId, CircleItem } from '@/types/ikigai'
-import { CIRCLE_DEFINITIONS, IKIGAI_ETHICAL_REMINDER } from '@/config/ikigaiContent'
+import {
+  CIRCLE_DEFINITIONS,
+  CIRCLE_SUGGESTIONS,
+  IKIGAI_ETHICAL_REMINDER,
+} from '@/config/ikigaiContent'
 
 interface StepMoment1CirclesProps {
   circles: Record<CircleId, CircleItem[]>
@@ -285,6 +289,52 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 inline" />
               <span>{starredCount}/3 marcados como centrais</span>
             </span>
+          </div>
+
+          {/* Sugestões Clicáveis por Círculo */}
+          <div className="pt-2 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-[#A1A1AA]">
+              <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+              <span className="font-medium">
+                Sugestões rápidas para inspirar (clique para adicionar):
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {(CIRCLE_SUGGESTIONS[activeCircle] || []).map((suggestion, idx) => {
+                const isAlreadyAdded = currentItems.some(
+                  (item) => item.text.trim().toLowerCase() === suggestion.trim().toLowerCase(),
+                )
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      if (!isAlreadyAdded) {
+                        onAddItem(activeCircle, suggestion)
+                      }
+                    }}
+                    disabled={isAlreadyAdded}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-xs font-normal border transition-all text-left ${
+                      isAlreadyAdded
+                        ? 'opacity-40 pointer-events-none bg-slate-100 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-500'
+                        : 'bg-slate-100/80 hover:bg-slate-200/80 dark:bg-[#18181B] dark:hover:bg-[#222228] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer'
+                    }`}
+                    title={
+                      isAlreadyAdded
+                        ? 'Já adicionado ao círculo'
+                        : 'Clique para adicionar esta sugestão'
+                    }
+                  >
+                    {isAlreadyAdded ? (
+                      <Check className="w-3 h-3 text-emerald-500 shrink-0" />
+                    ) : (
+                      <Plus className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
+                    )}
+                    <span className="line-clamp-1">{suggestion}</span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </form>
 

@@ -14,7 +14,7 @@ import {
   NOTIFY_DATA_LOADED_EVENT,
 } from '@/services/userStorage'
 import { INITIAL_EMPTY_IKIGAI_STATE } from '@/config/ikigaiContent'
-import { sanitizeTypography } from '@/lib/ikigaiEngine'
+import { sanitizeTypography, sanitizeIkigaiState } from '@/lib/ikigaiEngine'
 
 export function useIkigaiManager() {
   const [state, setState] = useState<IkigaiState>(() => {
@@ -22,7 +22,19 @@ export function useIkigaiManager() {
       BASE_STORAGE_KEYS.IKIGAI,
       INITIAL_EMPTY_IKIGAI_STATE,
     )
-    return saved || INITIAL_EMPTY_IKIGAI_STATE
+    if (saved) {
+      const { sanitizedState, wasSanitized } = sanitizeIkigaiState(saved)
+      if (wasSanitized) {
+        setUserStorageItem(BASE_STORAGE_KEYS.IKIGAI, sanitizedState)
+        // Notifica sincronização em nuvem para que a versão limpa sobrescreva a nuvem
+        setTimeout(() => {
+          notifyLocalDataChanged()
+        }, 0)
+        return sanitizedState
+      }
+      return saved
+    }
+    return INITIAL_EMPTY_IKIGAI_STATE
   })
 
   // Sincroniza quando dados da nuvem chegam
@@ -33,7 +45,14 @@ export function useIkigaiManager() {
         INITIAL_EMPTY_IKIGAI_STATE,
       )
       if (refreshed) {
-        setState(refreshed)
+        const { sanitizedState, wasSanitized } = sanitizeIkigaiState(refreshed)
+        if (wasSanitized) {
+          setUserStorageItem(BASE_STORAGE_KEYS.IKIGAI, sanitizedState)
+          notifyLocalDataChanged()
+          setState(sanitizedState)
+        } else {
+          setState(refreshed)
+        }
       }
     }
     window.addEventListener(NOTIFY_DATA_LOADED_EVENT, handleCloudLoaded)

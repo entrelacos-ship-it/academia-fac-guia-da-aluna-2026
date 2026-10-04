@@ -1,4 +1,5 @@
 import pb from '@/lib/pocketbase/client'
+import { sanitizeIkigaiState } from '@/lib/ikigaiEngine'
 import {
   BASE_STORAGE_KEYS,
   getUserStorageKey,
@@ -68,6 +69,10 @@ export function collectLocalBackupData(explicitUserId?: string | null): BackupPa
     }
   }
 
+  // Sanitiza o estado ikigai antes de gerar o payload de backup, garantindo que a nuvem nunca receba itens contaminados
+  const rawIkigai = getVal(BASE_STORAGE_KEYS.IKIGAI)
+  const cleanedIkigai = rawIkigai ? sanitizeIkigaiState(rawIkigai).sanitizedState : null
+
   return {
     version: 2,
     timestamp: new Date().toISOString(),
@@ -79,7 +84,7 @@ export function collectLocalBackupData(explicitUserId?: string | null): BackupPa
       reajuste: getVal(BASE_STORAGE_KEYS.REAJUSTE),
       contrato: getVal(BASE_STORAGE_KEYS.CONTRATO),
       finplan: getVal(BASE_STORAGE_KEYS.FINPLAN),
-      ikigai: getVal(BASE_STORAGE_KEYS.IKIGAI),
+      ikigai: cleanedIkigai,
     },
   }
 }
@@ -226,9 +231,10 @@ export function restoreBackupDataToLocal(
     )
   }
   if (data.ikigai !== undefined && data.ikigai !== null) {
+    const { sanitizedState } = sanitizeIkigaiState(data.ikigai)
     localStorage.setItem(
       getUserStorageKey(BASE_STORAGE_KEYS.IKIGAI, uid),
-      JSON.stringify(data.ikigai),
+      JSON.stringify(sanitizedState),
     )
   }
 
