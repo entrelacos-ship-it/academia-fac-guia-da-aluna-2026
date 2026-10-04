@@ -429,7 +429,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         E-mail
                       </Label>
                       <div className="relative">
-                        <Mail className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <Mail className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-login-email"
                           type="email"
@@ -437,7 +442,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="seu.email@exemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>
@@ -459,7 +464,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         </button>
                       </div>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <Lock className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-login-password"
                           type="password"
@@ -467,7 +477,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Sua senha"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>
@@ -520,14 +530,19 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         Seu Nome ou Como prefere ser chamada (opcional)
                       </Label>
                       <div className="relative">
-                        <User className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <User className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-signup-name"
                           type="text"
                           placeholder="Ex: Dra. Mariana Costa"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>
@@ -540,7 +555,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         E-mail
                       </Label>
                       <div className="relative">
-                        <Mail className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <Mail className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-signup-email"
                           type="email"
@@ -548,7 +568,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="seu.email@exemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>
@@ -561,7 +581,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         Senha (mínimo de 8 caracteres)
                       </Label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <Lock className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-signup-password"
                           type="password"
@@ -570,7 +595,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Crie uma senha segura"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>
@@ -583,7 +608,12 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                         Confirmar senha
                       </Label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-3.5" />
+                        <div
+                          className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                          aria-hidden="true"
+                        >
+                          <Lock className="w-4 h-4 shrink-0" />
+                        </div>
                         <Input
                           id="cloud-signup-password-confirm"
                           type="password"
@@ -592,7 +622,7 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                           placeholder="Repita sua senha"
                           value={passwordConfirm}
                           onChange={(e) => setPasswordConfirm(e.target.value)}
-                          className="pl-9 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 rounded-xl focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25"
                         />
                       </div>
                     </div>

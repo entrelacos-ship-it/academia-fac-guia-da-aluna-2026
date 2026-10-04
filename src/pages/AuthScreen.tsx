@@ -195,55 +195,55 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white relative overflow-hidden select-none">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-slate-100/80 dark:bg-[#03000A] text-slate-900 dark:text-white relative overflow-hidden select-none">
       {/* Astral Atmospheric Subtle Glow Layer */}
       <div
-        className="absolute top-1/4 -left-32 w-[420px] h-[420px] rounded-full bg-purple-400/20 dark:bg-[#C084FC]/15 blur-[140px] pointer-events-none"
+        className="absolute top-1/4 -left-32 w-[460px] h-[460px] rounded-full bg-purple-500/20 dark:bg-[#C084FC]/15 blur-[140px] pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-1/4 -right-32 w-[380px] h-[380px] rounded-full bg-orange-400/15 dark:bg-[#FB923C]/10 blur-[140px] pointer-events-none"
+        className="absolute bottom-1/4 -right-32 w-[420px] h-[420px] rounded-full bg-orange-400/20 dark:bg-[#FB923C]/10 blur-[140px] pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple-300/15 dark:bg-[#C084FC]/08 blur-[160px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full bg-purple-400/15 dark:bg-[#C084FC]/08 blur-[160px] pointer-events-none"
         aria-hidden="true"
       />
 
       {/* Grid sutil Astral */}
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#27272A15_1px,transparent_1px),linear-gradient(to_bottom,#27272A15_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"
+        className="absolute inset-0 bg-[linear-gradient(to_right,#94a3b818_1px,transparent_1px),linear-gradient(to_bottom,#94a3b818_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#27272A25_1px,transparent_1px),linear-gradient(to_bottom,#27272A25_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"
         aria-hidden="true"
       />
 
       {/* Cartão Central Astral Surface com suporte claro/escuro */}
-      <div className="relative w-full max-w-[430px] rounded-[16px] p-6 sm:p-8 bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xl dark:shadow-[0_12px_40px_rgba(0,0,0,0.6)] z-10 transition-all">
+      <div className="relative w-full max-w-[440px] rounded-2xl p-6 sm:p-8 bg-white dark:bg-[#18181B] border border-slate-200/90 dark:border-[#27272A] shadow-2xl shadow-purple-950/5 dark:shadow-[0_20px_50px_rgba(0,0,0,0.7)] z-10 transition-all">
         {/* Cabeçalho Visual Astral */}
         <div className="flex flex-col items-center text-center mb-6 relative z-10">
           <div className="relative mb-3 group cursor-default">
             <div
-              className="absolute inset-0 rounded-[14px] bg-purple-400/30 dark:bg-[#C084FC]/30 blur-md opacity-60 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 rounded-2xl bg-purple-500/30 dark:bg-[#C084FC]/30 blur-lg opacity-70 group-hover:opacity-100 transition-opacity"
               aria-hidden="true"
             />
-            <div className="relative w-14 h-14 rounded-[14px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-inner">
-              <FACSymbol size={30} glow />
+            <div className="relative w-15 h-15 rounded-2xl bg-gradient-to-b from-purple-50 to-purple-100/80 dark:from-[#1e1430] dark:to-[#0A0A14] border border-purple-200 dark:border-purple-500/30 flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-sm">
+              <FACSymbol size={32} glow />
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50/90 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/40 text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2.5">
             <span>Método FAC</span>
-            <span className="text-slate-400 dark:text-[#A1A1AA]/50">•</span>
+            <span className="text-purple-300 dark:text-purple-400/50">•</span>
             <span>Entrelaços</span>
           </div>
 
-          <h1 className="font-sans text-2xl sm:text-[28px] font-semibold tracking-tight text-slate-900 dark:text-white leading-tight">
+          <h1 className="font-sans text-2xl sm:text-[28px] font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
             {mode === 'login' && 'Entrar no Sistema'}
             {mode === 'signup' && 'Criar Conta FAC'}
             {mode === 'forgot' && 'Recuperar Acesso'}
             {mode === 'reset-token' && 'Definir Nova Senha'}
           </h1>
 
-          <p className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] mt-1.5 max-w-[310px] leading-relaxed">
+          <p className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] mt-2 max-w-[330px] leading-relaxed">
             {mode === 'login' &&
               'Acesse a Calculadora de Precificação Ética com suas credenciais seguras.'}
             {mode === 'signup' &&
@@ -257,11 +257,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* Feedback de status */}
         {statusMessage && (
           <div
-            className={`mb-4 p-3 rounded-[8px] text-xs flex items-start gap-2.5 transition-all relative z-10 ${
+            role="alert"
+            className={`mb-5 p-3.5 rounded-xl text-xs flex items-start gap-2.5 transition-all relative z-10 ${
               statusMessage.type === 'success'
-                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-500/30'
+                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-500/30'
                 : statusMessage.type === 'error'
-                  ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-500/30'
+                  ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-900 dark:text-rose-200 border border-rose-300 dark:border-rose-500/30'
                   : 'bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200 dark:border-[#C084FC]/30'
             }`}
           >
@@ -278,16 +279,21 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* 1. MODO: LOGIN */}
         {mode === 'login' && (
-          <form onSubmit={handleLogin} className="space-y-3.5 relative z-10">
+          <form onSubmit={handleLogin} className="space-y-4 relative z-10">
             <div className="space-y-1.5">
               <Label
                 htmlFor="gate-login-email"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 E-mail de acesso
               </Label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-login-email"
                   type="email"
@@ -296,7 +302,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="seu.email@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-4 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
               </div>
             </div>
@@ -305,20 +311,25 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor="gate-login-password"
-                  className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                  className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
                 >
                   Senha
                 </Label>
                 <button
                   type="button"
                   onClick={() => switchMode('forgot')}
-                  className="text-xs text-[#7c3aed] dark:text-[#C084FC] hover:underline transition-colors font-medium"
+                  className="text-xs text-[#7c3aed] dark:text-[#C084FC] hover:text-[#6d28d9] dark:hover:text-purple-300 hover:underline transition-colors font-medium"
                 >
                   Esqueci minha senha
                 </button>
               </div>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Lock className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-login-password"
                   type={showPassword ? 'text' : 'password'}
@@ -327,30 +338,32 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                  className="absolute right-3 top-3 text-slate-400 dark:text-[#A1A1AA] hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </span>
                 </button>
               </div>
             </div>
 
             {/* Lembrar e-mail */}
-            <div className="flex items-center space-x-2 pt-0.5">
+            <div className="flex items-center space-x-2.5 pt-1">
               <Checkbox
                 id="gate-remember-me"
                 checked={rememberMe}
                 onCheckedChange={(checked) => setRememberMe(Boolean(checked))}
-                className="border-slate-300 dark:border-[#27272A] data-[state=checked]:bg-[#7c3aed] dark:data-[state=checked]:bg-[#C084FC] data-[state=checked]:border-[#7c3aed] dark:data-[state=checked]:border-[#C084FC] data-[state=checked]:text-white dark:data-[state=checked]:text-[#0A0A14] rounded-[4px]"
+                className="border-slate-300 dark:border-[#27272A] data-[state=checked]:bg-[#7c3aed] dark:data-[state=checked]:bg-[#C084FC] data-[state=checked]:border-[#7c3aed] dark:data-[state=checked]:border-[#C084FC] data-[state=checked]:text-white dark:data-[state=checked]:text-[#0A0A14] rounded-md h-4 w-4"
               />
               <label
                 htmlFor="gate-remember-me"
-                className="text-xs text-slate-600 dark:text-[#A1A1AA] cursor-pointer select-none"
+                className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] cursor-pointer select-none font-medium"
               >
                 Lembrar meu e-mail neste navegador
               </label>
@@ -359,7 +372,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full min-h-[46px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 mt-1 transition-all"
+              className="w-full min-h-[48px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] active:bg-[#5b21b6] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] dark:active:bg-[#9333ea] text-white dark:text-[#0A0A14] text-[15px] font-semibold rounded-xl shadow-lg shadow-[#7c3aed]/25 dark:shadow-[#C084FC]/20 mt-2 transition-all cursor-pointer disabled:opacity-60"
             >
               {isLoading ? (
                 <>
@@ -374,12 +387,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               )}
             </Button>
 
-            <div className="pt-3 text-center text-xs text-slate-600 dark:text-[#A1A1AA] border-t border-slate-200 dark:border-[#27272A] mt-3">
+            <div className="pt-4 text-center text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] border-t border-slate-200 dark:border-[#27272A] mt-4">
               Primeiro acesso?{' '}
               <button
                 type="button"
                 onClick={() => switchMode('signup')}
-                className="text-[#7c3aed] dark:text-[#C084FC] hover:underline font-semibold"
+                className="text-[#7c3aed] dark:text-[#C084FC] hover:text-[#6d28d9] dark:hover:text-purple-300 hover:underline font-semibold ml-1 transition-colors"
               >
                 Criar uma conta
               </button>
@@ -389,36 +402,46 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* 2. MODO: CADASTRO */}
         {mode === 'signup' && (
-          <form onSubmit={handleSignup} className="space-y-3 relative z-10">
-            <div className="space-y-1">
+          <form onSubmit={handleSignup} className="space-y-3.5 relative z-10">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-signup-name"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Nome completo ou como prefere ser chamada
               </Label>
               <div className="relative">
-                <User className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <User className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-signup-name"
                   type="text"
                   placeholder="Ex: Dra. Mariana Costa"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-signup-email"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 E-mail
               </Label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-signup-email"
                   type="email"
@@ -427,20 +450,25 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="seu.email@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-signup-password"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Senha (mínimo de 8 caracteres)
               </Label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Lock className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-signup-password"
                   type={showPassword ? 'text' : 'password'}
@@ -450,28 +478,35 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-11 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                  className="absolute right-3 top-3 text-slate-400 dark:text-[#A1A1AA] hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </span>
                 </button>
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-signup-password-confirm"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Confirmar senha
               </Label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Lock className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-signup-password-confirm"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -481,7 +516,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="••••••••"
                   value={passwordConfirm}
                   onChange={(e) => setPasswordConfirm(e.target.value)}
-                  className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-11 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
                 <button
                   type="button"
@@ -491,13 +526,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                       ? 'Ocultar confirmação de senha'
                       : 'Ver confirmação de senha'
                   }
-                  className="absolute right-3 top-3 text-slate-400 dark:text-[#A1A1AA] hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  {showConfirmPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </span>
                 </button>
               </div>
             </div>
@@ -505,7 +542,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full min-h-[46px] gap-2 bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md shadow-[#ea580c]/20 dark:shadow-[#FB923C]/20 mt-1 transition-all"
+              className="w-full min-h-[48px] gap-2 bg-[#ea580c] hover:bg-[#c2410c] active:bg-[#9a3412] dark:bg-[#FB923C] dark:hover:bg-[#ea580c] text-white dark:text-[#0A0A14] text-[15px] font-semibold rounded-xl shadow-lg shadow-[#ea580c]/25 dark:shadow-[#FB923C]/20 mt-2 transition-all cursor-pointer disabled:opacity-60"
             >
               {isLoading ? (
                 <>
@@ -520,12 +557,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               )}
             </Button>
 
-            <div className="pt-2 text-center text-xs text-slate-600 dark:text-[#A1A1AA] border-t border-slate-200 dark:border-[#27272A] mt-2">
+            <div className="pt-3 text-center text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] border-t border-slate-200 dark:border-[#27272A] mt-3">
               Já tem uma conta?{' '}
               <button
                 type="button"
                 onClick={() => switchMode('login')}
-                className="text-[#7c3aed] dark:text-[#C084FC] hover:underline font-semibold"
+                className="text-[#7c3aed] dark:text-[#C084FC] hover:text-[#6d28d9] dark:hover:text-purple-300 hover:underline font-semibold ml-1 transition-colors"
               >
                 Fazer login
               </button>
@@ -539,12 +576,17 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <div className="space-y-1.5">
               <Label
                 htmlFor="gate-forgot-email"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 E-mail cadastrado
               </Label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-forgot-email"
                   type="email"
@@ -553,22 +595,22 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="seu.email@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-4 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-[#A1A1AA] leading-relaxed pt-1">
+              <p className="text-[12px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
                 Enviaremos um link oficial de redefinição para o e-mail cadastrado.
               </p>
             </div>
 
-            <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs flex items-center justify-between">
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs sm:text-[13px] flex items-center justify-between gap-2">
               <span className="text-slate-600 dark:text-[#A1A1AA]">
                 Já recebeu o código por e-mail?
               </span>
               <button
                 type="button"
                 onClick={() => switchMode('reset-token')}
-                className="text-[#7c3aed] dark:text-[#C084FC] hover:underline font-semibold"
+                className="text-[#7c3aed] dark:text-[#C084FC] hover:underline font-semibold shrink-0"
               >
                 Inserir token
               </button>
@@ -577,7 +619,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full min-h-[46px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md transition-all"
+              className="w-full min-h-[48px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] active:bg-[#5b21b6] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] text-[15px] font-semibold rounded-xl shadow-lg shadow-[#7c3aed]/25 transition-all cursor-pointer disabled:opacity-60"
             >
               {isLoading ? (
                 <>
@@ -592,13 +634,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               )}
             </Button>
 
-            <div className="pt-2 text-center text-xs">
+            <div className="pt-2 text-center text-xs sm:text-[13px]">
               <button
                 type="button"
                 onClick={() => switchMode('login')}
-                className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
+                className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors font-medium"
               >
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <ChevronLeft className="w-4 h-4" />
                 Voltar para o login
               </button>
             </div>
@@ -607,16 +649,21 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* 4. MODO: RESET TOKEN */}
         {mode === 'reset-token' && (
-          <form onSubmit={handleResetWithToken} className="space-y-3.5 relative z-10">
-            <div className="space-y-1">
+          <form onSubmit={handleResetWithToken} className="space-y-4 relative z-10">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-reset-token-input"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Token de redefinição
               </Label>
               <div className="relative">
-                <KeyRound className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <KeyRound className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-reset-token-input"
                   type="text"
@@ -624,20 +671,25 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="Cole aqui o token do e-mail"
                   value={resetToken}
                   onChange={(e) => setResetToken(e.target.value)}
-                  className="pl-9.5 h-11 text-xs font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-4 h-12 text-xs sm:text-[13px] font-mono bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl transition-all"
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-reset-new-password"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Nova senha (mínimo 8 caracteres)
               </Label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Lock className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-reset-new-password"
                   type={showPassword ? 'text' : 'password'}
@@ -646,28 +698,35 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Ocultar nova senha' : 'Ver nova senha'}
-                  className="absolute right-3 top-3 text-slate-400 dark:text-[#A1A1AA] hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </span>
                 </button>
               </div>
             </div>
 
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <Label
                 htmlFor="gate-reset-confirm"
-                className="text-xs font-mono font-medium text-slate-600 dark:text-[#A1A1AA] uppercase tracking-wider"
+                className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider block"
               >
                 Confirmar nova senha
               </Label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A1A1AA] absolute left-3 top-3.5" />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                  aria-hidden="true"
+                >
+                  <Lock className="w-4 h-4 shrink-0" />
+                </div>
                 <Input
                   id="gate-reset-confirm"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -676,7 +735,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   placeholder="••••••••"
                   value={passwordConfirm}
                   onChange={(e) => setPasswordConfirm(e.target.value)}
-                  className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                 />
                 <button
                   type="button"
@@ -686,13 +745,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                       ? 'Ocultar confirmação de nova senha'
                       : 'Ver confirmação de nova senha'
                   }
-                  className="absolute right-3 top-3 text-slate-400 dark:text-[#A1A1AA] hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
-                  {showConfirmPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </span>
                 </button>
               </div>
             </div>
@@ -700,7 +761,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full min-h-[46px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] shadow-md transition-all"
+              className="w-full min-h-[48px] gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] active:bg-[#5b21b6] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] text-[15px] font-semibold rounded-xl shadow-lg shadow-[#7c3aed]/25 transition-all cursor-pointer disabled:opacity-60"
             >
               {isLoading ? (
                 <>
@@ -715,13 +776,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               )}
             </Button>
 
-            <div className="pt-2 text-center text-xs">
+            <div className="pt-2 text-center text-xs sm:text-[13px]">
               <button
                 type="button"
                 onClick={() => switchMode('login')}
-                className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors"
+                className="text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-1 transition-colors font-medium"
               >
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <ChevronLeft className="w-4 h-4" />
                 Voltar para o login
               </button>
             </div>
@@ -729,11 +790,14 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         )}
 
         {/* Rodapé LGPD & Segurança Ética */}
-        <div className="mt-6 pt-3 border-t border-slate-200 dark:border-[#27272A] text-[11px] text-slate-600 dark:text-[#A1A1AA] flex items-start gap-2 leading-relaxed relative z-10">
+        <div className="mt-6 pt-4 border-t border-slate-200/80 dark:border-[#27272A] text-[11px] sm:text-xs text-slate-600 dark:text-[#A1A1AA] flex items-start gap-2.5 leading-relaxed relative z-10 bg-slate-50/50 dark:bg-transparent -mx-2 px-2 py-2 rounded-lg">
           <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0 mt-0.5" />
           <span>
-            <strong>LGPD & Privacidade Ética:</strong> Acesso criptografado e seguro. Seus cálculos
-            são protegidos e nenhum dado de pacientes é armazenado.
+            <strong className="text-slate-800 dark:text-slate-200 font-semibold">
+              LGPD & Privacidade Ética:
+            </strong>{' '}
+            Acesso criptografado e seguro. Seus cálculos são protegidos e nenhum dado de pacientes é
+            armazenado.
           </span>
         </div>
       </div>

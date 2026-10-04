@@ -355,7 +355,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       E-mail
                     </Label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                      <div
+                        className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                        aria-hidden="true"
+                      >
+                        <Mail className="w-4 h-4 shrink-0" />
+                      </div>
                       <Input
                         id="auth-login-email"
                         type="email"
@@ -364,7 +369,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         placeholder="seu.email@exemplo.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                        className="!pl-11 !pr-4 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                       />
                     </div>
                   </div>
@@ -386,7 +391,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       </button>
                     </div>
                     <div className="relative">
-                      <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                      <div
+                        className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                        aria-hidden="true"
+                      >
+                        <Lock className="w-4 h-4 shrink-0" />
+                      </div>
                       <Input
                         id="auth-login-password"
                         type={showPassword ? 'text' : 'password'}
@@ -395,19 +405,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                        className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                        className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                       >
-                        {showPassword ? (
-                          <EyeOff className="w-4 h-4" />
-                        ) : (
-                          <Eye className="w-4 h-4" />
-                        )}
+                        <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                          {showPassword ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -472,14 +484,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Nome completo ou como prefere ser chamada
                 </Label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <User className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-signup-name"
                     type="text"
                     placeholder="Ex: Dra. Juliana Santos"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                    className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#ea580c] dark:focus:border-[#FB923C] focus:ring-2 focus:ring-[#ea580c]/20 dark:focus:ring-[#FB923C]/25 rounded-xl font-normal transition-all"
                   />
                 </div>
               </div>
@@ -491,7 +508,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   E-mail
                 </Label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Mail className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-signup-email"
                     type="email"
@@ -500,7 +522,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="seu.email@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9.5 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                    className="!pl-11 !pr-4 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#ea580c] dark:focus:border-[#FB923C] focus:ring-2 focus:ring-[#ea580c]/20 dark:focus:ring-[#FB923C]/25 rounded-xl font-normal transition-all"
                   />
                 </div>
               </div>
@@ -512,7 +534,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Senha (mínimo de 8 caracteres)
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-signup-password"
                     type={showPassword ? 'text' : 'password'}
@@ -522,15 +549,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#ea580c] dark:focus:border-[#FB923C] focus:ring-2 focus:ring-[#ea580c]/20 dark:focus:ring-[#FB923C]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar senha' : 'Ver senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -542,7 +571,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Confirmar senha
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-signup-password-confirm"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -552,7 +586,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-10.5 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-11.5 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#ea580c] dark:focus:border-[#FB923C] focus:ring-2 focus:ring-[#ea580c]/20 dark:focus:ring-[#FB923C]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
@@ -562,13 +596,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de senha'
                         : 'Ver confirmação de senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showConfirmPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -612,7 +648,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   E-mail cadastrado
                 </Label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Mail className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-forgot-email"
                     type="email"
@@ -621,7 +662,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="seu.email@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9.5 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                    className="!pl-11 !pr-4 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#ea580c] dark:focus:border-[#FB923C] focus:ring-2 focus:ring-[#ea580c]/20 dark:focus:ring-[#FB923C]/25 rounded-xl font-normal transition-all"
                   />
                 </div>
                 <p className="text-[11px] text-slate-500 dark:text-[#A1A1AA] leading-relaxed pt-1">
@@ -682,7 +723,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Senha atual
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-old-password"
                     type={showOldPassword ? 'text' : 'password'}
@@ -691,15 +737,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowOldPassword(!showOldPassword)}
                     aria-label={showOldPassword ? 'Ocultar senha atual' : 'Ver senha atual'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showOldPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showOldPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -712,7 +764,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Nova senha (mínimo 8 caracteres)
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-new-password"
                     type={showPassword ? 'text' : 'password'}
@@ -722,15 +779,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar nova senha' : 'Ver nova senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -743,7 +802,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Confirmar nova senha
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-new-password-confirm"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -753,7 +817,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
@@ -763,13 +827,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de nova senha'
                         : 'Ver confirmação de nova senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showConfirmPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -815,7 +881,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Token ou Código de redefinição
                 </Label>
                 <div className="relative">
-                  <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <KeyRound className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-reset-token-input"
                     type="text"
@@ -823,7 +894,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="Cole aqui o token do e-mail"
                     value={resetToken}
                     onChange={(e) => setResetToken(e.target.value)}
-                    className="pl-9.5 h-11 text-xs font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-4 h-12 text-xs sm:text-[13px] font-mono bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                 </div>
               </div>
@@ -836,7 +907,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Nova senha (mínimo 8 caracteres)
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-reset-new-password"
                     type={showPassword ? 'text' : 'password'}
@@ -845,15 +921,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={showPassword ? 'Ocultar nova senha' : 'Ver nova senha'}
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -866,7 +944,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Confirmar nova senha
                 </Label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 dark:text-slate-400"
+                    aria-hidden="true"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
                   <Input
                     id="auth-reset-confirm"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -875,7 +958,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="••••••••"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    className="pl-9.5 pr-10 h-11 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                    className="!pl-11 !pr-11 h-12 text-[15px] bg-slate-50/80 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 focus:bg-white dark:focus:bg-[#0A0A14] focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:ring-2 focus:ring-[#7c3aed]/20 dark:focus:ring-[#C084FC]/25 rounded-xl font-normal transition-all"
                   />
                   <button
                     type="button"
@@ -885,13 +968,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Ocultar confirmação de nova senha'
                         : 'Ver confirmação de nova senha'
                     }
-                    className="absolute right-3 top-3 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors p-0.5 rounded"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                   >
-                    {showConfirmPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
+                    <span className="p-1 rounded-md hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition-colors">
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
               </div>
