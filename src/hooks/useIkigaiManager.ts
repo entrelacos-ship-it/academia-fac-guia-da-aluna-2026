@@ -174,79 +174,6 @@ export function useIkigaiManager() {
     [],
   )
 
-  // Mover item da bandeja para um círculo específico
-  const moveTrayItemToCircle = useCallback((trayIndex: number, circleId: CircleId) => {
-    setState((prev) => {
-      const textToMove = prev.rawRetratoTray[trayIndex]
-      if (!textToMove) return prev
-      const newTray = prev.rawRetratoTray.filter((_, i) => i !== trayIndex)
-      const newItem: CircleItem = {
-        id: `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-        text: sanitizeTypography(textToMove),
-        starred: false,
-        createdAt: new Date().toISOString(),
-      }
-      const next: IkigaiState = {
-        ...prev,
-        rawRetratoTray: newTray,
-        circles: {
-          ...prev.circles,
-          [circleId]: [...prev.circles[circleId], newItem],
-        },
-        updatedAt: new Date().toISOString(),
-      }
-      setUserStorageItem(BASE_STORAGE_KEYS.IKIGAI, next)
-      notifyLocalDataChanged()
-      return next
-    })
-  }, [])
-
-  // Descartar item da bandeja
-  const removeTrayItem = useCallback((trayIndex: number) => {
-    setState((prev) => {
-      const newTray = prev.rawRetratoTray.filter((_, i) => i !== trayIndex)
-      const next: IkigaiState = {
-        ...prev,
-        rawRetratoTray: newTray,
-        updatedAt: new Date().toISOString(),
-      }
-      setUserStorageItem(BASE_STORAGE_KEYS.IKIGAI, next)
-      notifyLocalDataChanged()
-      return next
-    })
-  }, [])
-
-  // Importar matéria-prima do Retrato de Autoria
-  const importRetratoData = useCallback(
-    (parsed: { circles: Record<CircleId, string[]>; tray: string[] }) => {
-      setState((prev) => {
-        const makeItems = (texts: string[]): CircleItem[] =>
-          texts.map((t, idx) => ({
-            id: `imported-${Date.now()}-${idx}-${Math.random().toString(36).slice(2, 5)}`,
-            text: sanitizeTypography(t),
-            starred: idx < 2, // os primeiros já como sugestão de destaque
-            createdAt: new Date().toISOString(),
-          }))
-
-        const next: IkigaiState = {
-          ...prev,
-          circles: {
-            love: [...prev.circles.love, ...makeItems(parsed.circles.love)],
-            goodAt: [...prev.circles.goodAt, ...makeItems(parsed.circles.goodAt)],
-            worldNeeds: [...prev.circles.worldNeeds, ...makeItems(parsed.circles.worldNeeds)],
-            paidFor: [...prev.circles.paidFor, ...makeItems(parsed.circles.paidFor)],
-          },
-          rawRetratoTray: [...prev.rawRetratoTray, ...parsed.tray.map(sanitizeTypography)],
-          updatedAt: new Date().toISOString(),
-        }
-        setUserStorageItem(BASE_STORAGE_KEYS.IKIGAI, next)
-        notifyLocalDataChanged()
-        return next
-      })
-    },
-    [],
-  )
-
   // Atualizar encontro/interseção
   const setIntersection = useCallback((id: IntersectionId, text: string, notFound: boolean) => {
     setState((prev) => {
@@ -336,9 +263,6 @@ export function useIkigaiManager() {
     toggleStarItem,
     reorderCircleItems,
     updateCircleItemText,
-    moveTrayItemToCircle,
-    removeTrayItem,
-    importRetratoData,
     setIntersection,
     saveMissionStatement,
     restoreMissionVersion,

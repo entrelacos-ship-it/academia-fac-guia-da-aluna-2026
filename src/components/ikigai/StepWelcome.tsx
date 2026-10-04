@@ -19,7 +19,6 @@ interface StepWelcomeProps {
   lastUpdated?: string
   onStartNew: () => void
   onResume: () => void
-  onImportRetrato: () => void
 }
 
 export const StepWelcome: React.FC<StepWelcomeProps> = ({
@@ -27,7 +26,6 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
   lastUpdated,
   onStartNew,
   onResume,
-  onImportRetrato,
 }) => {
   return (
     <div className="max-w-3xl mx-auto space-y-8 py-4">
@@ -166,27 +164,17 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
                 className="gap-2 border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1f1f23] min-h-[46px] rounded-[8px] cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span>Começar do zero</span>
+                <span>Recomeçar do zero</span>
               </Button>
             </>
           ) : (
-            <>
-              <Button
-                onClick={onImportRetrato}
-                className="flex-1 gap-2 bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#f97316] text-white dark:text-[#0A0A14] font-semibold min-h-[46px] rounded-[8px] cursor-pointer"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Trazer do Retrato de Autoria</span>
-              </Button>
-              <Button
-                variant="outline"
-                onClick={onStartNew}
-                className="gap-2 border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1f1f23] min-h-[46px] rounded-[8px] cursor-pointer"
-              >
-                <span>Começar sem o Retrato</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </>
+            <Button
+              onClick={onStartNew}
+              className="w-full gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[46px] rounded-[8px] cursor-pointer"
+            >
+              <span>Começar meu IKIGAI</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
           )}
         </div>
       </Card>

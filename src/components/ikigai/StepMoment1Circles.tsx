@@ -1,0 +1,458 @@
+import React, { useState } from 'react'
+import {
+  Star,
+  Plus,
+  Trash2,
+  HelpCircle,
+  AlertCircle,
+  ArrowRight,
+  ArrowLeft,
+  Edit2,
+  Check,
+  X,
+  Heart,
+  Award,
+  Globe,
+  Coins,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { CircleId, CircleItem } from '@/types/ikigai'
+import { CIRCLE_DEFINITIONS, IKIGAI_ETHICAL_REMINDER } from '@/config/ikigaiContent'
+
+interface StepMoment1CirclesProps {
+  circles: Record<CircleId, CircleItem[]>
+  onAddItem: (circleId: CircleId, text: string) => void
+  onRemoveItem: (circleId: CircleId, id: string) => void
+  onToggleStar: (circleId: CircleId, id: string) => void
+  onUpdateText: (circleId: CircleId, id: string, newText: string) => void
+  onNext: () => void
+  onPrev: () => void
+}
+
+const CIRCLE_ICONS: Record<CircleId, React.ReactNode> = {
+  love: <Heart className="w-4 h-4 text-rose-500 shrink-0" />,
+  goodAt: <Award className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />,
+  worldNeeds: <Globe className="w-4 h-4 text-emerald-500 shrink-0" />,
+  paidFor: <Coins className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C] shrink-0" />,
+}
+
+const CIRCLE_ORDER: CircleId[] = ['love', 'goodAt', 'worldNeeds', 'paidFor']
+
+export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
+  circles,
+  onAddItem,
+  onRemoveItem,
+  onToggleStar,
+  onUpdateText,
+  onNext,
+  onPrev,
+}) => {
+  const [activeCircle, setActiveCircle] = useState<CircleId>('love')
+  const [inputTexts, setInputTexts] = useState<Record<CircleId, string>>({
+    love: '',
+    goodAt: '',
+    worldNeeds: '',
+    paidFor: '',
+  })
+  const [editingState, setEditingState] = useState<{ id: string; text: string } | null>(null)
+  const [openQuestions, setOpenQuestions] = useState<Record<CircleId, boolean>>({
+    love: false,
+    goodAt: false,
+    worldNeeds: false,
+    paidFor: false,
+  })
+
+  // Validação: Mínimo 3 itens por círculo
+  const missingCounts = CIRCLE_ORDER.reduce(
+    (acc, id) => {
+      const count = (circles[id] || []).length
+      acc[id] = Math.max(0, 3 - count)
+      return acc
+    },
+    {} as Record<CircleId, number>,
+  )
+
+  const totalMissing = Object.values(missingCounts).reduce((sum, n) => sum + n, 0)
+  const allCirclesValid = totalMissing === 0
+
+  const currentDef = CIRCLE_DEFINITIONS[activeCircle]
+  const currentItems = circles[activeCircle] || []
+  const starredCount = currentItems.filter((i) => i.starred).length
+
+  const handleAdd = (circleId: CircleId, e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    const text = (inputTexts[circleId] || '').trim()
+    if (!text) return
+    onAddItem(circleId, text)
+    setInputTexts((prev) => ({ ...prev, [circleId]: '' }))
+  }
+
+  const startEdit = (item: CircleItem) => {
+    setEditingState({ id: item.id, text: item.text })
+  }
+
+  const saveEdit = (circleId: CircleId) => {
+    if (editingState && editingState.text.trim()) {
+      onUpdateText(circleId, editingState.id, editingState.text.trim())
+    }
+    setEditingState(null)
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6 py-2">
+      {/* Cabeçalho do Momento 1 */}
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Badge className="bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs uppercase tracking-wider">
+            Momento 1 · Escrever
+          </Badge>
+          <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+            Os 4 Círculos em tela única
+          </span>
+        </div>
+
+        <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+          Escreva o que compõe a sua prática
+        </h1>
+
+        <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
+          Preencha os 4 círculos com itens curtos (mínimo de 3 por círculo) e destaque com estrela
+          até 3 itens centrais em cada um.
+        </p>
+      </div>
+
+      {/* Resumo Concreto do Progresso em cada círculo */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        {CIRCLE_ORDER.map((id) => {
+          const def = CIRCLE_DEFINITIONS[id]
+          const count = (circles[id] || []).length
+          const missing = missingCounts[id]
+          const isSelected = activeCircle === id
+          const stars = (circles[id] || []).filter((i) => i.starred).length
+
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setActiveCircle(id)}
+              className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-purple-50/70 dark:bg-[#1f1730] border-[#7c3aed] ring-2 ring-[#7c3aed]/20 shadow-xs'
+                  : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-700'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                  {CIRCLE_ICONS[id]}
+                  <span className="truncate">
+                    {def.title.split(' ')[0]} {def.title.split(' ')[1] || ''}
+                  </span>
+                </div>
+                {missing === 0 ? (
+                  <span
+                    className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"
+                    title="Mínimo atingido"
+                  />
+                ) : (
+                  <span
+                    className="w-2 h-2 rounded-full bg-amber-500 shrink-0"
+                    title={`Faltam ${missing}`}
+                  />
+                )}
+              </div>
+
+              <div className="flex items-baseline justify-between text-xs">
+                <span className="font-semibold text-slate-900 dark:text-white">
+                  {count} {count === 1 ? 'item' : 'itens'}
+                </span>
+                <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                  ★ {stars}/3
+                </span>
+              </div>
+
+              <div className="mt-1 text-[11px] font-mono">
+                {missing === 0 ? (
+                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                    ✓ Pronto
+                  </span>
+                ) : (
+                  <span className="text-amber-600 dark:text-amber-400 font-medium">
+                    Falta {missing}
+                  </span>
+                )}
+              </div>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Abas Superiores para Alternar os 4 Círculos com Clareza */}
+      <div className="flex border-b border-slate-200 dark:border-[#27272A] gap-1 overflow-x-auto scrollbar-none">
+        {CIRCLE_ORDER.map((id) => {
+          const def = CIRCLE_DEFINITIONS[id]
+          const isSelected = activeCircle === id
+          const count = (circles[id] || []).length
+          const missing = missingCounts[id]
+
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setActiveCircle(id)}
+              className={`px-3.5 py-2.5 text-xs sm:text-sm font-medium border-b-2 transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                isSelected
+                  ? 'border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                  : 'border-transparent text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              {CIRCLE_ICONS[id]}
+              <span>{def.title}</span>
+              <span
+                className={`text-[11px] font-mono px-1.5 py-0.2 rounded ${
+                  missing === 0
+                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-semibold'
+                    : 'bg-slate-100 dark:bg-[#18181B] text-slate-600 dark:text-[#A1A1AA]'
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Conteúdo do Círculo Ativo */}
+      <Card className="astral-card p-5 sm:p-6 space-y-5">
+        {/* Título e Dica Curta */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-mono font-bold uppercase text-[#7c3aed] dark:text-[#C084FC]">
+              {currentDef.subtitle}
+            </span>
+            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              {missingCounts[activeCircle] === 0
+                ? `${currentItems.length} itens cadastrados (mínimo atingido)`
+                : `Faltam ${missingCounts[activeCircle]} itens para o mínimo`}
+            </span>
+          </div>
+          <p className="text-sm text-slate-700 dark:text-slate-300">{currentDef.description}</p>
+        </div>
+
+        {/* Perguntas-Guia Recolhíveis (Visíveis só se a aluna abrir) */}
+        <div className="border border-purple-100 dark:border-[#27272A] rounded-[10px] overflow-hidden bg-purple-50/30 dark:bg-[#121216]/50">
+          <button
+            type="button"
+            onClick={() =>
+              setOpenQuestions((prev) => ({ ...prev, [activeCircle]: !prev[activeCircle] }))
+            }
+            className="w-full px-4 py-2.5 flex items-center justify-between text-left text-xs font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50/60 dark:hover:bg-[#18181B] transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2">
+              <HelpCircle className="w-3.5 h-3.5 text-[#ea580c]" />
+              <span>Ver perguntas-guia para reflexão</span>
+            </div>
+            {openQuestions[activeCircle] ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
+          </button>
+
+          {openQuestions[activeCircle] && (
+            <div className="px-4 pb-3.5 pt-1 space-y-2 border-t border-purple-100/60 dark:border-[#27272A] animate-fadeIn">
+              <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+                {currentDef.questions.map((q, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="font-mono text-[11px] font-bold text-[#7c3aed] dark:text-[#C084FC] mt-0.5">
+                      0{idx + 1}.
+                    </span>
+                    <span>{q}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* Campo de Adição Rápida */}
+        <form onSubmit={(e) => handleAdd(activeCircle, e)} className="space-y-2">
+          <div className="flex gap-2">
+            <Input
+              value={inputTexts[activeCircle] || ''}
+              onChange={(e) =>
+                setInputTexts((prev) => ({ ...prev, [activeCircle]: e.target.value }))
+              }
+              placeholder={currentDef.placeholder}
+              className="flex-1 bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-sm h-11 focus:border-[#7c3aed]"
+            />
+            <Button
+              type="submit"
+              disabled={!(inputTexts[activeCircle] || '').trim()}
+              className="gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold h-11 px-5 rounded-[8px] cursor-pointer shrink-0"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Adicionar</span>
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#71717A] px-1">
+            <span>
+              {currentItems.length} de {currentDef.minSuggested} itens recomendados
+            </span>
+            <span className="flex items-center gap-1 font-mono">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 inline" />
+              <span>{starredCount}/3 marcados como centrais</span>
+            </span>
+          </div>
+        </form>
+
+        {/* Lista de Itens do Círculo */}
+        <div className="space-y-2 pt-1">
+          {currentItems.length === 0 ? (
+            <div className="text-center py-8 border-2 border-dashed border-slate-200 dark:border-[#27272A] rounded-[12px] text-slate-400 space-y-1.5">
+              <p className="text-xs sm:text-sm font-medium">
+                Nenhum item adicionado ainda neste círculo.
+              </p>
+              <p className="text-xs">
+                Digite um item acima ou abra as perguntas-guia se quiser inspiração.
+              </p>
+            </div>
+          ) : (
+            currentItems.map((item) => (
+              <div
+                key={item.id}
+                className={`p-3 rounded-[10px] border transition-all flex items-center justify-between gap-3 ${
+                  item.starred
+                    ? 'bg-amber-50/60 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800/60 shadow-xs'
+                    : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A]'
+                }`}
+              >
+                {/* Estrela / Destaque central */}
+                <button
+                  type="button"
+                  onClick={() => onToggleStar(activeCircle, item.id)}
+                  disabled={!item.starred && starredCount >= 3}
+                  className={`p-1.5 rounded-[6px] transition-colors cursor-pointer ${
+                    item.starred
+                      ? 'text-amber-500 hover:text-amber-600'
+                      : starredCount >= 3
+                        ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed'
+                        : 'text-slate-300 hover:text-amber-400'
+                  }`}
+                  title={
+                    item.starred
+                      ? 'Item central no seu IKIGAI (clique para remover estrela)'
+                      : starredCount >= 3
+                        ? 'Limite de 3 itens centrais por círculo atingido'
+                        : 'Marcar como item central (máximo 3 por círculo)'
+                  }
+                >
+                  <Star
+                    className={`w-4 h-4 ${item.starred ? 'fill-amber-400 text-amber-500' : ''}`}
+                  />
+                </button>
+
+                {/* Texto ou Campo de Edição */}
+                <div className="flex-1 min-w-0">
+                  {editingState && editingState.id === item.id ? (
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={editingState.text}
+                        onChange={(e) => setEditingState({ id: item.id, text: e.target.value })}
+                        className="h-8 text-xs bg-white dark:bg-[#18181B]"
+                        autoFocus
+                      />
+                      <Button
+                        size="sm"
+                        onClick={() => saveEdit(activeCircle)}
+                        className="h-8 px-2 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setEditingState(null)}
+                        className="h-8 px-2 text-slate-500 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <span className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 block break-words">
+                      {item.text}
+                    </span>
+                  )}
+                </div>
+
+                {/* Ações */}
+                {(!editingState || editingState.id !== item.id) && (
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => startEdit(item)}
+                      className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                      title="Editar item"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveItem(activeCircle, item.id)}
+                      className="p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                      title="Excluir item"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </Card>
+
+      {/* Lembrete Ético Mandatório */}
+      <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-500 dark:text-[#71717A] flex items-center gap-2">
+        <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+        <span>{IKIGAI_ETHICAL_REMINDER}</span>
+      </div>
+
+      {/* Barra de Ações Inferior */}
+      <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-[#27272A]">
+        <Button
+          variant="outline"
+          onClick={onPrev}
+          className="gap-1.5 border-slate-200 dark:border-[#27272A] min-h-[44px] cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Voltar ao Início</span>
+        </Button>
+
+        <Button
+          onClick={onNext}
+          disabled={!allCirclesValid}
+          className={`gap-1.5 min-h-[44px] font-semibold rounded-[8px] cursor-pointer ${
+            allCirclesValid
+              ? 'bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14]'
+              : 'bg-slate-200 dark:bg-[#27272A] text-slate-400 cursor-not-allowed'
+          }`}
+        >
+          <span>
+            {allCirclesValid
+              ? 'Avançar para Conectar (Encontros)'
+              : `Complete os 4 círculos (${totalMissing} itens pendentes)`}
+          </span>
+          <ArrowRight className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  )
+}
+export default StepMoment1Circles

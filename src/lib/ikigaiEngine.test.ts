@@ -1,13 +1,15 @@
 import { describe, it, expect } from 'vitest'
 import {
-  parseRetratoDeAutoriaText,
   diagnoseEmptyIntersections,
   countSentences,
   sanitizeTypography,
+  generateCleanTextForAI,
+  generateCommunityShareText,
 } from './ikigaiEngine'
 import { FICTITIOUS_FACILITATOR_EXAMPLE, INITIAL_EMPTY_IKIGAI_STATE } from '@/config/ikigaiContent'
+import { STEPS_CONFIG } from '@/components/ikigai/IkigaiWorkflow'
 
-describe('ikigaiEngine', () => {
+describe('ikigaiEngine e Novo Fluxo dos 3 Momentos', () => {
   it('remove travessões longos garantindo regra de pontuação do app', () => {
     const raw = 'O propósito não é sacrifício — é serviço com sentido -- e dignidade.'
     const sanitized = sanitizeTypography(raw)
@@ -16,53 +18,15 @@ describe('ikigaiEngine', () => {
     expect(sanitized).toContain(', ')
   })
 
-  it('faz parse com sucesso de texto estruturado por títulos do Retrato de Autoria', () => {
-    const sample = `
-Matéria-prima para o seu painel IKIGAI
-
-Círculo 1 · O que eu amo fazer
-- Escutar mulheres em transição
-- Conduzir rodas de acolhimento
-- Ler artigos sobre autonomia
-
-Círculo 2 · No que eu sou boa
-- Devoluções clínicas claras
-- Mediação serena em conflitos
-- Organização de processos terapêuticos
-
-Círculo 3 · Do que o mundo precisa
-- Cuidado para mães sobrecarregadas
-- Combate à medicalização da vida
-- Espaços seguros de escuta
-
-Círculo 4 · Pelo que posso ser remunerada com dignidade
-- Sessão individual particular
-- Grupos terapêuticos contratados
-- Supervisão clínica
-`
-    const parsed = parseRetratoDeAutoriaText(sample)
-    expect(parsed.success).toBe(true)
-    expect(parsed.matchedBySection).toBe(true)
-    expect(parsed.circles.love.length).toBe(3)
-    expect(parsed.circles.goodAt.length).toBe(3)
-    expect(parsed.circles.worldNeeds.length).toBe(3)
-    expect(parsed.circles.paidFor.length).toBe(3)
-    expect(parsed.totalItems).toBe(12)
-  })
-
-  it('coloca tudo na bandeja se o texto não contiver as seções separadas', () => {
-    const rawUnstructured = `
-- Atender adolescentes em sofrimento
-- Capacidade de criar vínculo rápido
-- Necessidade de apoio para jovens vestibulandos
-- Consultas particulares com contrato
-- Supervisão semanal
-`
-    const parsed = parseRetratoDeAutoriaText(rawUnstructured)
-    expect(parsed.success).toBe(true)
-    expect(parsed.matchedBySection).toBe(false)
-    expect(parsed.tray.length).toBe(5)
-    expect(parsed.circles.love.length).toBe(0)
+  it('define exatamente os 3 momentos no fluxo pedagógico da aluna (sem etapa de importação do Retrato)', () => {
+    expect(STEPS_CONFIG.length).toBe(4) // 0: Boas-vindas, 1: Escrever, 2: Conectar, 3: Painel
+    expect(STEPS_CONFIG[0].title).toBe('Boas-vindas')
+    expect(STEPS_CONFIG[1].title).toContain('Escrever')
+    expect(STEPS_CONFIG[2].title).toContain('Conectar')
+    expect(STEPS_CONFIG[3].title).toContain('Painel')
+    // Não pode haver etapa ou título citando Retrato de Autoria no fluxo do IKIGAI
+    const hasRetratoStep = STEPS_CONFIG.some((s) => s.title.toLowerCase().includes('retrato'))
+    expect(hasRetratoStep).toBe(false)
   })
 
   it('diagnostica vazios conforme PRD para "Paixão sem Profissão"', () => {
@@ -88,5 +52,15 @@ Círculo 4 · Pelo que posso ser remunerada com dignidade
     expect(countSentences(oneSentence)).toBe(1)
     expect(countSentences(twoSentences)).toBe(2)
     expect(countSentences(threeSentences)).toBe(3)
+  })
+
+  it('gera texto limpo para IA e texto de comunidade preservando formato do painel', () => {
+    const aiText = generateCleanTextForAI(FICTITIOUS_FACILITATOR_EXAMPLE)
+    expect(aiText).toContain('PAINEL IKIGAI CLÍNICO')
+    expect(aiText).toContain('DECLARAÇÃO DE MISSÃO')
+
+    const commText = generateCommunityShareText(FICTITIOUS_FACILITATOR_EXAMPLE)
+    expect(commText).toContain('Compartilhando meu IKIGAI')
+    expect(commText).toContain('Minha Declaração de Missão')
   })
 })

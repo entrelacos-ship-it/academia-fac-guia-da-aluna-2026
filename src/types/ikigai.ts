@@ -37,7 +37,7 @@ export interface IkigaiState {
   }
   missionStatement: string
   missionHistory: MissionHistoryEntry[]
-  rawRetratoTray: string[] // itens na bandeja pendentes de distribuição
+  rawRetratoTray?: string[] // compatibilidade retroativa com versões anteriores
   updatedAt: string
 }
 
