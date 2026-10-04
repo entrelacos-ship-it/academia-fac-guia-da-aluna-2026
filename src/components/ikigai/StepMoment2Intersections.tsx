@@ -254,21 +254,27 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
                   <span className="text-[10px] text-slate-400">{itemsA.length} itens</span>
                 </div>
                 <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
-                  {itemsA.map((it) => (
-                    <div
-                      key={it.id}
-                      className={`text-xs p-1.5 rounded flex items-start gap-1.5 ${
-                        it.starred
-                          ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-medium'
-                          : 'text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      <span className="text-amber-500 text-[11px] mt-0.5">
-                        {it.starred ? '★' : '•'}
-                      </span>
-                      <span className="truncate">{it.text}</span>
-                    </div>
-                  ))}
+                  {itemsA.length === 0 ? (
+                    <p className="text-xs text-slate-400 dark:text-slate-500 italic py-1">
+                      Nenhum item adicionado ainda neste círculo
+                    </p>
+                  ) : (
+                    itemsA.map((it) => (
+                      <div
+                        key={it.id}
+                        className={`text-xs p-1.5 rounded flex items-start gap-1.5 ${
+                          it.starred
+                            ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-medium'
+                            : 'text-slate-700 dark:text-slate-300'
+                        }`}
+                      >
+                        <span className="text-amber-500 text-[11px] mt-0.5">
+                          {it.starred ? '★' : '•'}
+                        </span>
+                        <span className="truncate">{it.text}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 
@@ -279,21 +285,27 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
                   <span className="text-[10px] text-slate-400">{itemsB.length} itens</span>
                 </div>
                 <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
-                  {itemsB.map((it) => (
-                    <div
-                      key={it.id}
-                      className={`text-xs p-1.5 rounded flex items-start gap-1.5 ${
-                        it.starred
-                          ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-medium'
-                          : 'text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      <span className="text-amber-500 text-[11px] mt-0.5">
-                        {it.starred ? '★' : '•'}
-                      </span>
-                      <span className="truncate">{it.text}</span>
-                    </div>
-                  ))}
+                  {itemsB.length === 0 ? (
+                    <p className="text-xs text-slate-400 dark:text-slate-500 italic py-1">
+                      Nenhum item adicionado ainda neste círculo
+                    </p>
+                  ) : (
+                    itemsB.map((it) => (
+                      <div
+                        key={it.id}
+                        className={`text-xs p-1.5 rounded flex items-start gap-1.5 ${
+                          it.starred
+                            ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-medium'
+                            : 'text-slate-700 dark:text-slate-300'
+                        }`}
+                      >
+                        <span className="text-amber-500 text-[11px] mt-0.5">
+                          {it.starred ? '★' : '•'}
+                        </span>
+                        <span className="truncate">{it.text}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

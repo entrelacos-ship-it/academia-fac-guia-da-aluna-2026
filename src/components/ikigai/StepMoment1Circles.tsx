@@ -148,12 +148,14 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                   : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
-              {/* Topo do cartão: Ícone, Nome completo do Círculo e Ponto de status */}
+              {/* Topo do cartão: Ícone, Nome do Círculo e Ponto de status */}
               <div>
-                <div className="flex items-center justify-between gap-1.5 mb-1.5">
+                <div className="flex items-center justify-between gap-1.5 mb-1">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
                     {CIRCLE_ICONS[id]}
-                    <span className="line-clamp-1">{def.title}</span>
+                    <span className="font-mono text-[11px] font-bold text-slate-500 dark:text-[#71717A]">
+                      {def.badgeText}
+                    </span>
                   </div>
                   {missing === 0 ? (
                     <span
@@ -168,8 +170,8 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                   )}
                 </div>
 
-                <div className="text-[11px] text-slate-500 dark:text-[#71717A] mb-2 truncate">
-                  {def.badgeText}
+                <div className="text-xs font-medium text-slate-800 dark:text-slate-200 line-clamp-2 min-h-[32px] mb-2">
+                  {def.title}
                 </div>
               </div>
 
