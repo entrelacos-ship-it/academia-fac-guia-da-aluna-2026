@@ -10,6 +10,7 @@ import {
   LogOut,
   ShieldCheck,
   CheckCircle2,
+  KeyRound,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
@@ -113,6 +114,16 @@ export const IkigaiPage: React.FC = () => {
                 {isSyncing ? 'Sincronizando' : 'Salvo na Conta'}
               </span>
             </div>
+
+            {/* Atalho Perfil e Senha */}
+            <Link
+              to="/perfil"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              title="Acessar Perfil e Alterar Senha"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+              <span className="hidden sm:inline">PERFIL & SENHA</span>
+            </Link>
 
             {/* Glossário */}
             <Button

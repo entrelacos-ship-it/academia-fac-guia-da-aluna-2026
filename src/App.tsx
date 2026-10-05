@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import AuthScreen from './pages/AuthScreen'
 import AdminDashboard from './pages/AdminDashboard'
+import ProfileSettingsPage from './pages/ProfileSettingsPage'
 import { useCloudSync } from './hooks/useCloudSync'
 import { AlunaGuiaService } from './services/alunaGuiaService'
 
@@ -128,6 +129,23 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <IkigaiPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Configurações da Conta & Troca de Senha */}
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute>
+              <ProfileSettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/configuracoes"
+          element={
+            <ProtectedRoute>
+              <ProfileSettingsPage />
             </ProtectedRoute>
           }
         />

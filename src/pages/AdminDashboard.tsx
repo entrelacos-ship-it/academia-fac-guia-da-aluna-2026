@@ -30,8 +30,14 @@ import {
   Unlock,
   Eye,
   EyeOff,
+  Edit,
+  Trash2,
+  CheckSquare,
+  Square,
+  KeyRound,
 } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { getMatriculaExpiration, shouldForceExpiredStatus } from '@/lib/matriculaExpiration'
+import { useNavigate, Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -173,6 +179,25 @@ export const AdminDashboard: React.FC = () => {
     mat: MatriculaRecord
     novoStatus: 'ativa' | 'suspensa' | 'expirada'
   } | null>(null)
+
+  // Edição completa de matrícula existente
+  const [editingMatricula, setEditingMatricula] = useState<MatriculaRecord | null>(null)
+  const [editEmail, setEditEmail] = useState('')
+  const [editNome, setEditNome] = useState('')
+  const [editCiclo, setEditCiclo] = useState('')
+  const [editStatus, setEditStatus] = useState<'ativa' | 'suspensa' | 'expirada'>('ativa')
+  const [editFim, setEditFim] = useState('')
+  const [editAnotacao, setEditAnotacao] = useState('')
+  const [salvandoEdicao, setSalvandoEdicao] = useState(false)
+
+  // Exclusão permanente de matrícula existente
+  const [deletingMatricula, setDeletingMatricula] = useState<MatriculaRecord | null>(null)
+  const [deleteConfirmTyped, setDeleteConfirmTyped] = useState('')
+  const [excluindoMatricula, setExcluindoMatricula] = useState(false)
+
+  // Seleção múltipla para ações em lote
+  const [selectedMatriculaIds, setSelectedMatriculaIds] = useState<string[]>([])
+  const [executandoAcaoLote, setExecutandoAcaoLote] = useState(false)
 
   const loadAllAdminData = async () => {
     setLoading(true)
@@ -386,6 +411,188 @@ export const AdminDashboard: React.FC = () => {
     }
   }
 
+  // Abrir modal de edição com dados pré-preenchidos
+  const handleOpenEditMatricula = (mat: MatriculaRecord) => {
+    setEditingMatricula(mat)
+    setEditEmail(mat.email || '')
+    setEditNome(mat.nome || '')
+    setEditCiclo(mat.ciclo || 'Ciclo FAC 2026')
+    setEditStatus(mat.status || 'ativa')
+    // Se a data de fim for ISO completa, pega apenas o YYYY-MM-DD para o input date
+    const fimDateStr = mat.fim ? mat.fim.slice(0, 10) : ''
+    setEditFim(fimDateStr)
+    setEditAnotacao(mat.anotacao || '')
+  }
+
+  // Salvar edição de matrícula existente
+  const handleSalvarEdicaoMatricula = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingMatricula) return
+
+    const cleanEmail = editEmail.trim().toLowerCase()
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      alert('Informe um e-mail válido.')
+      return
+    }
+
+    // Conferir se não está criando duplicata de e-mail com outra matrícula
+    const duplicata = matriculas.find(
+      (m) => m.id !== editingMatricula.id && m.email.toLowerCase() === cleanEmail,
+    )
+    if (duplicata) {
+      alert(`Já existe outra matrícula cadastrada com o e-mail "${cleanEmail}".`)
+      return
+    }
+
+    // Se o prazo estiver vencido e a usuária tentar salvar como ativa, forçar 'expirada'
+    let statusFinal = editStatus
+    if (shouldForceExpiredStatus(statusFinal, editFim)) {
+      statusFinal = 'expirada'
+    }
+
+    setSalvandoEdicao(true)
+    try {
+      const valoresAnteriores = {
+        email: editingMatricula.email,
+        nome: editingMatricula.nome,
+        ciclo: editingMatricula.ciclo,
+        status: editingMatricula.status,
+        fim: editingMatricula.fim,
+        anotacao: editingMatricula.anotacao,
+      }
+
+      const valoresNovos = {
+        email: cleanEmail,
+        nome: editNome.trim() || undefined,
+        ciclo: editCiclo.trim() || 'Ciclo FAC 2026',
+        status: statusFinal,
+        fim: editFim ? `${editFim} 23:59:59.000Z` : undefined,
+        anotacao: editAnotacao.trim() || undefined,
+      }
+
+      const updated = await pb
+        .collection('fac_matriculas')
+        .update<MatriculaRecord>(editingMatricula.id, valoresNovos)
+
+      // Registrar auditoria detalhada com operador, valores anteriores e novos
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: 'editar_matricula',
+          alvo: cleanEmail,
+          motivo: 'Atualização cadastral no painel administrativo',
+          detalhes: {
+            matricula_id: editingMatricula.id,
+            anteriores: valoresAnteriores,
+            novos: valoresNovos,
+          },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
+
+      setMatriculas((prev) => prev.map((m) => (m.id === updated.id ? updated : m)))
+      setSuccessActionMessage(`Matrícula de ${cleanEmail} atualizada com sucesso!`)
+      setEditingMatricula(null)
+    } catch (err) {
+      alert(`Erro ao salvar edição: ${getErrorMessage(err)}`)
+    } finally {
+      setSalvandoEdicao(false)
+    }
+  }
+
+  // Abrir diálogo de exclusão permanente
+  const handleOpenDeleteMatricula = (mat: MatriculaRecord) => {
+    setDeletingMatricula(mat)
+    setDeleteConfirmTyped('')
+  }
+
+  // Executar exclusão permanente de matrícula com auditoria
+  const handleConfirmarExclusaoMatricula = async () => {
+    if (!deletingMatricula) return
+
+    setExcluindoMatricula(true)
+    try {
+      const emailExcluido = deletingMatricula.email
+      const backupDados = { ...deletingMatricula }
+
+      await pb.collection('fac_matriculas').delete(deletingMatricula.id)
+
+      // Registrar auditoria de exclusão
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: 'excluir_matricula_permanente',
+          alvo: emailExcluido,
+          motivo: 'Exclusão definitiva solicitada no painel administrativo',
+          detalhes: {
+            matricula_id: deletingMatricula.id,
+            dados_removidos: backupDados,
+          },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
+
+      setMatriculas((prev) => prev.filter((m) => m.id !== deletingMatricula.id))
+      setSelectedMatriculaIds((prev) => prev.filter((id) => id !== deletingMatricula.id))
+      setSuccessActionMessage(`Matrícula de ${emailExcluido} excluída permanentemente.`)
+      setDeletingMatricula(null)
+    } catch (err) {
+      alert(`Erro ao excluir matrícula: ${getErrorMessage(err)}`)
+    } finally {
+      setExcluindoMatricula(false)
+    }
+  }
+
+  // Ações em lote nas matrículas selecionadas
+  const handleExecutarAcaoEmLote = async (acao: 'suspender' | 'reativar') => {
+    if (selectedMatriculaIds.length === 0) return
+    const novoStatus = acao === 'suspender' ? 'suspensa' : 'ativa'
+
+    const confirmMsg = `Deseja ${acao === 'suspender' ? 'suspender' : 'reativar'} as ${
+      selectedMatriculaIds.length
+    } matrículas selecionadas?`
+    if (!window.confirm(confirmMsg)) return
+
+    setExecutandoAcaoLote(true)
+    let sucessos = 0
+    try {
+      for (const id of selectedMatriculaIds) {
+        const mat = matriculas.find((m) => m.id === id)
+        if (!mat) continue
+        try {
+          await pb.collection('fac_matriculas').update(id, { status: novoStatus })
+          sucessos++
+        } catch (itemErr) {
+          console.warn('Erro ao atualizar em lote:', id, itemErr)
+        }
+      }
+
+      // Trilha de auditoria da ação em lote
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: `lote_${acao}_matriculas`,
+          alvo: `${sucessos} alunas`,
+          motivo: `Ação em lote: ${acao} matrículas selecionadas`,
+          detalhes: { total: selectedMatriculaIds.length, alteradas: sucessos, novoStatus },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
+
+      // Atualizar lista local
+      setMatriculas((prev) =>
+        prev.map((m) => (selectedMatriculaIds.includes(m.id) ? { ...m, status: novoStatus } : m)),
+      )
+      setSuccessActionMessage(`${sucessos} matrículas foram atualizadas para "${novoStatus}".`)
+      setSelectedMatriculaIds([])
+    } finally {
+      setExecutandoAcaoLote(false)
+    }
+  }
+
   // Criar matrícula individual
   const handleCriarMatricula = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -395,14 +602,28 @@ export const AdminDashboard: React.FC = () => {
       return
     }
 
+    // Conferir duplicata
+    const jaExiste = matriculas.find((m) => m.email.toLowerCase() === cleanEmail)
+    if (jaExiste) {
+      alert(`Já existe matrícula para ${cleanEmail} com status: ${jaExiste.status}.`)
+      return
+    }
+
+    // Se o prazo informado estiver no passado, cadastra como expirada automaticamente
+    let statusInicial: 'ativa' | 'expirada' = 'ativa'
+    if (shouldForceExpiredStatus('ativa', novoFim)) {
+      statusInicial = 'expirada'
+    }
+
     setSalvandoMatricula(true)
     try {
+      const fimCompleto = novoFim ? `${novoFim} 23:59:59.000Z` : undefined
       const novaRec = await pb.collection('fac_matriculas').create<MatriculaRecord>({
         email: cleanEmail,
         nome: novoNome.trim() || undefined,
-        status: 'ativa',
+        status: statusInicial,
         ciclo: novoCiclo.trim() || 'Ciclo FAC 2026',
-        fim: novoFim || undefined,
+        fim: fimCompleto,
         origem: 'Cadastro Manual Painel',
         anotacao: novaAnotacao.trim() || undefined,
       })
@@ -414,14 +635,18 @@ export const AdminDashboard: React.FC = () => {
           acao: 'cadastrar_matricula_individual',
           alvo: cleanEmail,
           motivo: 'Cadastro de matrícula no painel',
-          detalhes: { ciclo: novoCiclo },
+          detalhes: { ciclo: novoCiclo, status: statusInicial, fim: fimCompleto },
         })
       } catch {
         /* intentionally ignored */
       }
 
       setMatriculas((prev) => [novaRec, ...prev])
-      setSuccessActionMessage(`Matrícula de ${cleanEmail} cadastrada com sucesso!`)
+      setSuccessActionMessage(
+        statusInicial === 'expirada'
+          ? `Matrícula de ${cleanEmail} cadastrada com status EXPIRADA (prazo informado já vencido).`
+          : `Matrícula de ${cleanEmail} cadastrada com sucesso!`,
+      )
       setShowNovaMatriculaModal(false)
       setNovoEmail('')
       setNovoNome('')
@@ -619,10 +844,26 @@ export const AdminDashboard: React.FC = () => {
   // Métricas de Matrículas
   const metricasMatriculas = useMemo(() => {
     const total = matriculas.length
-    const ativas = matriculas.filter((m) => m.status === 'ativa').length
-    const suspensas = matriculas.filter((m) => m.status === 'suspensa').length
-    const expiradas = matriculas.filter((m) => m.status === 'expirada').length
-    return { total, ativas, suspensas, expiradas }
+    let ativas = 0
+    let suspensas = 0
+    let expiradas = 0
+    let expirandoEmBreve = 0
+
+    for (const m of matriculas) {
+      const exp = getMatriculaExpiration(m.status, m.fim)
+      if (exp.statusEfetivo === 'ativa') {
+        ativas++
+        if (exp.isExpiringSoon) {
+          expirandoEmBreve++
+        }
+      } else if (exp.statusEfetivo === 'suspensa') {
+        suspensas++
+      } else {
+        expiradas++
+      }
+    }
+
+    return { total, ativas, suspensas, expiradas, expirandoEmBreve }
   }, [matriculas])
 
   // Filtragem de Matrículas
@@ -632,8 +873,9 @@ export const AdminDashboard: React.FC = () => {
       const matchSearch =
         !q || m.email.toLowerCase().includes(q) || m.nome?.toLowerCase().includes(q)
 
+      const exp = getMatriculaExpiration(m.status, m.fim)
       const matchStatus =
-        matriculaStatusFilter === 'todas' ? true : m.status === matriculaStatusFilter
+        matriculaStatusFilter === 'todas' ? true : exp.statusEfetivo === matriculaStatusFilter
 
       return matchSearch && matchStatus
     })
@@ -730,6 +972,15 @@ export const AdminDashboard: React.FC = () => {
                 {currentUser?.email}
               </p>
             </div>
+            <Link
+              to="/perfil"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:border-[#7c3aed]/40 transition-colors"
+              title="Configurações e troca de senha"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+              <span className="hidden sm:inline">PERFIL & SENHA</span>
+            </Link>
+
             <Button
               variant="outline"
               size="sm"
@@ -1068,53 +1319,69 @@ export const AdminDashboard: React.FC = () => {
         {activeTab === 'matriculas' && (
           <div className="space-y-6">
             {/* Cards de Métricas de Matrículas */}
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
               <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-mono uppercase text-slate-500">
-                    Total de Matrículas
+                <CardHeader className="pb-1">
+                  <CardTitle className="text-[11px] font-mono uppercase text-slate-500">
+                    Total
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-mono font-bold">{metricasMatriculas.total}</div>
+                  <div className="text-2xl sm:text-3xl font-mono font-bold">
+                    {metricasMatriculas.total}
+                  </div>
                 </CardContent>
               </Card>
 
               <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-mono uppercase text-emerald-600 dark:text-emerald-400">
-                    Matrículas Ativas
+                <CardHeader className="pb-1">
+                  <CardTitle className="text-[11px] font-mono uppercase text-emerald-600 dark:text-emerald-400">
+                    Ativas
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-emerald-600 dark:text-emerald-400">
                     {metricasMatriculas.ativas}
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-mono uppercase text-amber-600 dark:text-amber-400">
+                <CardHeader className="pb-1">
+                  <CardTitle className="text-[11px] font-mono uppercase text-amber-600 dark:text-amber-400">
                     Suspensas
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-mono font-bold text-amber-600 dark:text-amber-400">
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-amber-600 dark:text-amber-400">
                     {metricasMatriculas.suspensas}
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xs font-mono uppercase text-rose-600 dark:text-rose-400">
+                <CardHeader className="pb-1">
+                  <CardTitle className="text-[11px] font-mono uppercase text-rose-600 dark:text-rose-400">
                     Expiradas
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-mono font-bold text-rose-600 dark:text-rose-400">
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-rose-600 dark:text-rose-400">
                     {metricasMatriculas.expiradas}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+                <CardHeader className="pb-1">
+                  <CardTitle className="text-[11px] font-mono uppercase text-purple-600 dark:text-[#C084FC] flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>A Vencer (≤15d)</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-purple-600 dark:text-[#C084FC]">
+                    {metricasMatriculas.expirandoEmBreve}
                   </div>
                 </CardContent>
               </Card>
@@ -1239,7 +1506,7 @@ export const AdminDashboard: React.FC = () => {
                 </div>
               )}
 
-              {/* Filtros e Busca */}
+              {/* Filtros, Busca e Barra de Ações em Lote */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <div className="relative w-full sm:w-72">
                   <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -1252,25 +1519,62 @@ export const AdminDashboard: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center gap-1 bg-slate-50 dark:bg-[#0A0A14] p-1 rounded-[8px] border border-slate-200 dark:border-[#27272A]">
-                  {(['todas', 'ativa', 'suspensa', 'expirada'] as const).map((st) => (
-                    <button
-                      key={st}
-                      type="button"
-                      onClick={() => setMatriculaStatusFilter(st)}
-                      className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] capitalize transition-colors ${
-                        matriculaStatusFilter === st
-                          ? 'bg-white dark:bg-[#18181B] text-slate-900 dark:text-white shadow-xs font-semibold'
-                          : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-                      }`}
-                    >
-                      {st}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Botões de Ação em Lote quando houver itens selecionados */}
+                  {selectedMatriculaIds.length > 0 && (
+                    <div className="flex items-center gap-1.5 p-1 rounded-[8px] bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-[#7c3aed]/50 text-xs font-mono">
+                      <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold px-1.5">
+                        {selectedMatriculaIds.length} selecionadas:
+                      </span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={executandoAcaoLote}
+                        onClick={() => handleExecutarAcaoEmLote('reativar')}
+                        className="h-7 px-2 text-[11px] font-mono text-emerald-600 hover:bg-emerald-100 dark:hover:bg-emerald-950/60"
+                      >
+                        Ativar
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={executandoAcaoLote}
+                        onClick={() => handleExecutarAcaoEmLote('suspender')}
+                        className="h-7 px-2 text-[11px] font-mono text-amber-600 hover:bg-amber-100 dark:hover:bg-amber-950/60"
+                      >
+                        Suspender
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setSelectedMatriculaIds([])}
+                        className="h-7 px-2 text-[11px] font-mono text-slate-500 hover:text-slate-800"
+                      >
+                        Limpar
+                      </Button>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-[#0A0A14] p-1 rounded-[8px] border border-slate-200 dark:border-[#27272A]">
+                    {(['todas', 'ativa', 'suspensa', 'expirada'] as const).map((st) => (
+                      <button
+                        key={st}
+                        type="button"
+                        onClick={() => setMatriculaStatusFilter(st)}
+                        className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] capitalize transition-colors ${
+                          matriculaStatusFilter === st
+                            ? 'bg-white dark:bg-[#18181B] text-slate-900 dark:text-white shadow-xs font-semibold'
+                            : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                        }`}
+                      >
+                        {st}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Tabela de Matrículas */}
+              {/* Tabela de Matrículas com CRUD Completo e Indicadores de Expiração */}
               <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
                 {matriculasFiltradas.length === 0 ? (
                   <div className="p-8 text-center text-xs font-mono text-slate-500">
@@ -1281,99 +1585,204 @@ export const AdminDashboard: React.FC = () => {
                     <table className="w-full text-left text-xs">
                       <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 dark:text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-slate-200 dark:border-[#27272A]">
                         <tr>
+                          <th className="py-3 px-3 w-10 text-center">
+                            <input
+                              type="checkbox"
+                              aria-label="Selecionar todas as matrículas visíveis"
+                              checked={
+                                matriculasFiltradas.length > 0 &&
+                                matriculasFiltradas.every((m) =>
+                                  selectedMatriculaIds.includes(m.id),
+                                )
+                              }
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedMatriculaIds(matriculasFiltradas.map((m) => m.id))
+                                } else {
+                                  setSelectedMatriculaIds([])
+                                }
+                              }}
+                              className="rounded-[4px] border-slate-300 dark:border-[#27272A]"
+                            />
+                          </th>
                           <th className="py-3 px-4">Aluna / E-mail</th>
                           <th className="py-3 px-4">Ciclo</th>
-                          <th className="py-3 px-4">Status</th>
-                          <th className="py-3 px-4">Término</th>
-                          <th className="py-3 px-4">Origem</th>
-                          <th className="py-3 px-4 text-right">Ações</th>
+                          <th className="py-3 px-4">Status & Situação</th>
+                          <th className="py-3 px-4">Prazo de Vigência</th>
+                          <th className="py-3 px-4">Origem / Obs</th>
+                          <th className="py-3 px-4 text-right">Ações do CRUD</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
-                        {matriculasFiltradas.map((mat) => (
-                          <tr
-                            key={mat.id}
-                            className="hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80"
-                          >
-                            <td className="py-3 px-4">
-                              <div>
-                                <p className="font-semibold text-slate-900 dark:text-white">
-                                  {mat.email}
-                                </p>
-                                <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
-                                  {mat.nome || 'Sem nome cadastrado'}
-                                </p>
-                              </div>
-                            </td>
+                        {matriculasFiltradas.map((mat) => {
+                          const expInfo = getMatriculaExpiration(mat.status, mat.fim)
+                          const isSelected = selectedMatriculaIds.includes(mat.id)
 
-                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
-                              {mat.ciclo || 'Ciclo FAC 2026'}
-                            </td>
+                          return (
+                            <tr
+                              key={mat.id}
+                              className={`hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80 transition-colors ${
+                                isSelected ? 'bg-purple-50/40 dark:bg-purple-950/20' : ''
+                              }`}
+                            >
+                              <td className="py-3 px-3 text-center">
+                                <input
+                                  type="checkbox"
+                                  aria-label={`Selecionar ${mat.email}`}
+                                  checked={isSelected}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedMatriculaIds((prev) => [...prev, mat.id])
+                                    } else {
+                                      setSelectedMatriculaIds((prev) =>
+                                        prev.filter((id) => id !== mat.id),
+                                      )
+                                    }
+                                  }}
+                                  className="rounded-[4px] border-slate-300 dark:border-[#27272A]"
+                                />
+                              </td>
 
-                            <td className="py-3 px-4">
-                              {mat.status === 'ativa' && (
-                                <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[10px] font-mono">
-                                  Ativa
-                                </Badge>
-                              )}
-                              {mat.status === 'suspensa' && (
-                                <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 text-[10px] font-mono">
-                                  Suspensa
-                                </Badge>
-                              )}
-                              {mat.status === 'expirada' && (
-                                <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30 text-[10px] font-mono">
-                                  Expirada
-                                </Badge>
-                              )}
-                            </td>
+                              <td className="py-3 px-4">
+                                <div>
+                                  <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                    <span>{mat.email}</span>
+                                    {mat.anotacao && (
+                                      <span
+                                        title={`Anotação: ${mat.anotacao}`}
+                                        className="inline-block w-2 h-2 rounded-full bg-purple-500"
+                                      />
+                                    )}
+                                  </p>
+                                  <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
+                                    {mat.nome || 'Sem nome cadastrado'}
+                                  </p>
+                                </div>
+                              </td>
 
-                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
-                              {mat.fim ? formatDate(mat.fim) : 'Sem expiração'}
-                            </td>
+                              <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
+                                {mat.ciclo || 'Ciclo FAC 2026'}
+                              </td>
 
-                            <td className="py-3 px-4 text-[11px] font-mono text-slate-500">
-                              {mat.origem || 'Painel'}
-                            </td>
+                              <td className="py-3 px-4">
+                                <div className="space-y-1">
+                                  {mat.status === 'ativa' && !expInfo.isExpired && (
+                                    <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[10px] font-mono">
+                                      Ativa
+                                    </Badge>
+                                  )}
+                                  {mat.status === 'suspensa' && (
+                                    <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 text-[10px] font-mono">
+                                      Suspensa
+                                    </Badge>
+                                  )}
+                                  {(mat.status === 'expirada' || expInfo.isExpired) && (
+                                    <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30 text-[10px] font-mono">
+                                      Expirada
+                                    </Badge>
+                                  )}
 
-                            <td className="py-3 px-4 text-right space-x-1">
-                              {mat.status !== 'ativa' && (
+                                  {/* Indicador de prazo em dias */}
+                                  <div className="text-[10px] font-mono">
+                                    {expInfo.isExpired && (
+                                      <span className="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+                                        <AlertTriangle className="w-3 h-3" />
+                                        {expInfo.badgeText}
+                                      </span>
+                                    )}
+                                    {expInfo.isExpiringSoon && (
+                                      <span className="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                                        <Clock className="w-3 h-3" />
+                                        {expInfo.badgeText}
+                                      </span>
+                                    )}
+                                    {!expInfo.isExpired && !expInfo.isExpiringSoon && mat.fim && (
+                                      <span className="text-slate-500">{expInfo.badgeText}</span>
+                                    )}
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
+                                <div>
+                                  <span>
+                                    {mat.fim ? formatDate(mat.fim) : 'Vitalício / Sem prazo'}
+                                  </span>
+                                  {mat.fim && (
+                                    <p className="text-[10px] text-slate-400">
+                                      {mat.fim.slice(0, 10)}
+                                    </p>
+                                  )}
+                                </div>
+                              </td>
+
+                              <td className="py-3 px-4 text-[11px] font-mono text-slate-500">
+                                <div>
+                                  <span>{mat.origem || 'Painel'}</span>
+                                  {mat.anotacao && (
+                                    <p
+                                      className="text-[10px] text-slate-400 truncate max-w-[140px]"
+                                      title={mat.anotacao}
+                                    >
+                                      Obs: {mat.anotacao}
+                                    </p>
+                                  )}
+                                </div>
+                              </td>
+
+                              {/* Ações completas de CRUD: Editar, Excluir, Alternar Status */}
+                              <td className="py-3 px-4 text-right space-x-1">
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => setTargetMatricula({ mat, novoStatus: 'ativa' })}
-                                  className="text-[11px] font-mono text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 h-7 px-2"
+                                  onClick={() => handleOpenEditMatricula(mat)}
+                                  className="text-[11px] font-mono text-[#7c3aed] hover:bg-purple-50 dark:hover:bg-purple-950/40 h-7 px-2 gap-1"
+                                  title="Editar dados da matrícula"
                                 >
-                                  Reativar
+                                  <Edit className="w-3 h-3" />
+                                  <span>Editar</span>
                                 </Button>
-                              )}
-                              {mat.status === 'ativa' && (
+
+                                {mat.status !== 'ativa' && !expInfo.isExpired && (
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => setTargetMatricula({ mat, novoStatus: 'ativa' })}
+                                    className="text-[11px] font-mono text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 h-7 px-2"
+                                    title="Reativar acesso"
+                                  >
+                                    Ativar
+                                  </Button>
+                                )}
+
+                                {mat.status === 'ativa' && !expInfo.isExpired && (
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() =>
+                                      setTargetMatricula({ mat, novoStatus: 'suspensa' })
+                                    }
+                                    className="text-[11px] font-mono text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/40 h-7 px-2"
+                                    title="Suspender acesso"
+                                  >
+                                    Suspender
+                                  </Button>
+                                )}
+
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() =>
-                                    setTargetMatricula({ mat, novoStatus: 'suspensa' })
-                                  }
-                                  className="text-[11px] font-mono text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/40 h-7 px-2"
+                                  onClick={() => handleOpenDeleteMatricula(mat)}
+                                  className="text-[11px] font-mono text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 h-7 px-2 gap-1"
+                                  title="Excluir matrícula permanentemente"
                                 >
-                                  Suspender
+                                  <Trash2 className="w-3 h-3" />
+                                  <span className="hidden sm:inline">Excluir</span>
                                 </Button>
-                              )}
-                              {mat.status !== 'expirada' && (
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() =>
-                                    setTargetMatricula({ mat, novoStatus: 'expirada' })
-                                  }
-                                  className="text-[11px] font-mono text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 h-7 px-2"
-                                >
-                                  Expirar
-                                </Button>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
+                              </td>
+                            </tr>
+                          )
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -1696,11 +2105,17 @@ export const AdminDashboard: React.FC = () => {
                     onChange={(e) => setNovoFim(e.target.value)}
                     className="mt-1 text-xs"
                   />
+                  {novoFim && shouldForceExpiredStatus('ativa', novoFim) && (
+                    <p className="text-[10px] text-rose-600 dark:text-rose-400 font-mono mt-1">
+                      ⚠️ A data informada está no passado. A matrícula será cadastrada
+                      automaticamente como <strong>EXPIRADA</strong>.
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-mono font-medium">Anotação interna</label>
+                <label className="text-xs font-mono font-medium">Anotação interna</label>{' '}
                 <Input
                   type="text"
                   placeholder="Ex: Pagamento confirmado via Hotmart"
@@ -1733,6 +2148,229 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Modal Edição Completa de Matrícula (CRUD) */}
+      {editingMatricula && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[8px] bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
+                  <Edit className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
+                    Editar Matrícula da Aluna
+                  </h3>
+                  <p className="text-[11px] font-mono text-slate-500">ID: {editingMatricula.id}</p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setEditingMatricula(null)}
+                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700"
+              >
+                ✕
+              </Button>
+            </div>
+
+            <form onSubmit={handleSalvarEdicaoMatricula} className="space-y-3.5">
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  E-mail da aluna (normalizado)*
+                </label>
+                <Input
+                  type="email"
+                  required
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                  placeholder="aluna@exemplo.com"
+                />
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Ao alterar o e-mail, a conferência de duplicatas é executada automaticamente.
+                </p>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Nome da aluna (opcional)
+                </label>
+                <Input
+                  type="text"
+                  value={editNome}
+                  onChange={(e) => setEditNome(e.target.value)}
+                  className="mt-1 text-xs"
+                  placeholder="Nome completo da aluna"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Ciclo / Turma
+                  </label>
+                  <Input
+                    type="text"
+                    value={editCiclo}
+                    onChange={(e) => setEditCiclo(e.target.value)}
+                    className="mt-1 text-xs font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Status Administrativo
+                  </label>
+                  <select
+                    value={editStatus}
+                    onChange={(e) =>
+                      setEditStatus(e.target.value as 'ativa' | 'suspensa' | 'expirada')
+                    }
+                    className="mt-1 w-full h-9 px-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-300 dark:border-[#27272A] text-xs font-mono text-slate-900 dark:text-white"
+                  >
+                    <option value="ativa">Ativa</option>
+                    <option value="suspensa">Suspensa</option>
+                    <option value="expirada">Expirada</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Data de Fim do Acesso (Prazo de Expiração)
+                </label>
+                <Input
+                  type="date"
+                  value={editFim}
+                  onChange={(e) => setEditFim(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                />
+                {editFim ? (
+                  <div className="mt-1 text-[11px] font-mono">
+                    {shouldForceExpiredStatus('ativa', editFim) ? (
+                      <span className="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        Data vencida no passado: o status será gravado como{' '}
+                        <strong>EXPIRADA</strong>.
+                      </span>
+                    ) : (
+                      <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Vigência válida até {editFim}.
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    Deixe em branco para acesso vitalício/sem data limite.
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Anotação Administrativa Interna
+                </label>
+                <Input
+                  type="text"
+                  value={editAnotacao}
+                  onChange={(e) => setEditAnotacao(e.target.value)}
+                  placeholder="Ex: Renovação via WhatsApp em 2026 / Turma 3"
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditingMatricula(null)}
+                  className="text-xs font-mono"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={salvandoEdicao}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                >
+                  {salvandoEdicao ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Salvando...
+                    </>
+                  ) : (
+                    'Salvar Alterações'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Diálogo de Exclusão Permanente de Matrícula (CRUD) */}
+      <AlertDialog
+        open={!!deletingMatricula}
+        onOpenChange={(open) => !open && setDeletingMatricula(null)}
+      >
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px] max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-sans text-base font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-2">
+              <Trash2 className="w-5 h-5" />
+              <span>Excluir Matrícula Definitivamente</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+              <p>
+                Você está prestes a excluir permanentemente a matrícula de{' '}
+                <strong className="text-slate-900 dark:text-white">
+                  {deletingMatricula?.email}
+                </strong>
+                {deletingMatricula?.nome && ` (${deletingMatricula.nome})`}.
+              </p>
+              <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
+                <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove a aluna da
+                base e revoga o acesso ao Guia imediatamente. Se deseja apenas bloquear
+                temporariamente, use a opção <strong>Suspender</strong>.
+              </div>
+              <div className="pt-2">
+                <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
+                  Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
+                </label>
+                <Input
+                  type="text"
+                  placeholder="EXCLUIR"
+                  value={deleteConfirmTyped}
+                  onChange={(e) => setDeleteConfirmTyped(e.target.value)}
+                  className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                />
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
+            <Button
+              type="button"
+              disabled={deleteConfirmTyped.trim() !== 'EXCLUIR' || excluindoMatricula}
+              onClick={handleConfirmarExclusaoMatricula}
+              className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
+            >
+              {excluindoMatricula ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                  Excluindo...
+                </>
+              ) : (
+                'Confirmar Exclusão'
+              )}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Confirmação Alterar Status Matrícula */}
       <AlertDialog

@@ -32,6 +32,19 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
     if (status === 'ativa' && !isExpiredByDate) {
       hasActiveMatricula = true
       matriculaNome = matRecord.getString('nome') || ''
+    } else if (status === 'ativa' && isExpiredByDate) {
+      // Data de vigência vencida: atualizar status no banco para refletir a expiração
+      try {
+        matRecord.set('status', 'expirada')
+        $app.save(matRecord)
+        const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
+        const auditRec = new Record(auditCol)
+        auditRec.set('operador', 'sistema')
+        auditRec.set('acao', 'expiracao_automatica_por_data')
+        auditRec.set('alvo', rawEmail)
+        auditRec.set('motivo', `Matrícula expirou automaticamente em ${fimStr}`)
+        $app.save(auditRec)
+      } catch (_) {}
     }
   } catch (_) {
     // Matrícula não encontrada: não revelamos à usuária (proteção contra enumeração)
@@ -73,39 +86,57 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <title>Código de Acesso: Guia da Aluna FAC</title>
+  <title>Seu código de acesso ao Guia da Aluna — Academia Método FAC</title>
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 32px 16px;">
-  <div style="max-width: 560px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-    <div style="background: linear-gradient(135deg, #7c3aed 0%, #ea580c 100%); padding: 28px 24px; text-align: center;">
-      <h1 style="color: #ffffff; font-size: 22px; margin: 0; font-weight: 700;">
+  <div style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
+    <div style="background: linear-gradient(135deg, #7c3aed 0%, #ea580c 100%); padding: 30px 24px; text-align: center;">
+      <h1 style="color: #ffffff; font-size: 24px; margin: 0; font-weight: 700; letter-spacing: -0.02em;">
         Academia Método FAC
       </h1>
-      <p style="color: rgba(255,255,255,0.9); font-size: 13px; margin: 6px 0 0; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">
-        Guia da Aluna · Código de Confirmação
+      <p style="color: rgba(255,255,255,0.92); font-size: 13px; margin: 6px 0 0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">
+        Guia da Aluna · Ciclo de Estudos FAC
       </p>
     </div>
     <div style="padding: 32px 28px;">
       <p style="font-size: 16px; margin: 0 0 16px; color: #0f172a;">
-        Olá${matriculaNome ? ', <strong>' + matriculaNome + '</strong>' : ''}!
+        Olá${matriculaNome ? ', <strong>' + matriculaNome + '</strong>' : ''}! Que bom ter você aqui.
       </p>
-      <p style="font-size: 14px; line-height: 1.6; color: #334155; margin: 0 0 20px;">
-        Recebemos seu pedido de validação de e-mail para liberação dos encontros pagos do <strong>Guia da Aluna da Academia Método FAC</strong>.
+      <p style="font-size: 14px; line-height: 1.65; color: #334155; margin: 0 0 16px;">
+        Recebemos sua solicitação de validação para liberar o seu acesso completo ao <strong>Guia da Aluna da Academia Método FAC</strong>.
       </p>
-      <div style="text-align: center; margin: 28px 0; background-color: #f5f3ff; border: 1px dashed #7c3aed; border-radius: 12px; padding: 20px;">
-        <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #6d28d9; font-weight: 600; display: block; margin-bottom: 6px;">Seu código de acesso:</span>
-        <span style="font-family: monospace; font-size: 32px; font-weight: 700; letter-spacing: 6px; color: #7c3aed;">${code}</span>
+      <p style="font-size: 14px; line-height: 1.65; color: #334155; margin: 0 0 20px;">
+        Com este acesso você acompanha os <strong>19 encontros pedagógicos do Ciclo FAC</strong>, seus cadernos didáticos, gravações de aula e todas as ferramentas integradas da Academia (como a Calculadora de Precificação, o Meu IKIGAI e os materiais complementares).
+      </p>
+
+      <div style="text-align: center; margin: 26px 0; background: linear-gradient(180deg, #faf5ff 0%, #f5f3ff 100%); border: 2px dashed #7c3aed; border-radius: 14px; padding: 22px;">
+        <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: #6d28d9; font-weight: 700; display: block; margin-bottom: 8px;">
+          Seu código temporário de acesso
+        </span>
+        <span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #7c3aed; display: inline-block; padding: 4px 12px;">
+          ${code}
+        </span>
+        <p style="font-size: 12px; color: #64748b; margin: 8px 0 0;">
+          Válido por <strong>30 minutos</strong> · até 5 tentativas
+        </p>
       </div>
-      <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin: 0 0 16px;">
-        Este código é válido por <strong>30 minutos</strong> e pode ser usado uma única vez no formulário do Guia.
+
+      <div style="background-color: #f8fafc; border-left: 4px solid #7c3aed; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 0 0 20px;">
+        <p style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0;">
+          <strong>Como usar:</strong> Retorne à tela do Guia da Aluna na Academia, digite ou cole este código de 6 dígitos no campo de validação e clique em <em>Confirmar Código</em> para ativar sua sessão.
+        </p>
+      </div>
+
+      <p style="font-size: 12px; color: #64748b; line-height: 1.55; margin: 0 0 12px;">
+        🔒 <strong>Aviso de segurança:</strong> Este código é pessoal e intransferível. A equipe da Entrelaços nunca solicitará este código fora da tela oficial da Academia. Se você não solicitou este acesso, pode ignorar este e-mail com segurança.
       </p>
-      <p style="font-size: 12px; color: #64748b; line-height: 1.5; margin: 0 0 16px;">
-        Se você não solicitou este código, ignore esta mensagem com segurança.
-      </p>
+
       <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 20px;">
-      <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">
-        Entrelaços Psicologia: Academia Método FAC<br>
-        Mensagem transacional automática.
+      <p style="font-size: 13px; color: #475569; text-align: center; line-height: 1.5; margin: 0 0 6px; font-weight: 600;">
+        Entrelaços Psicologia · Academia Método FAC
+      </p>
+      <p style="font-size: 11px; color: #94a3b8; text-align: center; margin: 0;">
+        Mensagem transacional automática de validação pedagógica.
       </p>
     </div>
   </div>
@@ -153,7 +184,7 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
               body: JSON.stringify({
                 from: sender,
                 to: [rawEmail],
-                subject: 'Código de Validação: Guia da Aluna Academia FAC',
+                subject: 'Seu código de acesso ao Guia da Aluna — Academia Método FAC',
                 html: emailHtml,
               }),
               timeout: 10,
@@ -242,7 +273,7 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
           const msg = new MailerMessage({
             from: { address: senderAddress, name: senderName },
             to: [{ address: rawEmail }],
-            subject: 'Código de Validação: Guia da Aluna Academia FAC',
+            subject: 'Seu código de acesso ao Guia da Aluna — Academia Método FAC',
             html: emailHtml,
           })
           mailer.send(msg)

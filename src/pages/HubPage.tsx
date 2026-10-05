@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   Cpu,
   GraduationCap,
+  KeyRound,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
@@ -224,9 +225,18 @@ export const HubPage: React.FC = () => {
               </span>
             </div>
 
-            {/* Identificação de Usuária */}
+            {/* Identificação de Usuária e Atalho Perfil */}
+            <Link
+              to="/perfil"
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              title="Acessar Perfil e Alterar Senha"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+              <span>PERFIL & SENHA</span>
+            </Link>
+
             <div
-              className="hidden xl:flex flex-col text-right pl-2 pr-1 border-l border-slate-200 dark:border-[#27272A] max-w-[160px]"
+              className="hidden xl:flex flex-col text-right pl-2 pr-1 border-l border-slate-200 dark:border-[#27272A] max-w-[150px]"
               title={`Usuária logada: ${currentUser?.email}`}
             >
               <span className="text-xs font-medium text-slate-900 dark:text-white truncate">

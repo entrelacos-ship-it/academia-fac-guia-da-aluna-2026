@@ -11,6 +11,8 @@ import {
   HelpCircle,
   LogOut,
   Shield,
+  KeyRound,
+  User,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { CloudStatusIcon } from '@/components/CloudStatusIcon'
@@ -222,16 +224,15 @@ export const AppLayout: React.FC<LayoutProps> = ({
               <span className="hidden sm:inline">RETRATO</span>
             </a>
 
-            {/* Identidade da Usuária Logada e Acesso a Minha Senha */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleOpenAuth('change-password')}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] hover:bg-slate-100 dark:hover:bg-[#18181B] hover:text-slate-900 dark:hover:text-white px-2.5 hidden md:inline-flex rounded-[8px]"
-              title="Gerenciar credenciais e senha"
+            {/* Atalho Perfil & Troca de Senha */}
+            <a
+              href="/perfil"
+              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] hover:bg-slate-100 dark:hover:bg-[#18181B] hover:text-slate-900 dark:hover:text-white px-2.5 hidden md:inline-flex items-center gap-1 rounded-[8px]"
+              title="Gerenciar perfil e trocar senha"
             >
-              SENHA
-            </Button>
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>PERFIL & SENHA</span>
+            </a>
 
             {onOpenTour && (
               <Button
@@ -473,7 +474,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   )}
                 </div>
 
-                {/* Links Rápidos Mobile: Hub e Retrato */}
+                {/* Links Rápidos Mobile: Hub, Retrato e Perfil/Senha */}
                 <a
                   href="/"
                   className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
@@ -481,24 +482,27 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   HUB DA ACADEMIA
                 </a>
                 <a
+                  href="/perfil"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
+                >
+                  <KeyRound className="w-4 h-4" />
+                  PERFIL & TROCA DE SENHA
+                </a>
+                <a
                   href="/guia/retrato-de-autoria"
-                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px]"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs rounded-[8px]"
                 >
                   RETRATO DE AUTORIA (GUIA)
                 </a>
 
                 {currentUser?.role === 'admin' && (
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setMobileMenuOpen(false)
-                      handleOpenAuth('change-password')
-                    }}
-                    className="w-full justify-center gap-2 min-h-[44px] bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
+                  <a
+                    href="/admin"
+                    className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-100/70 dark:bg-purple-950/40 border border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
                   >
-                    <Sparkles className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                    MINHA SENHA
-                  </Button>
+                    <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                    PAINEL ADMINISTRATIVO
+                  </a>
                 )}
 
                 {/* Status da Nuvem no menu mobile (apenas indicador informativo, sem ação de botão) */}

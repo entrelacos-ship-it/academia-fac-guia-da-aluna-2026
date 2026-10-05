@@ -22,6 +22,7 @@ import {
   AlertTriangle,
   PlayCircle,
   HelpCircle,
+  KeyRound,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
@@ -209,15 +210,25 @@ export const GuiaPage: React.FC = () => {
               <span className="hidden sm:inline">HUB DA ACADEMIA</span>
             </Button>
 
+            {/* Atalho Perfil e Senha */}
+            <Link
+              to="/perfil"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              title="Acessar Perfil e Alterar Senha"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+              <span className="hidden sm:inline">PERFIL & SENHA</span>
+            </Link>
+
             {/* Status da Aluna / Botão Validar E-mail */}
             {isAlunaValidada ? (
               <div
-                className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-[8px] bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono"
+                className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-[8px] bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs font-mono"
                 title={`Matrícula Ativa: ${alunaSession?.email}`}
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">Aluna:</span>
-                <span className="text-slate-700 dark:text-slate-300 truncate max-w-[140px]">
+                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Aluna:</span>
+                <span className="text-slate-700 dark:text-slate-300 truncate max-w-[120px]">
                   {alunaSession?.email}
                 </span>
                 <button
