@@ -15,7 +15,6 @@ import {
   User,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
-import { CloudStatusIcon } from '@/components/CloudStatusIcon'
 import { Button } from '@/components/ui/button'
 import { GlossaryModal } from './GlossaryModal'
 import { CloudBackupModal } from './CloudBackupModal'
@@ -99,7 +98,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
   onOpenTour,
   onOpenAuth,
 }) => {
-  const { currentUser, isConnected, isSyncing, logout } = useCloudSync()
+  const { currentUser, logout } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cloudBackupOpen, setCloudBackupOpen] = useState(false)
@@ -150,38 +149,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
           {/* Ações da Direita */}
           <div className="flex items-center gap-2">
-            {/* Indicador de Status da Nuvem no Cabeçalho (somente leitura / sem ação de botão) */}
-            <div
-              className="inline-flex items-center min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 px-2.5 py-1.5 border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white rounded-[8px] select-none"
-              aria-label="Status da sincronização em nuvem"
-              title={
-                isSyncing
-                  ? 'Sincronizando alterações automaticamente com a nuvem...'
-                  : isConnected
-                    ? `Nuvem conectada e sincronizada (${currentUser?.email || 'Conectada'})`
-                    : 'Desconectada da nuvem'
-              }
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isSyncing
-                    ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
-                    : isConnected
-                      ? 'bg-emerald-500'
-                      : 'bg-amber-500'
-                }`}
-              />
-              <CloudStatusIcon
-                status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
-                size={16}
-                strokeWidth={1.75}
-                className="text-[#7c3aed] dark:text-[#C084FC]"
-              />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">
-                {isSyncing ? 'Sincronizando' : 'Nuvem'}
-              </span>
-            </div>
-
             {/* Identificação de Usuária no Desktop */}
             <div
               className="hidden xl:flex flex-col text-right pl-2 pr-1 border-l border-slate-200 dark:border-[#27272A] max-w-[160px]"
@@ -505,40 +472,6 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   </a>
                 )}
 
-                {/* Status da Nuvem no menu mobile (apenas indicador informativo, sem ação de botão) */}
-                <div
-                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 font-mono text-xs rounded-[8px] select-none"
-                  title={
-                    isSyncing
-                      ? 'Sincronizando alterações automaticamente com a nuvem...'
-                      : isConnected
-                        ? `Nuvem conectada e sincronizada (${currentUser?.email || 'Conectada'})`
-                        : 'Desconectada da nuvem'
-                  }
-                >
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      isSyncing
-                        ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
-                        : isConnected
-                          ? 'bg-emerald-500'
-                          : 'bg-amber-500'
-                    }`}
-                  />
-                  <CloudStatusIcon
-                    status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
-                    size={16}
-                    strokeWidth={1.75}
-                    className="text-[#7c3aed] dark:text-[#C084FC]"
-                  />
-                  <span>
-                    {isSyncing
-                      ? 'SINCRONIZANDO COM A NUVEM...'
-                      : isConnected
-                        ? 'NUVEM SINCRONIZADA'
-                        : 'NUVEM DESCONECTADA'}
-                  </span>
-                </div>
                 {onOpenTour && (
                   <Button
                     variant="outline"

@@ -27,7 +27,6 @@ import {
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { GlossaryModal } from '@/components/GlossaryModal'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import { ENCONTRO_1_CONTENT } from '@/config/guiaContent'
 import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
@@ -45,7 +44,6 @@ const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 export const GuiaPage: React.FC = () => {
   const navigate = useNavigate()
   const { currentUser, isConnected, isAdmin, logout } = useCloudSync()
-  const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [validarModalOpen, setValidarModalOpen] = useState(false)
 
   // Sessão da aluna (validação do e-mail de compra)
@@ -251,17 +249,6 @@ export const GuiaPage: React.FC = () => {
                 <span>JÁ SOU ALUNA</span>
               </Button>
             )}
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setGlossaryOpen(true)}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] rounded-[8px]"
-              aria-label="Glossário"
-            >
-              <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">GLOSSÁRIO</span>
-            </Button>
 
             <Button
               variant="ghost"
@@ -805,7 +792,6 @@ export const GuiaPage: React.FC = () => {
       </footer>
 
       {/* Modais */}
-      <GlossaryModal isOpen={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
       <ValidarEmailModal
         isOpen={validarModalOpen}
         onClose={() => setValidarModalOpen(false)}

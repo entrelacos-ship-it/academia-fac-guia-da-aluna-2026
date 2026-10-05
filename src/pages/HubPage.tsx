@@ -25,8 +25,6 @@ import {
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { GlossaryModal } from '@/components/GlossaryModal'
-import { CloudStatusIcon } from '@/components/CloudStatusIcon'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
@@ -48,8 +46,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 
 export const HubPage: React.FC = () => {
   const navigate = useNavigate()
-  const { currentUser, isConnected, isSyncing, logout } = useCloudSync()
-  const [glossaryOpen, setGlossaryOpen] = useState(false)
+  const { currentUser, logout } = useCloudSync()
   const [validarModalOpen, setValidarModalOpen] = useState(() => {
     try {
       const search = new URLSearchParams(window.location.search)
@@ -194,37 +191,6 @@ export const HubPage: React.FC = () => {
               </Button>
             )}
 
-            {/* Indicador Nuvem */}
-            <div
-              className="inline-flex items-center min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 px-2.5 py-1.5 border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white rounded-[8px] select-none"
-              title={
-                isSyncing
-                  ? 'Sincronizando com a nuvem...'
-                  : isConnected
-                    ? `Nuvem conectada (${currentUser?.email || 'Conectada'})`
-                    : 'Desconectada da nuvem'
-              }
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isSyncing
-                    ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
-                    : isConnected
-                      ? 'bg-emerald-500'
-                      : 'bg-amber-500'
-                }`}
-              />
-              <CloudStatusIcon
-                status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
-                size={16}
-                strokeWidth={1.75}
-                className="text-[#7c3aed] dark:text-[#C084FC]"
-              />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">
-                {isSyncing ? 'Sincronizando' : 'Nuvem'}
-              </span>
-            </div>
-
             {/* Identificação de Usuária e Atalho Perfil */}
             <Link
               to="/perfil"
@@ -257,17 +223,6 @@ export const HubPage: React.FC = () => {
                 <span className="hidden sm:inline">ADMIN</span>
               </a>
             )}
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setGlossaryOpen(true)}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] rounded-[8px]"
-              aria-label="Abrir Glossário"
-            >
-              <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">GLOSSÁRIO</span>
-            </Button>
 
             <Button
               variant="ghost"
@@ -610,7 +565,6 @@ export const HubPage: React.FC = () => {
       </footer>
 
       {/* Modais */}
-      <GlossaryModal isOpen={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
       <ValidarEmailModal
         isOpen={validarModalOpen}
         onClose={() => setValidarModalOpen(false)}

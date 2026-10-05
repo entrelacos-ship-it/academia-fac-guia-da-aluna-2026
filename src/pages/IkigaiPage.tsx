@@ -16,7 +16,6 @@ import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { GlossaryModal } from '@/components/GlossaryModal'
-import { CloudStatusIcon } from '@/components/CloudStatusIcon'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import { IkigaiWorkflow } from '@/components/ikigai/IkigaiWorkflow'
 
@@ -24,7 +23,7 @@ const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
 export const IkigaiPage: React.FC = () => {
   const navigate = useNavigate()
-  const { currentUser, isConnected, isSyncing, logout } = useCloudSync()
+  const { currentUser, logout } = useCloudSync()
   const [glossaryOpen, setGlossaryOpen] = useState(false)
 
   // Tema Astral
@@ -84,37 +83,6 @@ export const IkigaiPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Indicador Nuvem da Conta */}
-            <div
-              className="inline-flex items-center min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 px-2.5 py-1.5 border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white rounded-[8px] select-none"
-              title={
-                isSyncing
-                  ? 'Sincronizando com a sua conta na nuvem...'
-                  : isConnected
-                    ? `Salvo na sua conta (${currentUser?.email || 'Conectada'})`
-                    : 'Desconectada da nuvem'
-              }
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isSyncing
-                    ? 'bg-[#ea580c] dark:bg-[#FB923C] animate-ping'
-                    : isConnected
-                      ? 'bg-emerald-500'
-                      : 'bg-amber-500'
-                }`}
-              />
-              <CloudStatusIcon
-                status={isSyncing ? 'syncing' : isConnected ? 'connected' : 'disconnected'}
-                size={16}
-                strokeWidth={1.75}
-                className="text-[#7c3aed] dark:text-[#C084FC]"
-              />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">
-                {isSyncing ? 'Sincronizando' : 'Salvo na Conta'}
-              </span>
-            </div>
-
             {/* Atalho Perfil e Senha */}
             <Link
               to="/perfil"
