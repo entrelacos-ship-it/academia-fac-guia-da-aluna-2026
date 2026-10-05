@@ -1599,14 +1599,41 @@ export const AdminDashboard: React.FC = () => {
                             <td className="py-3 px-4 font-semibold text-slate-900 dark:text-white">
                               {aud.operador}
                             </td>
-                            <td className="py-3 px-4 text-[#7c3aed] dark:text-[#C084FC]">
-                              {aud.acao}
+                            <td className="py-3 px-4">
+                              {aud.acao === 'envio_codigo_ok' ? (
+                                <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[10px] font-mono">
+                                  envio_codigo_ok
+                                </Badge>
+                              ) : aud.acao === 'envio_codigo_falha' ? (
+                                <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30 text-[10px] font-mono">
+                                  envio_codigo_falha
+                                </Badge>
+                              ) : (
+                                <span className="text-[#7c3aed] dark:text-[#C084FC]">
+                                  {aud.acao}
+                                </span>
+                              )}
                             </td>
                             <td className="py-3 px-4 text-slate-700 dark:text-slate-300">
                               {aud.alvo || '-'}
                             </td>
                             <td className="py-3 px-4 text-slate-500 text-[11px]">
-                              {aud.motivo || '-'}
+                              <div>{aud.motivo || '-'}</div>
+                              {aud.detalhes &&
+                                typeof aud.detalhes === 'object' &&
+                                'remetente' in (aud.detalhes as Record<string, unknown>) && (
+                                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                                    remetente:{' '}
+                                    {String((aud.detalhes as Record<string, unknown>).remetente)}
+                                  </div>
+                                )}
+                              {aud.detalhes &&
+                                typeof aud.detalhes === 'object' &&
+                                'erro' in (aud.detalhes as Record<string, unknown>) && (
+                                  <div className="text-[10px] text-rose-500 dark:text-rose-400 mt-0.5">
+                                    erro: {String((aud.detalhes as Record<string, unknown>).erro)}
+                                  </div>
+                                )}
                             </td>
                           </tr>
                         ))}

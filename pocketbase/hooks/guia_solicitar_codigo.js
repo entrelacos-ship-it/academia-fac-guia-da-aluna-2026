@@ -115,31 +115,125 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
 
       const resendApiKey = $os.getenv('RESEND_API_KEY')
       if (resendApiKey) {
+        // Lista ordenada de remetentes a tentar:
+        // 1. EMAIL_FROM do ambiente (se existir)
+        // 2. Remetente padrão de produção da marca
+        // 3. Fallback onboarding@resend.dev (sandbox oficial da Resend, funciona mesmo sem domínio verificado)
+        const sendersToTry = []
+        const envEmailFrom = ($os.getenv('EMAIL_FROM') || '').trim()
+        if (envEmailFrom) {
+          sendersToTry.push(envEmailFrom)
+        }
+        const defaultSender =
+          'Entrelaços Psicologia <noreply@entrelacos.entrelacospsicologia.com.br>'
+        if (!sendersToTry.includes(defaultSender)) {
+          sendersToTry.push(defaultSender)
+        }
+        const sandboxSender = 'Entrelaços Psicologia <onboarding@resend.dev>'
+        if (!sendersToTry.includes(sandboxSender)) {
+          sendersToTry.push(sandboxSender)
+        }
+
+        let sendSuccess = false
+        let successfulSender = ''
+        let resendResponseId = ''
+        let lastErrorMessage = ''
+        let lastStatusCode = 0
+
+        for (let i = 0; i < sendersToTry.length; i++) {
+          const sender = sendersToTry[i]
+          try {
+            const res = $http.send({
+              url: 'https://api.resend.com/emails',
+              method: 'POST',
+              headers: {
+                Authorization: 'Bearer ' + resendApiKey,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                from: sender,
+                to: [rawEmail],
+                subject: 'Código de Validação: Guia da Aluna Academia FAC',
+                html: emailHtml,
+              }),
+              timeout: 10,
+            })
+
+            const statusCode = res.statusCode || 200
+            const resBody = res.json || {}
+
+            if (statusCode >= 200 && statusCode < 300) {
+              sendSuccess = true
+              successfulSender = sender
+              resendResponseId = resBody && resBody.id ? String(resBody.id) : ''
+              console.log(
+                '[FAC Guia] Código enviado com sucesso via Resend para: ' +
+                  rawEmail +
+                  ' usando remetente: ' +
+                  sender,
+              )
+              break
+            } else {
+              lastStatusCode = statusCode
+              let errMsg = 'HTTP ' + statusCode
+              if (resBody && resBody.message) {
+                errMsg = String(resBody.message)
+              } else if (res.raw) {
+                errMsg = String(res.raw).slice(0, 150)
+              }
+              lastErrorMessage = errMsg
+              console.error('[FAC Guia] Falha Resend (' + sender + '): ' + errMsg)
+
+              // Se o erro foi de remetente / domínio não verificado ou 403, continuar para o próximo remetente
+              // Caso seja outro erro terminal (ex: 400 formato inválido de destinatário), também tentamos o próximo por resiliência
+            }
+          } catch (netErr) {
+            lastStatusCode = 0
+            lastErrorMessage = netErr && netErr.message ? String(netErr.message) : String(netErr)
+            console.error('[FAC Guia] Exceção de rede Resend (' + sender + '): ' + lastErrorMessage)
+          }
+        }
+
+        // Registrar auditoria explícita do envio
         try {
-          const resendSender =
-            $os.getenv('EMAIL_FROM') ||
-            'Entrelaços Psicologia <noreply@entrelacos.entrelacospsicologia.com.br>'
-          $http.send({
-            url: 'https://api.resend.com/emails',
-            method: 'POST',
-            headers: {
-              Authorization: 'Bearer ' + resendApiKey,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              from: resendSender,
-              to: [rawEmail],
-              subject: 'Código de Validação: Guia da Aluna Academia FAC',
-              html: emailHtml,
-            }),
-            timeout: 10,
-          })
-          console.log('[FAC Guia] Código enviado com sucesso via Resend para:', rawEmail)
-        } catch (resendErr) {
-          console.warn('[FAC Guia] Falha ao enviar via Resend:', resendErr)
+          const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
+          const auditSend = new Record(auditCol)
+          auditSend.set('operador', 'sistema')
+          auditSend.set('alvo', rawEmail)
+
+          if (sendSuccess) {
+            auditSend.set('acao', 'envio_codigo_ok')
+            auditSend.set(
+              'motivo',
+              'E-mail com código enviado com sucesso via Resend (' + successfulSender + ')',
+            )
+            auditSend.set('detalhes', {
+              canal: 'resend',
+              remetente: successfulSender,
+              resend_id: resendResponseId,
+            })
+          } else {
+            auditSend.set('acao', 'envio_codigo_falha')
+            auditSend.set(
+              'motivo',
+              'Falha no envio de e-mail com código via Resend: ' + lastErrorMessage.slice(0, 150),
+            )
+            auditSend.set('detalhes', {
+              canal: 'resend',
+              status_http: lastStatusCode,
+              erro: lastErrorMessage.slice(0, 200),
+              remetentes_testados: sendersToTry,
+            })
+          }
+
+          $app.save(auditSend)
+        } catch (auditErr) {
+          console.error('[FAC Guia] Erro ao gravar auditoria do envio de e-mail:', auditErr)
         }
       } else {
-        // Tentar mailer nativo do PocketBase
+        // Sem RESEND_API_KEY configurada — tentar mailer nativo do PocketBase
+        let nativeSuccess = false
+        let nativeError = ''
         try {
           const mailer = $app.newMailClient()
           const senderAddress =
@@ -152,12 +246,38 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
             html: emailHtml,
           })
           mailer.send(msg)
+          nativeSuccess = true
+          console.log('[FAC Guia] Código enviado com sucesso via mailer nativo para:', rawEmail)
         } catch (mErr) {
-          console.log('[FAC Guia] Mailer nativo não disponível ou não configurado:', mErr)
+          nativeError = mErr && mErr.message ? String(mErr.message) : String(mErr)
+          console.error('[FAC Guia] Mailer nativo não disponível ou falhou:', mErr)
         }
+
+        try {
+          const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
+          const auditSend = new Record(auditCol)
+          auditSend.set('operador', 'sistema')
+          auditSend.set('alvo', rawEmail)
+          if (nativeSuccess) {
+            auditSend.set('acao', 'envio_codigo_ok')
+            auditSend.set('motivo', 'E-mail enviado via mailer nativo do PocketBase')
+            auditSend.set('detalhes', { canal: 'pocketbase_native' })
+          } else {
+            auditSend.set('acao', 'envio_codigo_falha')
+            auditSend.set(
+              'motivo',
+              'Mailer nativo falhou e RESEND_API_KEY não configurada: ' + nativeError.slice(0, 150),
+            )
+            auditSend.set('detalhes', {
+              canal: 'pocketbase_native',
+              erro: nativeError.slice(0, 200),
+            })
+          }
+          $app.save(auditSend)
+        } catch (_) {}
       }
     } catch (saveErr) {
-      console.warn('[FAC Guia] Erro ao gravar código temporário:', saveErr)
+      console.error('[FAC Guia] Erro ao gravar código temporário:', saveErr)
     }
   }
 
