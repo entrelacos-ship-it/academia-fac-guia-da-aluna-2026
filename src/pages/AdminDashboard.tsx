@@ -50,6 +50,7 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import pb from '@/lib/pocketbase/client'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 import { AlunaGuiaService } from '@/services/alunaGuiaService'
+import { HubService, HubItem } from '@/services/hubService'
 
 export interface UserRecord {
   id: string
@@ -106,10 +107,20 @@ export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
   const { currentUser, isConnected, isAdmin, logout } = useCloudSync()
 
-  // Aba selecionada: 'calculadora_usuarios' ou 'guia_matriculas' ou 'guia_encontros' ou 'auditoria'
-  const [activeTab, setActiveTab] = useState<'usuarios' | 'matriculas' | 'encontros' | 'auditoria'>(
-    'matriculas',
-  )
+  // Aba selecionada: 'pecas' ou 'matriculas' ou 'encontros' ou 'usuarios' ou 'auditoria'
+  const [activeTab, setActiveTab] = useState<
+    'pecas' | 'matriculas' | 'encontros' | 'usuarios' | 'auditoria'
+  >('pecas')
+
+  // Estado Peças do Hub
+  const [hubItems, setHubItems] = useState<HubItem[]>([])
+  const [targetToggleItem, setTargetToggleItem] = useState<{
+    item: HubItem
+    novoAtivo: boolean
+  } | null>(null)
+  const [editingBadges, setEditingBadges] = useState<Record<string, string>>({})
+  const [savingBadgeChave, setSavingBadgeChave] = useState<string | null>(null)
+  const [togglingChave, setTogglingChave] = useState<string | null>(null)
 
   // Estado Usuárias
   const [users, setUsers] = useState<UserRecord[]>([])
@@ -211,7 +222,20 @@ export const AdminDashboard: React.FC = () => {
         console.warn('Erro ao carregar fac_guia_encontros:', encErr)
       }
 
-      // 5. Auditoria
+      // 5. Peças do Hub
+      try {
+        const hubList = await HubService.listarItens(true)
+        setHubItems(hubList)
+        const initialBadges: Record<string, string> = {}
+        for (const it of hubList) {
+          initialBadges[it.chave] = it.rotulo_badge || ''
+        }
+        setEditingBadges(initialBadges)
+      } catch (hubErr) {
+        console.warn('Erro ao carregar fac_hub_items:', hubErr)
+      }
+
+      // 6. Auditoria
       try {
         const audList = await pb.collection('fac_auditoria').getList<AuditoriaRecord>(1, 30, {
           sort: '-created',
@@ -235,6 +259,102 @@ export const AdminDashboard: React.FC = () => {
       loadAllAdminData()
     }
   }, [isConnected, isAdmin])
+
+  // Alternar status de liberação de peça do Hub
+  const handleConfirmToggleItem = async () => {
+    if (!targetToggleItem) return
+    const { item, novoAtivo } = targetToggleItem
+    setTogglingChave(item.chave)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const res = await HubService.adminToggleItem({
+        chave: item.chave,
+        ativo: novoAtivo,
+      })
+
+      if (res.success) {
+        setSuccessActionMessage(
+          novoAtivo
+            ? `Peça "${item.titulo}" foi ativada e está visível no Hub.`
+            : `Peça "${item.titulo}" foi desligada e está oculta das alunas.`,
+        )
+        // Recarregar lista imediatamente
+        const updatedList = await HubService.listarItens(true)
+        setHubItems(updatedList)
+        setTargetToggleItem(null)
+      } else {
+        setErrorMessage(res.message || 'Falha ao alterar liberação da peça.')
+      }
+    } catch (err) {
+      setErrorMessage(`Erro ao alterar liberação da peça: ${getErrorMessage(err)}`)
+    } finally {
+      setTogglingChave(null)
+    }
+  }
+
+  // Clicou no toggle: se for DESLIGAR, pede confirmação no diálogo; se for LIGAR, liga direto
+  const handleInitiateToggleItem = (item: HubItem) => {
+    const novoAtivo = !item.ativo
+    if (!novoAtivo) {
+      // Confirmar ao desligar porque oculta de todas as alunas
+      setTargetToggleItem({ item, novoAtivo: false })
+    } else {
+      // Ligar imediatamente
+      setTogglingChave(item.chave)
+      HubService.adminToggleItem({
+        chave: item.chave,
+        ativo: true,
+      })
+        .then(async (res) => {
+          if (res.success) {
+            setSuccessActionMessage(`Peça "${item.titulo}" foi reativada com sucesso.`)
+            const updatedList = await HubService.listarItens(true)
+            setHubItems(updatedList)
+          } else {
+            setErrorMessage(res.message || 'Erro ao reativar peça.')
+          }
+        })
+        .catch((err) => {
+          setErrorMessage(`Erro ao reativar peça: ${getErrorMessage(err)}`)
+        })
+        .finally(() => {
+          setTogglingChave(null)
+        })
+    }
+  }
+
+  // Salvar novo rótulo do badge de uma peça
+  const handleSaveBadge = async (item: HubItem) => {
+    const novoRotulo = (editingBadges[item.chave] ?? item.rotulo_badge ?? '').trim()
+    setSavingBadgeChave(item.chave)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const res = await HubService.adminToggleItem({
+        chave: item.chave,
+        rotulo_badge: novoRotulo,
+      })
+
+      if (res.success) {
+        setSuccessActionMessage(`Rótulo da peça "${item.titulo}" atualizado para "${novoRotulo}".`)
+        const updatedList = await HubService.listarItens(true)
+        setHubItems(updatedList)
+        setEditingBadges((prev) => ({
+          ...prev,
+          [item.chave]: novoRotulo,
+        }))
+      } else {
+        setErrorMessage(res.message || 'Erro ao salvar rótulo.')
+      }
+    } catch (err) {
+      setErrorMessage(`Erro ao salvar rótulo: ${getErrorMessage(err)}`)
+    } finally {
+      setSavingBadgeChave(null)
+    }
+  }
 
   // Alternar status da conta de usuária
   const handleToggleUserStatus = async () => {
@@ -670,6 +790,20 @@ export const AdminDashboard: React.FC = () => {
         {/* Abas Superiores de Navegação */}
         <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-[#27272A] pb-3">
           <Button
+            variant={activeTab === 'pecas' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('pecas')}
+            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+              activeTab === 'pecas'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
+                : ''
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+            <span>Liberação de peças ({hubItems.length})</span>
+          </Button>
+
+          <Button
             variant={activeTab === 'matriculas' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('matriculas')}
@@ -725,6 +859,210 @@ export const AdminDashboard: React.FC = () => {
             <span>Auditoria & Logs</span>
           </Button>
         </div>
+
+        {/* ================= ABA 0: LIBERAÇÃO DE PEÇAS DO HUB ================= */}
+        {activeTab === 'pecas' && (
+          <div className="space-y-6">
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
+                    Controle de Liberação das Peças do Hub
+                  </h3>
+                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                    Ligue ou desligue módulos da Academia instantaneamente e personalize os rótulos
+                    de status (ex.: &quot;Em construção&quot;, &quot;Em breve&quot;,
+                    &quot;Disponível&quot;).
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
+                    {hubItems.filter((it) => it.ativo).length} ativas / {hubItems.length}{' '}
+                    cadastradas
+                  </Badge>
+                </div>
+              </div>
+
+              {/* Agrupamento por Bloco: Hero / Sistema / Material */}
+              {(
+                [
+                  {
+                    blocoKey: 'hero',
+                    blocoTitulo: '1. Percurso Pedagógico Principal (Hero)',
+                    blocoDesc: 'Card principal de destaque no topo da página inicial do Hub.',
+                  },
+                  {
+                    blocoKey: 'sistema',
+                    blocoTitulo: '2. Bloco Sistema (Aplicações Clínicas)',
+                    blocoDesc:
+                      'Calculadora de Precificação, IKIGAI e aplicações interativas da aluna.',
+                  },
+                  {
+                    blocoKey: 'material',
+                    blocoTitulo: '3. Bloco Material & Tutoriais',
+                    blocoDesc: 'Cadernos, vídeos de suporte e recursos de estudo continuado.',
+                  },
+                ] as const
+              ).map(({ blocoKey, blocoTitulo, blocoDesc }) => {
+                const itensDoBloco = hubItems
+                  .filter((it) => it.bloco === blocoKey)
+                  .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+
+                return (
+                  <div key={blocoKey} className="space-y-3 pt-2">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-1 border-b border-slate-100 dark:border-[#27272A]/70">
+                      <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                        {blocoTitulo}
+                      </h4>
+                      <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                        {blocoDesc}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3">
+                      {itensDoBloco.map((item) => {
+                        const isToggling = togglingChave === item.chave
+                        const isSavingBadge = savingBadgeChave === item.chave
+                        const currentBadgeValue =
+                          editingBadges[item.chave] ?? item.rotulo_badge ?? ''
+                        const badgeMudou =
+                          currentBadgeValue.trim() !== (item.rotulo_badge ?? '').trim()
+
+                        return (
+                          <div
+                            key={item.id}
+                            className={`p-4 rounded-[14px] border transition-all ${
+                              item.ativo
+                                ? 'bg-slate-50/70 dark:bg-[#121216] border-slate-200 dark:border-[#27272A]'
+                                : 'bg-rose-50/40 dark:bg-rose-950/10 border-rose-200 dark:border-rose-900/40 opacity-90'
+                            }`}
+                          >
+                            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                              {/* Informações da Peça */}
+                              <div className="space-y-1.5 flex-1 min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
+                                    {item.titulo}
+                                  </span>
+                                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-[4px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-500">
+                                    chave:{' '}
+                                    <code className="text-[#7c3aed] dark:text-[#C084FC]">
+                                      {item.chave}
+                                    </code>
+                                  </span>
+                                  {item.exclusivo_alunas && (
+                                    <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 text-[10px] font-mono gap-1">
+                                      <Lock className="w-3 h-3" />
+                                      <span>Exclusivo para alunas</span>
+                                    </Badge>
+                                  )}
+                                  {item.ativo ? (
+                                    <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono uppercase">
+                                      Ligada (Visível)
+                                    </Badge>
+                                  ) : (
+                                    <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 text-[10px] font-mono uppercase">
+                                      Desligada (Oculta)
+                                    </Badge>
+                                  )}
+                                </div>
+
+                                <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-3xl">
+                                  {item.descricao || 'Sem descrição cadastrada.'}
+                                </p>
+
+                                <div className="text-[11px] font-mono text-slate-500 flex flex-wrap items-center gap-3 pt-0.5">
+                                  <span>Ordem: #{item.ordem ?? '-'}</span>
+                                  <span>Ícone: {item.icone || '-'}</span>
+                                  {item.url && <span>Rota: {item.url}</span>}
+                                </div>
+                              </div>
+
+                              {/* Ações: Edição do Rótulo do Badge e Toggle de Ativação */}
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 lg:pl-4 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-[#27272A] pt-3 lg:pt-0">
+                                {/* Campo editável para o rótulo do badge */}
+                                <div className="flex items-center gap-1.5 w-full sm:w-auto">
+                                  <div className="flex flex-col">
+                                    <span className="text-[10px] font-mono uppercase text-slate-500 mb-0.5">
+                                      Rótulo do Badge
+                                    </span>
+                                    <div className="flex items-center gap-1">
+                                      <Input
+                                        type="text"
+                                        placeholder="Ex: Em breve"
+                                        value={currentBadgeValue}
+                                        onChange={(e) => {
+                                          const val = e.target.value
+                                          setEditingBadges((prev) => ({
+                                            ...prev,
+                                            [item.chave]: val,
+                                          }))
+                                        }}
+                                        className="h-8 text-xs font-mono w-40 bg-white dark:bg-[#18181B] border-slate-300 dark:border-[#27272A] rounded-[6px]"
+                                      />
+                                      {badgeMudou && (
+                                        <Button
+                                          size="sm"
+                                          disabled={isSavingBadge}
+                                          onClick={() => handleSaveBadge(item)}
+                                          className="h-8 px-2.5 text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[6px]"
+                                          title="Salvar novo rótulo do badge"
+                                        >
+                                          {isSavingBadge ? (
+                                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                          ) : (
+                                            'Salvar'
+                                          )}
+                                        </Button>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Botão Toggle com confirmação */}
+                                <div className="flex flex-col w-full sm:w-auto">
+                                  <span className="text-[10px] font-mono uppercase text-slate-500 mb-0.5">
+                                    Disponibilidade
+                                  </span>
+                                  <Button
+                                    size="sm"
+                                    disabled={isToggling}
+                                    variant={item.ativo ? 'outline' : 'default'}
+                                    onClick={() => handleInitiateToggleItem(item)}
+                                    className={`h-8 font-mono text-xs rounded-[6px] gap-1.5 min-w-[120px] ${
+                                      item.ativo
+                                        ? 'border-rose-300 dark:border-rose-900/60 text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                                    }`}
+                                  >
+                                    {isToggling ? (
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                    ) : item.ativo ? (
+                                      <>
+                                        <EyeOff className="w-3.5 h-3.5" />
+                                        <span>Desligar</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Eye className="w-3.5 h-3.5" />
+                                        <span>Ligar Peça</span>
+                                      </>
+                                    )}
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ================= ABA 1: MATRÍCULAS DO GUIA ================= */}
         {activeTab === 'matriculas' && (
@@ -1401,8 +1739,51 @@ export const AdminDashboard: React.FC = () => {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Confirmação Desligar Peça do Hub */}
+      <AlertDialog
+        open={!!targetToggleItem}
+        onOpenChange={(open) => !open && setTargetToggleItem(null)}
+      >
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-sans text-lg font-semibold flex items-center gap-2 text-rose-600 dark:text-rose-400">
+              <AlertTriangle className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
+              Confirmar desativação da peça
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+              <p>
+                Tem certeza de que deseja DESLIGAR a peça{' '}
+                <strong className="text-slate-900 dark:text-white">
+                  {targetToggleItem?.item.titulo}
+                </strong>{' '}
+                (chave:{' '}
+                <code className="text-[#7c3aed] dark:text-[#C084FC]">
+                  {targetToggleItem?.item.chave}
+                </code>
+                )?
+              </p>
+              <p className="p-2.5 rounded-[8px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">
+                ⚠️ Ao desligar, esta peça deixará de aparecer para <strong>todas as alunas</strong>{' '}
+                na página inicial do Hub imediatamente. Uma nova entrada será registrada na trilha
+                de auditoria.
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmToggleItem}
+              className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
+            >
+              Confirmar e Desligar Peça
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Confirmação Desativar Conta de Usuária */}
       <AlertDialog open={!!targetUser} onOpenChange={(open) => !open && setTargetUser(null)}>
+        {' '}
         <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
           <AlertDialogHeader>
             <AlertDialogTitle className="font-sans text-lg font-semibold">
