@@ -132,7 +132,7 @@ Ao final, você receberá a visão geral completa da sua prática, as leituras v
       id: 'entregar',
       titulo: '4. Próximos Passos',
       descricao: 'Como continuar sua formação na Academia.',
-      conteudo: `A Aula 1 é aberta a toda a categoria. A partir do Encontro 2, mergulhamos nas ferramentas aplicadas (Retrato de Autoria, Meu IKIGAI Clínico, Calculadora FAC e encontros de supervisão de autoria).
+      conteudo: `A Aula 1 é aberta a toda a categoria. A partir do Encontro 2, mergulhamos nos cadernos didáticos da turma (identidade profissional, enquadre ético, sustentabilidade clínica e encontros de supervisão). Os aplicativos e sistemas do Método FAC ficam disponíveis como recursos complementares no painel principal.
 Se você já é aluna matriculada, valide seu e-mail de compra nesta página para liberar todos os cadernos. Se deseja ingressar na próxima turma, fale com a equipe da Entrelaços.`,
     },
   ],

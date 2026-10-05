@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T18:06:41.723Z",
+  "generatedAt": "2026-10-05T18:44:33.328Z",
   "collections": [
     {
       "name": "users",
@@ -378,6 +378,99 @@
       "indexes": [
         "CREATE INDEX idx_fac_auditoria_acao ON fac_auditoria (acao)",
         "CREATE INDEX idx_fac_auditoria_created ON fac_auditoria (created DESC)"
+      ]
+    },
+    {
+      "name": "fac_hub_items",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "@request.auth.id != '' && @request.auth.role = 'admin'",
+        "update": "@request.auth.id != '' && @request.auth.role = 'admin'",
+        "delete": "@request.auth.id != '' && @request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "chave",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "titulo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "descricao",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "bloco",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["hero", "sistema", "material"]
+        },
+        {
+          "name": "ativo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "rotulo_badge",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "ordem",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "icone",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "url",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "exclusivo_alunas",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_fac_hub_chave ON fac_hub_items (chave)",
+        "CREATE INDEX idx_fac_hub_bloco ON fac_hub_items (bloco)",
+        "CREATE INDEX idx_fac_hub_ordem ON fac_hub_items (ordem)"
       ]
     }
   ]

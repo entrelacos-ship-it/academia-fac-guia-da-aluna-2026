@@ -13,6 +13,7 @@ import Layout from './components/Layout'
 import AuthScreen from './pages/AuthScreen'
 import AdminDashboard from './pages/AdminDashboard'
 import { useCloudSync } from './hooks/useCloudSync'
+import { AlunaGuiaService } from './services/alunaGuiaService'
 
 // Componente de proteção de rota: apenas usuárias autenticadas passam
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -26,6 +27,35 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
         ? `?redirect=${encodeURIComponent(location.pathname)}`
         : ''
     return <Navigate to={`/login${redirectUrl}`} replace />
+  }
+
+  return <>{children}</>
+}
+
+// Componente de proteção para APPs exclusivos de alunas (Calculadora)
+// Exige conta conectada E (matrícula de aluna validada ou perfil de admin)
+const AlunaRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isConnected, isAdmin } = useCloudSync()
+  const location = useLocation()
+
+  if (!isConnected) {
+    const redirectUrl =
+      location.pathname && location.pathname !== '/'
+        ? `?redirect=${encodeURIComponent(location.pathname)}`
+        : ''
+    return <Navigate to={`/login${redirectUrl}`} replace />
+  }
+
+  // Se for admin, sempre tem acesso de supervisão
+  if (isAdmin) {
+    return <>{children}</>
+  }
+
+  // Verifica se possui sessão de aluna ativa no navegador
+  const aluna = AlunaGuiaService.getLocalSession()
+  if (!aluna || aluna.status !== 'ativa') {
+    // Redireciona para o Hub inicial com mensagem/estado para validar
+    return <Navigate to="/?motivo=exclusivo_aluna" replace />
   }
 
   return <>{children}</>
@@ -72,13 +102,13 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
-        {/* Calculadora de Precificação FAC */}
+        {/* Calculadora de Precificação FAC (Exclusiva para alunas da Academia) */}
         <Route
           path="/calculadora"
           element={
-            <ProtectedRoute>
+            <AlunaRoute>
               <Index />
-            </ProtectedRoute>
+            </AlunaRoute>
           }
         />
         {/* Guia da Aluna da Academia Método FAC (Acesso aberto para Aula 1 / validação para alunas) */}

@@ -554,9 +554,9 @@ export const GuiaPage: React.FC = () => {
                       </div>
                       <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                         Como aluna com matrícula validada, você tem acesso à Trilha de Continuidade,
-                        ao grupo de troca com as facilitadoras e à Mesa de Trabalho da Turma. Seus
-                        exercícios do Diagnóstico servirão de base direta para o Encontro 2 (Retrato
-                        de Autoria).
+                        ao grupo de troca com as facilitadoras e aos cadernos didáticos da Turma.
+                        Seus exercícios do Diagnóstico servirão de base para o Encontro 2 e para as
+                        reflexões da sua formação.
                       </p>
                       <div className="pt-2 flex flex-wrap gap-2">
                         <Button
@@ -564,15 +564,7 @@ export const GuiaPage: React.FC = () => {
                           onClick={() => setEncontroSelecionado(2)}
                           className="bg-[#7c3aed] text-white hover:bg-[#6d28d9] font-mono text-xs rounded-[8px]"
                         >
-                          Avançar para o Encontro 2 →
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => navigate('/guia/retrato-de-autoria')}
-                          className="font-mono text-xs border-purple-300 dark:border-[#7c3aed] rounded-[8px]"
-                        >
-                          Abrir Retrato de Autoria
+                          Avançar para o Caderno do Encontro 2 →
                         </Button>
                       </div>
                     </div>
