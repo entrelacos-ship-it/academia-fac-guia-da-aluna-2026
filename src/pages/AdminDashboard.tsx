@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import {
   Users,
   Shield,
@@ -11,6 +11,7 @@ import {
   Mail,
   UserCheck,
   ShieldAlert,
+  ShieldCheck,
   HardDrive,
   Loader2,
   Download,
@@ -19,7 +20,16 @@ import {
   AlertTriangle,
   Clock,
   Sparkles,
-  SlidersHorizontal,
+  BookOpen,
+  Plus,
+  Upload,
+  FileSpreadsheet,
+  AlertCircle,
+  History,
+  Lock,
+  Unlock,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
@@ -39,6 +49,7 @@ import {
 import { useCloudSync } from '@/hooks/useCloudSync'
 import pb from '@/lib/pocketbase/client'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
+import { AlunaGuiaService } from '@/services/alunaGuiaService'
 
 export interface UserRecord {
   id: string
@@ -51,6 +62,40 @@ export interface UserRecord {
   is_active?: boolean
 }
 
+export interface MatriculaRecord {
+  id: string
+  email: string
+  nome?: string
+  status: 'ativa' | 'suspensa' | 'expirada'
+  ciclo?: string
+  inicio?: string
+  fim?: string
+  origem?: string
+  anotacao?: string
+  created: string
+  updated: string
+}
+
+export interface GuiaEncontroAdmin {
+  id: string
+  numero: number
+  titulo: string
+  status: 'rascunho' | 'publicado'
+  data_prevista: string
+  created: string
+  updated: string
+}
+
+export interface AuditoriaRecord {
+  id: string
+  operador: string
+  acao: string
+  alvo?: string
+  motivo?: string
+  detalhes?: unknown
+  created: string
+}
+
 interface BackupStat {
   totalBackups: number
   uniqueUsersWithBackup: number
@@ -61,34 +106,74 @@ export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
   const { currentUser, isConnected, isAdmin, logout } = useCloudSync()
 
+  // Aba selecionada: 'calculadora_usuarios' ou 'guia_matriculas' ou 'guia_encontros' ou 'auditoria'
+  const [activeTab, setActiveTab] = useState<'usuarios' | 'matriculas' | 'encontros' | 'auditoria'>(
+    'matriculas',
+  )
+
+  // Estado Usuárias
   const [users, setUsers] = useState<UserRecord[]>([])
   const [backupStat, setBackupStat] = useState<BackupStat>({
     totalBackups: 0,
     uniqueUsersWithBackup: 0,
     latestBackupDate: null,
   })
+
+  // Estado Matrículas do Guia
+  const [matriculas, setMatriculas] = useState<MatriculaRecord[]>([])
+  const [searchMatricula, setSearchMatricula] = useState('')
+  const [matriculaStatusFilter, setMatriculaStatusFilter] = useState<
+    'todas' | 'ativa' | 'suspensa' | 'expirada'
+  >('todas')
+
+  // Estado Encontros do Guia
+  const [encontros, setEncontros] = useState<GuiaEncontroAdmin[]>([])
+
+  // Estado Auditoria
+  const [auditorias, setAuditorias] = useState<AuditoriaRecord[]>([])
+
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all')
-  const [roleFilter, setRoleFilter] = useState<'all' | 'admin' | 'user'>('all')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successActionMessage, setSuccessActionMessage] = useState<string | null>(null)
 
-  // Gerenciamento de desativação / reativação com confirmação
+  // Gerenciamento de Usuária / Status
   const [targetUser, setTargetUser] = useState<UserRecord | null>(null)
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
 
-  const loadAdminData = async () => {
+  // Formulário Nova Matrícula Individual
+  const [showNovaMatriculaModal, setShowNovaMatriculaModal] = useState(false)
+  const [novoEmail, setNovoEmail] = useState('')
+  const [novoNome, setNovoNome] = useState('')
+  const [novoCiclo, setNovoCiclo] = useState('Ciclo FAC 2026')
+  const [novoFim, setNovoFim] = useState('')
+  const [novaAnotacao, setNovaAnotacao] = useState('')
+  const [salvandoMatricula, setSalvandoMatricula] = useState(false)
+
+  // Importação CSV Matrículas
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [csvPreview, setCsvPreview] = useState<{
+    aceitas: Array<{ email: string; nome?: string; ciclo?: string }>
+    rejeitadas: Array<{ linha: number; email: string; motivo: string }>
+  } | null>(null)
+  const [importandoCsv, setImportandoCsv] = useState(false)
+
+  // Matrícula selecionada para ação de status
+  const [targetMatricula, setTargetMatricula] = useState<{
+    mat: MatriculaRecord
+    novoStatus: 'ativa' | 'suspensa' | 'expirada'
+  } | null>(null)
+
+  const loadAllAdminData = async () => {
     setLoading(true)
     setErrorMessage(null)
     try {
-      // 1. Listar usuários da coleção users
+      // 1. Usuárias da coleção users
       const usersList = await pb.collection('users').getFullList<UserRecord>({
         sort: '-created',
       })
       setUsers(usersList)
 
-      // 2. Coletar estatísticas da coleção fac_backups
+      // 2. Backups
       try {
         const backupsList = await pb.collection('fac_backups').getFullList({
           sort: '-updated',
@@ -103,12 +188,42 @@ export const AdminDashboard: React.FC = () => {
           latestBackupDate: backupsList[0]?.updated || null,
         })
       } catch (backupErr) {
-        console.warn('Não foi possível carregar estatísticas de backup:', backupErr)
+        console.warn('Estatísticas de backup:', backupErr)
+      }
+
+      // 3. Matrículas do Guia
+      try {
+        const matsList = await pb.collection('fac_matriculas').getFullList<MatriculaRecord>({
+          sort: '-created',
+        })
+        setMatriculas(matsList)
+      } catch (matErr) {
+        console.warn('Erro ao carregar fac_matriculas:', matErr)
+      }
+
+      // 4. Encontros do Guia
+      try {
+        const encsList = await pb.collection('fac_guia_encontros').getFullList<GuiaEncontroAdmin>({
+          sort: 'numero',
+        })
+        setEncontros(encsList)
+      } catch (encErr) {
+        console.warn('Erro ao carregar fac_guia_encontros:', encErr)
+      }
+
+      // 5. Auditoria
+      try {
+        const audList = await pb.collection('fac_auditoria').getList<AuditoriaRecord>(1, 30, {
+          sort: '-created',
+        })
+        setAuditorias(audList.items)
+      } catch (audErr) {
+        console.warn('Erro ao carregar fac_auditoria:', audErr)
       }
     } catch (err) {
       console.error('Erro ao carregar dados do admin:', err)
       setErrorMessage(
-        'Não foi possível carregar a lista de usuárias. Verifique se sua conta possui permissão de Administrador.',
+        'Não foi possível carregar todos os dados. Verifique suas credenciais de Administradora.',
       )
     } finally {
       setLoading(false)
@@ -117,11 +232,11 @@ export const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     if (isConnected && isAdmin) {
-      loadAdminData()
+      loadAllAdminData()
     }
   }, [isConnected, isAdmin])
 
-  // Alternar status ativo / inativo no backend (PocketBase)
+  // Alternar status da conta de usuária
   const handleToggleUserStatus = async () => {
     if (!targetUser) return
     setIsUpdatingStatus(true)
@@ -140,107 +255,232 @@ export const AdminDashboard: React.FC = () => {
 
       setSuccessActionMessage(
         newStatus
-          ? `Conta de ${targetUser.name || targetUser.email} foi reativada com sucesso.`
-          : `Conta de ${targetUser.name || targetUser.email} foi desativada. O acesso foi revogado.`,
+          ? `Conta de ${targetUser.name || targetUser.email} foi reativada.`
+          : `Conta de ${targetUser.name || targetUser.email} foi desativada.`,
       )
       setTargetUser(null)
     } catch (err) {
-      console.error('Erro ao alterar status da conta:', err)
-      setErrorMessage(
-        `Erro ao alterar status: ${getErrorMessage(err) || 'Verifique as permissões de admin.'}`,
-      )
+      setErrorMessage(`Erro ao alterar status: ${getErrorMessage(err)}`)
     } finally {
       setIsUpdatingStatus(false)
     }
   }
 
-  // Métricas de uso da calculadora agregadas
-  const metrics = useMemo(() => {
-    const total = users.length
-    const active = users.filter((u) => u.is_active !== false).length
-    const inactive = users.filter((u) => u.is_active === false).length
-    const admins = users.filter((u) => u.role === 'admin').length
-
-    const now = Date.now()
-    const ms7Days = 7 * 24 * 60 * 60 * 1000
-    const ms30Days = 30 * 24 * 60 * 60 * 1000
-
-    const createdLast7Days = users.filter((u) => {
-      try {
-        return now - new Date(u.created).getTime() <= ms7Days
-      } catch {
-        return false
-      }
-    }).length
-
-    const createdLast30Days = users.filter((u) => {
-      try {
-        return now - new Date(u.created).getTime() <= ms30Days
-      } catch {
-        return false
-      }
-    }).length
-
-    const adoptionRate =
-      total > 0 ? Math.round((backupStat.uniqueUsersWithBackup / total) * 100) : 0
-
-    return {
-      total,
-      active,
-      inactive,
-      admins,
-      createdLast7Days,
-      createdLast30Days,
-      adoptionRate,
+  // Criar matrícula individual
+  const handleCriarMatricula = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const cleanEmail = novoEmail.trim().toLowerCase()
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      alert('Informe um e-mail válido.')
+      return
     }
-  }, [users, backupStat.uniqueUsersWithBackup])
 
-  // Filtragem de usuárias
-  const filteredUsers = useMemo(() => {
-    return users.filter((u) => {
-      const q = searchTerm.toLowerCase().trim()
-      const matchSearch =
-        !q ||
-        u.email?.toLowerCase().includes(q) ||
-        u.name?.toLowerCase().includes(q) ||
-        u.role?.toLowerCase().includes(q)
+    setSalvandoMatricula(true)
+    try {
+      const novaRec = await pb.collection('fac_matriculas').create<MatriculaRecord>({
+        email: cleanEmail,
+        nome: novoNome.trim() || undefined,
+        status: 'ativa',
+        ciclo: novoCiclo.trim() || 'Ciclo FAC 2026',
+        fim: novoFim || undefined,
+        origem: 'Cadastro Manual Painel',
+        anotacao: novaAnotacao.trim() || undefined,
+      })
 
-      const isActive = u.is_active !== false
-      const matchStatus =
-        statusFilter === 'all' ? true : statusFilter === 'active' ? isActive : !isActive
+      // Registrar auditoria
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: 'cadastrar_matricula_individual',
+          alvo: cleanEmail,
+          motivo: 'Cadastro de matrícula no painel',
+          detalhes: { ciclo: novoCiclo },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
 
-      const isUserAdmin = u.role === 'admin'
-      const matchRole =
-        roleFilter === 'all' ? true : roleFilter === 'admin' ? isUserAdmin : !isUserAdmin
+      setMatriculas((prev) => [novaRec, ...prev])
+      setSuccessActionMessage(`Matrícula de ${cleanEmail} cadastrada com sucesso!`)
+      setShowNovaMatriculaModal(false)
+      setNovoEmail('')
+      setNovoNome('')
+      setNovaAnotacao('')
+      setNovoFim('')
+    } catch (err) {
+      alert(`Erro ao cadastrar matrícula: ${getErrorMessage(err)}`)
+    } finally {
+      setSalvandoMatricula(false)
+    }
+  }
 
-      return matchSearch && matchStatus && matchRole
-    })
-  }, [users, searchTerm, statusFilter, roleFilter])
+  // Alterar status de matrícula (ativa / suspensa / expirada) com auditoria
+  const handleConfirmarStatusMatricula = async () => {
+    if (!targetMatricula) return
+    const { mat, novoStatus } = targetMatricula
+    setIsUpdatingStatus(true)
+    try {
+      await pb.collection('fac_matriculas').update(mat.id, {
+        status: novoStatus,
+      })
 
-  // Exportação CSV via Blob no navegador respeitando os filtros atuais
-  const handleExportCSV = () => {
-    if (filteredUsers.length === 0) return
+      // Auditoria
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: 'alterar_status_matricula',
+          alvo: mat.email,
+          motivo: `Status alterado de ${mat.status} para ${novoStatus}`,
+          detalhes: { de: mat.status, para: novoStatus },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
 
-    const headers = [
-      'ID',
-      'Nome',
-      'E-mail',
-      'Papel',
-      'Status',
-      'Data de Cadastro',
-      'Última Atualização',
-    ]
+      setMatriculas((prev) => prev.map((m) => (m.id === mat.id ? { ...m, status: novoStatus } : m)))
+      setSuccessActionMessage(`Matrícula de ${mat.email} atualizada para ${novoStatus}.`)
+      setTargetMatricula(null)
+    } catch (err) {
+      alert(`Erro ao atualizar status: ${getErrorMessage(err)}`)
+    } finally {
+      setIsUpdatingStatus(false)
+    }
+  }
 
-    const rows = filteredUsers.map((u) => {
+  // Publicar ou reverter status de encontro
+  const handleToggleEncontroStatus = async (enc: GuiaEncontroAdmin) => {
+    const novoStatus = enc.status === 'publicado' ? 'rascunho' : 'publicado'
+    try {
+      const res = await AlunaGuiaService.adminToggleEncontroStatus(enc.numero, novoStatus)
+      if (res.success) {
+        setEncontros((prev) =>
+          prev.map((e) => (e.id === enc.id ? { ...e, status: novoStatus } : e)),
+        )
+        setSuccessActionMessage(
+          `Encontro ${enc.numero} agora está marcado como ${novoStatus.toUpperCase()}.`,
+        )
+      }
+    } catch (err) {
+      alert(`Erro ao alterar status do encontro: ${getErrorMessage(err)}`)
+    }
+  }
+
+  // Processar arquivo CSV de Matrículas com prévia e deduplicação
+  const handleProcessarCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const text = (event.target?.result as string) || ''
+      const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0)
+
+      const aceitas: Array<{ email: string; nome?: string; ciclo?: string }> = []
+      const rejeitadas: Array<{ linha: number; email: string; motivo: string }> = []
+      const emailsVistos = new Set<string>()
+
+      // Pular cabeçalho se houver "email" na primeira linha
+      const startIndex = lines[0]?.toLowerCase().includes('email') ? 1 : 0
+
+      for (let i = startIndex; i < lines.length; i++) {
+        const rawLine = lines[i]
+        // Suporta separador por vírgula ou ponto-e-vírgula
+        const parts = rawLine.split(/[;,]/).map((p) => p.replace(/"/g, '').trim())
+        const email = (parts[0] || '').toLowerCase()
+        const nome = parts[1] || ''
+        const ciclo = parts[2] || 'Ciclo FAC 2026'
+
+        if (!email || !email.includes('@')) {
+          rejeitadas.push({ linha: i + 1, email: email || '(vazio)', motivo: 'E-mail inválido' })
+          continue
+        }
+
+        if (emailsVistos.has(email)) {
+          rejeitadas.push({
+            linha: i + 1,
+            email,
+            motivo: 'E-mail duplicado no próprio arquivo CSV',
+          })
+          continue
+        }
+
+        // Checar se já existe no banco
+        const jaExiste = matriculas.find((m) => m.email.toLowerCase() === email)
+        if (jaExiste) {
+          rejeitadas.push({
+            linha: i + 1,
+            email,
+            motivo: `Já cadastrado no banco (status: ${jaExiste.status}) - importar lote não altera suspensas nem prazos sem confirmação`,
+          })
+          continue
+        }
+
+        emailsVistos.add(email)
+        aceitas.push({ email, nome, ciclo })
+      }
+
+      setCsvPreview({ aceitas, rejeitadas })
+    }
+    reader.readAsText(file, 'UTF-8')
+  }
+
+  // Confirmar importação do lote aceito
+  const handleConfirmarImportacaoLote = async () => {
+    if (!csvPreview || csvPreview.aceitas.length === 0) return
+    setImportandoCsv(true)
+    let sucessos = 0
+
+    try {
+      for (const item of csvPreview.aceitas) {
+        try {
+          const rec = await pb.collection('fac_matriculas').create<MatriculaRecord>({
+            email: item.email,
+            nome: item.nome || undefined,
+            status: 'ativa',
+            ciclo: item.ciclo || 'Ciclo FAC 2026',
+            origem: 'Importação CSV',
+          })
+          setMatriculas((prev) => [rec, ...prev])
+          sucessos++
+        } catch (itemErr) {
+          console.warn('Erro ao importar linha:', item.email, itemErr)
+        }
+      }
+
+      // Auditoria
+      try {
+        await pb.collection('fac_auditoria').create({
+          operador: currentUser?.email || 'admin',
+          acao: 'importar_lote_csv_matriculas',
+          alvo: `${sucessos} alunas`,
+          motivo: 'Importação em lote de alunas matriculadas',
+          detalhes: { totalAceitas: sucessos, rejeitadas: csvPreview.rejeitadas.length },
+        })
+      } catch {
+        /* intentionally ignored */
+      }
+
+      setSuccessActionMessage(`Lote importado: ${sucessos} novas matrículas ativadas com sucesso!`)
+      setCsvPreview(null)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    } finally {
+      setImportandoCsv(false)
+    }
+  }
+
+  // Exportar lista de matrículas em CSV
+  const handleExportarMatriculasCSV = () => {
+    const headers = ['E-mail', 'Nome', 'Status', 'Ciclo', 'Término', 'Origem', 'Data Cadastro']
+    const rows = matriculas.map((m) => {
       const escape = (val?: string | null) => `"${(val || '').replace(/"/g, '""')}"`
       return [
-        escape(u.id),
-        escape(u.name || 'Sem nome informado'),
-        escape(u.email),
-        escape(u.role === 'admin' ? 'Administradora' : 'Usuária'),
-        escape(u.is_active !== false ? 'Ativa' : 'Desativada'),
-        escape(formatDate(u.created)),
-        escape(formatDate(u.updated)),
+        escape(m.email),
+        escape(m.nome || ''),
+        escape(m.status),
+        escape(m.ciclo || ''),
+        escape(m.fim || ''),
+        escape(m.origem || ''),
+        escape(m.created),
       ].join(';')
     })
 
@@ -248,14 +488,36 @@ export const AdminDashboard: React.FC = () => {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
-    const dateStr = new Date().toISOString().split('T')[0]
-    link.setAttribute('href', url)
-    link.setAttribute('download', `entrelacos_fac_usuarias_${dateStr}.csv`)
+    link.href = url
+    link.download = `matriculas_academia_fac_${new Date().toISOString().split('T')[0]}.csv`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
   }
+
+  // Métricas de Matrículas
+  const metricasMatriculas = useMemo(() => {
+    const total = matriculas.length
+    const ativas = matriculas.filter((m) => m.status === 'ativa').length
+    const suspensas = matriculas.filter((m) => m.status === 'suspensa').length
+    const expiradas = matriculas.filter((m) => m.status === 'expirada').length
+    return { total, ativas, suspensas, expiradas }
+  }, [matriculas])
+
+  // Filtragem de Matrículas
+  const matriculasFiltradas = useMemo(() => {
+    return matriculas.filter((m) => {
+      const q = searchMatricula.toLowerCase().trim()
+      const matchSearch =
+        !q || m.email.toLowerCase().includes(q) || m.nome?.toLowerCase().includes(q)
+
+      const matchStatus =
+        matriculaStatusFilter === 'todas' ? true : m.status === matriculaStatusFilter
+
+      return matchSearch && matchStatus
+    })
+  }, [matriculas, searchMatricula, matriculaStatusFilter])
 
   const formatDate = (isoString?: string | null) => {
     if (!isoString) return '-'
@@ -273,7 +535,6 @@ export const AdminDashboard: React.FC = () => {
     }
   }
 
-  // Se não estiver logada ou não for admin
   if (!isConnected || !isAdmin) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex items-center justify-center p-6 select-none">
@@ -282,21 +543,21 @@ export const AdminDashboard: React.FC = () => {
             <ShieldAlert className="w-7 h-7" />
           </div>
           <h1 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
-            Acesso Restrito
+            Acesso Restrito ao Painel
           </h1>
           <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
             Esta área é exclusiva para administradoras do sistema. Sua conta atual (
             <span className="text-[#7c3aed] dark:text-[#C084FC] font-mono">
               {currentUser?.email || 'anônima'}
             </span>
-            ) não possui papel de administrador.
+            ) não possui permissão administrativa.
           </p>
           <div className="pt-2 flex flex-col gap-2">
             <Button
               onClick={() => navigate('/')}
-              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[44px] rounded-[8px]"
+              className="bg-[#7c3aed] text-white font-semibold min-h-[44px] rounded-[8px]"
             >
-              Voltar para a Calculadora
+              Voltar ao Hub da Academia
             </Button>
             <Button
               variant="outline"
@@ -304,7 +565,7 @@ export const AdminDashboard: React.FC = () => {
                 logout()
                 navigate('/login')
               }}
-              className="border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white min-h-[44px] rounded-[8px]"
+              className="border-slate-200 dark:border-[#27272A] min-h-[44px] rounded-[8px]"
             >
               Entrar com outra conta
             </Button>
@@ -316,8 +577,8 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white font-sans transition-colors">
-      {/* Topbar Admin Astral */}
-      <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg">
+      {/* Topbar Admin */}
+      <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button
@@ -327,7 +588,7 @@ export const AdminDashboard: React.FC = () => {
               className="gap-1.5 text-xs font-mono text-slate-600 hover:text-slate-900 dark:text-[#A1A1AA] dark:hover:text-white rounded-[8px]"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>CALCULADORA</span>
+              <span>ACADEMIA</span>
             </Button>
             <div className="h-4 w-px bg-slate-200 dark:bg-[#27272A]" />
             <div className="flex items-center gap-2">
@@ -335,11 +596,8 @@ export const AdminDashboard: React.FC = () => {
                 <Shield className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
               </div>
               <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
-                Painel Administrativo
+                Painel Administrativo FAC
               </span>
-              <Badge className="bg-purple-100 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] border-purple-200 dark:border-[#27272A] text-[10px] font-mono">
-                ASTRAL · FAC
-              </Badge>
             </div>
           </div>
 
@@ -355,9 +613,9 @@ export const AdminDashboard: React.FC = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={loadAdminData}
+              onClick={loadAllAdminData}
               disabled={loading}
-              className="gap-1.5 text-xs font-mono min-h-[38px] border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 rounded-[8px]"
+              className="gap-1.5 text-xs font-mono min-h-[38px] rounded-[8px]"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">ATUALIZAR</span>
@@ -366,22 +624,18 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </header>
 
-      {/* Conteúdo Principal Astral */}
+      {/* Conteúdo Principal */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Banner de Boas-Vindas & Métricas */}
         <div>
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
-            GESTÃO ADMINISTRATIVA · MÉTODO FAC
+            GESTÃO COMPLETA · ACADEMIA MÉTODO FAC
           </span>
           <h1 className="font-sans text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mt-1">
-            Visão Geral de Usuárias, Métricas & Gestão de Acessos
+            Matrículas do Guia, Encontros & Gestão do Sistema
           </h1>
-          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] mt-1">
-            Controle seguro de contas cadastradas, estatísticas de uso da calculadora e exportação
-            de dados em conformidade com as diretrizes da Entrelaços Psicologia.
-          </p>
         </div>
 
+        {/* Notificações de Sucesso e Erro */}
         {errorMessage && (
           <div className="p-4 rounded-[8px] bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-500/40 text-sm flex items-center justify-between">
             <span>{errorMessage}</span>
@@ -389,7 +643,7 @@ export const AdminDashboard: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => setErrorMessage(null)}
-              className="text-xs h-7 hover:bg-rose-100 dark:hover:bg-rose-900/40"
+              className="text-xs h-7 hover:bg-rose-100"
             >
               Fechar
             </Button>
@@ -406,440 +660,765 @@ export const AdminDashboard: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => setSuccessActionMessage(null)}
-              className="text-xs h-7 hover:bg-emerald-100 dark:hover:bg-emerald-900/40"
+              className="text-xs h-7 hover:bg-emerald-100"
             >
               Fechar
             </Button>
           </div>
         )}
 
-        {/* Cards de Métricas de Uso da Calculadora Astral */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1: Total & Status */}
-          <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 group">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-[11px] font-mono font-semibold text-slate-500 dark:text-[#A1A1AA] uppercase tracking-wider">
-                Total de Contas
-              </CardTitle>
-              <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] group-hover:border-[#7c3aed]/50 dark:group-hover:border-[#C084FC]/50 transition-colors">
-                <Users className="w-4 h-4" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-mono font-bold text-slate-900 dark:text-white tracking-tight">
-                {loading ? '...' : metrics.total}
-              </div>
-              <div className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA] mt-2 space-y-1">
-                <p className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
-                    Ativas:
-                  </span>
-                  <strong className="text-slate-900 dark:text-white">{metrics.active}</strong>
-                </p>
-                <p className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block w-2 h-2 rounded-full bg-rose-500" />
-                    Desativadas:
-                  </span>
-                  <strong className="text-slate-900 dark:text-white">{metrics.inactive}</strong>
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Abas Superiores de Navegação */}
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-[#27272A] pb-3">
+          <Button
+            variant={activeTab === 'matriculas' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('matriculas')}
+            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+              activeTab === 'matriculas'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
+                : ''
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Matrículas da Academia ({matriculas.length})</span>
+          </Button>
 
-          {/* Card 2: Crescimento Temporal */}
-          <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#ea580c]/40 dark:hover:border-[#FB923C]/40 group">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-[11px] font-mono font-semibold text-slate-500 dark:text-[#A1A1AA] uppercase tracking-wider">
-                Novas Contas
-              </CardTitle>
-              <div className="w-8 h-8 rounded-full bg-orange-50 dark:bg-[#0A0A14] border border-orange-200 dark:border-[#27272A] flex items-center justify-center text-[#ea580c] dark:text-[#FB923C] group-hover:border-[#ea580c]/50 dark:group-hover:border-[#FB923C]/50 transition-colors">
-                <TrendingUp className="w-4 h-4" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-mono font-bold text-slate-900 dark:text-white tracking-tight">
-                {loading ? '...' : metrics.createdLast30Days}
-                <span className="text-xs font-normal text-slate-500 dark:text-[#71717A] ml-1.5 font-sans">
-                  nos últ. 30 dias
-                </span>
-              </div>
-              <p className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA] mt-2 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                <span>{metrics.createdLast7Days} criadas nos últimos 7 dias</span>
-              </p>
-            </CardContent>
-          </Card>
+          <Button
+            variant={activeTab === 'encontros' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('encontros')}
+            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+              activeTab === 'encontros'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
+                : ''
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>Encontros do Guia (19)</span>
+          </Button>
 
-          {/* Card 3: Uso da Calculadora (Cálculos Salvos na Nuvem) */}
-          <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 group">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-[11px] font-mono font-semibold text-slate-500 dark:text-[#A1A1AA] uppercase tracking-wider">
-                Uso da Calculadora
-              </CardTitle>
-              <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] group-hover:border-[#7c3aed]/50 dark:group-hover:border-[#C084FC]/50 transition-colors">
-                <Database className="w-4 h-4" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-mono font-bold text-slate-900 dark:text-white tracking-tight">
-                {loading ? '...' : backupStat.uniqueUsersWithBackup}
-                <span className="text-xs font-normal text-slate-500 dark:text-[#71717A] ml-1.5 font-sans">
-                  ({metrics.adoptionRate}% das usuárias)
-                </span>
-              </div>
-              <p className="text-xs font-mono text-slate-600 dark:text-[#A1A1AA] mt-2 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
-                <span>{backupStat.totalBackups} snapshots / cenários na nuvem</span>
-              </p>
-            </CardContent>
-          </Card>
+          <Button
+            variant={activeTab === 'usuarios' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('usuarios')}
+            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+              activeTab === 'usuarios'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
+                : ''
+            }`}
+          >
+            <Users className="w-4 h-4" />
+            <span>Contas do App & Nuvem ({users.length})</span>
+          </Button>
 
-          {/* Card 4: Última Atividade na Nuvem */}
-          <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl rounded-[16px] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 group">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-[11px] font-mono font-semibold text-slate-500 dark:text-[#A1A1AA] uppercase tracking-wider">
-                Último Cálculo na Nuvem
-              </CardTitle>
-              <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] group-hover:border-[#7c3aed]/50 dark:group-hover:border-[#C084FC]/50 transition-colors">
-                <HardDrive className="w-4 h-4" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-lg font-mono font-bold text-slate-900 dark:text-white truncate tracking-tight">
-                {loading ? '...' : formatDate(backupStat.latestBackupDate)}
-              </div>
-              <p className="text-xs font-mono text-slate-500 dark:text-[#71717A] mt-2 flex items-center gap-1.5">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
-                Skip Cloud · Sincronização em tempo real
-              </p>
-            </CardContent>
-          </Card>
+          <Button
+            variant={activeTab === 'auditoria' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('auditoria')}
+            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+              activeTab === 'auditoria'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
+                : ''
+            }`}
+          >
+            <History className="w-4 h-4" />
+            <span>Auditoria & Logs</span>
+          </Button>
         </div>
 
-        {/* Tabela de Contas Cadastradas & Filtros Astral */}
-        <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-                  Contas Cadastradas
-                </h2>
-                <Badge className="bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] dark:text-[#C084FC] border-purple-200 dark:border-[#27272A] font-mono text-[11px] rounded-full px-2.5 py-0.5">
-                  {filteredUsers.length} de {users.length}
-                </Badge>
-              </div>
-              <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-1">
-                Gerencie permissões, desative contas ou exporte a lista filtrada em formato CSV.
-              </p>
+        {/* ================= ABA 1: MATRÍCULAS DO GUIA ================= */}
+        {activeTab === 'matriculas' && (
+          <div className="space-y-6">
+            {/* Cards de Métricas de Matrículas */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-mono uppercase text-slate-500">
+                    Total de Matrículas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-mono font-bold">{metricasMatriculas.total}</div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-mono uppercase text-emerald-600 dark:text-emerald-400">
+                    Matrículas Ativas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                    {metricasMatriculas.ativas}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-mono uppercase text-amber-600 dark:text-amber-400">
+                    Suspensas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-mono font-bold text-amber-600 dark:text-amber-400">
+                    {metricasMatriculas.suspensas}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-mono uppercase text-rose-600 dark:text-rose-400">
+                    Expiradas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-mono font-bold text-rose-600 dark:text-rose-400">
+                    {metricasMatriculas.expiradas}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* Ações e Filtros de Busca */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <div className="relative w-full sm:w-64">
-                <Search className="w-4 h-4 text-slate-400 dark:text-[#71717A] absolute left-3 top-2.5" />
+            {/* Painel de Ações: Cadastro Manual & Importar CSV */}
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                    Gestão de Matrículas da Aluna
+                  </h3>
+                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                    Cadastre individualmente, importe em lote com conferência prévia e controle
+                    suspensões.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => setShowNovaMatriculaModal(true)}
+                    className="gap-1.5 font-mono text-xs bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[8px]"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Nova Matrícula</span>
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="gap-1.5 font-mono text-xs rounded-[8px]"
+                  >
+                    <Upload className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>Importar CSV</span>
+                  </Button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".csv,text/csv"
+                    className="hidden"
+                    onChange={handleProcessarCSV}
+                  />
+
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleExportarMatriculasCSV}
+                    className="gap-1.5 font-mono text-xs rounded-[8px]"
+                  >
+                    <Download className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                    <span>Exportar CSV</span>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Prévia de Importação CSV (quando selecionado arquivo) */}
+              {csvPreview && (
+                <div className="p-4 rounded-[12px] bg-purple-50/60 dark:bg-[#121216] border border-purple-200 dark:border-[#27272A] space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <FileSpreadsheet className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
+                      <span className="font-sans font-semibold text-sm">
+                        Relatório de Pré-Validação do Lote CSV
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setCsvPreview(null)}
+                      className="text-xs font-mono"
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                    <div className="p-3 rounded-[8px] bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 text-emerald-800 dark:text-emerald-200">
+                      <strong>Linhas Aceitas ({csvPreview.aceitas.length}):</strong>
+                      <p className="mt-1 text-[11px] truncate">
+                        Novos e-mails válidos prontos para inclusão imediata.
+                      </p>
+                    </div>
+
+                    <div className="p-3 rounded-[8px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 text-amber-800 dark:text-amber-200">
+                      <strong>Linhas Rejeitadas/Ignoradas ({csvPreview.rejeitadas.length}):</strong>
+                      <p className="mt-1 text-[11px] truncate">
+                        E-mails duplicados ou já existentes no banco (não reativa suspensas).
+                      </p>
+                    </div>
+                  </div>
+
+                  {csvPreview.rejeitadas.length > 0 && (
+                    <div className="max-h-28 overflow-y-auto bg-white dark:bg-[#18181B] p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] text-[11px] font-mono space-y-1">
+                      {csvPreview.rejeitadas.map((rej, idx) => (
+                        <p key={idx} className="text-slate-600 dark:text-[#A1A1AA]">
+                          • Linha {rej.linha}: <span className="font-semibold">{rej.email}</span> (
+                          {rej.motivo})
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex items-center justify-end gap-2">
+                    <Button
+                      size="sm"
+                      disabled={csvPreview.aceitas.length === 0 || importandoCsv}
+                      onClick={handleConfirmarImportacaoLote}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs rounded-[8px]"
+                    >
+                      {importandoCsv ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                          Importando...
+                        </>
+                      ) : (
+                        `Confirmar Importação de ${csvPreview.aceitas.length} Matrículas`
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Filtros e Busca */}
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <div className="relative w-full sm:w-72">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                  <Input
+                    type="text"
+                    placeholder="Buscar por e-mail ou nome..."
+                    value={searchMatricula}
+                    onChange={(e) => setSearchMatricula(e.target.value)}
+                    className="pl-9 h-9 text-xs bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] rounded-[8px]"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 bg-slate-50 dark:bg-[#0A0A14] p-1 rounded-[8px] border border-slate-200 dark:border-[#27272A]">
+                  {(['todas', 'ativa', 'suspensa', 'expirada'] as const).map((st) => (
+                    <button
+                      key={st}
+                      type="button"
+                      onClick={() => setMatriculaStatusFilter(st)}
+                      className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] capitalize transition-colors ${
+                        matriculaStatusFilter === st
+                          ? 'bg-white dark:bg-[#18181B] text-slate-900 dark:text-white shadow-xs font-semibold'
+                          : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tabela de Matrículas */}
+              <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
+                {matriculasFiltradas.length === 0 ? (
+                  <div className="p-8 text-center text-xs font-mono text-slate-500">
+                    Nenhuma matrícula localizada para os filtros selecionados.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 dark:text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-slate-200 dark:border-[#27272A]">
+                        <tr>
+                          <th className="py-3 px-4">Aluna / E-mail</th>
+                          <th className="py-3 px-4">Ciclo</th>
+                          <th className="py-3 px-4">Status</th>
+                          <th className="py-3 px-4">Término</th>
+                          <th className="py-3 px-4">Origem</th>
+                          <th className="py-3 px-4 text-right">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
+                        {matriculasFiltradas.map((mat) => (
+                          <tr
+                            key={mat.id}
+                            className="hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80"
+                          >
+                            <td className="py-3 px-4">
+                              <div>
+                                <p className="font-semibold text-slate-900 dark:text-white">
+                                  {mat.email}
+                                </p>
+                                <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
+                                  {mat.nome || 'Sem nome cadastrado'}
+                                </p>
+                              </div>
+                            </td>
+
+                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
+                              {mat.ciclo || 'Ciclo FAC 2026'}
+                            </td>
+
+                            <td className="py-3 px-4">
+                              {mat.status === 'ativa' && (
+                                <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[10px] font-mono">
+                                  Ativa
+                                </Badge>
+                              )}
+                              {mat.status === 'suspensa' && (
+                                <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 text-[10px] font-mono">
+                                  Suspensa
+                                </Badge>
+                              )}
+                              {mat.status === 'expirada' && (
+                                <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/30 text-[10px] font-mono">
+                                  Expirada
+                                </Badge>
+                              )}
+                            </td>
+
+                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
+                              {mat.fim ? formatDate(mat.fim) : 'Sem expiração'}
+                            </td>
+
+                            <td className="py-3 px-4 text-[11px] font-mono text-slate-500">
+                              {mat.origem || 'Painel'}
+                            </td>
+
+                            <td className="py-3 px-4 text-right space-x-1">
+                              {mat.status !== 'ativa' && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setTargetMatricula({ mat, novoStatus: 'ativa' })}
+                                  className="text-[11px] font-mono text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 h-7 px-2"
+                                >
+                                  Reativar
+                                </Button>
+                              )}
+                              {mat.status === 'ativa' && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() =>
+                                    setTargetMatricula({ mat, novoStatus: 'suspensa' })
+                                  }
+                                  className="text-[11px] font-mono text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/40 h-7 px-2"
+                                >
+                                  Suspender
+                                </Button>
+                              )}
+                              {mat.status !== 'expirada' && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() =>
+                                    setTargetMatricula({ mat, novoStatus: 'expirada' })
+                                  }
+                                  className="text-[11px] font-mono text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 h-7 px-2"
+                                >
+                                  Expirar
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= ABA 2: ENCONTROS DO GUIA ================= */}
+        {activeTab === 'encontros' && (
+          <div className="space-y-6">
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                    Publicação dos 19 Encontros do Guia
+                  </h3>
+                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                    O calendário NUNCA publica automaticamente: a liberação é ação manual no painel.
+                  </p>
+                </div>
+                <Badge className="bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200 font-mono text-xs">
+                  Encontro 1 sempre público
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {/* Encontro 1 (Fixo) */}
+                <div className="p-4 rounded-[12px] bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 flex items-center justify-between">
+                  <div>
+                    <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                      Encontro 1 · Aula Aberta Gratuita (06/10/2026)
+                    </span>
+                    <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+                      Aula Magna com Diagnóstico FAC Aprofundado aberto a todas as visitantes.
+                    </p>
+                  </div>
+                  <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-xs font-mono">
+                    Aberto Permanente
+                  </Badge>
+                </div>
+
+                {/* Encontros 2 a 19 */}
+                {encontros.map((enc) => {
+                  const isPub = enc.status === 'publicado'
+                  return (
+                    <div
+                      key={enc.id}
+                      className="p-4 rounded-[12px] bg-slate-50/80 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    >
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-slate-900 dark:text-white">
+                            Encontro {enc.numero}: {enc.titulo}
+                          </span>
+                          <span className="text-[11px] font-mono text-slate-500">
+                            ({enc.data_prevista || 'Em breve'})
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 dark:text-[#71717A] mt-0.5">
+                          Status atual: <strong className="uppercase">{enc.status}</strong>
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Button
+                          size="sm"
+                          variant={isPub ? 'outline' : 'default'}
+                          onClick={() => handleToggleEncontroStatus(enc)}
+                          className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+                            !isPub
+                              ? 'bg-[#7c3aed] text-white hover:bg-[#6d28d9]'
+                              : 'text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30'
+                          }`}
+                        >
+                          {isPub ? (
+                            <>
+                              <EyeOff className="w-3.5 h-3.5" />
+                              <span>Reverter para Rascunho</span>
+                            </>
+                          ) : (
+                            <>
+                              <Eye className="w-3.5 h-3.5" />
+                              <span>Publicar Encontro</span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= ABA 3: USUÁRIAS DO APP & NUVEM ================= */}
+        {activeTab === 'usuarios' && (
+          <div className="space-y-6">
+            {/* Tabela de Contas Cadastradas */}
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                    Contas Cadastradas no Skip Cloud
+                  </h3>
+                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                    Usuárias com login e sincronização de backup da Calculadora e IKIGAI.
+                  </p>
+                </div>
+                <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
+                  {users.length} contas
+                </Badge>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 uppercase font-mono border-b border-slate-200 dark:border-[#27272A]">
+                      <tr>
+                        <th className="py-3 px-4">Usuária</th>
+                        <th className="py-3 px-4">E-mail</th>
+                        <th className="py-3 px-4">Papel</th>
+                        <th className="py-3 px-4">Status</th>
+                        <th className="py-3 px-4 text-right">Ação</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
+                      {users.map((u) => {
+                        const isRoleAdmin = u.role === 'admin'
+                        const isActive = u.is_active !== false
+                        return (
+                          <tr key={u.id}>
+                            <td className="py-3 px-4 font-semibold text-slate-900 dark:text-white">
+                              {u.name || 'Sem nome'}
+                            </td>
+                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
+                              {u.email}
+                            </td>
+                            <td className="py-3 px-4">
+                              <Badge variant="outline" className="text-[10px] font-mono uppercase">
+                                {u.role || 'user'}
+                              </Badge>
+                            </td>
+                            <td className="py-3 px-4">
+                              {isActive ? (
+                                <span className="text-emerald-600 font-mono text-[11px] font-medium">
+                                  Ativa
+                                </span>
+                              ) : (
+                                <span className="text-rose-600 font-mono text-[11px] font-medium">
+                                  Desativada
+                                </span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4 text-right">
+                              {!isRoleAdmin && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setTargetUser(u)}
+                                  className="text-[11px] font-mono h-7"
+                                >
+                                  {isActive ? 'Desativar' : 'Reativar'}
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= ABA 4: AUDITORIA & LOGS ================= */}
+        {activeTab === 'auditoria' && (
+          <div className="space-y-6">
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                    Trilha de Auditoria do Guia da Aluna
+                  </h3>
+                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                    Registro de ações administrativas e eventos de acesso (sem respostas íntimas do
+                    diagnóstico).
+                  </p>
+                </div>
+                <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
+                  {auditorias.length} eventos
+                </Badge>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
+                {auditorias.length === 0 ? (
+                  <div className="p-8 text-center text-xs font-mono text-slate-500">
+                    Nenhum evento registrado ainda.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs font-mono">
+                      <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 uppercase border-b border-slate-200 dark:border-[#27272A]">
+                        <tr>
+                          <th className="py-3 px-4">Data/Hora</th>
+                          <th className="py-3 px-4">Operador</th>
+                          <th className="py-3 px-4">Ação</th>
+                          <th className="py-3 px-4">Alvo</th>
+                          <th className="py-3 px-4">Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
+                        {auditorias.map((aud) => (
+                          <tr
+                            key={aud.id}
+                            className="hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80"
+                          >
+                            <td className="py-3 px-4 text-slate-500">{formatDate(aud.created)}</td>
+                            <td className="py-3 px-4 font-semibold text-slate-900 dark:text-white">
+                              {aud.operador}
+                            </td>
+                            <td className="py-3 px-4 text-[#7c3aed] dark:text-[#C084FC]">
+                              {aud.acao}
+                            </td>
+                            <td className="py-3 px-4 text-slate-700 dark:text-slate-300">
+                              {aud.alvo || '-'}
+                            </td>
+                            <td className="py-3 px-4 text-slate-500 text-[11px]">
+                              {aud.motivo || '-'}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Modal Nova Matrícula */}
+      {showNovaMatriculaModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4">
+            <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+              Cadastrar Nova Matrícula
+            </h3>
+            <form onSubmit={handleCriarMatricula} className="space-y-3">
+              <div>
+                <label className="text-xs font-mono font-medium">E-mail da aluna (compra)*</label>
                 <Input
-                  type="text"
-                  placeholder="Buscar por nome ou e-mail..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 h-9 text-xs bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[8px] focus:border-[#7c3aed] dark:focus:border-[#C084FC]"
+                  type="email"
+                  required
+                  placeholder="aluna@exemplo.com"
+                  value={novoEmail}
+                  onChange={(e) => setNovoEmail(e.target.value)}
+                  className="mt-1 text-xs"
                 />
               </div>
 
-              {/* Filtro Status */}
-              <div className="flex items-center gap-1 bg-slate-50 dark:bg-[#0A0A14] p-1 rounded-[8px] border border-slate-200 dark:border-[#27272A]">
-                <button
+              <div>
+                <label className="text-xs font-mono font-medium">Nome completo (opcional)</label>
+                <Input
+                  type="text"
+                  placeholder="Nome da aluna"
+                  value={novoNome}
+                  onChange={(e) => setNovoNome(e.target.value)}
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-xs font-mono font-medium">Ciclo / Turma</label>
+                  <Input
+                    type="text"
+                    value={novoCiclo}
+                    onChange={(e) => setNovoCiclo(e.target.value)}
+                    className="mt-1 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-mono font-medium">Data Término (opcional)</label>
+                  <Input
+                    type="date"
+                    value={novoFim}
+                    onChange={(e) => setNovoFim(e.target.value)}
+                    className="mt-1 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium">Anotação interna</label>
+                <Input
+                  type="text"
+                  placeholder="Ex: Pagamento confirmado via Hotmart"
+                  value={novaAnotacao}
+                  onChange={(e) => setNovaAnotacao(e.target.value)}
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <Button
                   type="button"
-                  onClick={() => setStatusFilter('all')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] transition-colors ${
-                    statusFilter === 'all'
-                      ? 'bg-white dark:bg-[#18181B] text-slate-900 dark:text-white shadow-xs font-semibold'
-                      : 'text-slate-500 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowNovaMatriculaModal(false)}
+                  className="text-xs font-mono"
                 >
-                  Todas
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStatusFilter('active')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] transition-colors ${
-                    statusFilter === 'active'
-                      ? 'bg-white dark:bg-[#18181B] text-emerald-600 dark:text-emerald-400 shadow-xs font-semibold'
-                      : 'text-slate-500 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={salvandoMatricula}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
                 >
-                  Ativas
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStatusFilter('inactive')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-[6px] transition-colors ${
-                    statusFilter === 'inactive'
-                      ? 'bg-white dark:bg-[#18181B] text-rose-600 dark:text-rose-400 shadow-xs font-semibold'
-                      : 'text-slate-500 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                >
-                  Desativadas
-                </button>
+                  {salvandoMatricula ? 'Salvando...' : 'Salvar Matrícula'}
+                </Button>
               </div>
-
-              {/* Botão Exportar CSV */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleExportCSV}
-                disabled={filteredUsers.length === 0}
-                className="gap-1.5 text-xs font-mono h-9 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:border-[#7c3aed] dark:hover:border-[#C084FC] rounded-[8px]"
-                title="Baixar lista em CSV"
-              >
-                <Download className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
-                <span>EXPORTAR CSV</span>
-              </Button>
-            </div>
-          </div>
-
-          {/* Superfície interna da Tabela */}
-          <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
-            {loading ? (
-              <div className="p-12 text-center flex flex-col items-center justify-center gap-2 text-slate-500 dark:text-[#A1A1AA]">
-                <Loader2 className="w-6 h-6 animate-spin text-[#7c3aed] dark:text-[#C084FC]" />
-                <span className="text-xs font-mono">Carregando usuárias...</span>
-              </div>
-            ) : filteredUsers.length === 0 ? (
-              <div className="p-12 text-center text-xs text-slate-500 dark:text-[#71717A] font-mono">
-                Nenhuma usuária encontrada para os critérios de busca selecionados.
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 dark:text-[#A1A1AA] uppercase font-mono tracking-wider font-semibold border-b border-slate-200 dark:border-[#27272A]">
-                    <tr>
-                      <th className="py-3 px-4 sm:px-6">Usuária / Identificação</th>
-                      <th className="py-3 px-4">E-mail</th>
-                      <th className="py-3 px-4">Papel</th>
-                      <th className="py-3 px-4">Data de Cadastro</th>
-                      <th className="py-3 px-4">Status</th>
-                      <th className="py-3 px-4 text-right">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
-                    {filteredUsers.map((u) => {
-                      const isCurrentAdmin = u.id === currentUser?.id
-                      const isRoleAdmin = u.role === 'admin'
-                      const isActive = u.is_active !== false
-
-                      return (
-                        <tr
-                          key={u.id}
-                          className={`hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80 transition-colors ${
-                            !isActive ? 'opacity-70 bg-rose-50/20 dark:bg-rose-950/10' : ''
-                          }`}
-                        >
-                          <td className="py-3.5 px-4 sm:px-6">
-                            <div className="flex items-center gap-3">
-                              <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-mono font-bold shrink-0 ${
-                                  isRoleAdmin
-                                    ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14] font-bold shadow-xs'
-                                    : !isActive
-                                      ? 'bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-400 border border-rose-300 dark:border-rose-800'
-                                      : 'bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA]'
-                                }`}
-                              >
-                                {(u.name || u.email || 'P')[0].toUpperCase()}
-                              </div>
-                              <div className="min-w-0">
-                                <p className="font-semibold text-slate-900 dark:text-white truncate">
-                                  {u.name || 'Sem nome informado'}
-                                  {isCurrentAdmin && (
-                                    <span className="ml-2 text-[10px] font-mono text-[#7c3aed] dark:text-[#C084FC] font-normal">
-                                      (você)
-                                    </span>
-                                  )}
-                                </p>
-                                <p className="text-[10px] text-slate-500 dark:text-[#71717A] font-mono">
-                                  ID: {u.id}
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-
-                          <td className="py-3.5 px-4 font-mono text-slate-700 dark:text-[#A1A1AA]">
-                            <div className="flex items-center gap-1.5 truncate">
-                              <Mail className="w-3.5 h-3.5 text-slate-400 dark:text-[#71717A] shrink-0" />
-                              <span className="truncate">{u.email}</span>
-                            </div>
-                          </td>
-
-                          <td className="py-3.5 px-4">
-                            {isRoleAdmin ? (
-                              <Badge className="bg-purple-100 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] border-purple-200 dark:border-[#C084FC]/40 text-[10px] font-mono font-semibold rounded-full px-2.5 py-0.5">
-                                <Shield className="w-3 h-3 mr-1 text-[#ea580c] dark:text-[#FB923C]" />
-                                ADMIN
-                              </Badge>
-                            ) : (
-                              <Badge
-                                variant="outline"
-                                className="text-[10px] font-mono text-slate-600 dark:text-[#A1A1AA] border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] rounded-full px-2.5 py-0.5"
-                              >
-                                USER
-                              </Badge>
-                            )}
-                          </td>
-
-                          <td className="py-3.5 px-4 text-slate-700 dark:text-[#A1A1AA] font-mono">
-                            <div className="flex items-center gap-1.5">
-                              <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-[#71717A]" />
-                              <span>{formatDate(u.created)}</span>
-                            </div>
-                          </td>
-
-                          <td className="py-3.5 px-4">
-                            {isActive ? (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40 px-2.5 py-0.5 rounded-full">
-                                <CheckCircle2 className="w-3 h-3" />
-                                ATIVA
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/40 px-2.5 py-0.5 rounded-full">
-                                <UserX className="w-3 h-3" />
-                                DESATIVADA
-                              </span>
-                            )}
-                          </td>
-
-                          <td className="py-3.5 px-4 text-right">
-                            {isCurrentAdmin || isRoleAdmin ? (
-                              <span
-                                className="text-[10px] font-mono text-slate-400 dark:text-[#71717A] italic"
-                                title="Contas de administração não podem ser desativadas nesta interface"
-                              >
-                                Protegida
-                              </span>
-                            ) : (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => setTargetUser(u)}
-                                className={`text-[11px] font-mono h-7 px-2.5 rounded-[6px] ${
-                                  isActive
-                                    ? 'text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700'
-                                    : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-700'
-                                }`}
-                              >
-                                {isActive ? (
-                                  <>
-                                    <UserX className="w-3 h-3 mr-1" />
-                                    Desativar
-                                  </>
-                                ) : (
-                                  <>
-                                    <UserCheck className="w-3 h-3 mr-1" />
-                                    Reativar
-                                  </>
-                                )}
-                              </Button>
-                            )}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
+            </form>
           </div>
         </div>
+      )}
 
-        {/* Card Informativo sobre Políticas e LGPD Astral */}
-        <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-1 shadow-xs">
-          <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-            <Shield className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-            Políticas de Acesso & Desativação Ética
-          </p>
-          <p className="leading-relaxed">
-            Ao desativar uma conta, o acesso ao login é imediatamente bloqueado com uma mensagem
-            informativa e amigável. Os cálculos, histórico e dados de sincronização permanecem
-            preservados de forma íntegra no banco de dados e podem ser reativados a qualquer momento
-            por uma administradora.
-          </p>
-        </div>
-      </main>
-
-      {/* Diálogo de Confirmação (AlertDialog) para Desativação / Reativação */}
-      <AlertDialog open={!!targetUser} onOpenChange={(open) => !open && setTargetUser(null)}>
-        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[16px] max-w-md">
+      {/* Confirmação Alterar Status Matrícula */}
+      <AlertDialog
+        open={!!targetMatricula}
+        onOpenChange={(open) => !open && setTargetMatricula(null)}
+      >
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
           <AlertDialogHeader>
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className={`w-9 h-9 rounded-[10px] flex items-center justify-center ${
-                  targetUser?.is_active === false
-                    ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
-                    : 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800'
-                }`}
-              >
-                {targetUser?.is_active === false ? (
-                  <UserCheck className="w-5 h-5" />
-                ) : (
-                  <AlertTriangle className="w-5 h-5" />
-                )}
-              </div>
-              <AlertDialogTitle className="font-sans text-lg font-semibold">
-                {targetUser?.is_active === false
-                  ? 'Reativar Conta de Usuária'
-                  : 'Desativar Conta de Usuária'}
-              </AlertDialogTitle>
-            </div>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed pt-1">
-              {targetUser?.is_active === false ? (
-                <>
-                  Deseja reativar o acesso de{' '}
-                  <strong className="text-slate-900 dark:text-white">
-                    {targetUser?.name || targetUser?.email}
-                  </strong>
-                  ? A psicóloga voltará a conseguir realizar login e sincronizar seus cálculos
-                  normalmente.
-                </>
-              ) : (
-                <>
-                  Tem certeza de que deseja desativar a conta de{' '}
-                  <strong className="text-slate-900 dark:text-white">
-                    {targetUser?.name || targetUser?.email}
-                  </strong>
-                  ? A usuária não conseguirá mais entrar na plataforma, mas todos os seus dados e
-                  cálculos salvos permanecerão preservados com segurança.
-                </>
-              )}
+            <AlertDialogTitle className="font-sans text-lg font-semibold">
+              Confirmar alteração de matrícula
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-1">
+              Deseja alterar o status da matrícula de{' '}
+              <strong className="text-slate-900 dark:text-white">
+                {targetMatricula?.mat.email}
+              </strong>{' '}
+              para <strong className="uppercase">{targetMatricula?.novoStatus}</strong>?
+              {targetMatricula?.novoStatus === 'suspensa' &&
+                ' A aluna perderá imediatamente o acesso aos cadernos pagos na próxima requisição.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="mt-4 gap-2">
-            <AlertDialogCancel
-              disabled={isUpdatingStatus}
-              className="border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] hover:bg-slate-100 dark:hover:bg-[#0A0A14] text-xs font-mono rounded-[8px]"
-            >
-              Cancelar
-            </AlertDialogCancel>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              disabled={isUpdatingStatus}
-              onClick={handleToggleUserStatus}
-              className={`text-xs font-mono rounded-[8px] font-semibold text-white ${
-                targetUser?.is_active === false
-                  ? 'bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600'
-                  : 'bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600'
-              }`}
+              onClick={handleConfirmarStatusMatricula}
+              className="text-xs font-mono bg-[#7c3aed] text-white"
             >
-              {isUpdatingStatus ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
-                  Atualizando...
-                </>
-              ) : targetUser?.is_active === false ? (
-                'Sim, reativar conta'
-              ) : (
-                'Sim, desativar conta'
-              )}
+              Confirmar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Confirmação Desativar Conta de Usuária */}
+      <AlertDialog open={!!targetUser} onOpenChange={(open) => !open && setTargetUser(null)}>
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-sans text-lg font-semibold">
+              Alterar status da conta
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+              Deseja alterar o acesso da conta de {targetUser?.email}?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleToggleUserStatus}
+              className="text-xs font-mono bg-[#7c3aed] text-white"
+            >
+              Confirmar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

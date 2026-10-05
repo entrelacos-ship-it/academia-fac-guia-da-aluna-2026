@@ -198,6 +198,55 @@ export const HubPage: React.FC = () => {
 
         {/* Grid dos Cards de Aplicações */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Card 0: Guia da Aluna da Academia Método FAC (Novo Destaque) */}
+          <div className="astral-card-interactive p-6 flex flex-col justify-between group relative overflow-hidden border-purple-300/80 dark:border-[#7c3aed]/50 bg-gradient-to-b from-purple-50/40 to-transparent dark:from-purple-950/20">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-11 h-11 rounded-[10px] bg-purple-100/80 dark:bg-[#0A0A14] border border-purple-300 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shadow-xs group-hover:border-[#7c3aed] transition-colors">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-semibold uppercase tracking-wider">
+                  Aula 1 Aberta · 19 Encontros
+                </Badge>
+              </div>
+
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+                  Percurso Pedagógico
+                </span>
+                <h2 className="text-xl font-semibold text-slate-900 dark:text-white tracking-tight group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                  Guia da Aluna FAC
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed">
+                  Aula Magna aberta com o novo Diagnóstico FAC Aprofundado (24 perguntas), índice
+                  dos 19 encontros, cadernos didáticos e validação do e-mail de compra para alunas.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-1.5 text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
+                  Diagnóstico v2
+                </span>
+                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
+                  PDF 1 página
+                </span>
+                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
+                  Acesso seguro
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-6 mt-6 border-t border-slate-100 dark:border-[#27272A]/80">
+              <Button
+                onClick={() => navigate('/guia')}
+                className="w-full gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px] cursor-pointer"
+              >
+                <span>Acessar Guia da Aluna</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
           {/* Card A: Calculadora de Precificação FAC (Disponível) */}
           <div className="astral-card-interactive p-6 flex flex-col justify-between group relative overflow-hidden">
             <div className="space-y-4">
@@ -348,32 +397,41 @@ export const HubPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Bloco Adicional de Contexto da Academia: Guia Metodológico Completo */}
+        {/* Bloco Adicional de Contexto da Academia: Guia da Aluna & Retrato de Autoria */}
         <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2">
               <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
               <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-                Guia da Academia
+                Percurso Pedagógico Integrado
               </span>
             </div>
             <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-              Conheça as entregas e instruções do Ciclo FAC
+              Conheça as entregas e cadernos didáticos do Ciclo FAC
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl leading-relaxed">
-              Acesse o passo a passo completo da skill Retrato de Autoria, orientações de instalação
-              para Claude e ChatGPT, avisos éticos e o arquivo para download.
+              Acesse o Guia da Aluna com a Aula Magna aberta, o Diagnóstico FAC Aprofundado versão 2
+              e o passo a passo da skill Retrato de Autoria para Claude e ChatGPT.
             </p>
           </div>
 
-          <Button
-            onClick={() => navigate('/guia')}
-            variant="outline"
-            className="w-full md:w-auto min-h-[44px] px-6 gap-2 border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#27272A] font-mono text-xs font-semibold rounded-[8px] shrink-0"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>ABRIR GUIA COMPLETO</span>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+            <Button
+              onClick={() => navigate('/guia')}
+              className="w-full sm:w-auto min-h-[44px] px-5 gap-2 bg-[#7c3aed] text-white hover:bg-[#6d28d9] font-mono text-xs font-semibold rounded-[8px] shrink-0"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>ABRIR GUIA DA ALUNA</span>
+            </Button>
+            <Button
+              onClick={() => navigate('/guia/retrato-de-autoria')}
+              variant="outline"
+              className="w-full sm:w-auto min-h-[44px] px-4 gap-2 border-slate-300 dark:border-[#27272A] font-mono text-xs rounded-[8px] shrink-0"
+            >
+              <Compass className="w-4 h-4 text-[#ea580c]" />
+              <span>SKILL AUTORIA</span>
+            </Button>
+          </div>
         </div>
       </main>
 
