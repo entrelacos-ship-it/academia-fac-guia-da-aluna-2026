@@ -30,6 +30,7 @@ import { Badge } from '@/components/ui/badge'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import { ENCONTRO_1_CONTENT } from '@/config/guiaContent'
 import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
+import { Encontro1CadernoCompleto } from '@/components/guia/Encontro1CadernoCompleto'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import {
   AlunaGuiaService,
@@ -311,14 +312,20 @@ export const GuiaPage: React.FC = () => {
             fundamentos do Método FAC.
           </p>
 
-          {!isAlunaValidada && (
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-              <Button
-                onClick={() => setEncontroSelecionado(1)}
-                className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px]"
-              >
-                <span>Acessar Aula Magna Aberta</span>
-              </Button>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Button
+              onClick={() => {
+                setEncontroSelecionado(1)
+                const el = document.getElementById('caderno-encontro-1')
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }}
+              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px]"
+            >
+              <span>Acessar Aula Magna Aberta</span>
+            </Button>
+            {!isAlunaValidada && (
               <Button
                 variant="outline"
                 onClick={() => setValidarModalOpen(true)}
@@ -327,8 +334,8 @@ export const GuiaPage: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 mr-1.5 text-[#ea580c] dark:text-[#FB923C]" />
                 <span>Já sou aluna: Validar e-mail de compra</span>
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
@@ -463,105 +470,28 @@ export const GuiaPage: React.FC = () => {
           {/* Coluna Direita: Conteúdo do Encontro Selecionado */}
           <section className="lg:col-span-8 space-y-8">
             {encontroSelecionado === 1 ? (
-              <div className="space-y-8">
-                {/* Caderno Didático do Encontro 1 */}
-                <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-[#27272A]">
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
-                        Caderno Didático · Acesso Aberto Gratuito
-                      </span>
-                      <h2 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
-                        {ENCONTRO_1_CONTENT.titulo}
-                      </h2>
-                      <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
-                        {ENCONTRO_1_CONTENT.subtitulo}
-                      </p>
-                    </div>
+              <div id="caderno-encontro-1" className="space-y-12 scroll-mt-20">
+                {/* Caderno Editorial Completo do Encontro 1 */}
+                <Encontro1CadernoCompleto
+                  onAbrirDiagnostico={() => {
+                    const el = document.getElementById('secao-diagnostico-fac')
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
+                  }}
+                  isAlunaValidada={isAlunaValidada}
+                  onValidarEmail={() => setValidarModalOpen(true)}
+                  onAvancarEncontro2={() => {
+                    setEncontroSelecionado(2)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                />
 
-                    <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-xs font-mono px-3 py-1">
-                      Encontro 1
-                    </Badge>
-                  </div>
-                  <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line bg-slate-50/70 dark:bg-[#121216] p-5 rounded-[12px] border border-slate-200 dark:border-[#27272A]">
-                    {ENCONTRO_1_CONTENT.introducao}
-                  </div>
-                  {/* 4 Seções do Caderno (Preparar / Participar / Construir / Entregar) */}
-                  <div className="space-y-4">
-                    <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-                      Estrutura do Encontro 1
-                    </h3>
-
-                    <div className="grid grid-cols-1 gap-4">
-                      {ENCONTRO_1_CONTENT.secoesCaderno.map((sec) => (
-                        <div
-                          key={sec.id}
-                          className="p-5 rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] space-y-2"
-                        >
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-sans font-semibold text-base text-slate-900 dark:text-white">
-                              {sec.titulo}
-                            </h4>
-                            <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-                              {sec.descricao}
-                            </span>
-                          </div>
-                          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-line">
-                            {sec.conteudo}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Complemento exclusivo para Alunas Validadas no Encontro 1 */}{' '}
-                  {isAlunaValidada ? (
-                    <div className="p-5 rounded-[12px] bg-purple-50/80 dark:bg-purple-950/30 border border-purple-200 dark:border-[#7c3aed]/40 space-y-3">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                        <h4 className="font-sans font-semibold text-sm text-[#7c3aed] dark:text-[#C084FC]">
-                          Complemento Exclusivo de Continuidade (Turma Ativa)
-                        </h4>
-                      </div>
-                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                        Como aluna com matrícula validada, você tem acesso à Trilha de Continuidade,
-                        ao grupo de troca com as facilitadoras e aos cadernos didáticos da Turma.
-                        Seus exercícios do Diagnóstico servirão de base para o Encontro 2 e para as
-                        reflexões da sua formação.
-                      </p>
-                      <div className="pt-2 flex flex-wrap gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => setEncontroSelecionado(2)}
-                          className="bg-[#7c3aed] text-white hover:bg-[#6d28d9] font-mono text-xs rounded-[8px]"
-                        >
-                          Avançar para o Caderno do Encontro 2 →
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="p-5 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <div>
-                        <h4 className="font-sans font-semibold text-sm text-slate-900 dark:text-white">
-                          Já se matriculou na Academia Método FAC?
-                        </h4>
-                        <p className="text-xs text-slate-600 dark:text-[#A1A1AA] mt-0.5">
-                          Valide seu e-mail de compra para liberar a trilha completa de encontros e
-                          as gravações.
-                        </p>
-                      </div>
-                      <Button
-                        size="sm"
-                        onClick={() => setValidarModalOpen(true)}
-                        className="bg-[#ea580c] hover:bg-[#c2410c] dark:bg-[#FB923C] dark:hover:bg-[#f97316] text-white dark:text-[#0A0A14] font-semibold text-xs rounded-[8px] shrink-0"
-                      >
-                        Validar E-mail de Compra
-                      </Button>
-                    </div>
-                  )}
-                </div>
-
-                {/* DIAGNÓSTICO FAC APROFUNDADO V2 (MOTOR COMPLETO) */}
-                <div className="space-y-4">
+                {/* DIAGNÓSTICO FAC APROFUNDADO V2 (MOTOR COMPLETO COM ÂNCORA) */}
+                <div
+                  id="secao-diagnostico-fac"
+                  className="space-y-4 scroll-mt-24 pt-4 border-t border-slate-200/80 dark:border-[#27272A]"
+                >
                   <div className="flex items-center gap-3">
                     <FACSymbol size={32} />
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1.5">
