@@ -17,7 +17,9 @@ import {
   Clock,
   TrendingUp,
   Share2,
+  Lock,
 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -52,7 +54,16 @@ type AbaResultado =
   | 'alertas'
   | 'passos'
 
-export const DiagnosticoFACSection: React.FC = () => {
+interface DiagnosticoFACSectionProps {
+  isAlunaValidada?: boolean
+  onSolicitarValidacao?: () => void
+}
+
+export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
+  isAlunaValidada = false,
+  onSolicitarValidacao,
+}) => {
+  const navigate = useNavigate()
   // Estado local completo: respostas (1-24), contexto, abertas e cuidado clínico
   const [respostas, setRespostas] = useState<Record<number, number>>(() => {
     try {
@@ -1468,6 +1479,73 @@ export const DiagnosticoFACSection: React.FC = () => {
             >
               Revisar ou alterar respostas das 24 perguntas
             </Button>
+          </div>
+
+          {/* ATALHO PARA SKILLS / MENTORA-FAC AO FINAL DO DIAGNÓSTICO */}
+          <div className="p-6 sm:p-8 rounded-[16px] bg-gradient-to-br from-purple-50/70 via-white to-amber-50/40 dark:from-[#130f24] dark:via-[#0c0915] dark:to-[#171220] border border-purple-200/90 dark:border-purple-900/50 shadow-sm print:hidden">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2 max-w-2xl">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[6px] bg-purple-100 dark:bg-purple-950/70 border border-purple-200 dark:border-purple-800 text-[11px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                    <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                    Próximo Passo · Inteligência Clínica
+                  </span>
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] font-mono border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300"
+                  >
+                    Exclusivo Alunas
+                  </Badge>
+                </div>
+                <h4 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+                  Continue com as Skills & a Mentora-FAC
+                </h4>
+                <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed font-light">
+                  Aprofunde a leitura do seu diagnóstico com as instruções e agentes do Método FAC.
+                  A Mentora-FAC direciona seu plano de 90 dias e orienta cada passo a partir do seu
+                  radar.
+                </p>
+              </div>
+
+              <div className="shrink-0 flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto">
+                {isAlunaValidada ? (
+                  <Button
+                    type="button"
+                    onClick={() => navigate('/?aba=skills')}
+                    className="w-full sm:w-auto min-h-[46px] px-5 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] text-xs sm:text-sm cursor-pointer shadow-xs"
+                  >
+                    <Sparkles className="w-4 h-4 shrink-0 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>Acessar Skills & Mentora-FAC</span>
+                    <ArrowRight className="w-4 h-4 shrink-0" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      if (onSolicitarValidacao) {
+                        onSolicitarValidacao()
+                      } else {
+                        navigate('/?motivo=exclusivo_aluna')
+                      }
+                    }}
+                    className="w-full sm:w-auto min-h-[46px] px-5 gap-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/40 font-semibold rounded-[10px] text-xs sm:text-sm cursor-pointer"
+                  >
+                    <Lock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <span>Já sou aluna? Validar e-mail de matrícula</span>
+                  </Button>
+                )}
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => navigate('/?aba=skills')}
+                  className="w-full sm:w-auto min-h-[38px] text-xs font-mono text-editorial-secondary hover:text-editorial-primary"
+                >
+                  <span>Conhecer a aba Skills no Hub</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* COMPONENTE EXCLUSIVO DE IMPRESSÃO / SALVAMENTO EM PDF */}

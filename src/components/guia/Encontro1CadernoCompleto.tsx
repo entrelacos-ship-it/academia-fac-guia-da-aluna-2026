@@ -73,6 +73,22 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             Aula Magna, você conhece os três pilares e preenche o Diagnóstico FAC Aprofundado. O
             resultado mostra suas forças, fragilidades e por onde começar.
           </p>
+
+          {/* Atalho direto no topo para abrir o Diagnóstico FAC */}
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <Button
+              type="button"
+              onClick={onAbrirDiagnostico}
+              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold text-xs sm:text-sm rounded-[10px] min-h-[44px] px-5 gap-2 cursor-pointer shadow-xs"
+            >
+              <FileText className="w-4 h-4 shrink-0" />
+              <span>Abrir Diagnóstico FAC Aprofundado</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
+            </Button>
+            <span className="text-xs font-mono text-editorial-secondary">
+              24 perguntas · 12 a 15 min · Resultado com Radar
+            </span>
+          </div>
         </div>
 
         {/* Destaque: A Pergunta do Encontro */}

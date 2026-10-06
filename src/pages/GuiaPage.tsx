@@ -640,7 +640,10 @@ export const GuiaPage: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  <DiagnosticoFACSection />
+                  <DiagnosticoFACSection
+                    isAlunaValidada={isAlunaValidada}
+                    onSolicitarValidacao={() => setValidarModalOpen(true)}
+                  />
                 </div>
               </div>
             ) : (

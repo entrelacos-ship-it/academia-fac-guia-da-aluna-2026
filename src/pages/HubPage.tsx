@@ -80,8 +80,19 @@ export const HubPage: React.FC = () => {
   const [items, setItems] = useState<HubItem[]>([])
   const [loadingItems, setLoadingItems] = useState(true)
 
-  // Categoria ativa no bloco Sistema
-  const [activeSistemaCategory, setActiveSistemaCategory] = useState<string>('aplicativos')
+  // Categoria ativa no bloco Sistema (permite inicialização via query param ?aba=skills ou ?aba=aplicativos)
+  const [activeSistemaCategory, setActiveSistemaCategory] = useState<string>(() => {
+    try {
+      const search = new URLSearchParams(window.location.search)
+      const aba = search.get('aba')
+      if (aba && SISTEMA_CATEGORIAS.some((c) => c.id === aba)) {
+        return aba
+      }
+    } catch {
+      // ignore
+    }
+    return 'aplicativos'
+  })
 
   // Modal para prévia e download da skill Mentora-FAC
   const [skillModalOpen, setSkillModalOpen] = useState(false)
@@ -663,13 +674,13 @@ export const HubPage: React.FC = () => {
                           {/* Título e Descrição */}
                           <div className="space-y-1.5 pt-1 min-w-0">
                             <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
-                              {item.title}
+                              {item.titulo}
                             </h4>
                             <p
-                              title={item.description}
+                              title={item.descricao}
                               className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
                             >
-                              {item.description}
+                              {item.descricao}
                             </p>{' '}
                           </div>
                         </div>
@@ -754,7 +765,7 @@ export const HubPage: React.FC = () => {
                         </Badge>
                       </div>
                       <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed max-w-2xl font-normal">
-                        {item.description}
+                        {item.descricao}
                       </p>{' '}
                     </div>
 

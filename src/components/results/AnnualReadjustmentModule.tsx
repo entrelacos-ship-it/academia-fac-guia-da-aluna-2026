@@ -225,7 +225,7 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
               Preço Antigo
             </span>
             <div className="font-mono text-3xl sm:text-4xl font-bold text-slate-500 dark:text-zinc-500 line-through">
-              {formatBRL(res.precoAtual)}
+              {formatBRL(inputs.honorarioAtual)}
             </div>
             <span className="text-xs text-slate-600 dark:text-zinc-400">por atendimento</span>{' '}
           </div>

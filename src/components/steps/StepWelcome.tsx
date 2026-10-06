@@ -8,6 +8,7 @@ import {
   Scale,
   CheckCircle2,
   BookOpen,
+  Compass,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
