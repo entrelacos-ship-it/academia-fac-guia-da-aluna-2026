@@ -182,13 +182,13 @@ export const AppLayout: React.FC<LayoutProps> = ({
               <span className="hidden sm:inline">HUB ACADEMIA</span>
             </a>
 
-            {/* Link para o Guia / Retrato de Autoria */}
+            {/* Link para o Guia da Aluna */}
             <a
-              href="/guia/retrato-de-autoria"
+              href="/guia"
               className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/60 transition-colors"
-              title="Guia da Skill: Retrato de Autoria"
+              title="Guia da Aluna: Trilha do Ciclo"
             >
-              <span className="hidden sm:inline">RETRATO</span>
+              <span className="hidden sm:inline">GUIA</span>
             </a>
 
             {/* Atalho Perfil & Troca de Senha */}
@@ -442,7 +442,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   )}
                 </div>
 
-                {/* Links Rápidos Mobile: Hub, Retrato e Perfil/Senha */}
+                {/* Links Rápidos Mobile: Hub, Guia e Perfil/Senha */}
                 <a
                   href="/"
                   className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
@@ -457,10 +457,10 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   PERFIL & TROCA DE SENHA
                 </a>
                 <a
-                  href="/guia/retrato-de-autoria"
+                  href="/guia"
                   className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs rounded-[8px]"
                 >
-                  RETRATO DE AUTORIA (GUIA)
+                  GUIA DA ALUNA
                 </a>
 
                 {currentUser?.role === 'admin' && (

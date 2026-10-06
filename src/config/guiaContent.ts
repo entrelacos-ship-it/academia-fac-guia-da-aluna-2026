@@ -124,7 +124,7 @@ Perguntas norteadoras para sua reflexão no caderno:
     },
     {
       id: 'construir',
-      titulo: '3. Construir seu Retrato Inicial',
+      titulo: '3. Realizar o Diagnóstico Inicial',
       descricao: 'Aplicação do Diagnóstico FAC Aprofundado — Versão 2 (04/10/2026).',
       conteudo: `Nesta página você tem acesso ao motor completo do Diagnóstico FAC Aprofundado — Versão 2 (24 perguntas e 3 pilares).
 Ao final, você receberá a visão geral completa da sua prática, as leituras verbatim dos pilares, os 6 movimentos e a geração de relatório em PDF.`,

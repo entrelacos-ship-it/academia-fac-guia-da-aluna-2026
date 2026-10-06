@@ -31,7 +31,6 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import { ENCONTRO_1_CONTENT } from '@/config/guiaContent'
 import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
-import { RetratoDeAutoriaSection } from '@/components/RetratoDeAutoriaSection'
 import {
   AlunaGuiaService,
   AlunaSession,
@@ -52,10 +51,7 @@ export const GuiaPage: React.FC = () => {
   )
 
   // Encontro atualmente selecionado (padrão: 1)
-  // Ou modo Retrato de Autoria se a rota for /guia/retrato-de-autoria
-  const isRetratoRoute = window.location.pathname.includes('retrato-de-autoria')
   const [encontroSelecionado, setEncontroSelecionado] = useState<number>(1)
-  const [exibirSkillRetrato, setExibirSkillRetrato] = useState<boolean>(isRetratoRoute)
 
   // Lista de encontros do ciclo carregada do backend
   const [encontrosList, setEncontrosList] = useState<EncontroResumo[]>([])
@@ -283,18 +279,11 @@ export const GuiaPage: React.FC = () => {
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {isAlunaValidada && (
-              <span className="hidden sm:inline-flex text-emerald-600 dark:text-emerald-400 font-semibold items-center gap-1">
+              <span className="inline-flex text-emerald-600 dark:text-emerald-400 font-semibold items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 Matrícula Ativa
               </span>
             )}
-            <button
-              type="button"
-              onClick={() => setExibirSkillRetrato(!exibirSkillRetrato)}
-              className="text-[#ea580c] dark:text-[#FB923C] hover:underline cursor-pointer min-h-[36px] flex items-center"
-            >
-              {exibirSkillRetrato ? '← Guia da Aluna' : 'Retrato de Autoria →'}
-            </button>
           </div>
         </div>
       </div>
@@ -371,7 +360,6 @@ export const GuiaPage: React.FC = () => {
                     type="button"
                     onClick={() => {
                       setEncontroSelecionado(1)
-                      setExibirSkillRetrato(false)
                     }}
                     className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
                       encontroSelecionado === 1
@@ -408,7 +396,6 @@ export const GuiaPage: React.FC = () => {
                           type="button"
                           onClick={() => {
                             setEncontroSelecionado(enc.numero)
-                            setExibirSkillRetrato(false)
                           }}
                           className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
                             isAtivo
@@ -473,22 +460,9 @@ export const GuiaPage: React.FC = () => {
             </div>
           </aside>
 
-          {/* Coluna Direita: Conteúdo do Encontro Selecionado ou Retrato de Autoria */}
+          {/* Coluna Direita: Conteúdo do Encontro Selecionado */}
           <section className="lg:col-span-8 space-y-8">
-            {exibirSkillRetrato ? (
-              <div className="space-y-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setExibirSkillRetrato(false)}
-                  className="gap-1.5 font-mono text-xs rounded-[8px]"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Voltar aos Encontros</span>
-                </Button>
-                <RetratoDeAutoriaSection />
-              </div>
-            ) : encontroSelecionado === 1 ? (
+            {encontroSelecionado === 1 ? (
               <div className="space-y-8">
                 {/* Caderno Didático do Encontro 1 */}
                 <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6">
@@ -509,11 +483,9 @@ export const GuiaPage: React.FC = () => {
                       Encontro 1
                     </Badge>
                   </div>
-
                   <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line bg-slate-50/70 dark:bg-[#121216] p-5 rounded-[12px] border border-slate-200 dark:border-[#27272A]">
                     {ENCONTRO_1_CONTENT.introducao}
                   </div>
-
                   {/* 4 Seções do Caderno (Preparar / Participar / Construir / Entregar) */}
                   <div className="space-y-4">
                     <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
@@ -541,8 +513,7 @@ export const GuiaPage: React.FC = () => {
                       ))}
                     </div>
                   </div>
-
-                  {/* Complemento exclusivo para Alunas Validadas no Encontro 1 */}
+                  {/* Complemento exclusivo para Alunas Validadas no Encontro 1 */}{' '}
                   {isAlunaValidada ? (
                     <div className="p-5 rounded-[12px] bg-purple-50/80 dark:bg-purple-950/30 border border-purple-200 dark:border-[#7c3aed]/40 space-y-3">
                       <div className="flex items-center gap-2">

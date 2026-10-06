@@ -114,7 +114,6 @@ const AppRoutes = () => {
         />
         {/* Guia da Aluna da Academia Método FAC (Acesso aberto para Aula 1 / validação para alunas) */}
         <Route path="/guia" element={<GuiaPage />} />
-        <Route path="/guia/retrato-de-autoria" element={<GuiaPage />} />
         {/* App Meu IKIGAI da Academia Método FAC */}
         <Route
           path="/ikigai"
