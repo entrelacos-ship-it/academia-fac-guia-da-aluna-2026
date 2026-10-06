@@ -88,9 +88,9 @@ export const SecaoChatGPT: React.FC = () => {
             Regra fundamental de cuidado ético com IA:
           </strong>
           <p>
-            Nunca envie à IA nome, contato, prontuário, fala de sessão ou história reconhecível de uma
-            pessoa atendida. Trabalhe com dados da própria gestão profissional ou com personagens
-            inventados. A revisão e a decisão final são suas.
+            Nunca envie à IA nome, contato, prontuário, fala de sessão ou história reconhecível de
+            uma pessoa atendida. Trabalhe com dados da própria gestão profissional ou com
+            personagens inventados. A revisão e a decisão final são suas.
           </p>
         </div>
       </div>

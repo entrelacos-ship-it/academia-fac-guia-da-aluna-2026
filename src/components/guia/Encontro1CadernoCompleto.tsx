@@ -384,9 +384,10 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
 
           <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-light leading-relaxed">
             <p>
-              Postar mais sem saber para quem você fala, investir em anúncios sem uma página clara ou
-              baixar o preço sem conhecer o mínimo sustentável são movimentos que parecem ação, mas
-              podem ampliar a confusão. O cubo representa a relação entre três dimensões da carreira.
+              Postar mais sem saber para quem você fala, investir em anúncios sem uma página clara
+              ou baixar o preço sem conhecer o mínimo sustentável são movimentos que parecem ação,
+              mas podem ampliar a confusão. O cubo representa a relação entre três dimensões da
+              carreira.
             </p>
             <p>
               Fundação pergunta o que sustenta e torna compreensível seu trabalho. Atração pergunta
@@ -399,9 +400,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <ul className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-light border-l-2 border-slate-200 dark:border-[#27272A] pl-4">
             <li>• Comece por clareza e estrutura.</li>
             <li>• Escolha rotas de chegada compatíveis com seus recursos.</li>
-            <li>
-              • Cuide da experiência de quem chega sem automatizar o vínculo clínico.
-            </li>
+            <li>• Cuide da experiência de quem chega sem automatizar o vínculo clínico.</li>
           </ul>
 
           <div className="p-4 rounded-[10px] bg-purple-50/60 dark:bg-purple-950/20 border-l-3 border-l-[#7c3aed] dark:border-l-[#C084FC] border-y border-r border-purple-100 dark:border-purple-900/30 space-y-1">
@@ -437,8 +436,8 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-light leading-relaxed">
             <p>
               Fundação é conseguir dizer para quem é seu trabalho, como explicá-lo e em quais
-              condições você consegue sustentá-lo. O diagnóstico observa a estrutura que existe hoje.
-              A investigação de propósito e IKIGAI fica para o Encontro 2.
+              condições você consegue sustentá-lo. O diagnóstico observa a estrutura que existe
+              hoje. A investigação de propósito e IKIGAI fica para o Encontro 2.
             </p>
             <p>
               Se uma profissional atende bem, mas descreve seu trabalho apenas como "atendimento
@@ -567,9 +566,9 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         <p className="text-sm text-slate-700 dark:text-zinc-300 leading-relaxed font-light">
-          Responda 24 perguntas, mais contexto e um bloco de cuidado fora da nota. O resultado mostra
-          a ordem dos pilares, os pontos firmes e frágeis em cada dimensão e um primeiro foco para o
-          ciclo.
+          Responda 24 perguntas, mais contexto e um bloco de cuidado fora da nota. O resultado
+          mostra a ordem dos pilares, os pontos firmes e frágeis em cada dimensão e um primeiro foco
+          para o ciclo.
         </p>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
@@ -605,9 +604,9 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-light leading-relaxed">
           <p>
             Olhe primeiro para o pilar que pede atenção. Depois pergunte: que situação concreta da
-            minha prática confirma ou contesta esse sinal? A partir daí, escolha uma ação pequena que
-            possa ser feita nesta semana. O diagnóstico orienta a pergunta; sua experiência ajuda a
-            validar a resposta.
+            minha prática confirma ou contesta esse sinal? A partir daí, escolha uma ação pequena
+            que possa ser feita nesta semana. O diagnóstico orienta a pergunta; sua experiência
+            ajuda a validar a resposta.
           </p>
           <p className="p-4 rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A]">
             <strong className="font-semibold text-slate-900 dark:text-white font-sans">

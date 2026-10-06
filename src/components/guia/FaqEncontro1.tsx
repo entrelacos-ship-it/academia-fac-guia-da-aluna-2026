@@ -6,9 +6,7 @@ export const FaqEncontro1: React.FC = () => {
   const [openIds, setOpenIds] = useState<string[]>([])
 
   const toggleFaq = (id: string) => {
-    setOpenIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    )
+    setOpenIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]))
   }
 
   return (

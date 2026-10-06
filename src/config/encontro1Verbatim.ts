@@ -76,7 +76,8 @@ export const PROMPTS_BIBLIOTECA_ENCONTRO_1: PromptApoio[] = [
     numero: '01',
     kicker: 'PROMPT DE APOIO',
     titulo: 'Ler o diagnóstico sem se reduzir a um número',
-    momentoUso: 'Use depois de preencher o Diagnóstico e escrever uma situação concreta da sua prática.',
+    momentoUso:
+      'Use depois de preencher o Diagnóstico e escrever uma situação concreta da sua prática.',
     texto: `Estou construindo meu Mapa Pessoal do Ciclo FAC. Meus resultados são: Fundação [__%], Atração [__%], Conexão [__%]. Uma situação observável da minha prática profissional é: [descreva sem dados de pacientes]. Ajude-me a levantar 2 hipóteses sobre qual pilar merece atenção primeiro. Para cada hipótese, diga o que eu precisaria observar para confirmá-la ou corrigi-la. Não faça diagnóstico pessoal, não prometa resultados e termine com uma pergunta que me ajude a decidir.`,
     notaPosCopia:
       'Compare as hipóteses com o que você vive. Escreva no Mapa apenas a leitura que fizer sentido para sua realidade.',
@@ -96,7 +97,8 @@ export const PROMPTS_BIBLIOTECA_ENCONTRO_1: PromptApoio[] = [
     numero: '03',
     kicker: 'PROMPT DE APOIO',
     titulo: 'Criar um plano mínimo de retomada',
-    momentoUso: 'Use para preencher a quarta pergunta do Mapa sem transformar um imprevisto em abandono.',
+    momentoUso:
+      'Use para preencher a quarta pergunta do Mapa sem transformar um imprevisto em abandono.',
     texto: `Estou preenchendo a pergunta "Como volto se a semana escapar?" do meu Mapa Pessoal no Método FAC. O obstáculo provável que costuma interromper minha constância é: [descreva o obstáculo profissional ou de rotina, sem dados sensíveis]. Sugira 2 opções de ação mínima de retomada (que leve de 20 a 30 minutos), realista para uma semana sobrecarregada, para que eu não precise "recomeçar do zero" nem me culpar pelo imprevisto.`,
     notaPosCopia:
       'Uma ação mínima viável protege sua continuidade muito mais do que prometer compensar tudo no fim de semana.',

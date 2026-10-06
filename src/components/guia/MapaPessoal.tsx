@@ -399,9 +399,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
               <textarea
                 rows={3}
                 value={mapa.oQueAconteceHoje}
-                onChange={(e) =>
-                  setMapa((prev) => ({ ...prev, oQueAconteceHoje: e.target.value }))
-                }
+                onChange={(e) => setMapa((prev) => ({ ...prev, oQueAconteceHoje: e.target.value }))}
                 placeholder="Ex.: Tenho dificuldade de explicar meu trabalho em uma frase."
                 className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
               />
@@ -492,8 +490,8 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             </h4>
           </div>
           <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
-            Preveja o imprevisto mais provável e defina uma ação curta para não transformar um atraso
-            em desistência.
+            Preveja o imprevisto mais provável e defina uma ação curta para não transformar um
+            atraso em desistência.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
@@ -540,7 +538,8 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             </h4>
           </div>
           <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
-            Defina um bloco de tempo compatível com a sua rotina real, não com uma rotina idealizada.
+            Defina um bloco de tempo compatível com a sua rotina real, não com uma rotina
+            idealizada.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
@@ -551,9 +550,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
               <input
                 type="text"
                 value={mapa.horasReservadas}
-                onChange={(e) =>
-                  setMapa((prev) => ({ ...prev, horasReservadas: e.target.value }))
-                }
+                onChange={(e) => setMapa((prev) => ({ ...prev, horasReservadas: e.target.value }))}
                 placeholder="Ex.: 90 minutos por semana"
                 className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
               />
