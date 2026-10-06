@@ -17,41 +17,41 @@ export const BibliotecaPrompts: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
+    <div className="space-y-7">
+      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-4">
+        <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           BIBLIOTECA COPIÁVEL
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white mt-1">
+        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
           Prompts para pensar com mais clareza.
         </h3>
-        <p className="text-sm text-slate-600 dark:text-[#A1A1AA] mt-1.5 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
           Eles ajudam a organizar suas respostas. A decisão final continua com você. Preencha apenas
           informações da sua prática profissional; use exemplos fictícios quando precisar ilustrar
           uma situação.
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         {PROMPTS_BIBLIOTECA_ENCONTRO_1.map((p) => {
           const foiCopiado = copiadoId === p.id
 
           return (
             <div
               key={p.id}
-              className="rounded-[14px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] p-5 sm:p-6 space-y-4 transition-all"
+              className="rounded-[18px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-7 space-y-4.5 transition-all shadow-2xs"
             >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div className="space-y-1">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
                       {p.kicker} {p.numero}
                     </span>
                   </div>
-                  <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+                  <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
                     {p.titulo}
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-[#A1A1AA] italic">
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A1A1AA] italic">
                     {p.momentoUso}
                   </p>
                 </div>
@@ -61,7 +61,7 @@ export const BibliotecaPrompts: React.FC = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => handleCopiarPrompt(p)}
-                  className={`min-h-[40px] px-3.5 gap-1.5 font-mono text-xs rounded-[8px] shrink-0 transition-colors cursor-pointer ${
+                  className={`min-h-[42px] px-4 gap-2 font-mono text-xs sm:text-sm rounded-[8px] shrink-0 transition-colors cursor-pointer ${
                     foiCopiado
                       ? 'border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
                       : 'border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B]'
@@ -70,12 +70,12 @@ export const BibliotecaPrompts: React.FC = () => {
                 >
                   {foiCopiado ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                       <span>Prompt copiado!</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-4 h-4" />
                       <span>Copiar prompt</span>
                     </>
                   )}
@@ -83,12 +83,12 @@ export const BibliotecaPrompts: React.FC = () => {
               </div>
 
               {/* Caixa com o texto do prompt */}
-              <div className="p-4 rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A] text-xs font-mono text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line select-all">
+              <div className="p-5 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A] text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line select-all">
                 {p.texto}
               </div>
 
               {p.notaPosCopia && (
-                <p className="text-[11px] font-mono text-slate-500 dark:text-[#71717A] leading-relaxed">
+                <p className="text-xs font-mono text-slate-500 dark:text-[#71717A] leading-relaxed">
                   <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">Nota: </span>
                   {p.notaPosCopia}
                 </p>

@@ -10,37 +10,37 @@ export const FaqEncontro1: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
+    <div className="space-y-7">
+      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-4">
+        <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           DÚVIDAS COMUNS
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white mt-1">
+        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
           Se algo travar.
         </h3>
-        <p className="text-sm text-slate-600 dark:text-[#A1A1AA] mt-1 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
           Orientações rápidas sobre acesso, tempo do diagnóstico, perda da aula ao vivo e
           compartilhamento seguro do seu resultado.
         </p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         {FAQ_ENCONTRO_1.map((item: FaqItem) => {
           const isOpen = openIds.includes(item.id)
 
           return (
             <div
               key={item.id}
-              className="rounded-[12px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] transition-all overflow-hidden"
+              className="rounded-[16px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] transition-all overflow-hidden shadow-2xs"
             >
               <button
                 type="button"
                 onClick={() => toggleFaq(item.id)}
-                className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-[#18181B] transition-colors"
+                className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-[#18181B] transition-colors"
                 aria-expanded={isOpen}
               >
-                <span className="font-sans font-medium text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] shrink-0" />
+                <span className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] shrink-0" />
                   <span>{item.pergunta}</span>
                 </span>
                 <ChevronDown
@@ -51,7 +51,7 @@ export const FaqEncontro1: React.FC = () => {
               </button>
 
               {isOpen && (
-                <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed border-t border-slate-100 dark:border-[#1f1f23] animate-in fade-in duration-150 font-light">
+                <div className="px-6 pb-6 pt-3 text-sm sm:text-[15px] text-slate-600 dark:text-[#A1A1AA] leading-relaxed border-t border-slate-100 dark:border-[#1f1f23] animate-in fade-in duration-150 font-light">
                   {item.resposta}
                 </div>
               )}

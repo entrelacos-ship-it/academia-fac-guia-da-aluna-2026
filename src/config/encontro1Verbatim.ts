@@ -87,10 +87,10 @@ export const PROMPTS_BIBLIOTECA_ENCONTRO_1: PromptApoio[] = [
     numero: '02',
     kicker: 'PROMPT DE APOIO',
     titulo: 'Transformar intenção em resultado verificável',
-    momentoUso: 'Use quando sua meta para as 19 semanas ainda estiver ampla demais.',
-    texto: `Estou definindo o resultado observável do meu percurso de 19 semanas no Método FAC. Minha intenção inicial é: [escreva sua intenção geral, ex: "quero me organizar melhor" ou "quero cobrar direito"]. Ajude-me a converter essa intenção em 2 opções de frases verificáveis no mundo real, com foco em estrutura da clínica (clareza de público, valor da sessão ou canal de chegada). Não prometa faturamento nem volume de agenda, e garanta que o resultado dependa de ações sob meu controle.`,
+    momentoUso: 'Use quando sua meta para os encontros ainda estiver ampla demais.',
+    texto: `Estou definindo o resultado observável do meu percurso no Método FAC ao longo dos encontros. Minha intenção inicial é: [escreva sua intenção geral, ex: "quero me organizar melhor" ou "quero cobrar direito"]. Ajude-me a converter essa intenção em 2 opções de frases verificáveis no mundo real, com foco em estrutura da clínica (clareza de público, valor da sessão ou canal de chegada). Não prometa faturamento nem volume de agenda, e garanta que o resultado dependa de ações sob meu controle.`,
     notaPosCopia:
-      'Escolha a frase que descreve algo que você pode olhar e constatar com clareza daqui a 19 semanas.',
+      'Escolha a frase que descreve algo que você pode olhar e constatar com clareza no decorrer das próximas semanas.',
   },
   {
     id: 'prompt-03',

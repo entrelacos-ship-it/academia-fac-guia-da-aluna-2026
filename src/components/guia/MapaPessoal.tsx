@@ -165,7 +165,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
       `3. Assunto — por quê:\n${mapa.assunto3 || '[Não preenchido]'}`,
       '',
       '--------------------------------------------------',
-      '03 / O QUE QUERO CONSTRUIR EM 19 SEMANAS?',
+      '03 / O QUE QUERO CONSTRUIR COM OS ENCONTROS?',
       '--------------------------------------------------',
       `Resultado observável:\n${mapa.resultadoObservavel || '[Não preenchido]'}`,
       '',
@@ -234,16 +234,16 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
   }
 
   return (
-    <div className="rounded-[16px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-8">
+    <div className="rounded-[20px] border border-slate-200/90 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-10">
       {/* Cabeçalho */}
-      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-4">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
+      <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-5">
+        <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           DEPOIS DO DIAGNÓSTICO / EXERCÍCIO OPCIONAL
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white mt-1">
+        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
           Meu primeiro passo no Ciclo FAC.
         </h3>
-        <p className="text-sm text-slate-600 dark:text-[#A1A1AA] mt-1.5 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
           O diagnóstico mostra uma hipótese sobre a estrutura da sua prática. Este mapa ajuda você a
           transformar o resultado em uma escolha concreta para a semana. Traga os percentuais do
           diagnóstico, confira o pilar sugerido e escreva as demais respostas com suas palavras. Não
@@ -252,26 +252,26 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
       </div>
 
       {/* Bloco: Comece pelo seu resultado */}
-      <div className="p-5 rounded-[12px] bg-purple-50/70 dark:bg-purple-950/25 border border-purple-200/80 dark:border-[#7c3aed]/40 space-y-3">
-        <div className="flex items-center gap-2">
+      <div className="p-6 rounded-[14px] bg-purple-50/70 dark:bg-purple-950/25 border border-purple-200/80 dark:border-[#7c3aed]/40 space-y-3.5">
+        <div className="flex items-center gap-2.5">
           <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-          <h4 className="font-sans font-semibold text-sm text-slate-900 dark:text-white">
+          <h4 className="font-sans font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
             Comece pelo seu resultado
           </h4>
         </div>
-        <p className="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-light">
           Se você concluiu o diagnóstico neste navegador, podemos trazer apenas os percentuais e o
           pilar de partida sugerido. Você decide se essa leitura faz sentido.
         </p>
 
-        <div className="flex flex-wrap items-center gap-2.5 pt-1">
+        <div className="flex flex-wrap items-center gap-3 pt-1">
           <Button
             type="button"
             size="sm"
             onClick={handlePuxarResultadoDiagnostico}
-            className="min-h-[38px] px-3 font-mono text-xs bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] cursor-pointer"
+            className="min-h-[42px] px-4 font-mono text-xs sm:text-sm bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] cursor-pointer"
           >
-            <Compass className="w-3.5 h-3.5 mr-1" />
+            <Compass className="w-4 h-4 mr-1.5" />
             <span>Puxar percentuais do meu diagnóstico</span>
           </Button>
 
@@ -281,17 +281,17 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
               variant="outline"
               size="sm"
               onClick={onAbrirDiagnostico}
-              className="min-h-[38px] px-3 font-mono text-xs border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] rounded-[8px] cursor-pointer"
+              className="min-h-[42px] px-4 font-mono text-xs sm:text-sm border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] rounded-[8px] cursor-pointer"
             >
               <span>Fazer o diagnóstico</span>
-              <ArrowRight className="w-3.5 h-3.5 ml-1" />
+              <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
             </Button>
           )}
         </div>
 
         {mensagemPuxar && (
           <p
-            className={`text-xs font-mono pt-1 ${puxadoSucesso ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : 'text-amber-700 dark:text-amber-400'}`}
+            className={`text-xs sm:text-sm font-mono pt-1 ${puxadoSucesso ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : 'text-amber-700 dark:text-amber-400'}`}
           >
             {mensagemPuxar}
           </p>
@@ -299,9 +299,9 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
       </div>
 
       {/* Dados de Identificação */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="space-y-2">
+          <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
             Seu nome
           </label>
           <input
@@ -309,12 +309,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.nome}
             onChange={(e) => setMapa((prev) => ({ ...prev, nome: e.target.value }))}
             placeholder="Seu nome ou como prefere ser chamada"
-            className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+        <div className="space-y-2">
+          <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
             Data
           </label>
           <input
@@ -322,16 +322,16 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.data}
             onChange={(e) => setMapa((prev) => ({ ...prev, data: e.target.value }))}
             placeholder="Ex.: 06/10/2026"
-            className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white font-mono"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
 
-        <div className="sm:col-span-2 space-y-1.5">
+        <div className="sm:col-span-2 space-y-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+            <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
               Percentuais do Diagnóstico FAC
             </label>
-            <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
               Use o botão acima ou copie os números do seu PDF. Você pode editar este campo.
             </span>
           </div>
@@ -340,33 +340,33 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.percentuais}
             onChange={(e) => setMapa((prev) => ({ ...prev, percentuais: e.target.value }))}
             placeholder="Fundação __% · Atração __% · Conexão __%"
-            className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white font-mono"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
       </div>
 
-      <div className="border-t border-slate-200/80 dark:border-[#27272A] pt-6 space-y-8">
+      <div className="border-t border-slate-200/80 dark:border-[#27272A] pt-8 space-y-9">
         {/* Passo 01 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs font-bold text-[#7c3aed] dark:text-[#C084FC]">
               01
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
               Por onde começo?
             </h4>
           </div>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
             O diagnóstico sugere um pilar de partida. Confira se ele combina com uma situação
             concreta da sua prática; você pode escolher outro com seu próprio critério.
           </p>
 
-          <div className="space-y-3 pt-1">
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <div className="space-y-4 pt-1">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Pilar que vou observar primeiro:
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2.5">
                 {(['Fundação', 'Atração', 'Conexão'] as const).map((p) => {
                   const isSel = mapa.pilarPrimeiro === p
                   return (
@@ -374,7 +374,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                       key={p}
                       type="button"
                       onClick={() => setMapa((prev) => ({ ...prev, pilarPrimeiro: p }))}
-                      className={`min-h-[38px] px-4 py-1.5 rounded-[8px] text-xs font-mono transition-all cursor-pointer ${
+                      className={`min-h-[42px] px-5 py-2 rounded-[10px] text-xs sm:text-sm font-mono transition-all cursor-pointer ${
                         isSel
                           ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14] font-semibold shadow-xs'
                           : 'bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:border-[#7c3aed]/50'
@@ -387,12 +387,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
               </div>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+                <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                   O que acontece hoje que mostra isso?
                 </label>
-                <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
                   Prefira uma situação observável a "preciso melhorar tudo".
                 </span>
               </div>
@@ -401,35 +401,35 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                 value={mapa.oQueAconteceHoje}
                 onChange={(e) => setMapa((prev) => ({ ...prev, oQueAconteceHoje: e.target.value }))}
                 placeholder="Ex.: Tenho dificuldade de explicar meu trabalho em uma frase."
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
           </div>
         </div>
 
         {/* Passo 02 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs font-bold text-[#7c3aed] dark:text-[#C084FC]">
               02
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
               Onde quero prestar atenção especial?
             </h4>
           </div>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
             Liste três assuntos urgentes e por que importam. Você poderá acrescentar números dos
             encontros quando os temas forem liberados.
           </p>
 
-          <div className="space-y-2.5 pt-1">
+          <div className="space-y-3 pt-1">
             {[
               { id: 'assunto1', label: '1. Assunto — por quê?', val: mapa.assunto1 },
               { id: 'assunto2', label: '2. Assunto — por quê?', val: mapa.assunto2 },
               { id: 'assunto3', label: '3. Assunto — por quê?', val: mapa.assunto3 },
             ].map((item, idx) => (
-              <div key={item.id} className="space-y-1">
-                <label className="text-xs font-mono text-slate-700 dark:text-slate-300 block">
+              <div key={item.id} className="space-y-1.5">
+                <label className="text-xs sm:text-sm font-mono text-slate-700 dark:text-slate-300 block">
                   {item.label}
                 </label>
                 <input
@@ -442,7 +442,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                     }))
                   }
                   placeholder={`Ex.: ${idx === 0 ? 'Definição do valor mínimo — para parar de negociar no susto' : idx === 1 ? 'Mensagem e bio do perfil — para que saibam quem atendo' : 'Processo de primeiro contato — para não perder quem chega'}`}
-                  className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                  className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
                 />
               </div>
             ))}
@@ -450,21 +450,22 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
         </div>
 
         {/* Passo 03 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs font-bold text-[#7c3aed] dark:text-[#C084FC]">
               03
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
-              O que quero construir em 19 semanas?
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
+              O que quero construir com os encontros?
             </h4>
           </div>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
-            Escreva uma frase que você conseguirá verificar no fim do ciclo.
+          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+            Escreva o que você quer encontrar nas próximas semanas e constatar de forma concreta ao
+            longo do ciclo.
           </p>
 
-          <div className="space-y-1.5 pt-1">
-            <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <div className="space-y-2 pt-1">
+            <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
               Resultado observável
             </label>
             <input
@@ -473,30 +474,30 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
               onChange={(e) =>
                 setMapa((prev) => ({ ...prev, resultadoObservavel: e.target.value }))
               }
-              placeholder="Ex.: Terei meu valor mínimo calculado e uma descrição clara do meu trabalho."
-              className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+              placeholder="Ex.: Terei meu valor mínimo calculado e uma descrição clara do meu trabalho construída com os encontros."
+              className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
             />
           </div>
         </div>
 
         {/* Passo 04 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs font-bold text-[#7c3aed] dark:text-[#C084FC]">
               04
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
               Como volto se a semana escapar?
             </h4>
           </div>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
             Preveja o imprevisto mais provável e defina uma ação curta para não transformar um
             atraso em desistência.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Obstáculo provável
               </label>
               <input
@@ -506,12 +507,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                   setMapa((prev) => ({ ...prev, obstaculoProvavel: e.target.value }))
                 }
                 placeholder="Ex.: Perder a aula ao vivo."
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Minha ação mínima de retomada
               </label>
               <input
@@ -521,30 +522,30 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                   setMapa((prev) => ({ ...prev, acaoMinimaRetomada: e.target.value }))
                 }
                 placeholder="Ex.: Assistir ao capítulo da construção na quarta e preencher uma parte do mapa."
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
           </div>
         </div>
 
         {/* Passo 05 */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs font-bold text-[#7c3aed] dark:text-[#C084FC]">
               05
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
               Qual é meu espaço real na semana?
             </h4>
           </div>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
             Defina um bloco de tempo compatível com a sua rotina real, não com uma rotina
             idealizada.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Horas que consigo reservar
               </label>
               <input
@@ -552,12 +553,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                 value={mapa.horasReservadas}
                 onChange={(e) => setMapa((prev) => ({ ...prev, horasReservadas: e.target.value }))}
                 placeholder="Ex.: 90 minutos por semana"
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Dia e horário que vou proteger
               </label>
               <input
@@ -567,26 +568,26 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                   setMapa((prev) => ({ ...prev, diaHorarioProtegido: e.target.value }))
                 }
                 placeholder="Ex.: quarta, 20h"
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
           </div>
         </div>
 
         {/* Bloco final: Minha primeira ação nesta semana */}
-        <div className="p-5 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/90 dark:border-[#27272A] space-y-3">
-          <div className="flex items-center gap-2">
+        <div className="p-6 rounded-[14px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/90 dark:border-[#27272A] space-y-3.5">
+          <div className="flex items-center gap-2.5">
             <span className="text-[#ea580c] dark:text-[#FB923C] font-mono font-bold text-sm">
               →
             </span>
-            <h4 className="font-serif-editorial text-lg sm:text-xl font-normal text-slate-900 dark:text-white">
+            <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
               Minha primeira ação nesta semana
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 O que vou fazer
               </label>
               <input
@@ -594,12 +595,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                 value={mapa.primeiraAcao}
                 onChange={(e) => setMapa((prev) => ({ ...prev, primeiraAcao: e.target.value }))}
                 placeholder="Ex.: revisar a dimensão mais frágil do meu resultado"
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block">
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
                 Dia e horário
               </label>
               <input
@@ -609,7 +610,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                   setMapa((prev) => ({ ...prev, primeiraAcaoDataHora: e.target.value }))
                 }
                 placeholder="Ex.: quinta, 08/10, às 20h"
-                className="w-full p-2.5 rounded-[8px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-xs sm:text-sm text-slate-900 dark:text-white"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-sm text-slate-900 dark:text-white font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
           </div>

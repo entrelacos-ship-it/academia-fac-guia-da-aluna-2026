@@ -465,7 +465,7 @@ export const GuiaPage: React.FC = () => {
               aria-label="Abrir menu da Trilha de Encontros"
             >
               <Compass className="w-3.5 h-3.5" />
-              <span>Trilha ({encontrosList.length > 0 ? encontrosList.length : '19'})</span>
+              <span>Trilha</span>
             </Button>
           </div>
         </div>
@@ -521,55 +521,62 @@ export const GuiaPage: React.FC = () => {
         </div>
       </section>
 
-      {/* MAPA DE ENCONTROS (LAYOUT EM DUAS COLUNAS: MENU LATERAL + CONTEÚDO) */}
-      <main className="flex-1 max-w-(--breakpoint-2xl) w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 transition-all duration-300">
+      {/* MAPA DE ENCONTROS (LAYOUT EM DUAS COLUNAS: MENU LATERAL + CONTEÚDO AMPLIADO) */}
+      <main className="flex-1 max-w-[1536px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-8 sm:py-12 transition-all duration-300">
         {/* Barra superior de comando da área de conteúdo (Alternar trilha / Encontro atual / Status) */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 p-3 sm:px-4 rounded-[12px] bg-white/80 dark:bg-[#121216]/80 border border-slate-200 dark:border-[#27272A] backdrop-blur-xs">
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Botão Desktop: Recolher/Expandir menu lateral */}
-            <Button
-              variant="outline"
-              size="sm"
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 p-3.5 sm:px-5 rounded-[14px] bg-white/90 dark:bg-[#121216]/90 border border-slate-200 dark:border-[#27272A] backdrop-blur-sm shadow-2xs">
+          <div className="flex items-center gap-2.5 sm:gap-3.5">
+            {/* Botão Desktop Premium: Recolher/Expandir menu lateral com acabamento refinado */}
+            <button
+              type="button"
               onClick={toggleSidebar}
-              className="hidden lg:inline-flex items-center gap-2 min-h-[38px] h-9 px-3 rounded-[8px] border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] text-xs font-mono font-medium transition-colors"
+              className={`hidden lg:inline-flex items-center gap-2 min-h-[40px] h-10 px-3.5 rounded-[10px] text-xs font-mono font-medium transition-all duration-200 border cursor-pointer group shadow-2xs ${
+                isSidebarOpen
+                  ? 'border-purple-200 dark:border-purple-900/60 bg-purple-50/60 dark:bg-purple-950/30 text-purple-900 dark:text-purple-200 hover:bg-purple-100/80 dark:hover:bg-purple-900/40 hover:border-purple-300 dark:hover:border-purple-700'
+                  : 'border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-[#222227] hover:border-purple-300 dark:hover:border-purple-800'
+              }`}
               title={
                 isSidebarOpen
-                  ? 'Ocultar menu lateral da trilha para expandir a tela'
-                  : 'Expandir menu lateral da trilha'
+                  ? 'Ocultar menu lateral da trilha para expandir a área de leitura'
+                  : 'Expandir menu lateral da trilha de encontros'
               }
               aria-expanded={isSidebarOpen}
             >
-              {isSidebarOpen ? (
-                <>
-                  <PanelLeftClose className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                  <span>Ocultar Trilha</span>
-                </>
-              ) : (
-                <>
-                  <PanelLeftOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                  <span>Expandir Trilha</span>
-                </>
-              )}
-            </Button>
+              <div
+                className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${
+                  isSidebarOpen
+                    ? 'bg-purple-200/70 dark:bg-purple-800/50 text-[#7c3aed] dark:text-[#C084FC]'
+                    : 'bg-slate-100 dark:bg-[#27272A] text-slate-600 dark:text-[#A1A1AA] group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC]'
+                }`}
+              >
+                {isSidebarOpen ? (
+                  <PanelLeftClose className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                ) : (
+                  <PanelLeftOpen className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                )}
+              </div>
+              <span className="tracking-tight font-semibold">
+                {isSidebarOpen ? 'Ocultar Trilha' : 'Expandir Trilha'}
+              </span>
+            </button>
 
             {/* Botão Mobile: Abrir menu da trilha em gaveta */}
-            <Button
-              variant="outline"
-              size="sm"
+            <button
+              type="button"
               onClick={() => setMobileDrawerOpen(true)}
-              className="lg:hidden inline-flex items-center gap-1.5 min-h-[38px] h-9 px-3 rounded-[8px] border-purple-200 dark:border-[#27272A] bg-purple-50/70 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] text-xs font-mono font-medium"
+              className="lg:hidden inline-flex items-center gap-2 min-h-[40px] h-10 px-3.5 rounded-[10px] border border-purple-200 dark:border-[#27272A] bg-purple-50/70 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] text-xs font-mono font-semibold cursor-pointer shadow-2xs hover:bg-purple-100/70 dark:hover:bg-[#222227] transition-colors"
             >
-              <Menu className="w-4 h-4" />
-              <span>Ver Trilha ({encontrosList.length > 0 ? encontrosList.length : '19'})</span>
-            </Button>
+              <Compass className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+              <span>Ver Trilha</span>
+            </button>
 
-            <span className="hidden sm:inline-block h-4 w-px bg-slate-200 dark:bg-[#27272A]" />
+            <span className="hidden sm:inline-block h-5 w-px bg-slate-200 dark:bg-[#27272A]" />
 
             {/* Identificação do encontro em foco */}
-            <div className="flex items-center gap-2 text-xs font-mono">
+            <div className="flex items-center gap-2 text-xs sm:text-[13px] font-mono">
               <span className="text-slate-500 dark:text-[#71717A]">Visualizando:</span>
               <span className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC]" />
+                <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] animate-pulse" />
                 Encontro {encontroSelecionado} {encontroSelecionado === 1 ? '— Aula Magna' : ''}
               </span>
             </div>
@@ -582,30 +589,30 @@ export const GuiaPage: React.FC = () => {
                 Modo Tela Expandida Ativo
               </span>
             )}
-            <span className="hidden md:inline">Ciclo de 19 Encontros</span>
+            <span className="hidden md:inline">Ciclo de Encontros</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Coluna Esquerda: Trilha Completa de Encontros (Desktop - Ocultável com transição) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-10 items-start">
+          {/* Coluna Esquerda: Trilha Completa de Encontros (Desktop - Ocultável com transição suave) */}
           {isSidebarOpen && (
-            <aside className="hidden lg:block lg:col-span-4 xl:col-span-3 space-y-4 sticky top-24 transition-all duration-300 animate-fade-in">
+            <aside className="hidden lg:block lg:col-span-4 xl:col-span-3 2xl:col-span-3 space-y-4 sticky top-24 transition-all duration-300 animate-fade-in">
               {renderTrilhaContent(false)}
             </aside>
           )}
 
-          {/* Coluna Direita: Conteúdo do Encontro Selecionado (Expande para col-span-12 se fechado) */}
+          {/* Coluna Direita: Conteúdo do Encontro Selecionado (Expande com tela ampla e generosa se fechado) */}
           <section
-            className={`space-y-8 transition-all duration-300 ${
-              isSidebarOpen ? 'lg:col-span-8 xl:col-span-9' : 'lg:col-span-12 w-full'
+            className={`space-y-10 transition-all duration-300 ${
+              isSidebarOpen
+                ? 'lg:col-span-8 xl:col-span-9 2xl:col-span-9'
+                : 'lg:col-span-12 w-full max-w-6xl mx-auto'
             }`}
           >
             {encontroSelecionado === 1 ? (
               <div
                 id="caderno-encontro-1"
-                className={`space-y-14 scroll-mt-20 mx-auto w-full transition-all duration-300 ${
-                  isSidebarOpen ? 'max-w-5xl' : 'max-w-6xl'
-                }`}
+                className="space-y-16 sm:space-y-20 scroll-mt-20 w-full transition-all duration-300"
               >
                 {/* Caderno Editorial Completo do Encontro 1 */}
                 <Encontro1CadernoCompleto
@@ -727,11 +734,7 @@ export const GuiaPage: React.FC = () => {
                   </div>
                 ) : encontroDetalhe ? (
                   /* Encontro Pago Liberado com Sucesso! */
-                  <div
-                    className={`p-6 sm:p-10 lg:p-12 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-8 mx-auto w-full transition-all duration-300 ${
-                      isSidebarOpen ? 'max-w-5xl' : 'max-w-6xl'
-                    }`}
-                  >
+                  <div className="p-8 sm:p-12 lg:p-14 rounded-[20px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-10 w-full transition-all duration-300">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-[#27272A]">
                       <div>
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
