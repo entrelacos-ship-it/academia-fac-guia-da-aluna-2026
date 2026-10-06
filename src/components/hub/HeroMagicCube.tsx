@@ -11,12 +11,12 @@ const CORNER_RADIUS = 0.09 // arredondamento sutil dos chanfros
 // Na imagem: tons profundos de violeta/roxo, lilás luminoso, berinjela e ametista brilhante
 const STICKER_PALETTE = {
   brightViolet: '#a855f7', // roxo luminoso
-  deepPurple: '#6b21a8',   // roxo profundo
-  lavender: '#c084fc',     // lilás claro / destaque central
+  deepPurple: '#6b21a8', // roxo profundo
+  lavender: '#c084fc', // lilás claro / destaque central
   midnightPurple: '#4c1d95', // roxo escuro
-  grape: '#7e22ce',        // uva / violeta intermediário
-  accentLilac: '#d8b4fe',  // adesivo destaque brilhante (como visto na face frontal)
-  innerBody: '#09080e',    // corpo plástico preto/grafite profundo com leve tom arroxeado
+  grape: '#7e22ce', // uva / violeta intermediário
+  accentLilac: '#d8b4fe', // adesivo destaque brilhante (como visto na face frontal)
+  innerBody: '#09080e', // corpo plástico preto/grafite profundo com leve tom arroxeado
 }
 
 interface PieceConfig {
@@ -74,7 +74,12 @@ function generatePiecesConfig(): PieceConfig[] {
 
         // Definir as cores das faces externas
         // Na referência: o cubo é harmônico em roxos, com peças que variam entre lilás suave, violeta e roxo profundo
-        const getStickerColor = (faceIndex: number, gxVal: number, gyVal: number, gzVal: number) => {
+        const getStickerColor = (
+          faceIndex: number,
+          gxVal: number,
+          gyVal: number,
+          gzVal: number,
+        ) => {
           // Destacar a peça central frontal (+Z) com lilás luminoso como na referência
           if (faceIndex === 4 && gxVal === 0 && gyVal === 0 && gzVal === 1) {
             return STICKER_PALETTE.accentLilac
@@ -98,11 +103,11 @@ function generatePiecesConfig(): PieceConfig[] {
         }
 
         const faceColors: (string | null)[] = [
-          gx === 1 ? getStickerColor(0, gx, gy, gz) : null,  // +X (Right)
+          gx === 1 ? getStickerColor(0, gx, gy, gz) : null, // +X (Right)
           gx === -1 ? getStickerColor(1, gx, gy, gz) : null, // -X (Left)
-          gy === 1 ? getStickerColor(2, gx, gy, gz) : null,  // +Y (Top)
+          gy === 1 ? getStickerColor(2, gx, gy, gz) : null, // +Y (Top)
           gy === -1 ? getStickerColor(3, gx, gy, gz) : null, // -Y (Bottom)
-          gz === 1 ? getStickerColor(4, gx, gy, gz) : null,  // +Z (Front)
+          gz === 1 ? getStickerColor(4, gx, gy, gz) : null, // +Z (Front)
           gz === -1 ? getStickerColor(5, gx, gy, gz) : null, // -Z (Back)
         ]
 
@@ -150,9 +155,7 @@ const PieceMesh: React.FC<PieceMeshProps> = ({
 
   // Stagger escalonado por peça baseado na distância do centro e id
   const staggerOffset = useMemo(() => {
-    const dist = Math.sqrt(
-      config.gridPos[0] ** 2 + config.gridPos[1] ** 2 + config.gridPos[2] ** 2,
-    )
+    const dist = Math.sqrt(config.gridPos[0] ** 2 + config.gridPos[1] ** 2 + config.gridPos[2] ** 2)
     // Peças mais centrais se movem primeiro, cantos por último, com leve randomização
     const seed = (config.id * 17) % 100
     const normSeed = seed / 100
@@ -403,8 +406,7 @@ const CubeScene: React.FC<{
       const idleY = Math.sin(time * 0.5) * 0.06
 
       sceneGroupRef.current.rotation.x = baseRotationX + hoverBonusX + (1 - p) * 0.2
-      sceneGroupRef.current.rotation.y =
-        baseRotationY + idleY + progressBonusY + hoverBonusY
+      sceneGroupRef.current.rotation.y = baseRotationY + idleY + progressBonusY + hoverBonusY
       sceneGroupRef.current.rotation.z = baseRotationZ + Math.sin(time * 0.7) * 0.02
     }
   })
@@ -437,7 +439,6 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
   const targetProgressRef = useRef(0)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [currentDisplayProgress, setCurrentDisplayProgress] = useState(0)
 
   // Detectar preferência de movimento reduzido (acessibilidade)
   useEffect(() => {
@@ -456,28 +457,27 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
     if (reducedMotion) {
       targetProgressRef.current = 1
       progressRef.current = 1
-      setCurrentDisplayProgress(1)
       return
     }
 
     const calculateScrollProgress = () => {
       if (!containerRef.current) return
 
+      // Medição robusta baseada na posição do elemento na viewport e scroll da página
       const rect = containerRef.current.getBoundingClientRect()
       const windowHeight = window.innerHeight || document.documentElement.clientHeight
-
-      // O cubo começa desmontado no topo (scroll = 0).
-      // À medida que o usuário rola para baixo (ex: os primeiros 450px de scroll da página),
-      // o cubo monta perfeitamente.
       const scrollY = window.scrollY || window.pageYOffset || 0
-      const scrollDistanceToAssemble = 420 // pixels de scroll para montagem completa
 
-      let progress = scrollY / scrollDistanceToAssemble
+      // Início do efeito: scrollY = 0 -> progress = 0 (totalmente desmontado)
+      // Conforme o usuário rola a página, a hero viaja pela viewport.
+      // Distância de montagem: entre 0 e min(windowHeight * 0.55, 380px)
+      const maxScrollDistance = Math.min(Math.max(windowHeight * 0.5, 260), 400)
+      let progress = scrollY / maxScrollDistance
+
       if (progress < 0) progress = 0
       if (progress > 1) progress = 1
 
       targetProgressRef.current = progress
-      setCurrentDisplayProgress(progress)
     }
 
     calculateScrollProgress()
@@ -494,7 +494,7 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', calculateScrollProgress, { passive: true })
+    window.addEventListener('resize', calculateScrollProgress)
 
     return () => {
       window.removeEventListener('scroll', onScroll)
@@ -502,15 +502,12 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
     }
   }, [reducedMotion])
 
-  // Porcentagem visual arredondada para feedback acessível
-  const percentMounted = Math.round(currentDisplayProgress * 100)
-
   return (
     <div
       ref={containerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative flex flex-col items-center justify-center select-none ${className}`}
+      className={`relative flex flex-col items-center justify-center select-none pointer-events-auto ${className}`}
       aria-label="Cubo Mágico FAC em 3D: interativo via scroll da página"
     >
       {/* Halo de luz de estúdio roxo no fundo (astral glow sutil) */}
@@ -518,11 +515,11 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
         className="absolute inset-0 pointer-events-none -z-10 flex items-center justify-center"
         aria-hidden="true"
       >
-        <div className="w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] rounded-full bg-radial from-[#7c3aed]/25 via-[#6b21a8]/10 to-transparent blur-3xl opacity-80 animate-pulse duration-1000" />
+        <div className="w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] rounded-full bg-radial from-[#9333ea]/30 via-[#6b21a8]/15 to-transparent blur-3xl opacity-90" />
       </div>
 
       {/* Canvas 3D */}
-      <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[380px] sm:h-[380px] md:w-[420px] md:h-[420px] lg:w-[440px] lg:h-[440px] relative">
+      <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[360px] sm:h-[360px] md:w-[400px] md:h-[400px] lg:w-[440px] lg:h-[440px] relative pointer-events-none">
         <Canvas
           dpr={[1, 2]} // Performance otimizada: cap em 2x retina
           camera={{ position: [0, 0, 7.8], fov: 42 }}
@@ -533,16 +530,16 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.15,
           }}
-          className="touch-none"
+          className="pointer-events-none"
         >
           {/* Iluminação de estúdio profissional */}
           {/* Luz ambiente suave com tom arroxeado frio */}
-          <ambientLight intensity={0.85} color="#d8b4fe" />
+          <ambientLight intensity={0.9} color="#d8b4fe" />
 
           {/* Key Light principal: topo direito com tom lilás branco potente */}
           <directionalLight
             position={[5, 8, 6]}
-            intensity={2.4}
+            intensity={2.5}
             color="#ffffff"
             castShadow
             shadow-mapSize={[1024, 1024]}
@@ -556,7 +553,7 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
           <pointLight position={[0, 4, -5]} intensity={2.8} color="#c084fc" distance={15} />
 
           {/* Luz frontal suave para realçar o adesivo de destaque lilás */}
-          <pointLight position={[0, 0, 6]} intensity={1.2} color="#e9d5ff" distance={12} />
+          <pointLight position={[0, 0, 6]} intensity={1.3} color="#e9d5ff" distance={12} />
 
           {/* O Cubo Mágico Montável */}
           <CubeScene
@@ -568,32 +565,10 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
         </Canvas>
       </div>
 
-      {/* Legenda do exemplo: FUNDAÇÃO · ATRAÇÃO · CONEXÃO */}
-      <div className="mt-1 flex flex-col items-center gap-1.5 text-center">
-        <div
-          className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.28em] uppercase text-purple-700 dark:text-[#C084FC]/90 transition-colors drop-shadow-xs"
-          style={{ letterSpacing: '0.24em' }}
-        >
+      {/* Legenda: FUNDAÇÃO · ATRAÇÃO · CONEXÃO */}
+      <div className="mt-2 text-center pointer-events-none select-none">
+        <div className="text-[11px] sm:text-xs font-mono font-bold uppercase text-purple-700 dark:text-[#C084FC]/95 tracking-[0.24em] transition-colors drop-shadow-xs">
           FUNDAÇÃO · ATRAÇÃO · CONEXÃO
-        </div>
-
-        {/* Indicador sutil de scroll para guiar a usuária */}
-        <div
-          className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] flex items-center gap-1.5 transition-opacity"
-          aria-live="polite"
-        >
-          {reducedMotion ? (
-            <span>Cubo montado (movimento reduzido ativo)</span>
-          ) : (
-            <>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] animate-ping" />
-              <span>
-                {percentMounted < 95
-                  ? `Role a página para montar o cubo (${percentMounted}%)`
-                  : 'Cubo perfeitamente integrado'}
-              </span>
-            </>
-          )}
         </div>
       </div>
     </div>
