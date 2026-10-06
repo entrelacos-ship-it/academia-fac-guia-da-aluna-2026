@@ -498,17 +498,17 @@ export const HubPage: React.FC = () => {
 
         {/* ================= 2. BLOCO SISTEMA: ABAS EXTENSÍVEIS (APLICATIVOS, SKILLS, ETC.) ================= */}
         {allSistemaItems.length > 0 && (
-          <section aria-labelledby="secao-sistema" className="space-y-5 pt-2">
+          <section aria-labelledby="secao-aplicativos-recursos" className="space-y-5 pt-2">
             {/* Cabeçalho do Bloco com Título e Abas Estilo Editorial/Pills */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-3 border-b border-slate-200 dark:border-[#221f2d]">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                   <h3
-                    id="secao-sistema"
+                    id="secao-aplicativos-recursos"
                     className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white"
                   >
-                    Sistema & Aplicações Clínicas
+                    Aplicativos e recursos
                   </h3>
                 </div>
                 <p className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
@@ -610,7 +610,7 @@ export const HubPage: React.FC = () => {
                           }
                         }}
                         aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                        className={`group relative text-left w-full h-full p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] ${
+                        className={`group relative text-left w-full min-h-[300px] sm:min-h-[320px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
                           isBlocked
                             ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
                             : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
@@ -663,12 +663,15 @@ export const HubPage: React.FC = () => {
                           </div>
 
                           {/* Título e Descrição */}
-                          <div className="space-y-1.5 pt-1">
-                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                          <div className="space-y-1.5 pt-1 min-w-0">
+                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
                               {item.titulo}
                             </h4>
 
-                            <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal">
+                            <p
+                              title={item.descricao}
+                              className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
+                            >
                               {item.descricao}
                             </p>
                           </div>
