@@ -24,7 +24,7 @@ import {
   HelpCircle,
   KeyRound,
 } from 'lucide-react'
-import { FACLogo } from '@/components/FACLogo'
+import { FACLogo, FACSymbol } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useCloudSync } from '@/hooks/useCloudSync'
@@ -562,8 +562,8 @@ export const GuiaPage: React.FC = () => {
 
                 {/* DIAGNÓSTICO FAC APROFUNDADO V2 (MOTOR COMPLETO) */}
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
+                  <div className="flex items-center gap-3">
+                    <FACSymbol size={32} />
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1.5">
                       <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
                         Diagnóstico FAC Aprofundado — Versão 2

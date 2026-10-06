@@ -198,18 +198,19 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-background text-foreground relative overflow-hidden select-none">
       {/* Cartão Central Editorial com respiro e linhas finas */}
       <div className="relative w-full max-w-[440px] rounded-2xl p-6 sm:p-10 bg-white/90 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs z-10 transition-all">
-        {/* Cabeçalho Visual Editorial */}
+        {/* Cabeçalho Visual Editorial com a nova logo da Academia FAC */}
         <div className="flex flex-col items-center text-center mb-8 relative z-10">
           <div className="relative mb-3 group cursor-default">
-            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-[#7c3aed]/20 dark:border-[#C084FC]/30 flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC]">
-              <FACSymbol size={30} />
-            </div>
+            <FACSymbol
+              size={64}
+              className="rounded-2xl ring-2 ring-[#7c3aed]/20 dark:ring-[#C084FC]/30 shadow-md"
+            />
           </div>
 
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-purple-500/10 border border-[#7c3aed]/20 text-[10px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2">
-            <span>Método FAC</span>
+            <span>Academia FAC</span>
             <span className="text-slate-300 dark:text-zinc-700">•</span>
-            <span>Entrelaços</span>
+            <span>Entrelaços Psicologia</span>
           </div>
 
           <h1 className="font-serif-editorial text-3xl sm:text-[32px] font-normal tracking-tight text-slate-900 dark:text-zinc-100 leading-tight">

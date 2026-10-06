@@ -361,9 +361,14 @@ export const AppLayout: React.FC<LayoutProps> = ({
             />
             <div className="relative w-84 max-w-[88vw] bg-white dark:bg-[#0A0A14] border-r border-slate-200 dark:border-[#27272A] h-full shadow-2xl p-5 flex flex-col z-10 overflow-y-auto">
               <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-[#27272A] mb-4">
-                <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
-                  Passos da Calculadora
-                </span>
+                <a
+                  href="/"
+                  className="flex items-center text-left group"
+                  aria-label="Voltar para a página inicial da Academia Entrelaços"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <FACLogo size="sm" subtitle="Academia Entrelaços" />
+                </a>
                 <Button
                   variant="ghost"
                   size="icon"

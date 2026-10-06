@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Heart,
   Mail,
   Lock,
   User,
@@ -18,6 +17,7 @@ import {
   LogOut,
   ChevronLeft,
 } from 'lucide-react'
+import { FACSymbol } from '@/components/FACLogo'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -237,16 +237,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           >
             <X className="w-4 h-4" />
           </button>
-          {/* Cabeçalho Visual com Monograma FAC Entrelaços */}
+          {/* Cabeçalho Visual com Logo Oficial da Academia FAC */}
           <div className="flex flex-col items-center text-center mb-5 relative z-10">
             <div className="relative mb-3 group">
-              <div
-                className="absolute inset-0 rounded-[12px] bg-gradient-to-tr from-[#7c3aed] to-[#ea580c] dark:from-[#C084FC] dark:to-[#FB923C] blur-md opacity-30 dark:opacity-40 group-hover:opacity-75 transition-opacity"
-                aria-hidden="true"
+              <FACSymbol
+                size={48}
+                className="rounded-xl shadow-md ring-1 ring-black/15 dark:ring-white/20"
               />
-              <div className="relative w-12 h-12 rounded-[12px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-inner">
-                <Heart className="w-6 h-6 fill-[#7c3aed]/20 dark:fill-[#C084FC]/20 stroke-[2.2] text-[#7c3aed] dark:text-[#C084FC]" />
-              </div>
             </div>
 
             <DialogTitle className="font-sans text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
