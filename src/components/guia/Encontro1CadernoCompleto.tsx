@@ -42,9 +42,9 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
   }
 
   return (
-    <article className="space-y-12">
+    <article className="space-y-12 sm:space-y-16">
       {/* 1. CABEÇALHO DO ENCONTRO / KICKER EDITORIAL */}
-      <header className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 space-y-6">
+      <header className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-10 lg:p-12 space-y-7 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 dark:border-[#27272A] pb-4">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
             <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[10px] font-mono uppercase tracking-wider">
@@ -65,10 +65,10 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         <div className="space-y-3">
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-normal tracking-tight text-slate-900 dark:text-white leading-[1.15]">
             Aula Magna: o Método FAC e as boas-vindas
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light max-w-3xl">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light max-w-4xl">
             Antes de construir novas peças, vamos enxergar a estrutura da sua prática hoje. Nesta
             Aula Magna, você conhece os três pilares e preenche o Diagnóstico FAC Aprofundado. O
             resultado mostra suas forças, fragilidades e por onde começar.
@@ -76,18 +76,18 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         {/* Destaque: A Pergunta do Encontro */}
-        <div className="p-5 sm:p-6 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border-l-4 border-l-[#7c3aed] dark:border-l-[#C084FC] border-y border-r border-slate-200/80 dark:border-[#27272A] space-y-1">
+        <div className="p-6 sm:p-7 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border-l-4 border-l-[#7c3aed] dark:border-l-[#C084FC] border-y border-r border-slate-200/80 dark:border-[#27272A] space-y-1.5">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             A PERGUNTA DO ENCONTRO
           </span>
-          <p className="font-serif-editorial text-xl sm:text-2xl text-slate-900 dark:text-white font-normal italic">
+          <p className="font-serif-editorial text-xl sm:text-2xl md:text-3xl text-slate-900 dark:text-white font-normal italic">
             Onde a sua prática pede estrutura primeiro?
           </p>
         </div>
       </header>
 
       {/* 2. 01 / ANTES DE COMEÇAR */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             01 / ANTES DE COMEÇAR
@@ -130,7 +130,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 3. 02 / DURANTE O ENCONTRO */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-6">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             02 / DURANTE O ENCONTRO
@@ -194,7 +194,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 4. MATERIAIS DO ENCONTRO */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-6">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             MATERIAIS DO ENCONTRO
@@ -269,7 +269,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 5. CADERNO DE ESTUDO / AULA MAGNA */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-6">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-3">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             CADERNO DE ESTUDO / AULA MAGNA
@@ -331,7 +331,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         {/* 01 "Quando trabalhar muito não vira construção" */}
-        <div className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+        <div className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-5">
           <div className="space-y-1">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               01
@@ -369,7 +369,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         {/* 02 "A lógica do cubo FAC" */}
-        <div className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+        <div className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-5">
           <div className="space-y-1">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               02
@@ -419,7 +419,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         {/* 03 "Fundação: a casa antes da visita" */}
         <div
           id="secao-fundacao"
-          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5 scroll-mt-24"
+          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-5 scroll-mt-24"
         >
           <div className="space-y-1">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
@@ -475,7 +475,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         {/* 04 "Atração: escolher uma rota possível" */}
         <div
           id="secao-atracao"
-          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5 scroll-mt-24"
+          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-5 scroll-mt-24"
         >
           <div className="space-y-1">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
@@ -515,7 +515,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         {/* 05 "Conexão: da chegada à continuidade" */}
         <div
           id="secao-conexao"
-          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5 scroll-mt-24"
+          className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-5 scroll-mt-24"
         >
           <div className="space-y-1">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
@@ -555,7 +555,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 7. DEPOIS DE ENTENDER O MÉTODO / CHAMADA PARA O DIAGNÓSTICO */}
-      <section className="rounded-[16px] border border-purple-200 dark:border-[#7c3aed]/50 bg-purple-50/70 dark:bg-purple-950/25 p-6 sm:p-8 space-y-5">
+      <section className="rounded-[16px] border border-purple-200 dark:border-[#7c3aed]/50 bg-purple-50/70 dark:bg-purple-950/25 p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="space-y-1">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             DEPOIS DE ENTENDER O MÉTODO / DIAGNÓSTICO FAC
@@ -588,7 +588,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 8. 06 "Do Diagnóstico à primeira ação" */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="space-y-1">
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
             06
@@ -646,7 +646,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       <MapaPessoal onAbrirDiagnostico={onAbrirDiagnostico} />
 
       {/* 12. ENCERRAMENTO DA AULA MAGNA */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="space-y-1">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             ENCERRAMENTO DA AULA MAGNA
@@ -724,7 +724,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
       </section>
 
       {/* 13. 03 / SUA ENTREGA */}
-      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-8 space-y-5">
+      <section className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-6 sm:p-9 lg:p-10 space-y-6">
         <div className="space-y-1">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             03 / SUA ENTREGA

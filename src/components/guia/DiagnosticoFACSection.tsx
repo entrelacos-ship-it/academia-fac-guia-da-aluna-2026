@@ -263,15 +263,15 @@ export const DiagnosticoFACSection: React.FC = () => {
 
       {/* RENDERIZADOR DAS ETAPAS */}
       {etapaFluxo === 'contexto_inicial' && (
-        <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+        <div className="p-6 sm:p-10 lg:p-12 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
           <div className="border-b border-slate-200/70 dark:border-zinc-800/70 pb-6">
             <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Etapa Preparatória · Antes das 24 Perguntas
             </span>
-            <h3 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+            <h3 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-slate-900 dark:text-zinc-100">
               Contexto da sua Prática Clínica Atual
             </h3>
-            <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 font-light max-w-2xl">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-zinc-400 mt-2 font-light max-w-3xl">
               Essas respostas complementares não alteram a nota FAC. Elas enriquecem a
               contextualização e alimentam alertas sobre sua agenda.
             </p>
@@ -486,18 +486,18 @@ export const DiagnosticoFACSection: React.FC = () => {
 
       {/* ETAPA DAS 24 PERGUNTAS */}
       {etapaFluxo === 'perguntas' && (
-        <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+        <div className="p-6 sm:p-10 lg:p-12 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
           {/* Barra de progresso discreta das 24 perguntas */}
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="text-slate-500 dark:text-zinc-400">
                 Questão {perguntaAtual} de 24 ({totalRespondidas} respondidas)
               </span>
-              <span className="text-[#7c3aed] dark:text-[#C084FC] font-medium">
+              <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
                 Pilar {perguntaObj.pilar.toUpperCase()} · {perguntaObj.dimensaoNome}
               </span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-zinc-900 overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-zinc-900 overflow-hidden">
               <div
                 className="h-full bg-[#7c3aed] dark:bg-[#C084FC] transition-all duration-300 rounded-full"
                 style={{ width: `${Math.round((totalRespondidas / 24) * 100)}%` }}
@@ -516,7 +516,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 {perguntaObj.dimensaoNome}
               </span>
             </div>
-            <h4 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-zinc-100 leading-snug">
+            <h4 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-normal text-slate-900 dark:text-zinc-100 leading-snug">
               {perguntaObj.enunciado}
             </h4>
           </div>
@@ -803,9 +803,9 @@ export const DiagnosticoFACSection: React.FC = () => {
       {etapaFluxo === 'resultado' && resultado && (
         <div className="space-y-6">
           {/* Barra superior de Ações e Exportações */}
-          <div className="p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+          <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-5 print:hidden">
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
                   Diagnóstico FAC Aprofundado
                 </span>
@@ -816,7 +816,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                   Versão 2 · 04/10/2026
                 </Badge>
               </div>
-              <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+              <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
                 {resultado.tituloLeitura}
               </h3>
             </div>
@@ -961,7 +961,7 @@ export const DiagnosticoFACSection: React.FC = () => {
 
           {/* TELA 1: VISÃO GERAL */}
           {abaResultado === 'visao_geral' && (
-            <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+            <div className="p-6 sm:p-10 lg:p-12 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 {/* Coluna Esquerda: Anel da Média FAC */}
                 <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl border border-slate-200/70 dark:border-zinc-800/70 bg-white/40 dark:bg-zinc-950/40 text-center space-y-4">
@@ -1055,12 +1055,12 @@ export const DiagnosticoFACSection: React.FC = () => {
 
           {/* TELA 2: LEITURA DA COMBINAÇÃO */}
           {abaResultado === 'combinacao' && (
-            <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-6 print:hidden">
+            <div className="p-6 sm:p-10 lg:p-12 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-7 print:hidden">
               <div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
                   Leitura da Combinação Verbatim
                 </span>
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
                   {resultado.tituloLeitura}
                 </h3>{' '}
               </div>
@@ -1092,12 +1092,12 @@ export const DiagnosticoFACSection: React.FC = () => {
 
           {/* TELA 3: POR ONDE COMEÇAR */}
           {abaResultado === 'por_onde_comecar' && (
-            <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-6 print:hidden">
+            <div className="p-6 sm:p-10 lg:p-12 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-7 print:hidden">
               <div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                   Direcionamento Prioritário FAC
                 </span>
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
                   Por Onde Começar
                 </h3>
               </div>

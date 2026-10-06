@@ -23,7 +23,19 @@ import {
   PlayCircle,
   HelpCircle,
   KeyRound,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Menu,
+  X,
+  Maximize2,
 } from 'lucide-react'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet'
 import { FACLogo, FACSymbol } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -40,11 +52,40 @@ import {
 } from '@/services/alunaGuiaService'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
+const STORAGE_KEY_SIDEBAR_OPEN = 'entrelacos_fac_guia_sidebar_open'
 
 export const GuiaPage: React.FC = () => {
   const navigate = useNavigate()
   const { currentUser, isConnected, isAdmin, logout } = useCloudSync()
   const [validarModalOpen, setValidarModalOpen] = useState(false)
+
+  // Controle de expansão/ocultação do menu de trilha (Desktop)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_SIDEBAR_OPEN)
+      if (saved !== null) {
+        return saved === 'true'
+      }
+    } catch {
+      // ignore
+    }
+    return true
+  })
+
+  // Gaveta móvel da trilha (Mobile Sheet)
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false)
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => {
+      const next = !prev
+      try {
+        localStorage.setItem(STORAGE_KEY_SIDEBAR_OPEN, String(next))
+      } catch {
+        // ignore
+      }
+      return next
+    })
+  }
 
   // Sessão da aluna (validação do e-mail de compra)
   const [alunaSession, setAlunaSession] = useState<AlunaSession | null>(() =>
@@ -178,6 +219,135 @@ export const GuiaPage: React.FC = () => {
   // Verifica se o encontro 1 deve mostrar a variante pública ou com complementos
   const isAlunaValidada = !!alunaSession && alunaSession.status === 'ativa'
 
+  // Componente interno reutilizável da lista da trilha de encontros (usado tanto no desktop quanto no mobile sheet)
+  const renderTrilhaContent = (isMobileSheet = false) => (
+    <div className="space-y-4">
+      <div className="p-4 sm:p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A] mb-3">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+            <Compass className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+            <span>Trilha de Encontros</span>
+          </span>
+          <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+            Ciclo de Formação
+          </span>
+        </div>
+
+        {loadingEncontros ? (
+          <div className="p-8 text-center text-xs font-mono text-slate-500 flex flex-col items-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin text-[#7c3aed]" />
+            <span>Carregando encontros...</span>
+          </div>
+        ) : (
+          <div className="space-y-1.5 max-h-[60vh] lg:max-h-[580px] overflow-y-auto pr-1">
+            {/* Encontro 1 */}
+            <button
+              type="button"
+              onClick={() => {
+                setEncontroSelecionado(1)
+                if (isMobileSheet) setMobileDrawerOpen(false)
+              }}
+              className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
+                encontroSelecionado === 1
+                  ? 'bg-purple-100/70 dark:bg-purple-950/40 text-slate-900 dark:text-white border border-[#7c3aed] dark:border-[#C084FC] font-semibold ring-1 ring-[#7c3aed]/20'
+                  : 'bg-slate-50/70 dark:bg-[#121216] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-[#27272A] hover:bg-purple-50 dark:hover:bg-[#1f1f23]'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-bold flex items-center justify-center shrink-0">
+                  1
+                </span>
+                <div className="truncate">
+                  <p className="truncate font-medium">Aula Magna Aberta</p>
+                  <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
+                    06/10/2026
+                  </p>
+                </div>
+              </div>
+              <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[9px] font-mono shrink-0">
+                Aberta
+              </Badge>
+            </button>
+
+            {/* Demais Encontros do Ciclo */}
+            {encontrosList
+              .filter((e) => e.numero >= 2)
+              .map((enc) => {
+                const isAtivo = encontroSelecionado === enc.numero
+                const isPublicado = enc.status === 'publicado'
+
+                return (
+                  <button
+                    key={enc.numero}
+                    type="button"
+                    onClick={() => {
+                      setEncontroSelecionado(enc.numero)
+                      if (isMobileSheet) setMobileDrawerOpen(false)
+                    }}
+                    className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
+                      isAtivo
+                        ? 'bg-purple-100/70 dark:bg-purple-950/40 text-slate-900 dark:text-white border border-[#7c3aed] dark:border-[#C084FC] font-semibold ring-1 ring-[#7c3aed]/20'
+                        : 'bg-slate-50/70 dark:bg-[#121216] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-[#27272A] hover:bg-slate-100 dark:hover:bg-[#1f1f23]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-6 h-6 rounded-full bg-slate-200 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-[11px] font-bold flex items-center justify-center shrink-0">
+                        {enc.numero}
+                      </span>
+                      <div className="truncate">
+                        <p className="truncate font-medium">{enc.titulo}</p>
+                        <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
+                          {enc.data_prevista || 'Em breve'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 ml-2">
+                      {isPublicado ? (
+                        isAlunaValidada ? (
+                          <Badge className="bg-purple-500/15 text-[#7c3aed] dark:text-[#C084FC] border-[#7c3aed]/30 text-[9px] font-mono">
+                            Liberado
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant="outline"
+                            className="text-[9px] font-mono text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800 gap-1"
+                          >
+                            <Lock className="w-2.5 h-2.5" />
+                            Alunas
+                          </Badge>
+                        )
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="text-[9px] font-mono text-slate-500 dark:text-[#71717A] border-slate-300 dark:border-[#3f3f46]"
+                        >
+                          Em breve
+                        </Badge>
+                      )}
+                    </div>
+                  </button>
+                )
+              })}
+          </div>
+        )}
+      </div>
+
+      {/* Caixa de Aviso Pedagógico */}
+      <div className="p-4 sm:p-5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-2">
+        <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+          <HelpCircle className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+          Regras de Acesso Pedagógico
+        </p>
+        <p className="text-[11px] leading-relaxed">
+          A Aula 1 é 100% aberta e gratuita. Os demais encontros do ciclo são exclusivos para alunas
+          matriculadas. O calendário não publica automaticamente: cada encontro é disponibilizado
+          manualmente antes da respectiva aula ao vivo.
+        </p>
+      </div>
+    </div>
+  )
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg">
       {/* Topbar Astral */}
@@ -285,34 +455,46 @@ export const GuiaPage: React.FC = () => {
                 Matrícula Ativa
               </span>
             )}
+
+            {/* Botão Mobile para abrir a gaveta da Trilha */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setMobileDrawerOpen(true)}
+              className="lg:hidden min-h-[36px] h-9 px-2.5 gap-1.5 border-purple-200 dark:border-[#27272A] bg-purple-50/70 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-100 dark:hover:bg-[#27272A] rounded-[8px] text-xs font-mono font-semibold"
+              aria-label="Abrir menu da Trilha de Encontros"
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>Trilha ({encontrosList.length > 0 ? encontrosList.length : '19'})</span>
+            </Button>
           </div>
         </div>
       </div>
 
       {/* HERO DA AULA MAGNA ABERTA */}
-      <section className="bg-white dark:bg-[#0A0A14] border-b border-slate-200 dark:border-[#27272A] py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+      <section className="bg-white dark:bg-[#0A0A14] border-b border-slate-200 dark:border-[#27272A] py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto text-center space-y-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
             <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
             <span>AULA MAGNA ABERTA</span>
             <span className="text-slate-400 dark:text-[#71717A]">•</span>
             <span className="text-slate-600 dark:text-[#A1A1AA]">ENCONTRO 1 · 06/10/2026</span>
           </div>
 
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.08]">
             O Chão da Clínica Sustentável & os Três Pilares FAC.
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-3xl mx-auto font-light">
             A Aula 1 do Guia é gratuita e aberta a toda a categoria. Aqui você realiza o{' '}
-            <strong className="text-slate-900 dark:text-white">
+            <strong className="text-slate-900 dark:text-white font-medium">
               Diagnóstico FAC Aprofundado — Versão 2
             </strong>
             , descobre a saúde dos seus pilares (Fundação, Atração, Conexão) e conhece os
             fundamentos do Método FAC.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
             <Button
               onClick={() => {
                 setEncontroSelecionado(1)
@@ -321,7 +503,7 @@ export const GuiaPage: React.FC = () => {
                   el.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }
               }}
-              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px]"
+              className="bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px] px-5 text-sm shadow-xs"
             >
               <span>Acessar Aula Magna Aberta</span>
             </Button>
@@ -329,7 +511,7 @@ export const GuiaPage: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => setValidarModalOpen(true)}
-                className="border-purple-300 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] font-semibold rounded-[8px] min-h-[44px]"
+                className="border-purple-300 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] font-semibold rounded-[8px] min-h-[44px] px-5 text-sm"
               >
                 <ShieldCheck className="w-4 h-4 mr-1.5 text-[#ea580c] dark:text-[#FB923C]" />
                 <span>Já sou aluna: Validar e-mail de compra</span>
@@ -340,137 +522,91 @@ export const GuiaPage: React.FC = () => {
       </section>
 
       {/* MAPA DE ENCONTROS (LAYOUT EM DUAS COLUNAS: MENU LATERAL + CONTEÚDO) */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Coluna Esquerda: Trilha Completa de Encontros */}
-          <aside className="lg:col-span-4 space-y-4">
-            <div className="p-4 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A] mb-3">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                  <span>Trilha de Encontros</span>
-                </span>
-                <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-                  Ciclo de Formação
-                </span>
-              </div>
-
-              {loadingEncontros ? (
-                <div className="p-8 text-center text-xs font-mono text-slate-500 flex flex-col items-center gap-2">
-                  <Loader2 className="w-5 h-5 animate-spin text-[#7c3aed]" />
-                  <span>Carregando encontros...</span>
-                </div>
+      <main className="flex-1 max-w-(--breakpoint-2xl) w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 transition-all duration-300">
+        {/* Barra superior de comando da área de conteúdo (Alternar trilha / Encontro atual / Status) */}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 p-3 sm:px-4 rounded-[12px] bg-white/80 dark:bg-[#121216]/80 border border-slate-200 dark:border-[#27272A] backdrop-blur-xs">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Botão Desktop: Recolher/Expandir menu lateral */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleSidebar}
+              className="hidden lg:inline-flex items-center gap-2 min-h-[38px] h-9 px-3 rounded-[8px] border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] text-xs font-mono font-medium transition-colors"
+              title={
+                isSidebarOpen
+                  ? 'Ocultar menu lateral da trilha para expandir a tela'
+                  : 'Expandir menu lateral da trilha'
+              }
+              aria-expanded={isSidebarOpen}
+            >
+              {isSidebarOpen ? (
+                <>
+                  <PanelLeftClose className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                  <span>Ocultar Trilha</span>
+                </>
               ) : (
-                <div className="space-y-1.5 max-h-[560px] overflow-y-auto pr-1">
-                  {/* Encontro 1 */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEncontroSelecionado(1)
-                    }}
-                    className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
-                      encontroSelecionado === 1
-                        ? 'bg-purple-100/70 dark:bg-purple-950/40 text-slate-900 dark:text-white border border-[#7c3aed] dark:border-[#C084FC] font-semibold'
-                        : 'bg-slate-50/70 dark:bg-[#121216] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-[#27272A] hover:bg-purple-50 dark:hover:bg-[#1f1f23]'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-mono text-[11px] font-bold flex items-center justify-center shrink-0">
-                        1
-                      </span>
-                      <div className="truncate">
-                        <p className="truncate font-medium">Aula Magna Aberta</p>
-                        <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
-                          06/10/2026
-                        </p>
-                      </div>
-                    </div>
-                    <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[9px] font-mono shrink-0">
-                      Aberta
-                    </Badge>
-                  </button>
-
-                  {/* Demais Encontros do Ciclo */}
-                  {encontrosList
-                    .filter((e) => e.numero >= 2)
-                    .map((enc) => {
-                      const isAtivo = encontroSelecionado === enc.numero
-                      const isPublicado = enc.status === 'publicado'
-
-                      return (
-                        <button
-                          key={enc.numero}
-                          type="button"
-                          onClick={() => {
-                            setEncontroSelecionado(enc.numero)
-                          }}
-                          className={`w-full text-left p-3 rounded-[10px] text-xs transition-all flex items-center justify-between cursor-pointer ${
-                            isAtivo
-                              ? 'bg-purple-100/70 dark:bg-purple-950/40 text-slate-900 dark:text-white border border-[#7c3aed] dark:border-[#C084FC] font-semibold'
-                              : 'bg-slate-50/70 dark:bg-[#121216] text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-[#27272A] hover:bg-slate-100 dark:hover:bg-[#1f1f23]'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="w-6 h-6 rounded-full bg-slate-200 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-[11px] font-bold flex items-center justify-center shrink-0">
-                              {enc.numero}
-                            </span>
-                            <div className="truncate">
-                              <p className="truncate font-medium">{enc.titulo}</p>
-                              <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
-                                {enc.data_prevista || 'Em breve'}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="shrink-0 ml-2">
-                            {isPublicado ? (
-                              isAlunaValidada ? (
-                                <Badge className="bg-purple-500/15 text-[#7c3aed] dark:text-[#C084FC] border-[#7c3aed]/30 text-[9px] font-mono">
-                                  Liberado
-                                </Badge>
-                              ) : (
-                                <Badge
-                                  variant="outline"
-                                  className="text-[9px] font-mono text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800 gap-1"
-                                >
-                                  <Lock className="w-2.5 h-2.5" />
-                                  Alunas
-                                </Badge>
-                              )
-                            ) : (
-                              <Badge
-                                variant="outline"
-                                className="text-[9px] font-mono text-slate-500 dark:text-[#71717A] border-slate-300 dark:border-[#3f3f46]"
-                              >
-                                Em breve
-                              </Badge>
-                            )}
-                          </div>
-                        </button>
-                      )
-                    })}
-                </div>
+                <>
+                  <PanelLeftOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                  <span>Expandir Trilha</span>
+                </>
               )}
-            </div>
+            </Button>
 
-            {/* Caixa de Aviso Pedagógico */}
-            <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-2">
-              <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <HelpCircle className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                Regras de Acesso Pedagógico
-              </p>
-              <p className="text-[11px] leading-relaxed">
-                A Aula 1 é 100% aberta e gratuita. Os demais encontros do ciclo são exclusivos para
-                alunas matriculadas. O calendário não publica automaticamente: cada encontro é
-                disponibilizado manualmente antes da respectiva aula ao vivo.
-              </p>
-            </div>
-          </aside>
+            {/* Botão Mobile: Abrir menu da trilha em gaveta */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setMobileDrawerOpen(true)}
+              className="lg:hidden inline-flex items-center gap-1.5 min-h-[38px] h-9 px-3 rounded-[8px] border-purple-200 dark:border-[#27272A] bg-purple-50/70 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] text-xs font-mono font-medium"
+            >
+              <Menu className="w-4 h-4" />
+              <span>Ver Trilha ({encontrosList.length > 0 ? encontrosList.length : '19'})</span>
+            </Button>
 
-          {/* Coluna Direita: Conteúdo do Encontro Selecionado */}
-          <section className="lg:col-span-8 space-y-8">
+            <span className="hidden sm:inline-block h-4 w-px bg-slate-200 dark:bg-[#27272A]" />
+
+            {/* Identificação do encontro em foco */}
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="text-slate-500 dark:text-[#71717A]">Visualizando:</span>
+              <span className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC]" />
+                Encontro {encontroSelecionado} {encontroSelecionado === 1 ? '— Aula Magna' : ''}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500 dark:text-[#A1A1AA]">
+            {!isSidebarOpen && (
+              <span className="hidden lg:inline-flex items-center gap-1 text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/30 px-2 py-0.5 rounded-[6px] border border-purple-200 dark:border-purple-800/40">
+                <Maximize2 className="w-3 h-3" />
+                Modo Tela Expandida Ativo
+              </span>
+            )}
+            <span className="hidden md:inline">Ciclo de 19 Encontros</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Coluna Esquerda: Trilha Completa de Encontros (Desktop - Ocultável com transição) */}
+          {isSidebarOpen && (
+            <aside className="hidden lg:block lg:col-span-4 xl:col-span-3 space-y-4 sticky top-24 transition-all duration-300 animate-fade-in">
+              {renderTrilhaContent(false)}
+            </aside>
+          )}
+
+          {/* Coluna Direita: Conteúdo do Encontro Selecionado (Expande para col-span-12 se fechado) */}
+          <section
+            className={`space-y-8 transition-all duration-300 ${
+              isSidebarOpen ? 'lg:col-span-8 xl:col-span-9' : 'lg:col-span-12 w-full'
+            }`}
+          >
             {encontroSelecionado === 1 ? (
-              <div id="caderno-encontro-1" className="space-y-12 scroll-mt-20">
+              <div
+                id="caderno-encontro-1"
+                className={`space-y-14 scroll-mt-20 mx-auto w-full transition-all duration-300 ${
+                  isSidebarOpen ? 'max-w-5xl' : 'max-w-6xl'
+                }`}
+              >
                 {/* Caderno Editorial Completo do Encontro 1 */}
                 <Encontro1CadernoCompleto
                   onAbrirDiagnostico={() => {
@@ -490,15 +626,15 @@ export const GuiaPage: React.FC = () => {
                 {/* DIAGNÓSTICO FAC APROFUNDADO V2 (MOTOR COMPLETO COM ÂNCORA) */}
                 <div
                   id="secao-diagnostico-fac"
-                  className="space-y-4 scroll-mt-24 pt-4 border-t border-slate-200/80 dark:border-[#27272A]"
+                  className="space-y-6 scroll-mt-24 pt-8 border-t border-slate-200/80 dark:border-[#27272A]"
                 >
-                  <div className="flex items-center gap-3">
-                    <FACSymbol size={32} />
-                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1.5">
-                      <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
+                  <div className="flex items-center gap-3.5 pb-2">
+                    <FACSymbol size={36} />
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
+                      <h3 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
                         Diagnóstico FAC Aprofundado — Versão 2
                       </h3>
-                      <span className="text-xs font-mono text-purple-700 dark:text-purple-300">
+                      <span className="text-xs font-mono text-purple-700 dark:text-purple-300 font-medium">
                         (Versão 2 · 04/10/2026)
                       </span>
                     </div>
@@ -591,27 +727,31 @@ export const GuiaPage: React.FC = () => {
                   </div>
                 ) : encontroDetalhe ? (
                   /* Encontro Pago Liberado com Sucesso! */
-                  <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                  <div
+                    className={`p-6 sm:p-10 lg:p-12 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-8 mx-auto w-full transition-all duration-300 ${
+                      isSidebarOpen ? 'max-w-5xl' : 'max-w-6xl'
+                    }`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-[#27272A]">
                       <div>
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                           Caderno Didático Exclusivo · Encontro {encontroDetalhe.numero}
                         </span>
-                        <h2 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+                        <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
                           {encontroDetalhe.titulo}
                         </h2>
-                        <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                        <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-1">
                           Data prevista: {encontroDetalhe.data_prevista}
                         </p>
                       </div>
 
-                      <Badge className="bg-purple-500/15 text-[#7c3aed] dark:text-[#C084FC] border-[#7c3aed]/30 text-xs font-mono px-3 py-1">
+                      <Badge className="bg-purple-500/15 text-[#7c3aed] dark:text-[#C084FC] border-[#7c3aed]/30 text-xs font-mono px-3 py-1 self-start sm:self-auto">
                         Turma Ativa
                       </Badge>
                     </div>
 
                     {encontroDetalhe.conteudo?.introducao && (
-                      <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed bg-slate-50/70 dark:bg-[#121216] p-5 rounded-[12px] border border-slate-200 dark:border-[#27272A]">
+                      <div className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed bg-slate-50/70 dark:bg-[#121216] p-6 sm:p-7 rounded-[14px] border border-slate-200 dark:border-[#27272A] font-light">
                         {encontroDetalhe.conteudo.introducao}
                       </div>
                     )}
@@ -619,20 +759,20 @@ export const GuiaPage: React.FC = () => {
                     {/* Seções do caderno */}
                     {encontroDetalhe.conteudo?.secoes &&
                       encontroDetalhe.conteudo.secoes.length > 0 && (
-                        <div className="space-y-4">
-                          <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                        <div className="space-y-5">
+                          <h3 className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
                             Orientações & Atividades do Encontro
                           </h3>
-                          <div className="grid grid-cols-1 gap-4">
+                          <div className="grid grid-cols-1 gap-5">
                             {encontroDetalhe.conteudo.secoes.map((sec, idx) => (
                               <div
                                 key={idx}
-                                className="p-5 rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] space-y-2"
+                                className="p-6 sm:p-7 rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] space-y-2.5 shadow-2xs"
                               >
-                                <h4 className="font-sans font-semibold text-base text-slate-900 dark:text-white">
+                                <h4 className="font-sans font-semibold text-base sm:text-lg text-slate-900 dark:text-white">
                                   {sec.titulo}
                                 </h4>
-                                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-line">
+                                <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-line font-light">
                                   {sec.texto}
                                 </p>
                               </div>
@@ -697,6 +837,26 @@ export const GuiaPage: React.FC = () => {
           </p>
         </div>
       </footer>
+
+      {/* Gaveta Móvel da Trilha de Encontros (Mobile Sheet) */}
+      <Sheet open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
+        <SheetContent
+          side="left"
+          className="w-full sm:max-w-md p-6 bg-slate-50 dark:bg-[#0A0A14] border-r border-slate-200 dark:border-[#27272A] overflow-y-auto"
+        >
+          <SheetHeader className="text-left pb-4 border-b border-slate-200 dark:border-[#27272A]">
+            <SheetTitle className="font-serif-editorial text-2xl font-normal text-slate-900 dark:text-white flex items-center gap-2">
+              <Compass className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
+              <span>Trilha de Encontros</span>
+            </SheetTitle>
+            <SheetDescription className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA]">
+              Selecione o encontro para visualizar o caderno pedagógico e orientações do ciclo.
+            </SheetDescription>
+          </SheetHeader>
+
+          <div className="py-4">{renderTrilhaContent(true)}</div>
+        </SheetContent>
+      </Sheet>
 
       {/* Modais */}
       <ValidarEmailModal
