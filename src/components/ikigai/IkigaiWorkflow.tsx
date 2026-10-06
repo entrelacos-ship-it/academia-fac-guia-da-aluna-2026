@@ -97,7 +97,7 @@ export const IkigaiWorkflow: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setPresentationOpen(true)}
-                className="h-7 text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#1f1f23] px-2 cursor-pointer"
+                className="min-h-[44px] sm:min-h-0 sm:h-8 text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#1f1f23] px-2.5 cursor-pointer"
                 title="Abrir tela limpa da facilitadora"
               >
                 <Presentation className="w-3.5 h-3.5 mr-1" />
@@ -109,27 +109,31 @@ export const IkigaiWorkflow: React.FC = () => {
                 <AlertDialogTrigger asChild>
                   <button
                     type="button"
-                    className="text-xs font-mono text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+                    className="min-h-[44px] sm:min-h-0 px-2 py-1 text-xs font-mono text-rose-500 hover:text-rose-600 transition-colors cursor-pointer inline-flex items-center"
                   >
                     Recomeçar
                   </button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
+                <AlertDialogContent className="w-[92vw] max-w-lg bg-white dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] rounded-[16px] p-5 sm:p-6 max-h-[90vh] overflow-y-auto">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Deseja recomeçar seu IKIGAI do zero?</AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogTitle className="text-base sm:text-lg">
+                      Deseja recomeçar seu IKIGAI do zero?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-xs sm:text-sm">
                       Isso limpará os círculos, encontros e a declaração preenchida. Seus dados na
                       nuvem serão reiniciados para novo preenchimento.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
+                  <AlertDialogFooter className="flex flex-col-reverse sm:flex-row gap-2 mt-4">
+                    <AlertDialogCancel className="cursor-pointer min-h-[44px] text-xs font-mono">
+                      Cancelar
+                    </AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => {
                         resetToEmpty()
                         setStep(1)
                       }}
-                      className="bg-rose-600 hover:bg-rose-700 text-white cursor-pointer"
+                      className="bg-rose-600 hover:bg-rose-700 text-white cursor-pointer min-h-[44px] text-xs font-mono"
                     >
                       Sim, recomeçar
                     </AlertDialogAction>
@@ -142,7 +146,7 @@ export const IkigaiWorkflow: React.FC = () => {
           <Progress value={progressPercentage} className="h-1.5" />
 
           {/* Atalhos Rápidos para Voltar a Qualquer Etapa dos 3 Momentos */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none text-xs font-mono">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-none text-xs font-mono -mx-1 px-1">
             {STEPS_CONFIG.map((s) => {
               const isCurrent = s.id === currentStep
               const isPassed = s.id < currentStep
@@ -150,7 +154,7 @@ export const IkigaiWorkflow: React.FC = () => {
                 <button
                   key={s.id}
                   onClick={() => setStep(s.id)}
-                  className={`px-3 py-1.5 rounded-[8px] shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-2.5 min-h-[44px] sm:min-h-[36px] sm:py-1.5 rounded-[10px] shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
                     isCurrent
                       ? 'bg-[#7c3aed] text-white font-bold shadow-xs'
                       : isPassed

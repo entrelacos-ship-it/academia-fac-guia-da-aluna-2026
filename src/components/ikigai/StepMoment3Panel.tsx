@@ -198,12 +198,12 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
           </h1>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap w-full sm:w-auto">
           <Button
             variant="outline"
             size="sm"
             onClick={onBackToConnect}
-            className="h-9 gap-1.5 text-xs font-mono border-slate-200 dark:border-[#27272A] cursor-pointer"
+            className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 text-xs font-mono border-slate-200 dark:border-[#27272A] cursor-pointer flex-1 sm:flex-initial"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Editar Encontros</span>
@@ -213,7 +213,7 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
             variant="outline"
             size="sm"
             onClick={onOpenPresentation}
-            className="h-9 gap-1.5 text-xs font-mono border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] cursor-pointer"
+            className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 text-xs font-mono border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] cursor-pointer flex-1 sm:flex-initial"
             title="Abrir em modo apresentação limpo da facilitadora"
           >
             <Presentation className="w-3.5 h-3.5" />
@@ -224,7 +224,7 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
             variant="ghost"
             size="sm"
             onClick={onRestart}
-            className="h-9 gap-1 text-xs font-mono text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer"
+            className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1 text-xs font-mono text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer px-3"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Recomeçar</span>
@@ -433,16 +433,16 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
                 )}
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {state.missionHistory && state.missionHistory.length > 0 && (
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
                     onClick={() => setShowMissionHistory(!showMissionHistory)}
-                    className="h-8 text-xs font-mono border-slate-200 dark:border-[#27272A] cursor-pointer"
+                    className="min-h-[44px] sm:min-h-0 sm:h-8 text-xs font-mono border-slate-200 dark:border-[#27272A] cursor-pointer"
                   >
-                    <History className="w-3.5 h-3.5 mr-1" />
+                    <History className="w-4 h-4 sm:w-3.5 sm:h-3.5 mr-1" />
                     <span>Histórico ({state.missionHistory.length})</span>
                   </Button>
                 )}
@@ -452,16 +452,16 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
                   onClick={handleSaveMission}
                   disabled={!missionInput.trim()}
                   size="sm"
-                  className="h-8 text-xs font-semibold bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] gap-1 cursor-pointer"
+                  className="min-h-[44px] sm:min-h-0 sm:h-8 px-4 text-xs font-semibold bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] gap-1 cursor-pointer"
                 >
                   {savedMissionSuccess ? (
                     <>
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                       <span>Salvo!</span>
                     </>
                   ) : (
                     <>
-                      <Save className="w-3.5 h-3.5" />
+                      <Save className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                       <span>Salvar na Nuvem</span>
                     </>
                   )}
@@ -520,8 +520,10 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
         </div>
 
         {/* Diagrama SVG dos 4 Círculos com estrelas e frases */}
-        <div className="py-2 flex justify-center overflow-x-auto">
-          <IkigaiSvgDiagram state={state} />
+        <div className="py-2 flex justify-center overflow-x-auto -mx-2 px-2 scrollbar-none">
+          <div className="min-w-[340px] sm:min-w-0 w-full flex justify-center">
+            <IkigaiSvgDiagram state={state} />
+          </div>
         </div>
 
         {/* Declaração no Entregável */}
@@ -549,38 +551,38 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
             <span>Baixar Meu Painel</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <Button
               onClick={handleExportPng}
               disabled={isExportingPng}
-              className="gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-semibold h-10 rounded-[8px] cursor-pointer"
+              className="gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-semibold min-h-[44px] sm:h-10 rounded-[8px] cursor-pointer w-full"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-4 h-4" />
               <span>{isExportingPng ? 'Gerando...' : 'Baixar Imagem PNG'}</span>
             </Button>
 
             <Button
               onClick={handleExportPdf}
               variant="outline"
-              className="gap-2 border-slate-200 dark:border-[#27272A] text-xs font-semibold h-10 rounded-[8px] cursor-pointer"
+              className="gap-2 border-slate-200 dark:border-[#27272A] text-xs font-semibold min-h-[44px] sm:h-10 rounded-[8px] cursor-pointer w-full"
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="w-4 h-4" />
               <span>Baixar PDF (1 pág)</span>
             </Button>
           </div>
 
-          <div className="pt-2 border-t border-slate-100 dark:border-[#27272A] flex items-center justify-between text-xs">
+          <div className="pt-2 border-t border-slate-100 dark:border-[#27272A] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
             <button
               onClick={handleExportJson}
-              className="font-mono text-slate-600 dark:text-[#A1A1AA] hover:text-[#7c3aed] flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="font-mono text-slate-600 dark:text-[#A1A1AA] hover:text-[#7c3aed] flex items-center gap-2 transition-colors cursor-pointer min-h-[44px] sm:min-h-0 py-1"
               title="Baixar arquivo JSON com todo o progresso"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-4 h-4 text-[#7c3aed]" />
               <span>Salvar progresso (JSON)</span>
             </button>
 
-            <label className="font-mono text-slate-600 dark:text-[#A1A1AA] hover:text-[#7c3aed] flex items-center gap-1.5 cursor-pointer transition-colors">
-              <Upload className="w-3.5 h-3.5" />
+            <label className="font-mono text-slate-600 dark:text-[#A1A1AA] hover:text-[#7c3aed] flex items-center gap-2 cursor-pointer transition-colors min-h-[44px] sm:min-h-0 py-1">
+              <Upload className="w-4 h-4 text-[#ea580c]" />
               <span>Abrir de arquivo</span>
               <input
                 ref={fileInputRef}
@@ -604,32 +606,32 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
             <Button
               onClick={handleCopyForAI}
               variant="outline"
-              className="w-full justify-between border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] text-xs font-semibold h-10 rounded-[8px] cursor-pointer"
+              className="w-full justify-between border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] text-xs font-semibold min-h-[44px] rounded-[8px] cursor-pointer px-3"
             >
-              <span className="flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#ea580c]" />
-                <span>Copiar como texto para IA (Agentes FAC)</span>
+              <span className="flex items-center gap-2 truncate">
+                <Sparkles className="w-4 h-4 text-[#ea580c] shrink-0" />
+                <span className="truncate">Copiar como texto para IA (Agentes FAC)</span>
               </span>
               {copiedAi ? (
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 ml-1" />
               ) : (
-                <Copy className="w-3.5 h-3.5" />
+                <Copy className="w-4 h-4 shrink-0 ml-1" />
               )}
             </Button>
 
             <Button
               onClick={handleCopyForCommunity}
               variant="outline"
-              className="w-full justify-between border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#18181B] text-xs font-semibold h-10 rounded-[8px] cursor-pointer"
+              className="w-full justify-between border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#18181B] text-xs font-semibold min-h-[44px] rounded-[8px] cursor-pointer px-3"
             >
-              <span className="flex items-center gap-2">
-                <Share2 className="w-3.5 h-3.5 text-slate-500" />
-                <span>Copiar texto pronto para Comunidade</span>
+              <span className="flex items-center gap-2 truncate">
+                <Share2 className="w-4 h-4 text-slate-500 shrink-0" />
+                <span className="truncate">Copiar texto pronto para Comunidade</span>
               </span>
               {copiedCommunity ? (
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 ml-1" />
               ) : (
-                <Copy className="w-3.5 h-3.5" />
+                <Copy className="w-4 h-4 shrink-0 ml-1" />
               )}
             </Button>
           </div>

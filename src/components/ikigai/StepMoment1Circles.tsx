@@ -146,7 +146,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
               type="button"
               onClick={() => setActiveCircle(id)}
               aria-pressed={isSelected}
-              className={`p-3.5 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between ${
+              className={`p-3.5 rounded-[12px] border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[92px] ${
                 isSelected
                   ? 'bg-purple-50/80 dark:bg-[#1f1730] border-[#7c3aed] ring-2 ring-[#7c3aed]/25 shadow-xs'
                   : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-700'
@@ -262,22 +262,22 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
 
         {/* Campo de Adição Rápida */}
         <form onSubmit={(e) => handleAdd(activeCircle, e)} className="space-y-2">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
               value={inputTexts[activeCircle] || ''}
               onChange={(e) =>
                 setInputTexts((prev) => ({ ...prev, [activeCircle]: e.target.value }))
               }
               placeholder={currentDef.placeholder}
-              className="flex-1 bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-sm h-11 focus:border-[#7c3aed]"
+              className="flex-1 bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-sm h-12 sm:h-11 focus:border-[#7c3aed]"
             />
             <Button
               type="submit"
               disabled={!(inputTexts[activeCircle] || '').trim()}
-              className="gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold h-11 px-5 rounded-[8px] cursor-pointer shrink-0"
+              className="gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[44px] sm:h-11 px-5 rounded-[8px] cursor-pointer shrink-0 w-full sm:w-auto"
             >
               <Plus className="w-4 h-4" />
-              <span>Adicionar</span>
+              <span>Adicionar item</span>
             </Button>
           </div>
 
@@ -294,12 +294,12 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
           {/* Sugestões Clicáveis por Círculo */}
           <div className="pt-2 space-y-1.5">
             <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-[#A1A1AA]">
-              <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
               <span className="font-medium">
                 Sugestões rápidas para inspirar (clique para adicionar):
               </span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {(CIRCLE_SUGGESTIONS[activeCircle] || []).map((suggestion, idx) => {
                 const isAlreadyAdded = currentItems.some(
                   (item) => item.text.trim().toLowerCase() === suggestion.trim().toLowerCase(),
@@ -314,10 +314,10 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                       }
                     }}
                     disabled={isAlreadyAdded}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-xs font-normal border transition-all text-left ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-2 min-h-[44px] sm:min-h-[36px] sm:py-1.5 rounded-[8px] text-xs font-normal border transition-all text-left max-w-full ${
                       isAlreadyAdded
                         ? 'opacity-40 pointer-events-none bg-slate-100 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-500'
-                        : 'bg-slate-100/80 hover:bg-slate-200/80 dark:bg-[#18181B] dark:hover:bg-[#222228] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer'
+                        : 'bg-slate-100/90 hover:bg-slate-200 dark:bg-[#18181B] dark:hover:bg-[#222228] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer active:scale-[0.98]'
                     }`}
                     title={
                       isAlreadyAdded
@@ -326,11 +326,11 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                     }
                   >
                     {isAlreadyAdded ? (
-                      <Check className="w-3 h-3 text-emerald-500 shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                     ) : (
-                      <Plus className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
+                      <Plus className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
                     )}
-                    <span className="line-clamp-1">{suggestion}</span>
+                    <span className="break-words line-clamp-2 sm:line-clamp-1">{suggestion}</span>
                   </button>
                 )
               })}
@@ -364,12 +364,12 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                   type="button"
                   onClick={() => onToggleStar(activeCircle, item.id)}
                   disabled={!item.starred && starredCount >= 3}
-                  className={`p-1.5 rounded-[6px] transition-colors cursor-pointer ${
+                  className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-[8px] transition-colors cursor-pointer shrink-0 ${
                     item.starred
-                      ? 'text-amber-500 hover:text-amber-600'
+                      ? 'text-amber-500 hover:text-amber-600 bg-amber-100/50 dark:bg-amber-950/40'
                       : starredCount >= 3
                         ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed'
-                        : 'text-slate-300 hover:text-amber-400'
+                        : 'text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-[#1f1f23]'
                   }`}
                   title={
                     item.starred
@@ -378,37 +378,46 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                         ? 'Limite de 3 itens centrais por círculo atingido'
                         : 'Marcar como item central (máximo 3 por círculo)'
                   }
+                  aria-label={
+                    item.starred ? 'Remover destaque central' : 'Marcar como destaque central'
+                  }
                 >
                   <Star
-                    className={`w-4 h-4 ${item.starred ? 'fill-amber-400 text-amber-500' : ''}`}
+                    className={`w-5 h-5 ${item.starred ? 'fill-amber-400 text-amber-500' : ''}`}
                   />
                 </button>
 
                 {/* Texto ou Campo de Edição */}
                 <div className="flex-1 min-w-0">
                   {editingState && editingState.id === item.id ? (
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                       <Input
                         value={editingState.text}
                         onChange={(e) => setEditingState({ id: item.id, text: e.target.value })}
-                        className="h-8 text-xs bg-white dark:bg-[#18181B]"
+                        className="min-h-[44px] text-xs bg-white dark:bg-[#18181B]"
                         autoFocus
                       />
-                      <Button
-                        size="sm"
-                        onClick={() => saveEdit(activeCircle)}
-                        className="h-8 px-2 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer"
-                      >
-                        <Check className="w-3.5 h-3.5" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => setEditingState(null)}
-                        className="h-8 px-2 text-slate-500 cursor-pointer"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </Button>
+                      <div className="flex items-center gap-2 justify-end">
+                        <Button
+                          size="sm"
+                          onClick={() => saveEdit(activeCircle)}
+                          className="min-h-[44px] px-3 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer"
+                          aria-label="Salvar edição"
+                        >
+                          <Check className="w-4 h-4 mr-1" />
+                          <span>Salvar</span>
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setEditingState(null)}
+                          className="min-h-[44px] px-3 text-slate-500 cursor-pointer"
+                          aria-label="Cancelar edição"
+                        >
+                          <X className="w-4 h-4 mr-1" />
+                          <span>Cancelar</span>
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <span className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 block break-words">
@@ -423,18 +432,20 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                     <button
                       type="button"
                       onClick={() => startEdit(item)}
-                      className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-[8px] text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1f1f23] transition-colors cursor-pointer"
                       title="Editar item"
+                      aria-label="Editar item"
                     >
-                      <Edit2 className="w-3.5 h-3.5" />
+                      <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       type="button"
                       onClick={() => onRemoveItem(activeCircle, item.id)}
-                      className="p-1 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-[8px] text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
                       title="Excluir item"
+                      aria-label="Excluir item"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 )}
@@ -451,11 +462,11 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
       </div>
 
       {/* Barra de Ações Inferior */}
-      <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-[#27272A]">
+      <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100 dark:border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-1.5 border-slate-200 dark:border-[#27272A] min-h-[44px] cursor-pointer"
+          className="gap-1.5 border-slate-200 dark:border-[#27272A] min-h-[48px] sm:min-h-[44px] cursor-pointer w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Voltar ao Início</span>
@@ -464,18 +475,18 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
         <Button
           onClick={onNext}
           disabled={!allCirclesValid}
-          className={`gap-1.5 min-h-[44px] font-semibold rounded-[8px] cursor-pointer ${
+          className={`gap-1.5 min-h-[48px] sm:min-h-[44px] font-semibold rounded-[8px] cursor-pointer w-full sm:w-auto ${
             allCirclesValid
               ? 'bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14]'
               : 'bg-slate-200 dark:bg-[#27272A] text-slate-400 cursor-not-allowed'
           }`}
         >
-          <span>
+          <span className="truncate">
             {allCirclesValid
               ? 'Avançar para Conectar (Encontros)'
-              : `Complete os 4 círculos (${totalMissing} itens pendentes)`}
+              : `Complete os 4 círculos (${totalMissing} pendentes)`}
           </span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 shrink-0" />
         </Button>
       </div>
     </div>

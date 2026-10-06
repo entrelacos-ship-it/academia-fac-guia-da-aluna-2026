@@ -114,7 +114,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
               key={id}
               type="button"
               onClick={() => setActiveTab(id)}
-              className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer ${
+              className={`p-3 rounded-[12px] border text-left transition-all cursor-pointer min-h-[92px] flex flex-col justify-between ${
                 isSelected
                   ? 'bg-purple-50/70 dark:bg-[#1f1730] border-[#7c3aed] ring-2 ring-[#7c3aed]/20 shadow-xs'
                   : 'bg-white dark:bg-[#121216] border-slate-200 dark:border-[#27272A] hover:border-slate-300 dark:hover:border-slate-700'
@@ -173,7 +173,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
       </div>
 
       {/* Abas dos 4 Encontros */}
-      <div className="flex border-b border-slate-200 dark:border-[#27272A] gap-1 overflow-x-auto scrollbar-none">
+      <div className="flex border-b border-slate-200 dark:border-[#27272A] gap-1 overflow-x-auto scrollbar-none -mx-1 px-1">
         {INTERSECTION_ORDER.map((id, idx) => {
           const def = INTERSECTION_DEFINITIONS[id]
           const isSelected = activeTab === id
@@ -185,7 +185,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
               key={id}
               type="button"
               onClick={() => setActiveTab(id)}
-              className={`px-4 py-2.5 text-xs sm:text-sm font-medium border-b-2 transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+              className={`px-3.5 py-3 min-h-[44px] text-xs sm:text-sm font-medium border-b-2 transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer shrink-0 ${
                 isSelected
                   ? 'border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-semibold'
                   : 'border-transparent text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
@@ -195,7 +195,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
               <span>{def.name}</span>
               {complete && (
                 <span
-                  className={`w-1.5 h-1.5 rounded-full ${
+                  className={`w-2 h-2 rounded-full ${
                     isNotFound ? 'bg-amber-500' : 'bg-emerald-500'
                   }`}
                 />
@@ -337,21 +337,24 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
         </div>
 
         {/* Checkbox "Ainda não encontrei esse encontro" */}
-        <div className="pt-2 border-t border-slate-100 dark:border-[#27272A] flex items-start gap-3">
+        <div className="pt-2 border-t border-slate-100 dark:border-[#27272A] flex items-start gap-3 p-2 rounded-[8px] hover:bg-slate-50 dark:hover:bg-[#18181B] transition-colors">
           <Checkbox
             id={`notfound-${activeTab}`}
             checked={Boolean(activeData.notFound)}
             onCheckedChange={(c) => handleNotFoundToggle(activeTab, Boolean(c))}
-            className="mt-0.5"
+            className="mt-1 h-5 w-5 rounded-[4px]"
           />
-          <div className="space-y-0.5">
+          <div
+            className="space-y-0.5 flex-1 cursor-pointer"
+            onClick={() => handleNotFoundToggle(activeTab, !activeData.notFound)}
+          >
             <label
               htmlFor={`notfound-${activeTab}`}
-              className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 cursor-pointer"
+              className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 cursor-pointer block select-none"
             >
               Ainda não encontrei esse encontro
             </label>
-            <p className="text-xs text-slate-500 dark:text-[#71717A]">
+            <p className="text-xs text-slate-500 dark:text-[#71717A] select-none">
               Isso é informação diagnóstica preciosa, não erro. O painel apontará essa lacuna para
               você trabalhar.
             </p>
@@ -360,11 +363,11 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
       </Card>
 
       {/* Barra de Ações Inferior */}
-      <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100 dark:border-[#27272A]">
+      <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100 dark:border-[#27272A]">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="gap-1.5 border-slate-200 dark:border-[#27272A] min-h-[44px] cursor-pointer"
+          className="gap-1.5 border-slate-200 dark:border-[#27272A] min-h-[48px] sm:min-h-[44px] cursor-pointer w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Voltar aos Círculos</span>
@@ -373,18 +376,18 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
         <Button
           onClick={onNext}
           disabled={!allComplete}
-          className={`gap-1.5 min-h-[44px] font-semibold rounded-[8px] cursor-pointer ${
+          className={`gap-1.5 min-h-[48px] sm:min-h-[44px] font-semibold rounded-[8px] cursor-pointer w-full sm:w-auto ${
             allComplete
               ? 'bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14]'
               : 'bg-slate-200 dark:bg-[#27272A] text-slate-400 cursor-not-allowed'
           }`}
         >
-          <span>
+          <span className="truncate">
             {allComplete
               ? 'Avançar para o Painel'
               : `Complete os 4 encontros (${4 - completedCount} pendentes)`}
           </span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 shrink-0" />
         </Button>
       </div>
     </div>

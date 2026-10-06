@@ -108,38 +108,46 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
   return (
     <div className="fixed inset-0 z-50 bg-slate-950 text-white flex flex-col font-sans overflow-y-auto">
       {/* Topbar Discreta de Apresentação */}
-      <header className="h-16 border-b border-slate-800 px-6 flex items-center justify-between shrink-0 bg-slate-900/90 backdrop-blur-md">
-        <div className="flex items-center gap-3">
+      <header className="min-h-16 py-2 border-b border-slate-800 px-3 sm:px-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0 bg-slate-900/95 backdrop-blur-md">
+        <div className="flex items-center justify-between sm:justify-start gap-3">
           <Badge className="bg-[#7c3aed]/20 text-[#C084FC] border-[#7c3aed]/40 text-xs font-mono uppercase tracking-wider">
             Modo Apresentação · Facilitadora
           </Badge>
-          <span className="text-xs text-slate-400 hidden md:inline">
-            Sessão isolada. Nenhuma alteração aqui afeta os dados da sua conta.
-          </span>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={onClose}
+            className="sm:hidden min-h-[44px] min-w-[44px] p-2 text-slate-400 hover:text-white hover:bg-slate-800"
+            title="Sair do modo apresentação"
+            aria-label="Fechar modo apresentação"
+          >
+            <X className="w-5 h-5" />
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button
             size="sm"
             variant="outline"
             onClick={handleLoadExample}
-            className="h-9 text-xs font-mono border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+            className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white flex-1 sm:flex-initial"
           >
-            Carregar exemplo
+            Exemplo
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={handleClearSession}
-            className="h-9 text-xs font-mono border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+            className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white flex-1 sm:flex-initial"
           >
-            Limpar tela
+            Limpar
           </Button>
 
-          <label className="h-9 px-3 rounded-[6px] border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white font-mono text-xs flex items-center gap-1.5 cursor-pointer">
+          <label className="min-h-[44px] sm:min-h-0 sm:h-9 px-3 rounded-[6px] border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white font-mono text-xs flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial">
             <Upload className="w-3.5 h-3.5" />
-            <span>Abrir painel de uma aluna (JSON)</span>
+            <span className="hidden sm:inline">Abrir painel de aluna (JSON)</span>
+            <span className="sm:hidden">Abrir JSON</span>
             <input
               ref={fileInputRef}
               type="file"
@@ -153,8 +161,9 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
             size="sm"
             variant="ghost"
             onClick={onClose}
-            className="h-9 text-slate-400 hover:text-white hover:bg-slate-800"
+            className="hidden sm:inline-flex min-h-[44px] min-w-[44px] sm:min-h-0 sm:h-9 text-slate-400 hover:text-white hover:bg-slate-800"
             title="Sair do modo apresentação"
+            aria-label="Fechar modo apresentação"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -162,10 +171,9 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
       </header>
 
       {/* Navegação entre Círculos e Diagrama Completo */}
-      <div className="max-w-6xl w-full mx-auto px-6 py-4 flex items-center justify-between gap-4 border-b border-slate-800/80">
-        <div className="flex items-center gap-2">
+      <div className="max-w-6xl w-full mx-auto px-3 sm:px-6 py-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-slate-800/80">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1">
           {circleKeys.map((k, idx) => {
-            const def = CIRCLE_DEFINITIONS[k]
             const active = activeTab === 'circles' && currentCircleIndex === idx
             return (
               <button
@@ -174,7 +182,7 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
                   setActiveTab('circles')
                   setCurrentCircleIndex(idx)
                 }}
-                className={`px-3 py-1.5 rounded-[8px] text-xs font-mono font-medium transition-colors cursor-pointer ${
+                className={`px-3 py-2 min-h-[44px] sm:min-h-[36px] sm:py-1.5 rounded-[8px] text-xs font-mono font-medium transition-colors cursor-pointer shrink-0 ${
                   active
                     ? 'bg-[#7c3aed] text-white shadow-xs'
                     : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -187,25 +195,25 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
 
           <button
             onClick={() => setActiveTab('diagram')}
-            className={`px-3 py-1.5 rounded-[8px] text-xs font-mono font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3 py-2 min-h-[44px] sm:min-h-[36px] sm:py-1.5 rounded-[8px] text-xs font-mono font-medium transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 ${
               activeTab === 'diagram'
                 ? 'bg-[#ea580c] text-white shadow-xs'
                 : 'bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
-            <span>Ver Diagrama Completo</span>
+            <span>Diagrama Completo</span>
           </button>
         </div>
 
         {activeTab === 'circles' && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 justify-end">
             <Button
               size="sm"
               variant="outline"
               disabled={currentCircleIndex === 0}
               onClick={() => setCurrentCircleIndex((prev) => prev - 1)}
-              className="h-8 border-slate-700 text-slate-300"
+              className="min-h-[44px] sm:min-h-0 sm:h-8 border-slate-700 text-slate-300 flex-1 sm:flex-initial"
             >
               <ArrowLeft className="w-3.5 h-3.5 mr-1" />
               <span>Anterior</span>
@@ -215,7 +223,7 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
               variant="outline"
               disabled={currentCircleIndex === 3}
               onClick={() => setCurrentCircleIndex((prev) => prev + 1)}
-              className="h-8 border-slate-700 text-slate-300"
+              className="min-h-[44px] sm:min-h-0 sm:h-8 border-slate-700 text-slate-300 flex-1 sm:flex-initial"
             >
               <span>Próximo</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1" />
@@ -225,7 +233,7 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
       </div>
 
       {/* Conteúdo Principal do Modo Apresentação */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-6 py-8 flex flex-col justify-center">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-center">
         {activeTab === 'circles' ? (
           <div className="space-y-8 animate-fadeIn">
             {/* Header do Círculo com Tipografia Grande */}
@@ -257,20 +265,20 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
             </div>
 
             {/* Input Rápido para Preencher ao Vivo */}
-            <form onSubmit={handleAddItem} className="flex gap-2">
+            <form onSubmit={handleAddItem} className="flex flex-col sm:flex-row gap-2">
               <Input
                 value={newItemText}
                 onChange={(e) => setNewItemText(e.target.value)}
                 placeholder={`Digitar exemplo ao vivo para o ${currentDef.title}...`}
-                className="h-12 bg-slate-900 border-slate-700 text-base text-white focus:border-[#C084FC]"
+                className="h-12 bg-slate-900 border-slate-700 text-sm sm:text-base text-white focus:border-[#C084FC]"
               />
               <Button
                 type="submit"
                 disabled={!newItemText.trim()}
-                className="h-12 px-6 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold text-sm rounded-[8px]"
+                className="min-h-[48px] sm:h-12 px-6 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold text-sm rounded-[8px] w-full sm:w-auto shrink-0"
               >
                 <Plus className="w-4 h-4 mr-1.5" />
-                <span>Adicionar</span>
+                <span>Adicionar ao vivo</span>
               </Button>
             </form>
 
@@ -291,8 +299,9 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
                     </span>
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-slate-500 hover:text-rose-400 transition-colors p-1"
+                      className="min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-500 hover:text-rose-400 hover:bg-slate-800 rounded-[8px] transition-colors p-1 shrink-0"
                       title="Excluir item do exemplo"
+                      aria-label="Excluir item do exemplo"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -303,16 +312,18 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
           </div>
         ) : (
           /* Visualização de Diagrama Completo em Tela Cheia */
-          <div className="space-y-6 flex flex-col items-center">
-            <div className="w-full max-w-3xl bg-slate-900 p-6 rounded-[16px] border border-slate-800 shadow-xl">
-              <IkigaiSvgDiagram state={sessionState} />
+          <div className="space-y-6 flex flex-col items-center w-full">
+            <div className="w-full max-w-3xl bg-slate-900 p-3 sm:p-6 rounded-[16px] border border-slate-800 shadow-xl overflow-x-auto">
+              <div className="min-w-[320px] sm:min-w-0 flex justify-center">
+                <IkigaiSvgDiagram state={sessionState} />
+              </div>
             </div>
 
-            <div className="text-center max-w-2xl">
+            <div className="text-center max-w-2xl px-2">
               <span className="font-mono text-xs uppercase text-[#C084FC] block">
                 Declaração de Missão
               </span>
-              <p className="text-xl font-medium text-white italic mt-1">
+              <p className="text-lg sm:text-xl font-medium text-white italic mt-1 break-words">
                 "{sessionState.missionStatement || 'Em construção'}"
               </p>
             </div>

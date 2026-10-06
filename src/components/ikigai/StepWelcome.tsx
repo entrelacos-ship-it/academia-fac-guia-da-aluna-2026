@@ -132,16 +132,16 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
         </div>
 
         {/* Aviso de salvamento na nuvem da conta */}
-        <div className="p-3.5 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+        <div className="p-3.5 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-start sm:items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shrink-0 mt-1 sm:mt-0" />
             <span>
               Todos os seus dados ficam salvos na sua conta da Academia e sincronizados na nuvem.
               Você pode continuar de qualquer aparelho.
             </span>
           </div>
           {lastUpdated && (
-            <span className="font-mono text-[11px] text-slate-400 dark:text-[#71717A] shrink-0 hidden sm:inline">
+            <span className="font-mono text-[11px] text-slate-400 dark:text-[#71717A] shrink-0">
               Última alteração: {new Date(lastUpdated).toLocaleDateString('pt-BR')}
             </span>
           )}
@@ -153,7 +153,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
             <>
               <Button
                 onClick={onResume}
-                className="flex-1 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[46px] rounded-[8px] cursor-pointer"
+                className="flex-1 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[48px] rounded-[10px] cursor-pointer text-sm"
               >
                 <span>Continuar de onde parei</span>
                 <ArrowRight className="w-4 h-4" />
@@ -161,7 +161,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
               <Button
                 variant="outline"
                 onClick={onStartNew}
-                className="gap-2 border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1f1f23] min-h-[46px] rounded-[8px] cursor-pointer"
+                className="gap-2 border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1f1f23] min-h-[48px] rounded-[10px] cursor-pointer text-sm"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Recomeçar do zero</span>
@@ -170,7 +170,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           ) : (
             <Button
               onClick={onStartNew}
-              className="w-full gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[46px] rounded-[8px] cursor-pointer"
+              className="w-full gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold min-h-[48px] rounded-[10px] cursor-pointer text-sm"
             >
               <span>Começar meu IKIGAI</span>
               <ArrowRight className="w-4 h-4" />
