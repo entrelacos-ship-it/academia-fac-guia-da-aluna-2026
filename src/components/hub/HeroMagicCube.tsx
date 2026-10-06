@@ -268,9 +268,15 @@ const PieceMesh: React.FC<PieceMeshProps> = ({
   }, [config.faceColors])
 
   return (
-    <group ref={groupRef}>
-      {/* Corpo plástico chanfrado/arredondado do cubinho */}
-      <mesh geometry={baseGeometry} material={bodyMaterial} castShadow receiveShadow />
+    <group ref={groupRef} dispose={null}>
+      {/* Corpo plástico chanfrado/arredondado do cubinho - dispose={null} pois o ciclo de vida é gerido em CubeScene */}
+      <mesh
+        geometry={baseGeometry}
+        material={bodyMaterial}
+        castShadow
+        receiveShadow
+        dispose={null}
+      />
 
       {/* Adesivos coloridos com cantos arredondados nas faces externas */}
       {stickers.map((st) => (
@@ -282,6 +288,7 @@ const PieceMesh: React.FC<PieceMeshProps> = ({
           rotation={st.rot}
           castShadow
           receiveShadow
+          dispose={null}
         />
       ))}
     </group>
@@ -367,13 +374,22 @@ const CubeScene: React.FC<{
     return map
   }, [])
 
-  // Limpeza de recursos Three ao desmontar
+  // Limpeza segura de recursos Three ao desmontar
   useEffect(() => {
     return () => {
-      baseGeometry.dispose()
-      stickerGeometry.dispose()
-      bodyMaterial.dispose()
-      Object.values(stickerMaterialsMap).forEach((mat) => mat.dispose())
+      // Executa o descarte em macro/microtask assíncrono para permitir que o reconciliador
+      // R3F desmonte com segurança todos os nós e nós-filhos do container sem tentar
+      // acessar nós ou estruturas internas já descartadas concorrentemente.
+      setTimeout(() => {
+        try {
+          baseGeometry.dispose()
+          stickerGeometry.dispose()
+          bodyMaterial.dispose()
+          Object.values(stickerMaterialsMap).forEach((mat) => mat.dispose())
+        } catch {
+          // No-op para evitar falhas silenciosas na desmontagem
+        }
+      }, 0)
     }
   }, [baseGeometry, stickerGeometry, bodyMaterial, stickerMaterialsMap])
 
@@ -412,7 +428,7 @@ const CubeScene: React.FC<{
   })
 
   return (
-    <group ref={sceneGroupRef}>
+    <group ref={sceneGroupRef} dispose={null}>
       {pieces.map((piece) => (
         <PieceMesh
           key={piece.id}
@@ -427,6 +443,32 @@ const CubeScene: React.FC<{
       ))}
     </group>
   )
+}
+
+// Error Boundary resiliente exclusivo para o Canvas 3D para isolar qualquer falha WebGL/R3F
+class CanvasErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error: unknown) {
+    console.warn('[HeroMagicCube] Recuperado de erro interno no renderizador 3D:', error)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback ?? null
+    }
+    return this.props.children
+  }
 }
 
 export interface HeroMagicCubeProps {
@@ -518,51 +560,53 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
         <div className="w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] rounded-full bg-radial from-[#9333ea]/30 via-[#6b21a8]/15 to-transparent blur-3xl opacity-90" />
       </div>
 
-      {/* Canvas 3D */}
+      {/* Canvas 3D envolto com ErrorBoundary */}
       <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[360px] sm:h-[360px] md:w-[400px] md:h-[400px] lg:w-[440px] lg:h-[440px] relative pointer-events-none">
-        <Canvas
-          dpr={[1, 2]} // Performance otimizada: cap em 2x retina
-          camera={{ position: [0, 0, 7.8], fov: 42 }}
-          gl={{
-            antialias: true,
-            alpha: true,
-            powerPreference: 'high-performance',
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.15,
-          }}
-          className="pointer-events-none"
-        >
-          {/* Iluminação de estúdio profissional */}
-          {/* Luz ambiente suave com tom arroxeado frio */}
-          <ambientLight intensity={0.9} color="#d8b4fe" />
+        <CanvasErrorBoundary>
+          <Canvas
+            dpr={[1, 2]} // Performance otimizada: cap em 2x retina
+            camera={{ position: [0, 0, 7.8], fov: 42 }}
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: 'high-performance',
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.15,
+            }}
+            className="pointer-events-none"
+          >
+            {/* Iluminação de estúdio profissional */}
+            {/* Luz ambiente suave com tom arroxeado frio */}
+            <ambientLight intensity={0.9} color="#d8b4fe" />
 
-          {/* Key Light principal: topo direito com tom lilás branco potente */}
-          <directionalLight
-            position={[5, 8, 6]}
-            intensity={2.5}
-            color="#ffffff"
-            castShadow
-            shadow-mapSize={[1024, 1024]}
-            shadow-bias={-0.0001}
-          />
+            {/* Key Light principal: topo direito com tom lilás branco potente */}
+            <directionalLight
+              position={[5, 8, 6]}
+              intensity={2.5}
+              color="#ffffff"
+              castShadow
+              shadow-mapSize={[1024, 1024]}
+              shadow-bias={-0.0001}
+            />
 
-          {/* Fill Light: lado esquerdo inferior com tom violeta da marca */}
-          <directionalLight position={[-6, -3, 3]} intensity={1.6} color="#9333ea" />
+            {/* Fill Light: lado esquerdo inferior com tom violeta da marca */}
+            <directionalLight position={[-6, -3, 3]} intensity={1.6} color="#9333ea" />
 
-          {/* Rim Light / Back Light: atrás do cubo para recortar as bordas de plástico escuro */}
-          <pointLight position={[0, 4, -5]} intensity={2.8} color="#c084fc" distance={15} />
+            {/* Rim Light / Back Light: atrás do cubo para recortar as bordas de plástico escuro */}
+            <pointLight position={[0, 4, -5]} intensity={2.8} color="#c084fc" distance={15} />
 
-          {/* Luz frontal suave para realçar o adesivo de destaque lilás */}
-          <pointLight position={[0, 0, 6]} intensity={1.3} color="#e9d5ff" distance={12} />
+            {/* Luz frontal suave para realçar o adesivo de destaque lilás */}
+            <pointLight position={[0, 0, 6]} intensity={1.3} color="#e9d5ff" distance={12} />
 
-          {/* O Cubo Mágico Montável */}
-          <CubeScene
-            progressRef={progressRef}
-            targetProgressRef={targetProgressRef}
-            reducedMotion={reducedMotion}
-            isHovered={isHovered}
-          />
-        </Canvas>
+            {/* O Cubo Mágico Montável */}
+            <CubeScene
+              progressRef={progressRef}
+              targetProgressRef={targetProgressRef}
+              reducedMotion={reducedMotion}
+              isHovered={isHovered}
+            />
+          </Canvas>
+        </CanvasErrorBoundary>
       </div>
 
       {/* Legenda: FUNDAÇÃO · ATRAÇÃO · CONEXÃO */}
