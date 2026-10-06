@@ -51,13 +51,13 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 05 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Parâmetros</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">Parâmetros</span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Capacidade Clínica & Parâmetros de Mercado
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           Defina sua grade semanal de atendimentos e considere as faltas reais. Uma agenda
           sustentável protege seu tempo de estudo, prontuário e descanso.
         </p>
@@ -71,7 +71,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
               <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                 Sessões Planejadas por Semana
               </span>
-              <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+              <span className="text-xs text-slate-600 dark:text-zinc-400">
                 Capacidade máxima realista de atendimentos semanais (1 a 60)
               </span>
             </div>
@@ -110,7 +110,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
               <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                 Semanas Efetivas por Mês
               </span>
-              <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+              <span className="text-xs text-slate-600 dark:text-zinc-400">
                 Padrão de 4 semanas de trabalho por mês clínico
               </span>
             </div>
@@ -144,7 +144,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
                 <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                   Taxa de Falta e Absenteísmo
                 </span>
-                <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+                <span className="text-xs text-slate-600 dark:text-zinc-400">
                   Perda por cancelamentos, feriados e faltas não remuneradas
                 </span>
               </div>
@@ -164,7 +164,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
           />
 
           <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] flex items-center justify-between text-xs font-mono">
-            <span className="text-slate-600 dark:text-[#A1A1AA]">
+            <span className="text-slate-700 dark:text-zinc-300">
               {sessoesAgendadas} agendadas →{' '}
               <strong className="text-slate-900 dark:text-white">
                 {sessoesEfetivas} sessões remuneradas
@@ -199,7 +199,7 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
               <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                 Referência da Tabela de Honorários CFP
               </span>
-              <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+              <span className="text-xs text-slate-600 dark:text-zinc-400">
                 Parâmetro oficial do Conselho Federal de Psicologia / FENAPSI
               </span>
             </div>

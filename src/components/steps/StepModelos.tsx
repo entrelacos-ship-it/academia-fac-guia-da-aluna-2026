@@ -30,15 +30,15 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 07 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">
             Síntese Prática
           </span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Comparativo dos 4 Modelos Clínicos de Atuação
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           Compare os 4 modelos clínicos para decidir seu melhor formato de atuação profissional,
           pesando riscos de burnout, custos fixos e autonomia de honorários.
         </p>
@@ -60,12 +60,12 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
               <h3 className="font-serif-editorial text-lg text-slate-900 dark:text-zinc-100">
                 Consultório Particular
               </h3>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal mt-0.5">
                 Modelo soberano de atendimento
               </p>
             </div>
 
-            <ul className="space-y-2 text-xs text-slate-600 dark:text-zinc-400 font-light pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
+            <ul className="space-y-2 text-xs text-slate-700 dark:text-zinc-300 font-normal pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
               <li className="flex items-start gap-1.5">
                 <span className="text-[#7c3aed] dark:text-[#C084FC]">•</span>
                 <span>Autonomia total de precificação ética</span>
@@ -94,17 +94,17 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
         {/* 2. Convênios / Planos de Saúde */}
         <div className="p-5 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all">
           <div className="space-y-3">
-            <span className="text-xs font-mono text-slate-400 dark:text-zinc-500 block">02</span>
+            <span className="text-xs font-mono text-slate-600 dark:text-zinc-400 block">02</span>
             <div>
               <h3 className="font-serif-editorial text-lg text-slate-900 dark:text-zinc-100">
                 Convênios / Planos
               </h3>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal mt-0.5">
                 Intermediado por operadoras
               </p>
             </div>
 
-            <ul className="space-y-2 text-xs text-slate-600 dark:text-zinc-400 font-light pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
+            <ul className="space-y-2 text-xs text-slate-700 dark:text-zinc-300 font-normal pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
               <li className="flex items-start gap-1.5 text-rose-600 dark:text-rose-400">
                 <span>•</span>
                 <span>Repasse aviltado por sessão (R$ 20 a R$ 45)</span>
@@ -133,17 +133,17 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
         {/* 3. Sublocação / Coworking */}
         <div className="p-5 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all">
           <div className="space-y-3">
-            <span className="text-xs font-mono text-slate-400 dark:text-zinc-500 block">03</span>
+            <span className="text-xs font-mono text-slate-600 dark:text-zinc-400 block">03</span>
             <div>
               <h3 className="font-serif-editorial text-lg text-slate-900 dark:text-zinc-100">
                 Sublocação / Turnos
               </h3>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal mt-0.5">
                 Compartilhamento por turno ou hora
               </p>
             </div>
 
-            <ul className="space-y-2 text-xs text-slate-600 dark:text-zinc-400 font-light pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
+            <ul className="space-y-2 text-xs text-slate-700 dark:text-zinc-300 font-normal pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
               <li className="flex items-start gap-1.5">
                 <span className="text-emerald-600 dark:text-emerald-400">•</span>
                 <span>Custos fixos iniciais reduzidos</span>
@@ -172,17 +172,17 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
         {/* 4. Atendimento Online (Home Office) */}
         <div className="p-5 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all">
           <div className="space-y-3">
-            <span className="text-xs font-mono text-slate-400 dark:text-zinc-500 block">04</span>
+            <span className="text-xs font-mono text-slate-600 dark:text-zinc-400 block">04</span>
             <div>
               <h3 className="font-serif-editorial text-lg text-slate-900 dark:text-zinc-100">
                 Online / Home Office
               </h3>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal mt-0.5">
                 Atendimento remoto regulado CFP
               </p>
             </div>
 
-            <ul className="space-y-2 text-xs text-slate-600 dark:text-zinc-400 font-light pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
+            <ul className="space-y-2 text-xs text-slate-700 dark:text-zinc-300 font-normal pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
               <li className="flex items-start gap-1.5">
                 <span className="text-emerald-600 dark:text-emerald-400">•</span>
                 <span>Sem despesa de aluguel físico</span>
@@ -217,20 +217,20 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
 
         <div className="overflow-x-auto rounded-xl border border-slate-200/70 dark:border-zinc-800/70 bg-white/40 dark:bg-zinc-950/40">
           <table className="w-full text-xs text-left">
-            <thead className="bg-slate-50/70 dark:bg-zinc-900/60 text-slate-600 dark:text-zinc-400 font-mono uppercase tracking-wider border-b border-slate-200/70 dark:border-zinc-800/70">
+            <thead className="bg-slate-50/70 dark:bg-zinc-900/60 text-slate-700 dark:text-zinc-300 font-mono uppercase tracking-wider border-b border-slate-200/70 dark:border-zinc-800/70">
               <tr>
                 <th className="py-3 px-4">Critério de Avaliação</th>
                 <th className="py-3 px-4 text-[#7c3aed] dark:text-[#C084FC]">
                   Particular (Ouro FAC)
                 </th>
-                <th className="py-3 px-4 text-orange-600 dark:text-orange-400">
+                <th className="py-3 px-4 text-orange-700 dark:text-orange-400">
                   Convênios / Planos
                 </th>
                 <th className="py-3 px-4 text-slate-900 dark:text-zinc-100">Sublocação</th>
                 <th className="py-3 px-4 text-[#7c3aed] dark:text-[#C084FC]">Online Home Office</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200/60 dark:divide-zinc-800/60 text-slate-600 dark:text-zinc-400 font-light">
+            <tbody className="divide-y divide-slate-200/60 dark:divide-zinc-800/60 text-slate-700 dark:text-zinc-300 font-normal">
               <tr>
                 <td className="py-3 px-4 font-normal text-slate-900 dark:text-zinc-100">
                   Custo de Instalação
@@ -308,7 +308,7 @@ export const StepModelos: React.FC<StepModelosProps> = ({ onReset, onKeepData, o
           <h4 className="font-serif-editorial text-2xl text-slate-900 dark:text-zinc-100">
             A soberania do consultório particular
           </h4>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 font-light leading-relaxed mt-2">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 font-normal leading-relaxed mt-2">
             Para a imensa maioria das psicólogas(os), o{' '}
             <strong className="text-slate-900 dark:text-zinc-100 font-normal">
               Consultório Particular

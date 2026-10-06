@@ -61,13 +61,13 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 02 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Pilar 02</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">Pilar 02</span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Custos Profissionais da Prática Clínica
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           Custos operacionais do consultório. Para atender com excelência e segurança ética, você
           precisa manter supervisão, ferramentas e espaço qualificado.
         </p>
@@ -227,7 +227,7 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
                   placeholder="Nome do item (ex: Seguro RC, Anuidade CRP)"
                   value={customLabel}
                   onChange={(e) => setCustomLabel(e.target.value)}
-                  className="h-10 text-sm bg-white dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
+                  className="h-10 text-sm bg-white dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus:border-[#ea580c] dark:focus:border-[#FB923C] rounded-[8px]"
                   autoFocus
                 />
                 <CurrencyInput value={customVal} onChange={setCustomVal} placeholder="0,00" />
@@ -256,13 +256,13 @@ export const StepProfissionais: React.FC<StepProfissionaisProps> = ({
               <div className="font-serif-editorial text-3xl sm:text-4xl text-slate-900 dark:text-zinc-100">
                 {formatBRL(totalProfissionais)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal">
                 Manutenção mensal da sua prática clínica ética
               </p>
             </div>
 
             <div className="pt-4 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 font-light">
+              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400 font-normal">
                 <Info className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
                 <span>
                   Supervisão e terapia pessoal são custos técnicos para a sustentabilidade emocional

@@ -31,11 +31,11 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
     <div className="space-y-12 py-8 max-w-3xl mx-auto">
       {/* Hero Editorial */}
       <div className="text-center space-y-5">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/5 dark:bg-purple-400/10 border border-purple-200/60 dark:border-purple-400/20 text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-          <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-400/10 border border-purple-300 dark:border-purple-400/20 text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+          <BookOpen className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
           <span>MÉTODO FAC</span>
-          <span className="text-slate-300 dark:text-zinc-600">•</span>
-          <span className="text-slate-600 dark:text-zinc-400">ENTRELAÇOS PSICOLOGIA</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-slate-700 dark:text-zinc-300">ENTRELAÇOS PSICOLOGIA</span>
         </div>
 
         <h1 className="font-serif-editorial text-4xl sm:text-5xl md:text-[58px] font-normal tracking-tight text-slate-900 dark:text-zinc-50 leading-[1.08]">
@@ -43,21 +43,21 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           <span className="text-[#7c3aed] dark:text-[#C084FC] italic">clareza ética</span>.
         </h1>
 
-        <p className="text-base sm:text-lg text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light">
+        <p className="text-base sm:text-lg text-slate-700 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed font-normal">
           Descubra o piso ético por sessão a partir do seu custo real de vida e da sua prática
           clínica — sem tabelas aleatórias e sem culpa por cobrar o valor justo.
         </p>
 
         {/* Chips sutis em vez de blocos pesados */}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-slate-700 dark:text-zinc-300 border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
             <ShieldAlert className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC]" /> Subprecificação
             crônica
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
-            <Flame className="w-3 h-3 text-orange-500 dark:text-orange-400" /> Risco de burnout
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-slate-700 dark:text-zinc-300 border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <Flame className="w-3 h-3 text-[#ea580c] dark:text-orange-400" /> Risco de burnout
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-slate-700 dark:text-zinc-300 border border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
             <Scale className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC]" /> Tabela CFP defasada
           </span>
         </div>
@@ -103,7 +103,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
                   onClick={onOpenTour}
                   className="w-full sm:w-auto h-12 px-6 text-[#7c3aed] dark:text-[#C084FC] border-slate-200 dark:border-[#27272A] hover:bg-slate-100 dark:hover:bg-[#27272A] rounded-[8px] gap-2 font-mono text-xs font-semibold"
                 >
-                  <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                  <Compass className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                   VER TOUR GUIADO
                 </Button>
               )}
@@ -115,56 +115,56 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
         <div className="pt-6 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-4">
           <div className="flex items-center gap-2 justify-center sm:justify-start">
             <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-            <h3 className="text-xs font-mono font-medium uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+            <h3 className="text-xs font-mono font-medium uppercase tracking-wider text-slate-700 dark:text-zinc-300">
               O Método FAC em 4 pilares:
             </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-left">
-            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+            <div className="editorial-row p-4 rounded-xl border border-slate-300/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/30">
               <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                 01
               </span>
               <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Custos Pessoais
               </h4>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
+              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
                 Moradia, alimentação, saúde e dignidade de vida.
               </p>
             </div>
 
-            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+            <div className="editorial-row p-4 rounded-xl border border-slate-300/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/30">
               <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                 02
               </span>
               <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Custos Profissionais
               </h4>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
+              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
                 Consultório, supervisão, softwares e formação.
               </p>
             </div>
 
-            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+            <div className="editorial-row p-4 rounded-xl border border-slate-300/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/30">
               <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                 03
               </span>
               <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Retirada Desejada
               </h4>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
+              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
                 Seu salário real para lazer e projetos futuros.
               </p>
             </div>
 
-            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+            <div className="editorial-row p-4 rounded-xl border border-slate-300/80 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/30">
               <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                 04
               </span>
               <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Reserva & Tributos
               </h4>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
+              <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
                 Markup divisor com férias, 13º e impostos.
               </p>
             </div>
@@ -179,7 +179,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           padrão ético do atendimento, considerando a complexidade e a formação técnica
           contínua.&rdquo;
         </p>
-        <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 uppercase tracking-widest block mt-2">
+        <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400 uppercase tracking-widest block mt-2">
           Diretriz Ética CFP · Conselho Federal de Psicologia
         </span>
       </div>

@@ -152,15 +152,15 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider">
               Passo 06 de 07
             </span>
-            <span className="text-slate-300 dark:text-zinc-700">•</span>
-            <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">
+            <span className="text-slate-400 dark:text-zinc-600">•</span>
+            <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">
               Central de Viabilidade
             </span>
           </div>
-          <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+          <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
             Resultados & Tomada de Decisão
           </h2>
-          <p className="text-sm text-slate-600 dark:text-zinc-400 font-light mt-1 max-w-2xl">
+          <p className="text-sm text-slate-700 dark:text-zinc-300 font-normal mt-1 max-w-2xl">
             Navegue pelos 5 submenus organizados por intenção de uso para analisar, planejar e
             formalizar sua prática clínica com segurança.
           </p>
@@ -217,7 +217,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
           {/* Sidebar Vertical Desktop */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-20 z-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto space-y-3 pr-1">
             <div className="p-3 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-1">
-              <div className="px-3 py-2 text-[10px] font-mono font-medium uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+              <div className="px-3 py-2 text-[10px] font-mono font-medium uppercase tracking-wider text-slate-600 dark:text-zinc-400">
                 Seções do Painel
               </div>
 
@@ -242,17 +242,17 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                           'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border transition-colors',
                           isActive
                             ? 'bg-white dark:bg-zinc-900 border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC]'
-                            : 'bg-transparent border-slate-200/60 dark:border-zinc-800 text-slate-400 dark:text-zinc-500',
+                            : 'bg-transparent border-slate-200/60 dark:border-zinc-800 text-slate-600 dark:text-zinc-400',
                         )}
                       >
                         <Icon className="w-3.5 h-3.5" />
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <span className="font-serif-editorial text-sm truncate block">
+                        <span className="font-serif-editorial text-sm truncate block font-medium">
                           {item.label}
                         </span>
-                        <p className="text-[10px] text-slate-400 dark:text-zinc-500 truncate font-mono">
+                        <p className="text-[10px] text-slate-600 dark:text-zinc-400 truncate font-mono">
                           {item.shortLabel}
                         </p>
                       </div>
@@ -263,13 +263,13 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
               {/* Mini resumo de piso fixado na sidebar */}
               <div className="pt-3 mt-3 border-t border-slate-200/70 dark:border-zinc-800/70 px-2 py-1">
-                <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 uppercase block">
+                <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400 uppercase block">
                   Piso FAC Calculado
                 </span>
-                <span className="font-serif-editorial text-xl text-[#7c3aed] dark:text-[#C084FC] block">
+                <span className="font-serif-editorial text-xl text-[#7c3aed] dark:text-[#C084FC] block font-medium">
                   {formatBRL(calculation.pisoMinimoSessao)}
                 </span>
-                <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500">
+                <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400">
                   {calculation.sessoesEfetivas} sessões/mês
                 </span>
               </div>
@@ -293,7 +293,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                       <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
                         1. Visão Geral Essencial
                       </h3>
-                      <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+                      <p className="text-xs text-slate-700 dark:text-zinc-300">
                         O diagnóstico nuclear do seu trabalho: Piso Ético, lacuna de honorários e
                         destino de cada centavo.
                       </p>
@@ -313,14 +313,14 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                         Piso Ético Mínimo (Método FAC)
                       </span>
                       <div className="flex items-baseline gap-2">
-                        <span className="font-serif-editorial text-5xl sm:text-6xl text-slate-900 dark:text-zinc-50 tracking-tight">
+                        <span className="font-serif-editorial text-5xl sm:text-6xl text-slate-900 dark:text-zinc-50 tracking-tight font-normal">
                           {formatBRL(calculation.pisoMinimoSessao)}
                         </span>
-                        <span className="text-sm font-mono text-slate-400 dark:text-zinc-500">
+                        <span className="text-sm font-mono text-slate-600 dark:text-zinc-400">
                           / sessão
                         </span>
                       </div>
-                      <p className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 font-light leading-relaxed max-w-xl">
+                      <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 font-normal leading-relaxed max-w-xl">
                         Este é o valor mínimo por atendimento necessário para cobrir seu custo de
                         vida, consultório, supervisão contínua, reserva técnica de{' '}
                         {state.reservaPct}% e impostos ({state.tributosPct}%).
@@ -329,37 +329,37 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-slate-200/70 dark:border-zinc-800/70 text-xs font-mono">
                       <div>
-                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
+                        <span className="text-slate-600 dark:text-zinc-400 uppercase tracking-wider text-[10px] block">
                           Faturamento Alvo
                         </span>
-                        <span className="text-base font-medium text-slate-900 dark:text-zinc-100 mt-0.5 block">
+                        <span className="text-base font-semibold text-slate-900 dark:text-zinc-100 mt-0.5 block">
                           {formatBRL(calculation.faturamentoBruto)}
                         </span>
-                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                        <span className="text-[10px] text-slate-600 dark:text-zinc-400">
                           mensal
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
+                        <span className="text-slate-600 dark:text-zinc-400 uppercase tracking-wider text-[10px] block">
                           Sessões Efetivas
                         </span>
-                        <span className="text-base font-medium text-slate-900 dark:text-zinc-100 mt-0.5 block">
+                        <span className="text-base font-semibold text-slate-900 dark:text-zinc-100 mt-0.5 block">
                           {calculation.sessoesEfetivas} / mês
                         </span>
-                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                        <span className="text-[10px] text-slate-600 dark:text-zinc-400">
                           ({state.sessoesPorSemana} sem. - {state.taxaFaltaPct}% falta)
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
+                        <span className="text-slate-600 dark:text-zinc-400 uppercase tracking-wider text-[10px] block">
                           Markup Divisor
                         </span>
-                        <span className="text-base font-medium text-[#7c3aed] dark:text-[#C084FC] mt-0.5 block">
+                        <span className="text-base font-semibold text-[#7c3aed] dark:text-[#C084FC] mt-0.5 block">
                           {calculation.divisor.toFixed(2)}
                         </span>
-                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                        <span className="text-[10px] text-slate-600 dark:text-zinc-400">
                           ({state.reservaPct}% res. + {state.tributosPct}% imp.)
                         </span>
                       </div>
@@ -369,7 +369,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                   {/* Card Diagnóstico da Lacuna (Gap Analysis) + Comparativo CFP */}
                   <div className="p-6 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between">
                     <div className="space-y-3">
-                      <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
+                      <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-slate-700 dark:text-zinc-300 block">
                         Diagnóstico de Lacuna (Gap)
                       </span>
 
@@ -427,9 +427,9 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                           </div>
                         )
                       ) : (
-                        <div className="p-4 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-2">
+                        <div className="p-4 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-700 dark:text-zinc-300 space-y-2">
                           <p>Você não informou seu preço atual no Passo 5.</p>
-                          <p className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                          <p className="text-[11px] font-mono text-slate-600 dark:text-zinc-400">
                             Preencha o valor atual para comparar sua remuneração real e descobrir
                             seu eventual déficit clínico.
                           </p>
@@ -438,7 +438,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                     </div>
                     {/* Comparativo com Faixas CFP */}
                     <div className="pt-4 mt-4 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-2">
-                      <span className="text-[11px] font-mono font-medium text-slate-500 dark:text-zinc-400 flex items-center gap-1">
+                      <span className="text-[11px] font-mono font-medium text-slate-700 dark:text-zinc-300 flex items-center gap-1">
                         <Scale className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
                         Referência Tabela CFP:
                       </span>
@@ -447,31 +447,31 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                           className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'inferior'
                               ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
-                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
+                              : 'border-slate-300 dark:border-zinc-800/70 text-slate-700 dark:text-zinc-400'
                           }`}
                         >
                           <div>Inferior</div>
-                          <div className="mt-0.5">{formatBRL(CFP_VALUES.inferior)}</div>
+                          <div className="mt-0.5 font-medium">{formatBRL(CFP_VALUES.inferior)}</div>
                         </div>
                         <div
                           className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'medio'
                               ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
-                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
+                              : 'border-slate-300 dark:border-zinc-800/70 text-slate-700 dark:text-zinc-400'
                           }`}
                         >
                           <div>Médio</div>
-                          <div className="mt-0.5">{formatBRL(CFP_VALUES.medio)}</div>
+                          <div className="mt-0.5 font-medium">{formatBRL(CFP_VALUES.medio)}</div>
                         </div>
                         <div
                           className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'superior'
                               ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
-                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
+                              : 'border-slate-300 dark:border-zinc-800/70 text-slate-700 dark:text-zinc-400'
                           }`}
                         >
                           <div>Superior</div>
-                          <div className="mt-0.5">{formatBRL(CFP_VALUES.superior)}</div>
+                          <div className="mt-0.5 font-medium">{formatBRL(CFP_VALUES.superior)}</div>
                         </div>
                       </div>
                     </div>{' '}

@@ -1,7 +1,7 @@
 /* Global styles - Theme, font, utilities, animations and global components */
 
-/* CHANGE THE FONT BELOW TO WHATEVER YOU WANT */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+/* Tipografia Editorial Premium: Newsreader (Display/Editorial) + Inter (Interface/Corpo) + JetBrains Mono (Dados/Labels) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -40,7 +40,7 @@
     --secondary-foreground: 240 10% 12%;
 
     --muted: 240 5% 94%; /* #EFEFF2 */
-    --muted-foreground: 240 5% 40%; /* #64646E Contraste WCAG AA */
+    --muted-foreground: 240 6% 32%; /* #4B4B57 Contraste WCAG AA aprimorado (mínimo 5.5:1) */
 
     --accent: 240 5% 92%; /* Fundo sutil de destaque no hover para botões neutros/ghost/outline */
     --accent-foreground: 240 10% 10%; /* Texto escuro com alto contraste */
@@ -340,10 +340,12 @@
 
   /* Astral Utility Tokens - Adaptáveis a Light e Dark */
   .font-serif-editorial {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
     font-feature-settings:
       'liga' 1,
-      'kern' 1;
+      'kern' 1,
+      'calt' 1;
+    letter-spacing: -0.015em;
   }
 
   .astral-card {
@@ -427,11 +429,11 @@
   }
 
   .astral-display {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(34px, 5.2vw, 60px);
+    font-family: 'Newsreader', Georgia, Cambria, serif;
+    font-size: clamp(32px, 5vw, 56px);
     font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
   }
 
   .astral-mono-label {
@@ -441,6 +443,40 @@
     line-height: 1.2;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  /* Tokens semânticos universais de texto editorial (alto contraste no modo claro e escuro) */
+  .text-editorial-primary {
+    color: #0f172a; /* Slate 900 */
+  }
+  .dark .text-editorial-primary {
+    color: #f8fafc; /* Slate 50 */
+  }
+
+  .text-editorial-secondary {
+    color: #334155; /* Slate 700 - Contraste 8.5:1 no claro */
+  }
+  .dark .text-editorial-secondary {
+    color: #cbd5e1; /* Slate 300 */
+  }
+
+  .text-editorial-tertiary {
+    color: #475569; /* Slate 600 - Contraste 5.7:1 no claro */
+  }
+  .dark .text-editorial-tertiary {
+    color: #94a3b8; /* Slate 400 */
+  }
+
+  .text-editorial-muted {
+    color: #475569; /* Slate 600 - Garantia WCAG AA mesmo em rótulos e microtextos */
+  }
+  .dark .text-editorial-muted {
+    color: #a1a1aa; /* Zinc 400 */
+  }
+
+  /* Padronização de ícones finos e premium (stroke-width consistente) */
+  .lucide {
+    stroke-width: 1.75;
   }
 
   /* Ambient atmospheric glow */

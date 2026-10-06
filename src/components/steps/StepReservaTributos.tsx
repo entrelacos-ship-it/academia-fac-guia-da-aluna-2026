@@ -42,13 +42,13 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 04 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Pilar 04</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">Pilar 04</span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Reserva Técnica & Tributação
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           O Markup Divisor protege sua rentabilidade: as alíquotas incidem sobre a receita bruta
           total, garantindo fundos para férias, 13º e conformidade fiscal.
         </p>
@@ -66,7 +66,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
                 <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                   Reserva Técnica (Férias, 13º e Emergência)
                 </span>
-                <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+                <span className="text-xs text-slate-600 dark:text-zinc-400">
                   Recomendado: 10% para sustentar pausas remuneradas e sazonalidade
                 </span>
               </div>
@@ -84,7 +84,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
             onValueChange={(vals) => onSetReservaPct(vals[0] || 0)}
             className="py-2"
           />
-          <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+          <div className="flex justify-between text-[11px] font-mono text-slate-600 dark:text-zinc-400">
             <span>0% (Sem reserva)</span>
             <span className="text-[#ea580c] dark:text-[#FB923C] font-semibold">
               10% (Padrão FAC)
@@ -104,7 +104,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
                 <span className="text-sm font-semibold text-slate-900 dark:text-white block">
                   Alíquota Tributária Estimada
                 </span>
-                <span className="text-[11px] text-slate-600 dark:text-[#A1A1AA]">
+                <span className="text-xs text-slate-600 dark:text-zinc-400">
                   Simples Nacional (6% a 15,5%) ou Carnê-Leão PF + INSS + ISS
                 </span>
               </div>
@@ -122,7 +122,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
             onValueChange={(vals) => onSetTributosPct(vals[0] || 0)}
             className="py-2"
           />
-          <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+          <div className="flex justify-between text-[11px] font-mono text-slate-600 dark:text-zinc-400">
             <span>0%</span>
             <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
               11% (Padrão estimado)
@@ -135,7 +135,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
         <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-[#A1A1AA] block">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 block">
                 Retenção Bruta Combinada
               </span>
               <p className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] mt-0.5">
@@ -144,7 +144,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <span className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] uppercase tracking-wider block">
+                <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400 uppercase tracking-wider block">
                   Markup Divisor
                 </span>
                 <span className="font-mono text-lg font-bold text-slate-900 dark:text-white">
@@ -171,15 +171,15 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
         </div>
 
         {/* Detalhe Educativo Colapsável Astral */}
-        <details className="group rounded-[12px] border border-slate-200 dark:border-[#27272A] p-3.5 bg-slate-50/70 dark:bg-[#121216] text-xs text-slate-600 dark:text-[#A1A1AA] cursor-pointer">
+        <details className="group rounded-[12px] border border-slate-200 dark:border-[#27272A] p-3.5 bg-slate-50/70 dark:bg-[#121216] text-xs text-slate-700 dark:text-zinc-300 cursor-pointer">
           <summary className="font-semibold text-slate-900 dark:text-white flex items-center justify-between list-none">
             <span className="flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
               Entenda: Simples Nacional vs. Carnê-Leão na Psicologia
             </span>
-            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180 text-slate-400 dark:text-[#71717A]" />
+            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180 text-slate-500 dark:text-zinc-400" />
           </summary>
-          <div className="pt-3 space-y-2 leading-relaxed border-t border-slate-200 dark:border-[#27272A] mt-3 text-slate-600 dark:text-[#A1A1AA]">
+          <div className="pt-3 space-y-2 leading-relaxed border-t border-slate-200 dark:border-[#27272A] mt-3 text-slate-700 dark:text-zinc-300">
             <p>
               •{' '}
               <strong className="text-slate-900 dark:text-white">
@@ -199,7 +199,7 @@ export const StepReservaTributos: React.FC<StepReservaTributosProps> = ({
               no Livro Caixa, mais carnê do INSS (20% sobre o salário mínimo ou teto) e ISS
               municipal.
             </p>
-            <p className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+            <p className="text-[11px] font-mono text-slate-600 dark:text-zinc-400">
               * Consulte sempre um contador especializado na área de saúde para formalizar a melhor
               estrutura societária e fiscal da sua clínica.
             </p>

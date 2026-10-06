@@ -177,11 +177,11 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
             >
               MÓDULO 2 · MANUTENÇÃO CONTRATUAL
             </Badge>
-            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+            <span className="text-xs font-mono text-slate-700 dark:text-zinc-300">
               IPCA (IBGE) · IGP-M (FGV) · Acumulado
             </span>
           </div>
-          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
+          <h3 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white mt-1.5">
             Reajuste Anual por Índice de Inflação (IPCA / IGP-M)
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl mt-0.5">
@@ -221,13 +221,13 @@ export const AnnualReadjustmentModule: React.FC<AnnualReadjustmentModuleProps> =
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           {/* Valor Anterior */}
           <div className="space-y-1">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-[#71717A] block">
-              Honorário Anterior / Atual
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400 block">
+              Preço Antigo
             </span>
-            <div className="font-mono text-3xl sm:text-4xl font-bold text-slate-400 dark:text-[#71717A] line-through">
-              {formatBRL(result.honorarioAtual)}
+            <div className="font-mono text-3xl sm:text-4xl font-bold text-slate-500 dark:text-zinc-500 line-through">
+              {formatBRL(res.precoAtual)}
             </div>
-            <span className="text-xs text-slate-500 dark:text-[#71717A]">por atendimento</span>
+            <span className="text-xs text-slate-600 dark:text-zinc-400">por atendimento</span>{' '}
           </div>
 
           {/* Seta e Variação */}

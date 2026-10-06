@@ -59,13 +59,13 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 01 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Pilar 01</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">Pilar 01</span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Custos Pessoais & Custo de Vida
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           Mapeie o que você precisa para manter sua dignidade de vida. O consultório deve sustentar
           você com estabilidade, e não o contrário.
         </p>
@@ -204,7 +204,7 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
                   placeholder="Nome do item (ex: Academia, Seguro)"
                   value={customLabel}
                   onChange={(e) => setCustomLabel(e.target.value)}
-                  className="h-10 text-sm bg-white dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#71717A] focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
+                  className="h-10 text-sm bg-white dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-zinc-500 focus:border-[#7c3aed] dark:focus:border-[#C084FC] rounded-[8px]"
                   autoFocus
                 />
                 <CurrencyInput value={customVal} onChange={setCustomVal} placeholder="0,00" />
@@ -233,13 +233,13 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
               <div className="font-serif-editorial text-3xl sm:text-4xl text-slate-900 dark:text-zinc-100">
                 {formatBRL(totalPessoais)}
               </div>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 font-normal">
                 Necessidade mensal de sobrevivência e dignidade
               </p>
             </div>
 
             <div className="pt-4 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 font-light">
+              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400 font-normal">
                 <Info className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
                 <span>Você pode preencher valores estimados e ajustá-los a qualquer momento.</span>
               </div>

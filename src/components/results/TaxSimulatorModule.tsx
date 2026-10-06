@@ -150,11 +150,11 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
             >
               MÓDULO 1 · PLANEJAMENTO FISCAL
             </Badge>
-            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+            <span className="text-xs font-mono text-slate-700 dark:text-zinc-300">
               IRPF 2025 · Simples Nacional 2025/2026
             </span>
           </div>
-          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
+          <h3 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white mt-1.5">
             Simulador de Transição Tributária: PF (Carnê-Leão) vs. PJ (Simples Nacional)
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl mt-0.5">
@@ -196,7 +196,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                       : 'bg-slate-400 dark:bg-[#71717A]'
                 }`}
               />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
                 Diagnóstico Tributário Recomendado
               </span>
               <Badge
@@ -222,7 +222,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
 
           <div className="flex items-center gap-6 shrink-0 bg-white dark:bg-[#0A0A14] p-4 rounded-[12px] border border-slate-200 dark:border-[#27272A] font-mono shadow-xs">
             <div>
-              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-[#71717A] block">
+              <span className="text-[10px] uppercase font-bold text-slate-700 dark:text-zinc-300 block">
                 Economia Mensal
               </span>
               <span className="text-xl sm:text-2xl font-bold text-[#ea580c] dark:text-[#FB923C]">
@@ -230,7 +230,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
               </span>
             </div>
             <div className="border-l border-slate-200 dark:border-[#27272A] pl-6">
-              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-[#71717A] block">
+              <span className="text-[10px] uppercase font-bold text-slate-700 dark:text-zinc-300 block">
                 Economia Anual
               </span>
               <span className="text-xl sm:text-2xl font-bold text-[#7c3aed] dark:text-[#C084FC]">
@@ -277,7 +277,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   }
                   className="py-1"
                 />
-                <div className="flex justify-between text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
+                <div className="flex justify-between text-[10px] font-mono text-slate-600 dark:text-zinc-400">
                   <span>R$ 1.000</span>
                   <span>R$ 15.000</span>
                   <span>R$ 30.000</span>
@@ -450,7 +450,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   {formatBRL(pf.totalTributosMensal)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-xs text-slate-500 dark:text-[#71717A] mt-1 font-mono">
+              <div className="flex justify-between items-center text-xs text-slate-700 dark:text-zinc-300 mt-1 font-mono">
                 <span>Alíquota Efetiva:</span>
                 <span className="font-bold text-slate-900 dark:text-white">
                   {formatNumberBR(pf.aliquotaEfetivaPct, 2)}%
@@ -566,7 +566,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
                   {formatBRL(pj.totalTributosMensal)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-xs text-slate-500 dark:text-[#71717A] mt-1 font-mono">
+              <div className="flex justify-between items-center text-xs text-slate-700 dark:text-zinc-300 mt-1 font-mono">
                 <span>Alíquota Efetiva Global:</span>
                 <span className="font-bold text-slate-900 dark:text-white">
                   {formatNumberBR(pj.aliquotaEfetivaTotalPct, 2)}% (DAS:{' '}
@@ -663,7 +663,7 @@ export const TaxSimulatorModule: React.FC<TaxSimulatorModuleProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left font-mono">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-[#27272A] text-slate-500 dark:text-[#71717A]">
+                <tr className="border-b border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-zinc-300">
                   <th className="py-2 pr-2">Faixa</th>
                   <th className="py-2 px-2">Receita Bruta 12 Meses (RBT12)</th>
                   <th className="py-2 px-2 text-emerald-700 dark:text-emerald-400">

@@ -34,13 +34,13 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
           <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
             Passo 03 de 07
           </span>
-          <span className="text-slate-300 dark:text-zinc-700">•</span>
-          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Pilar 03</span>
+          <span className="text-slate-400 dark:text-zinc-600">•</span>
+          <span className="text-xs font-mono text-slate-600 dark:text-zinc-400">Pilar 03</span>
         </div>
-        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100 tracking-tight">
           Retirada Desejada (Pró-Labore)
         </h2>
-        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 mt-2 max-w-2xl font-normal leading-relaxed">
           Valor livre para lazer, projetos futuros e qualidade de vida, além dos seus custos fixos.
           Este é o seu verdadeiro &ldquo;salário líquido pessoal&rdquo; do consultório.
         </p>
@@ -76,7 +76,7 @@ export const StepRetirada: React.FC<StepRetiradaProps> = ({
                   <div className="font-mono text-base font-bold mt-1 text-slate-900 dark:text-white">
                     {formatBRL(p.value)}
                   </div>
-                  <span className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] block mt-0.5">
+                  <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400 block mt-0.5">
                     {p.desc}
                   </span>
                 </button>

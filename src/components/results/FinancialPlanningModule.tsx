@@ -318,14 +318,14 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
             >
               MÓDULO 4 · GESTÃO E PROJEÇÃO PATRIMONIAL
             </Badge>
-            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+            <span className="text-xs font-mono text-slate-700 dark:text-zinc-300">
               Fluxo · Reserva · Metas · Projeção 12–24m
             </span>
           </div>
-          <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white mt-1.5">
+          <h3 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white mt-1.5">
             Planejamento Financeiro da Psicóloga
           </h3>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-3xl mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 max-w-3xl mt-0.5">
             Consolide suas entradas e saídas mensais, estruture sua blindagem contra imprevistos,
             acompanhe metas estratégicas e projete a trajetória financeira do seu consultório nos
             próximos 12 a 24 meses.
@@ -384,13 +384,13 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             {/* Coluna 1: Entradas */}
             <div className="space-y-1">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA] block">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 block">
                 Entradas (Faturamento Bruto Real)
               </span>
               <div className="font-mono text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
                 {formatBRL(cashFlow.faturamentoBrutoReal)}
               </div>
-              <div className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              <div className="text-xs font-mono text-slate-600 dark:text-zinc-400">
                 {cashFlow.sessoesEfetivas} sessões/mês × {formatBRL(cashFlow.precoPorSessao)}
                 {cashFlow.isUsandoPrecoAtual ? ' (preço atual informado)' : ' (piso mínimo FAC)'}
               </div>
@@ -404,7 +404,7 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
               <div className="font-mono text-2xl sm:text-3xl font-bold text-[#ea580c] dark:text-[#FB923C]">
                 {formatBRL(cashFlow.totalSaidasOperacionais)}
               </div>
-              <div className="text-[11px] font-mono text-slate-500 dark:text-[#71717A] space-y-0.5">
+              <div className="text-[11px] font-mono text-slate-700 dark:text-zinc-300 space-y-0.5">
                 <div>Custos Prof.: {formatBRL(cashFlow.custosProfissionais)}</div>
                 <div>
                   Impostos + Reserva ({state.tributosPct + state.reservaPct}%):{' '}
@@ -444,7 +444,7 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
                 <Layers className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                 Composição Comparativa das Entradas e Saídas Mensais
               </CardTitle>
-              <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              <span className="text-xs font-mono text-slate-700 dark:text-zinc-300">
                 Custo de Vida Pessoal Base: {formatBRL(cashFlow.custoVidaPessoal)}/mês
               </span>
             </div>
@@ -702,7 +702,7 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-[#71717A] pt-1">
+                <div className="flex justify-between text-[11px] font-mono text-slate-700 dark:text-zinc-300 pt-1">
                   <span>Atual: {formatBRL(emergencyReserve.capitalAcumulado)}</span>
                   <span>Alvo: {formatBRL(emergencyReserve.valorAlvoReserva)}</span>
                 </div>
@@ -711,7 +711,7 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
               {/* Grid Bento de Métricas da Reserva */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] space-y-1">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#71717A] block">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-zinc-300 block">
                     Meta Total ({emergencyReserve.metaMeses} meses)
                   </span>
                   <div className="font-mono text-2xl font-bold text-slate-900 dark:text-white">
@@ -1018,9 +1018,9 @@ export const FinancialPlanningModule: React.FC<FinancialPlanningModuleProps> = (
                   {/* Números da Meta */}
                   <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-200 dark:border-[#27272A] font-mono text-xs">
                     <div>
-                      <span className="text-slate-500 dark:text-[#71717A] text-[10px] uppercase block">
-                        Alvo Total
-                      </span>
+                      <span className="text-slate-600 dark:text-zinc-400 text-[10px] uppercase block font-medium">
+                        Alvo
+                      </span>{' '}
                       <span className="font-bold text-slate-900 dark:text-white">
                         {formatBRL(goal.targetAmount)}
                       </span>
