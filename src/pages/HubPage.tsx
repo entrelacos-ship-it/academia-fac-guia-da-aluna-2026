@@ -29,6 +29,7 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
+import { HeroMagicCube, CanvasErrorBoundary } from '@/components/hub/HeroMagicCube'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -258,25 +259,66 @@ export const HubPage: React.FC = () => {
 
       {/* Conteúdo Principal do Hub */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
-        {/* Hero do Hub */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-            <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-            <span>ACADEMIA ENTRELAÇOS</span>
-            <span className="text-slate-400 dark:text-[#71717A]">•</span>
-            <span className="text-slate-600 dark:text-[#A1A1AA]">MÉTODO FAC</span>
+        {/* Hero do Hub com Cubo Mágico 3D */}
+        <div className="relative overflow-hidden rounded-[24px] p-6 sm:p-10 lg:p-12 border border-purple-200/70 dark:border-[#27272A] bg-gradient-to-br from-purple-50/60 via-white to-purple-100/30 dark:from-[#110D20] dark:via-[#0A0A14] dark:to-[#05020B] shadow-sm dark:shadow-2xl">
+          {/* Luz astral ambiente decorativa */}
+          <div
+            className="absolute top-0 right-0 w-[420px] h-[420px] bg-radial from-[#7c3aed]/20 via-[#6b21a8]/10 to-transparent blur-3xl pointer-events-none -z-0"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+            {/* Lado Esquerdo: Textos e Ações Principais */}
+            <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50/90 dark:bg-[#18181B]/90 border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                <span>ACADEMIA ENTRELAÇOS</span>
+                <span className="text-slate-400 dark:text-[#71717A]">•</span>
+                <span className="text-slate-600 dark:text-[#A1A1AA]">MÉTODO FAC</span>
+              </div>
+
+              <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+                Sua formação e prática integrada na{' '}
+                <span className="text-[#7c3aed] dark:text-[#C084FC]">Academia FAC</span>.
+              </h1>
+
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                O Guia da Aluna conduz os 19 encontros pedagógicos da formação. No bloco Sistema
+                você acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os
+                recursos de apoio e estudo continuado.
+              </p>
+
+              {/* Botões rápidos de acesso na hero */}
+              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <Button
+                  onClick={() => navigate('/guia')}
+                  className="min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm cursor-pointer"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Entrar no Guia da Aluna</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+
+                {!isAlunaValidada && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setValidarModalOpen(true)}
+                    className="min-h-[46px] px-5 gap-1.5 font-mono text-xs border-purple-300 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[10px]"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>Já sou aluna</span>
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Lado Direito: O Cubo Mágico 3D que monta com o scroll */}
+            <div className="lg:col-span-5 flex items-center justify-center pt-2 lg:pt-0">
+              <CanvasErrorBoundary>
+                <HeroMagicCube className="w-full" />
+              </CanvasErrorBoundary>
+            </div>
           </div>
-
-          <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.08]">
-            Sua formação e prática integrada na{' '}
-            <span className="text-[#7c3aed] dark:text-[#C084FC]">Academia FAC</span>.
-          </h1>
-
-          <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
-            O Guia da Aluna conduz os 19 encontros pedagógicos da formação. No bloco Sistema você
-            acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os recursos de
-            apoio e estudo continuado.
-          </p>
         </div>
 
         {/* ================= 1. O GUIA VEM PRIMEIRO: CARD DESTACADO HERO ================= */}
