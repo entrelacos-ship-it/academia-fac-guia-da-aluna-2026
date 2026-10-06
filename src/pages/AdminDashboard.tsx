@@ -57,6 +57,12 @@ import pb from '@/lib/pocketbase/client'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 import { AlunaGuiaService } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
+import {
+  UserManagementService,
+  AdminUserItem,
+  CreateUserData,
+  UpdateUserData,
+} from '@/services/userManagementService'
 
 export interface UserRecord {
   id: string
@@ -128,8 +134,39 @@ export const AdminDashboard: React.FC = () => {
   const [savingBadgeChave, setSavingBadgeChave] = useState<string | null>(null)
   const [togglingChave, setTogglingChave] = useState<string | null>(null)
 
-  // Estado Usuárias
-  const [users, setUsers] = useState<UserRecord[]>([])
+  // Estado Usuárias (Contas do App & Nuvem)
+  const [users, setUsers] = useState<AdminUserItem[]>([])
+  const [searchUser, setSearchUser] = useState('')
+  const [userRoleFilter, setUserRoleFilter] = useState<'todas' | 'admin' | 'user'>('todas')
+  const [userPage, setUserPage] = useState(1)
+  const [userPerPage] = useState(15)
+  const [loadingUsers, setLoadingUsers] = useState(false)
+
+  // Modais de CRUD de Contas
+  const [showCreateUserModal, setShowCreateUserModal] = useState(false)
+  const [createEmail, setCreateEmail] = useState('')
+  const [createPassword, setCreatePassword] = useState('')
+  const [createName, setCreateName] = useState('')
+  const [createRole, setCreateRole] = useState<'user' | 'admin'>('user')
+  const [createVerified, setCreateVerified] = useState(true)
+  const [creatingUser, setCreatingUser] = useState(false)
+
+  const [editingUser, setEditingUser] = useState<AdminUserItem | null>(null)
+  const [editUserName, setEditUserName] = useState('')
+  const [editUserEmail, setEditUserEmail] = useState('')
+  const [editUserRole, setEditUserRole] = useState<'user' | 'admin'>('user')
+  const [editUserVerified, setEditUserVerified] = useState(false)
+  const [editUserActive, setEditUserActive] = useState(true)
+  const [savingUserEdit, setSavingUserEdit] = useState(false)
+
+  const [resettingUserPassword, setResettingUserPassword] = useState<AdminUserItem | null>(null)
+  const [newResetPassword, setNewResetPassword] = useState('')
+  const [savingResetPassword, setSavingResetPassword] = useState(false)
+
+  const [deletingUser, setDeletingUser] = useState<AdminUserItem | null>(null)
+  const [deleteUserConfirmTyped, setDeleteUserConfirmTyped] = useState('')
+  const [deletingUserLoading, setDeletingUserLoading] = useState(false)
+
   const [backupStat, setBackupStat] = useState<BackupStat>({
     totalBackups: 0,
     uniqueUsersWithBackup: 0,
@@ -199,15 +236,47 @@ export const AdminDashboard: React.FC = () => {
   const [selectedMatriculaIds, setSelectedMatriculaIds] = useState<string[]>([])
   const [executandoAcaoLote, setExecutandoAcaoLote] = useState(false)
 
+  const loadUsersList = async () => {
+    setLoadingUsers(true)
+    try {
+      const res = await UserManagementService.listUsers({
+        page: 1,
+        perPage: 1000, // carregar todas as contas para permitir filtragem fluida
+      })
+      if (res && Array.isArray(res.items)) {
+        setUsers(res.items)
+      }
+    } catch (usersErr) {
+      console.warn('Erro ao carregar contas via hook administrativo, fallback para SDK:', usersErr)
+      try {
+        const fallbackUsers = await pb.collection('users').getFullList<UserRecord>({
+          sort: '-created',
+        })
+        const mappedFallback: AdminUserItem[] = fallbackUsers.map((u) => ({
+          id: u.id,
+          email: u.email,
+          name: u.name,
+          role: u.role || 'user',
+          verified: !!u.verified,
+          is_active: u.is_active !== false,
+          created: u.created,
+          updated: u.updated,
+        }))
+        setUsers(mappedFallback)
+      } catch (sdkErr) {
+        console.error('Falha ao carregar usuárias:', sdkErr)
+      }
+    } finally {
+      setLoadingUsers(false)
+    }
+  }
+
   const loadAllAdminData = async () => {
     setLoading(true)
     setErrorMessage(null)
     try {
-      // 1. Usuárias da coleção users
-      const usersList = await pb.collection('users').getFullList<UserRecord>({
-        sort: '-created',
-      })
-      setUsers(usersList)
+      // 1. Usuárias via endpoint administrativo de pb_hooks (garante lista completa de emails)
+      await loadUsersList()
 
       // 2. Backups
       try {
@@ -381,7 +450,7 @@ export const AdminDashboard: React.FC = () => {
     }
   }
 
-  // Alternar status da conta de usuária
+  // Alternar status da conta de usuária (via UserManagementService)
   const handleToggleUserStatus = async () => {
     if (!targetUser) return
     setIsUpdatingStatus(true)
@@ -390,24 +459,203 @@ export const AdminDashboard: React.FC = () => {
 
     const newStatus = targetUser.is_active === false ? true : false
     try {
-      await pb.collection('users').update(targetUser.id, {
+      const res = await UserManagementService.updateUser(targetUser.id, {
         is_active: newStatus,
       })
 
-      setUsers((prev) =>
-        prev.map((u) => (u.id === targetUser.id ? { ...u, is_active: newStatus } : u)),
-      )
-
-      setSuccessActionMessage(
-        newStatus
-          ? `Conta de ${targetUser.name || targetUser.email} foi reativada.`
-          : `Conta de ${targetUser.name || targetUser.email} foi desativada.`,
-      )
-      setTargetUser(null)
+      if (res.success) {
+        setUsers((prev) =>
+          prev.map((u) => (u.id === targetUser.id ? { ...u, is_active: newStatus } : u)),
+        )
+        setSuccessActionMessage(
+          newStatus
+            ? `Conta de ${targetUser.name || targetUser.email} foi reativada.`
+            : `Conta de ${targetUser.name || targetUser.email} foi desativada.`,
+        )
+        setTargetUser(null)
+      } else {
+        setErrorMessage(res.message || 'Erro ao alterar status da conta.')
+      }
     } catch (err) {
       setErrorMessage(`Erro ao alterar status: ${getErrorMessage(err)}`)
     } finally {
       setIsUpdatingStatus(false)
+    }
+  }
+
+  // Criar nova conta de usuário
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const cleanEmail = createEmail.trim().toLowerCase()
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      alert('Informe um e-mail válido.')
+      return
+    }
+    if (!createPassword || createPassword.length < 8) {
+      alert('A senha deve ter no mínimo 8 caracteres.')
+      return
+    }
+
+    setCreatingUser(true)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const payload: CreateUserData = {
+        email: cleanEmail,
+        password: createPassword,
+        name: createName.trim() || undefined,
+        role: createRole,
+        verified: createVerified,
+        is_active: true,
+      }
+
+      const res = await UserManagementService.createUser(payload)
+      if (res.success && res.user) {
+        setSuccessActionMessage(`Conta para ${cleanEmail} cadastrada com sucesso!`)
+        setShowCreateUserModal(false)
+        setCreateEmail('')
+        setCreatePassword('')
+        setCreateName('')
+        setCreateRole('user')
+        setCreateVerified(true)
+        await loadUsersList()
+      } else {
+        alert(res.message || 'Não foi possível cadastrar a conta.')
+      }
+    } catch (err) {
+      alert(`Erro ao cadastrar conta: ${getErrorMessage(err)}`)
+    } finally {
+      setCreatingUser(false)
+    }
+  }
+
+  // Abrir modal de edição de usuário
+  const handleOpenEditUser = (user: AdminUserItem) => {
+    setEditingUser(user)
+    setEditUserEmail(user.email)
+    setEditUserName(user.name || '')
+    setEditUserRole(user.role === 'admin' ? 'admin' : 'user')
+    setEditUserVerified(!!user.verified)
+    setEditUserActive(user.is_active !== false)
+  }
+
+  // Salvar edição de usuário
+  const handleSaveUserEdit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editingUser) return
+
+    const cleanEmail = editUserEmail.trim().toLowerCase()
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      alert('Informe um e-mail válido.')
+      return
+    }
+
+    setSavingUserEdit(true)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const payload: UpdateUserData = {
+        email: cleanEmail,
+        name: editUserName.trim() || '',
+        role: editUserRole,
+        verified: editUserVerified,
+        is_active: editUserActive,
+      }
+
+      const res = await UserManagementService.updateUser(editingUser.id, payload)
+      if (res.success && res.user) {
+        setSuccessActionMessage(`Conta de ${cleanEmail} atualizada com sucesso!`)
+        setEditingUser(null)
+        await loadUsersList()
+      } else {
+        alert(res.message || 'Falha ao salvar alterações da conta.')
+      }
+    } catch (err) {
+      alert(`Erro ao editar conta: ${getErrorMessage(err)}`)
+    } finally {
+      setSavingUserEdit(false)
+    }
+  }
+
+  // Abrir modal de redefinição de senha
+  const handleOpenResetPassword = (user: AdminUserItem) => {
+    setResettingUserPassword(user)
+    setNewResetPassword('')
+  }
+
+  // Confirmar redefinição de senha
+  const handleConfirmResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!resettingUserPassword) return
+    if (!newResetPassword || newResetPassword.length < 8) {
+      alert('A nova senha deve ter no mínimo 8 caracteres.')
+      return
+    }
+
+    setSavingResetPassword(true)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const res = await UserManagementService.resetPassword(
+        resettingUserPassword.id,
+        newResetPassword,
+      )
+      if (res.success) {
+        setSuccessActionMessage(
+          `Senha da conta ${resettingUserPassword.email} foi redefinida com sucesso!`,
+        )
+        setResettingUserPassword(null)
+        setNewResetPassword('')
+      } else {
+        alert(res.message || 'Falha ao redefinir senha.')
+      }
+    } catch (err) {
+      alert(`Erro ao redefinir senha: ${getErrorMessage(err)}`)
+    } finally {
+      setSavingResetPassword(false)
+    }
+  }
+
+  // Abrir modal de exclusão de usuário
+  const handleOpenDeleteUser = (user: AdminUserItem) => {
+    if (user.id === currentUser?.id || user.email === currentUser?.email) {
+      alert('Você não pode excluir a sua própria conta logada.')
+      return
+    }
+    setDeletingUser(user)
+    setDeleteUserConfirmTyped('')
+  }
+
+  // Confirmar exclusão permanente de usuário
+  const handleConfirmDeleteUser = async () => {
+    if (!deletingUser) return
+    if (deleteUserConfirmTyped.trim() !== 'EXCLUIR') {
+      alert('Digite EXCLUIR para confirmar a exclusão.')
+      return
+    }
+
+    setDeletingUserLoading(true)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      const emailExcluido = deletingUser.email
+      const res = await UserManagementService.deleteUser(deletingUser.id)
+      if (res.success) {
+        setSuccessActionMessage(`Conta de ${emailExcluido} excluída permanentemente.`)
+        setDeletingUser(null)
+        setDeleteUserConfirmTyped('')
+        await loadUsersList()
+      } else {
+        alert(res.message || 'Falha ao excluir conta.')
+      }
+    } catch (err) {
+      alert(`Erro ao excluir conta: ${getErrorMessage(err)}`)
+    } finally {
+      setDeletingUserLoading(false)
     }
   }
 
@@ -880,6 +1128,36 @@ export const AdminDashboard: React.FC = () => {
       return matchSearch && matchStatus
     })
   }, [matriculas, searchMatricula, matriculaStatusFilter])
+
+  // Filtragem de Contas (Aba Contas)
+  const usersFiltrados = useMemo(() => {
+    return users.filter((u) => {
+      const q = searchUser.toLowerCase().trim()
+      const matchSearch =
+        !q || u.email.toLowerCase().includes(q) || (u.name && u.name.toLowerCase().includes(q))
+      const matchRole =
+        userRoleFilter === 'todas'
+          ? true
+          : userRoleFilter === 'admin'
+            ? u.role === 'admin'
+            : u.role !== 'admin'
+      return matchSearch && matchRole
+    })
+  }, [users, searchUser, userRoleFilter])
+
+  // Paginação de Contas
+  const totalUserPages = Math.max(1, Math.ceil(usersFiltrados.length / userPerPage))
+  const paginatedUsers = useMemo(() => {
+    const start = (userPage - 1) * userPerPage
+    return usersFiltrados.slice(start, start + userPerPage)
+  }, [usersFiltrados, userPage, userPerPage])
+
+  // Ajustar página se filtro reduzir quantidade
+  useEffect(() => {
+    if (userPage > totalUserPages) {
+      setUserPage(1)
+    }
+  }, [usersFiltrados.length, totalUserPages, userPage])
 
   const formatDate = (isoString?: string | null) => {
     if (!isoString) return '-'
@@ -1880,83 +2158,310 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* ================= ABA 3: USUÁRIAS DO APP & NUVEM ================= */}
+        {/* ================= ABA 3: USUÁRIAS DO APP & NUVEM (CONTAS) ================= */}
         {activeTab === 'usuarios' && (
           <div className="space-y-6">
-            {/* Tabela de Contas Cadastradas */}
+            {/* Painel Superior: Título, Métricas e Botão de Criar Conta */}
             <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-[#27272A]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
                 <div>
-                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Users className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
                     Contas Cadastradas no Skip Cloud
                   </h3>
                   <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
-                    Usuárias com login e sincronização de backup da Calculadora e IKIGAI.
+                    Gestão completa (CRUD): todas as contas cadastradas com busca, criação, edição,
+                    redefinição de senha e exclusão segura.
                   </p>
                 </div>
-                <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
-                  {users.length} contas
-                </Badge>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
+                    {users.length} contas totais
+                  </Badge>
+                  <Button
+                    size="sm"
+                    onClick={() => setShowCreateUserModal(true)}
+                    className="gap-1.5 font-mono text-xs bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[8px]"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Nova Conta</span>
+                  </Button>
+                </div>
               </div>
 
+              {/* Filtros e Busca */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Input
+                    type="text"
+                    placeholder="Buscar por e-mail ou nome..."
+                    value={searchUser}
+                    onChange={(e) => {
+                      setSearchUser(e.target.value)
+                      setUserPage(1)
+                    }}
+                    className="pl-9 text-xs font-mono bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] rounded-[8px]"
+                  />
+                  {searchUser && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchUser('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-slate-500">Papel:</span>
+                  <select
+                    value={userRoleFilter}
+                    onChange={(e) => {
+                      setUserRoleFilter(e.target.value as 'todas' | 'admin' | 'user')
+                      setUserPage(1)
+                    }}
+                    className="h-9 px-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs font-mono text-slate-900 dark:text-white"
+                  >
+                    <option value="todas">Todos os papéis ({users.length})</option>
+                    <option value="admin">
+                      Apenas Administradoras ({users.filter((u) => u.role === 'admin').length})
+                    </option>
+                    <option value="user">
+                      Apenas Alunas/Usuárias ({users.filter((u) => u.role !== 'admin').length})
+                    </option>
+                  </select>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={loadUsersList}
+                    disabled={loadingUsers}
+                    className="h-9 text-xs font-mono rounded-[8px] gap-1"
+                    title="Recarregar lista de contas"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${loadingUsers ? 'animate-spin' : ''}`} />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Tabela de Contas Cadastradas */}
               <div className="bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-slate-200 dark:border-[#27272A] overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-slate-100 dark:bg-[#121216] text-slate-600 uppercase font-mono border-b border-slate-200 dark:border-[#27272A]">
                       <tr>
-                        <th className="py-3 px-4">Usuária</th>
-                        <th className="py-3 px-4">E-mail</th>
+                        <th className="py-3 px-4">Usuária / Nome</th>
+                        <th className="py-3 px-4">E-mail Cadastrado</th>
                         <th className="py-3 px-4">Papel</th>
-                        <th className="py-3 px-4">Status</th>
-                        <th className="py-3 px-4 text-right">Ação</th>
+                        <th className="py-3 px-4">Verificado</th>
+                        <th className="py-3 px-4">Status Acesso</th>
+                        <th className="py-3 px-4">Criado em</th>
+                        <th className="py-3 px-4 text-right">Ações CRUD</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200 dark:divide-[#27272A]">
-                      {users.map((u) => {
-                        const isRoleAdmin = u.role === 'admin'
-                        const isActive = u.is_active !== false
-                        return (
-                          <tr key={u.id}>
-                            <td className="py-3 px-4 font-semibold text-slate-900 dark:text-white">
-                              {u.name || 'Sem nome'}
-                            </td>
-                            <td className="py-3 px-4 font-mono text-slate-600 dark:text-[#A1A1AA]">
-                              {u.email}
-                            </td>
-                            <td className="py-3 px-4">
-                              <Badge variant="outline" className="text-[10px] font-mono uppercase">
-                                {u.role || 'user'}
-                              </Badge>
-                            </td>
-                            <td className="py-3 px-4">
-                              {isActive ? (
-                                <span className="text-emerald-600 font-mono text-[11px] font-medium">
-                                  Ativa
+                      {loadingUsers ? (
+                        <tr>
+                          <td
+                            colSpan={7}
+                            className="py-8 text-center text-xs font-mono text-slate-500"
+                          >
+                            <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2 text-[#7c3aed]" />
+                            Carregando contas cadastradas...
+                          </td>
+                        </tr>
+                      ) : paginatedUsers.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan={7}
+                            className="py-8 text-center text-xs font-mono text-slate-500"
+                          >
+                            {searchUser || userRoleFilter !== 'todas'
+                              ? 'Nenhuma conta encontrada para o filtro informado.'
+                              : 'Nenhuma conta cadastrada no Skip Cloud.'}
+                          </td>
+                        </tr>
+                      ) : (
+                        paginatedUsers.map((u) => {
+                          const isCurrentUser =
+                            u.id === currentUser?.id || u.email === currentUser?.email
+                          const isRoleAdmin = u.role === 'admin'
+                          const isActive = u.is_active !== false
+                          const isVerified = !!u.verified
+
+                          return (
+                            <tr
+                              key={u.id}
+                              className={`hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80 transition-colors ${
+                                isCurrentUser ? 'bg-purple-50/40 dark:bg-purple-950/20' : ''
+                              }`}
+                            >
+                              <td className="py-3 px-4">
+                                <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                  <span>{u.name || 'Sem nome'}</span>
+                                  {isCurrentUser && (
+                                    <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300 border border-purple-200 text-[9px] font-mono px-1.5 py-0">
+                                      Você
+                                    </Badge>
+                                  )}
+                                </div>
+                                <span className="text-[10px] font-mono text-slate-400">
+                                  ID: {u.id}
                                 </span>
-                              ) : (
-                                <span className="text-rose-600 font-mono text-[11px] font-medium">
-                                  Desativada
-                                </span>
-                              )}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {!isRoleAdmin && (
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => setTargetUser(u)}
-                                  className="text-[11px] font-mono h-7"
-                                >
-                                  {isActive ? 'Desativar' : 'Reativar'}
-                                </Button>
-                              )}
-                            </td>
-                          </tr>
-                        )
-                      })}
+                              </td>
+                              <td className="py-3 px-4 font-mono font-medium text-slate-800 dark:text-slate-200">
+                                <span className="select-all">{u.email}</span>
+                              </td>
+                              <td className="py-3 px-4">
+                                {isRoleAdmin ? (
+                                  <Badge className="bg-purple-500/15 text-purple-700 dark:text-[#C084FC] border border-purple-500/30 text-[10px] font-mono uppercase">
+                                    admin
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-[10px] font-mono uppercase text-slate-600 dark:text-[#A1A1AA]"
+                                  >
+                                    aluna / user
+                                  </Badge>
+                                )}
+                              </td>
+                              <td className="py-3 px-4 font-mono">
+                                {isVerified ? (
+                                  <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium">
+                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                    Sim
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 text-[11px] font-medium">
+                                    <AlertCircle className="w-3.5 h-3.5" />
+                                    Pendente
+                                  </span>
+                                )}
+                              </td>
+                              <td className="py-3 px-4 font-mono">
+                                {isActive ? (
+                                  <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                                    Ativa
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 text-[11px] font-medium">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+                                    Desativada
+                                  </span>
+                                )}
+                              </td>
+                              <td className="py-3 px-4 font-mono text-slate-500 text-[11px]">
+                                {formatDate(u.created)}
+                              </td>
+                              <td className="py-3 px-4 text-right">
+                                <div className="inline-flex items-center justify-end gap-1">
+                                  {/* Editar */}
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleOpenEditUser(u)}
+                                    className="h-7 px-2 text-[11px] font-mono text-slate-600 hover:text-slate-900"
+                                    title="Editar e-mail, nome, papel e flags da conta"
+                                  >
+                                    <Edit className="w-3.5 h-3.5 mr-1" />
+                                    <span>Editar</span>
+                                  </Button>
+
+                                  {/* Redefinir Senha */}
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleOpenResetPassword(u)}
+                                    className="h-7 px-2 text-[11px] font-mono text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                                    title="Redefinir senha sem precisar da senha antiga"
+                                  >
+                                    <KeyRound className="w-3.5 h-3.5 mr-1" />
+                                    <span>Senha</span>
+                                  </Button>
+
+                                  {/* Toggle Ativo/Inativo */}
+                                  {!isCurrentUser && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => setTargetUser(u)}
+                                      className={`h-7 px-2 text-[11px] font-mono ${
+                                        isActive
+                                          ? 'text-amber-700 hover:bg-amber-50 dark:text-amber-400'
+                                          : 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400'
+                                      }`}
+                                      title={
+                                        isActive
+                                          ? 'Desativar acesso temporariamente'
+                                          : 'Reativar conta'
+                                      }
+                                    >
+                                      {isActive ? 'Desativar' : 'Reativar'}
+                                    </Button>
+                                  )}
+
+                                  {/* Excluir Conta */}
+                                  {!isCurrentUser ? (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => handleOpenDeleteUser(u)}
+                                      className="h-7 px-2 text-[11px] font-mono text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                                      title="Excluir conta permanentemente com confirmação EXCLUIR"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </Button>
+                                  ) : (
+                                    <span
+                                      className="text-[10px] font-mono text-slate-400 px-2 select-none"
+                                      title="Você não pode excluir sua própria conta logada"
+                                    >
+                                      (logada)
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        })
+                      )}
                     </tbody>
                   </table>
                 </div>
+
+                {/* Paginação */}
+                {totalUserPages > 1 && (
+                  <div className="p-3 bg-slate-100 dark:bg-[#121216] border-t border-slate-200 dark:border-[#27272A] flex items-center justify-between text-xs font-mono">
+                    <span className="text-slate-500">
+                      Página {userPage} de {totalUserPages} ({usersFiltrados.length} contas
+                      filtradas)
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={userPage <= 1}
+                        onClick={() => setUserPage((p) => Math.max(1, p - 1))}
+                        className="h-7 px-2.5 text-xs font-mono"
+                      >
+                        Anterior
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={userPage >= totalUserPages}
+                        onClick={() => setUserPage((p) => Math.min(totalUserPages, p + 1))}
+                        className="h-7 px-2.5 text-xs font-mono"
+                      >
+                        Próxima
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -2448,14 +2953,16 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Confirmação Desativar Conta de Usuária */}
       <AlertDialog open={!!targetUser} onOpenChange={(open) => !open && setTargetUser(null)}>
-        {' '}
         <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
           <AlertDialogHeader>
             <AlertDialogTitle className="font-sans text-lg font-semibold">
-              Alterar status da conta
+              Alterar status de acesso da conta
             </AlertDialogTitle>
             <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA]">
-              Deseja alterar o acesso da conta de {targetUser?.email}?
+              Deseja alterar o acesso da conta de <strong>{targetUser?.email}</strong> para{' '}
+              <strong>{targetUser?.is_active === false ? 'ATIVA' : 'DESATIVADA'}</strong>?
+              {targetUser?.is_active !== false &&
+                ' Quando desativada, a usuária é bloqueada de fazer login no app.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -2464,8 +2971,400 @@ export const AdminDashboard: React.FC = () => {
               onClick={handleToggleUserStatus}
               className="text-xs font-mono bg-[#7c3aed] text-white"
             >
-              Confirmar
+              {isUpdatingStatus ? 'Atualizando...' : 'Confirmar'}
             </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Modal Criar Nova Conta de Usuária (CRUD) */}
+      {showCreateUserModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[8px] bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
+                  <Plus className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
+                    Cadastrar Nova Conta
+                  </h3>
+                  <p className="text-[11px] font-mono text-slate-500">
+                    Criação de conta de login no Skip Cloud
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowCreateUserModal(false)}
+                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700"
+              >
+                ✕
+              </Button>
+            </div>
+
+            <form onSubmit={handleCreateUser} className="space-y-3.5">
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  E-mail da conta*
+                </label>
+                <Input
+                  type="email"
+                  required
+                  placeholder="usuario@exemplo.com"
+                  value={createEmail}
+                  onChange={(e) => setCreateEmail(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Senha inicial* (mínimo 8 caracteres)
+                </label>
+                <Input
+                  type="password"
+                  required
+                  minLength={8}
+                  placeholder="••••••••"
+                  value={createPassword}
+                  onChange={(e) => setCreatePassword(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Nome da usuária (opcional)
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Ex: Tatiana Ribeiro"
+                  value={createName}
+                  onChange={(e) => setCreateName(e.target.value)}
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Papel / Perfil
+                  </label>
+                  <select
+                    value={createRole}
+                    onChange={(e) => setCreateRole(e.target.value as 'user' | 'admin')}
+                    className="mt-1 w-full h-9 px-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-300 dark:border-[#27272A] text-xs font-mono text-slate-900 dark:text-white"
+                  >
+                    <option value="user">user (Aluna / Comum)</option>
+                    <option value="admin">admin (Administradora)</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col justify-end">
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer pb-2">
+                    <input
+                      type="checkbox"
+                      checked={createVerified}
+                      onChange={(e) => setCreateVerified(e.target.checked)}
+                      className="rounded text-[#7c3aed]"
+                    />
+                    <span>E-mail já verificado</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowCreateUserModal(false)}
+                  className="text-xs font-mono"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={creatingUser}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                >
+                  {creatingUser ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Cadastrando...
+                    </>
+                  ) : (
+                    'Criar Conta'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Conta de Usuária (CRUD) */}
+      {editingUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[8px] bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
+                  <Edit className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
+                    Editar Conta Cadastrada
+                  </h3>
+                  <p className="text-[11px] font-mono text-slate-500">ID: {editingUser.id}</p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setEditingUser(null)}
+                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700"
+              >
+                ✕
+              </Button>
+            </div>
+
+            <form onSubmit={handleSaveUserEdit} className="space-y-3.5">
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  E-mail cadastrado*
+                </label>
+                <Input
+                  type="email"
+                  required
+                  value={editUserEmail}
+                  onChange={(e) => setEditUserEmail(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Nome completo
+                </label>
+                <Input
+                  type="text"
+                  value={editUserName}
+                  onChange={(e) => setEditUserName(e.target.value)}
+                  placeholder="Nome da usuária"
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Papel / Perfil
+                  </label>
+                  <select
+                    value={editUserRole}
+                    onChange={(e) => setEditUserRole(e.target.value as 'user' | 'admin')}
+                    className="mt-1 w-full h-9 px-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-300 dark:border-[#27272A] text-xs font-mono text-slate-900 dark:text-white"
+                  >
+                    <option value="user">user (Aluna / Comum)</option>
+                    <option value="admin">admin (Administradora)</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col justify-end space-y-2">
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editUserVerified}
+                      onChange={(e) => setEditUserVerified(e.target.checked)}
+                      className="rounded text-[#7c3aed]"
+                    />
+                    <span>E-mail verificado</span>
+                  </label>
+
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editUserActive}
+                      onChange={(e) => setEditUserActive(e.target.checked)}
+                      className="rounded text-[#7c3aed]"
+                    />
+                    <span>Conta ativa</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditingUser(null)}
+                  className="text-xs font-mono"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={savingUserEdit}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                >
+                  {savingUserEdit ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Salvando...
+                    </>
+                  ) : (
+                    'Salvar Alterações'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Redefinir Senha de Usuária (CRUD) */}
+      {resettingUserPassword && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[8px] bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
+                  <KeyRound className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
+                    Redefinir Senha da Conta
+                  </h3>
+                  <p className="text-[11px] font-mono text-slate-500">
+                    Definição direta de nova senha pela administração
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setResettingUserPassword(null)}
+                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700"
+              >
+                ✕
+              </Button>
+            </div>
+
+            <form onSubmit={handleConfirmResetPassword} className="space-y-3.5">
+              <div className="p-3 rounded-[8px] bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900 text-xs font-mono text-purple-900 dark:text-purple-300">
+                Conta alvo:{' '}
+                <strong className="text-slate-900 dark:text-white">
+                  {resettingUserPassword.email}
+                </strong>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  Não é necessário informar a senha antiga. A nova senha passa a valer imediatamente
+                  para o próximo login.
+                </p>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Nova Senha* (mínimo 8 caracteres)
+                </label>
+                <Input
+                  type="password"
+                  required
+                  minLength={8}
+                  placeholder="Nova senha segura"
+                  value={newResetPassword}
+                  onChange={(e) => setNewResetPassword(e.target.value)}
+                  className="mt-1 text-xs font-mono"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setResettingUserPassword(null)}
+                  className="text-xs font-mono"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={savingResetPassword}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                >
+                  {savingResetPassword ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Redefinindo...
+                    </>
+                  ) : (
+                    'Redefinir Senha'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Diálogo de Exclusão Permanente de Conta (CRUD) */}
+      <AlertDialog open={!!deletingUser} onOpenChange={(open) => !open && setDeletingUser(null)}>
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px] max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-sans text-base font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-2">
+              <Trash2 className="w-5 h-5" />
+              <span>Excluir Conta Permanentemente</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+              <p>
+                Você está prestes a excluir permanentemente a conta de login de{' '}
+                <strong className="text-slate-900 dark:text-white">{deletingUser?.email}</strong>
+                {deletingUser?.name && ` (${deletingUser.name})`}.
+              </p>
+              <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
+                <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove as credenciais
+                de autenticação e backups associados. Caso esta usuária possua matrícula no Guia, a
+                matrícula continuará salva na aba Matrículas.
+              </div>
+              <div className="pt-2">
+                <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
+                  Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
+                </label>
+                <Input
+                  type="text"
+                  placeholder="EXCLUIR"
+                  value={deleteUserConfirmTyped}
+                  onChange={(e) => setDeleteUserConfirmTyped(e.target.value)}
+                  className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                />
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
+            <Button
+              type="button"
+              disabled={deleteUserConfirmTyped.trim() !== 'EXCLUIR' || deletingUserLoading}
+              onClick={handleConfirmDeleteUser}
+              className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
+            >
+              {deletingUserLoading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                  Excluindo...
+                </>
+              ) : (
+                'Confirmar Exclusão'
+              )}
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
