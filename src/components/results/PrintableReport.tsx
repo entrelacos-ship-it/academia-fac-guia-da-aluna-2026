@@ -19,7 +19,7 @@ export const PrintableReport: React.FC<PrintableReportProps> = ({ state, calcula
       {/* Cabeçalho Institucional */}
       <div className="border-b-2 border-[#7c3aed] pb-4 flex items-center justify-between">
         <div>
-          <h1 className="font-sans text-2xl font-bold text-[#7c3aed]">
+          <h1 className="font-serif-editorial text-2xl sm:text-3xl font-bold text-[#7c3aed]">
             Entrelaços Psicologia — Método FAC
           </h1>
           <p className="text-xs text-slate-600">

@@ -1,7 +1,7 @@
-// Rota para listar os 19 encontros do Guia da Aluna
+// Rota para listar os encontros do Guia da Aluna
 // Retorna índice para renderizar o mapa do percurso:
 // - Encontro 1: aula aberta
-// - Encontros 2 a 19: numero, titulo, data_prevista, status (publicado/rascunho)
+// - Demais encontros da turma: numero, titulo, data_prevista, status (publicado/rascunho)
 // SEM o conteúdo dos cadernos pagos
 
 routerAdd('GET', '/backend/v1/fac/guia/encontros', (e) => {
@@ -16,7 +16,7 @@ routerAdd('GET', '/backend/v1/fac/guia/encontros', (e) => {
   ]
 
   try {
-    const records = $app.findRecordsByFilter('fac_guia_encontros', '', 'numero', 30, 0)
+    const records = $app.findRecordsByFilter('fac_guia_encontros', '', 'numero', 100, 0)
 
     for (let i = 0; i < records.length; i++) {
       const rec = records[i]

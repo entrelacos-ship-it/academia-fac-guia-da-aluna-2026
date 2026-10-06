@@ -1357,7 +1357,7 @@ export const AdminDashboard: React.FC = () => {
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Encontros do Guia (19)</span>
+            <span>Encontros do Guia ({encontros.length + 1})</span>
           </Button>
 
           <Button
@@ -2077,14 +2077,14 @@ export const AdminDashboard: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
                 <div>
                   <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-                    Publicação dos 19 Encontros do Guia
+                    Publicação dos Encontros do Guia
                   </h3>
                   <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
                     O calendário NUNCA publica automaticamente: a liberação é ação manual no painel.
                   </p>
                 </div>
                 <Badge className="bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200 font-mono text-xs">
-                  Encontro 1 sempre público
+                  Encontro 1 sempre público · {encontros.length + 1} encontros no ciclo
                 </Badge>
               </div>
 
@@ -2104,7 +2104,7 @@ export const AdminDashboard: React.FC = () => {
                   </Badge>
                 </div>
 
-                {/* Encontros 2 a 19 */}
+                {/* Demais encontros do ciclo */}
                 {encontros.map((enc) => {
                   const isPub = enc.status === 'publicado'
                   return (

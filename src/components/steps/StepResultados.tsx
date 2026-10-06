@@ -152,7 +152,7 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
             <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
             <span>PASSO 6 · CENTRAL DE RESULTADOS</span>
           </div>
-          <h2 className="font-sans text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white mt-1.5">
+          <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white mt-1.5">
             Central de Resultados & Tomada de Decisão
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] mt-0.5">

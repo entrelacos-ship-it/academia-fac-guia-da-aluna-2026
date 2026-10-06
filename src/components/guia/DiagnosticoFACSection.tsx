@@ -260,10 +260,10 @@ export const DiagnosticoFACSection: React.FC = () => {
       {etapaFluxo === 'contexto_inicial' && (
         <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6 print:hidden">
           <div className="border-b border-slate-200 dark:border-[#27272A] pb-4">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+            <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Etapa Preparatória · Antes das 24 Perguntas
             </span>
-            <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white">
+            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
               Contexto da sua Prática Clínica Atual
             </h3>
             <p className="text-xs text-slate-600 dark:text-[#A1A1AA] mt-1">
@@ -807,7 +807,7 @@ export const DiagnosticoFACSection: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-                  Diagnóstico FAC Aprofundado — Versão 2 Concluído
+                  Diagnóstico FAC Aprofundado
                 </span>
                 <Badge
                   variant="outline"
@@ -816,7 +816,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                   Versão 2 · 04/10/2026
                 </Badge>
               </div>
-              <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white">
+              <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
                 {resultado.tituloLeitura}
               </h3>
             </div>
@@ -1060,9 +1060,9 @@ export const DiagnosticoFACSection: React.FC = () => {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
                   Leitura da Combinação Verbatim
                 </span>
-                <h3 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
-                  "{resultado.tituloLeitura}"
-                </h3>
+                <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+                  {resultado.tituloLeitura}
+                </h3>{' '}
               </div>
 
               <div className="p-5 rounded-[12px] bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200 dark:border-[#7c3aed]/40 space-y-3">
@@ -1097,7 +1097,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                   Direcionamento Prioritário FAC
                 </span>
-                <h3 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
+                <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
                   Por Onde Começar
                 </h3>
               </div>

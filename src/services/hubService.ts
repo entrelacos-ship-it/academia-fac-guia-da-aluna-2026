@@ -39,10 +39,10 @@ export const HubService = {
           chave: 'guia_aluna',
           titulo: 'Guia da Aluna FAC',
           descricao:
-            'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), índice dos 19 encontros, cadernos didáticos e validação do e-mail de compra para alunas.',
+            'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), trilha completa de encontros, cadernos didáticos e validação do e-mail de compra para alunas.',
           bloco: 'hero',
           ativo: true,
-          rotulo_badge: 'Aula 1 Aberta · 19 Encontros',
+          rotulo_badge: 'Aula 1 Aberta · Trilha do Ciclo',
           ordem: 1,
           icone: 'BookOpen',
           url: '/guia',

@@ -38,9 +38,9 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           <span className="text-slate-600 dark:text-[#A1A1AA]">ENTRELAÇOS PSICOLOGIA</span>
         </div>
 
-        <h1 className="font-sans text-4xl sm:text-5xl md:text-[60px] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.05]">
+        <h1 className="font-serif-editorial text-4xl sm:text-5xl md:text-[62px] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.05]">
           Transforme complexidade clínica em{' '}
-          <span className="text-[#7c3aed] dark:text-[#C084FC]">clareza ética</span>.
+          <span className="text-[#7c3aed] dark:text-[#C084FC] italic">clareza ética</span>.
         </h1>
 
         <p className="text-base sm:text-lg text-slate-600 dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">

@@ -93,7 +93,7 @@ export const AlunaGuiaService = {
     })
   },
 
-  // Listar os 19 encontros (resumo de títulos e datas)
+  // Listar todos os encontros do ciclo (resumo de títulos e datas)
   async listarEncontros(): Promise<EncontroResumo[]> {
     try {
       const res = await pb.send<{ success: boolean; encontros: EncontroResumo[] }>(

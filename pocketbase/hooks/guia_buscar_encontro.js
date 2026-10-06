@@ -1,4 +1,4 @@
-// Rota para buscar conteúdo do encontro do Guia (2 a 19)
+// Rota para buscar conteúdo do encontro do Guia
 // Garante validação estrita no servidor:
 // - Se o encontro não estiver publicado: retorna metadados (número, data, título) e status "rascunho" / "Em breve" (sem conteúdo)
 // - Se o encontro estiver publicado: exige token de aluna válido ou token admin;
@@ -10,8 +10,8 @@ routerAdd('POST', '/backend/v1/fac/guia/encontro', (e) => {
   const numero = parseInt(body.numero, 10)
   const token = (body.token || '').toString().trim()
 
-  if (isNaN(numero) || numero < 1 || numero > 19) {
-    return e.json(400, { success: false, message: 'Número de encontro inválido (1 a 19).' })
+  if (isNaN(numero) || numero < 1) {
+    return e.json(400, { success: false, message: 'Número de encontro inválido.' })
   }
 
   // Encontro 1 é público por definição da Tati

@@ -279,15 +279,15 @@ export const HubPage: React.FC = () => {
                 <span className="text-slate-600 dark:text-[#A1A1AA]">MÉTODO FAC</span>
               </div>
 
-              <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.1]">
                 Sua formação e prática integrada na{' '}
-                <span className="text-[#7c3aed] dark:text-[#C084FC]">Academia FAC</span>.
+                <span className="text-[#7c3aed] dark:text-[#C084FC] italic">Academia FAC</span>.
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                O Guia da Aluna conduz os 19 encontros pedagógicos da formação. No bloco Sistema
-                você acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os
-                recursos de apoio e estudo continuado.
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+                O Guia da Aluna conduz toda a trilha pedagógica da formação. No bloco Sistema você
+                acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os recursos de
+                apoio e estudo continuado.
               </p>
 
               {/* Botões rápidos de acesso na hero */}
@@ -354,53 +354,53 @@ export const HubPage: React.FC = () => {
                 <GraduationCap className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                 Percurso Pedagógico Principal
               </span>
-              <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono uppercase">
-                {heroItem.rotulo_badge || 'Aula 1 Aberta · 19 Encontros'}
+              <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono tracking-wider uppercase">
+                {heroItem.rotulo_badge || 'Aula 1 Aberta · Trilha do Ciclo'}
               </Badge>
             </div>
 
-            <div className="astral-card-interactive p-6 sm:p-8 rounded-[20px] border-2 border-purple-300 dark:border-[#7c3aed]/60 bg-gradient-to-br from-purple-50/70 via-white to-transparent dark:from-purple-950/30 dark:via-[#100D1C] dark:to-[#0A0A14] shadow-md dark:shadow-xl transition-all">
+            <div className="p-6 sm:p-8 rounded-[16px] border border-purple-200/80 dark:border-purple-900/40 bg-gradient-to-br from-purple-50/50 via-white to-white dark:from-purple-950/20 dark:via-[#0c0914] dark:to-[#0a0712] transition-colors">
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                <div className="space-y-4 max-w-2xl">
+                <div className="space-y-3.5 max-w-2xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-[12px] bg-[#7c3aed] text-white flex items-center justify-center shadow-md shadow-purple-500/20">
-                      <BookOpen className="w-6 h-6" />
+                    <div className="w-11 h-11 rounded-[10px] bg-[#7c3aed] text-white flex items-center justify-center shadow-xs">
+                      <BookOpen className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
+                      <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
                         Coração da Academia
                       </span>
                       <h2
                         id="secao-guia-aluna"
-                        className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight"
+                        className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white tracking-tight"
                       >
                         {heroItem.titulo}
                       </h2>
                     </div>
                   </div>
 
-                  <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
                     {heroItem.descricao ||
-                      'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), índice dos 19 encontros, cadernos didáticos e validação do e-mail de compra para alunas da turma.'}
+                      'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), trilha completa de encontros, cadernos didáticos e validação do e-mail de compra para alunas da turma.'}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 text-xs font-mono text-slate-600 dark:text-[#A1A1AA]">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white/80 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
+                  <div className="flex flex-wrap gap-2 text-xs font-mono text-slate-600 dark:text-[#A1A1AA] pt-1">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
                       ✓ Diagnóstico FAC 24 perguntas
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white/80 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
                       ✓ Relatório PDF com radar
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white/80 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A]">
-                      ✓ 19 Cadernos da Turma
+                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
+                      ✓ Cadernos Didáticos da Turma
                     </span>
                   </div>
                 </div>
 
-                <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3">
+                <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row lg:flex-col gap-2.5">
                   <Button
                     onClick={() => navigate('/guia')}
-                    className="w-full sm:w-auto min-h-[48px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm cursor-pointer"
+                    className="w-full sm:w-auto min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] text-sm cursor-pointer shadow-xs"
                   >
                     <span>Abrir Guia da Aluna</span>
                     <ArrowRight className="w-4 h-4" />
@@ -410,7 +410,7 @@ export const HubPage: React.FC = () => {
                     <Button
                       variant="outline"
                       onClick={() => setValidarModalOpen(true)}
-                      className="w-full sm:w-auto min-h-[44px] px-4 gap-1.5 font-mono text-xs border-purple-300 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] rounded-[10px]"
+                      className="w-full sm:w-auto min-h-[44px] px-4 gap-1.5 font-mono text-xs border-purple-200 dark:border-purple-800/60 text-[#7c3aed] dark:text-[#C084FC] rounded-[8px] hover:bg-purple-50 dark:hover:bg-[#161224]"
                     >
                       <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                       <span>Validar Matrícula da Turma</span>
@@ -422,110 +422,98 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 2. BLOCO SISTEMA: APLICATIVOS DO DIA A DIA ================= */}
+        {/* ================= 2. BLOCO SISTEMA: APLICATIVOS DO DIA A DIA (ESTILO EDITORIAL) ================= */}
         {sistemaItems.length > 0 && (
-          <section aria-labelledby="secao-sistema" className="space-y-4">
-            <div className="flex items-center justify-between pb-1 border-b border-slate-200 dark:border-[#27272A]">
+          <section aria-labelledby="secao-sistema" className="space-y-3 pt-2">
+            <div className="flex items-baseline justify-between pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                 <h3
                   id="secao-sistema"
-                  className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white"
+                  className="font-serif-editorial text-2xl font-medium text-slate-900 dark:text-white"
                 >
                   Sistema & Aplicações Clínicas
                 </h3>
               </div>
               <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
-                Ferramentas do dia a dia
+                Ferramentas de trabalho contínuo
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {sistemaItems.map((item) => {
+            <div className="divide-y divide-slate-200/80 dark:divide-[#221f2d] bg-white dark:bg-[#0c0a14] rounded-[14px] border border-slate-200/80 dark:border-[#221f2d] overflow-hidden">
+              {sistemaItems.map((item, idx) => {
                 const IconComponent = ICON_MAP[item.icone || ''] || Cpu
                 const isBlocked = item.exclusivo_alunas && !isAlunaValidada
 
                 return (
                   <div
                     key={item.id}
-                    className="astral-card-interactive p-6 flex flex-col justify-between group relative overflow-hidden border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B]"
+                    className="p-5 sm:p-6 editorial-row flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors"
                   >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="w-11 h-11 rounded-[10px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shadow-xs group-hover:border-[#7c3aed]/50 transition-colors">
-                          <IconComponent className="w-5 h-5" />
+                    <div className="space-y-2 flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="font-mono text-xs text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                          0{idx + 1}
+                        </span>
+                        <div className="w-7 h-7 rounded-[6px] bg-purple-50 dark:bg-[#1a1429] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                          <IconComponent className="w-4 h-4" />
                         </div>
+                        <h4 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white">
+                          {item.titulo}
+                        </h4>
                         {isBlocked ? (
-                          <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 text-[10px] font-mono font-semibold uppercase tracking-wider flex items-center gap-1">
+                          <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono tracking-wider uppercase flex items-center gap-1">
                             <Lock className="w-3 h-3" />
-                            <span>Exclusivo para alunas</span>
+                            <span>Alunas</span>
                           </Badge>
                         ) : (
-                          <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-semibold uppercase tracking-wider">
+                          <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono tracking-wider uppercase">
                             {item.rotulo_badge || 'Disponível'}
                           </Badge>
                         )}
                       </div>
 
-                      <div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
-                          Aplicação Clínica
-                        </span>
-                        <h4 className="text-xl font-semibold text-slate-900 dark:text-white tracking-tight group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                          {item.titulo}
-                        </h4>
-                        <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed">
-                          {item.descricao}
-                        </p>
-                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl font-normal">
+                        {item.descricao}
+                      </p>
 
-                      <div className="pt-2 flex flex-wrap gap-1.5 text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                      <div className="pt-1 flex flex-wrap gap-2 text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
                         {item.chave === 'calculadora' && (
                           <>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              Piso ético
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              Simulador fiscal
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              Cenários
-                            </span>
+                            <span>· Piso ético real</span>
+                            <span>· Simulador fiscal 2025</span>
+                            <span>· Planejamento e cenários</span>
                           </>
                         )}
                         {item.chave === 'ikigai' && (
                           <>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              4 círculos
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              Vazios
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-[#121216]">
-                              Exportação PNG/PDF
-                            </span>
+                            <span>· 4 círculos reflexivos</span>
+                            <span>· Diagnóstico de vazios</span>
+                            <span>· Exportação PNG / PDF / IA</span>
                           </>
                         )}
                       </div>
                     </div>
 
-                    <div className="pt-6 mt-6 border-t border-slate-100 dark:border-[#27272A]/80">
+                    <div className="shrink-0 flex items-center">
                       {isBlocked ? (
                         <Button
                           onClick={() => handleItemClick(item)}
                           variant="outline"
-                          className="w-full gap-2 border-amber-300 dark:border-amber-700/60 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/40 font-semibold rounded-[8px] min-h-[44px] cursor-pointer"
+                          size="sm"
+                          className="w-full sm:w-auto min-h-[44px] gap-1.5 font-mono text-xs border-amber-300 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-[8px]"
                         >
-                          <Lock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                          <span>Já sou aluna: Validar acesso</span>
+                          <Lock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                          <span>Validar Matrícula</span>
                         </Button>
                       ) : (
                         <Button
                           onClick={() => handleItemClick(item)}
-                          className="w-full gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] min-h-[44px] cursor-pointer"
+                          size="sm"
+                          className="w-full sm:w-auto min-h-[44px] px-5 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-medium text-xs font-mono rounded-[8px]"
                         >
                           <span>Acessar {item.titulo.split(' ')[0]}</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
                       )}
                     </div>
@@ -536,15 +524,15 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS ================= */}
+        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS (LINHAS EDITORIAIS) ================= */}
         {materialItems.length > 0 && (
-          <section aria-labelledby="secao-materiais" className="space-y-4">
-            <div className="flex items-center justify-between pb-1 border-b border-slate-200 dark:border-[#27272A]">
+          <section aria-labelledby="secao-materiais" className="space-y-3 pt-2">
+            <div className="flex items-baseline justify-between pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                 <h3
                   id="secao-materiais"
-                  className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white"
+                  className="font-serif-editorial text-2xl font-medium text-slate-900 dark:text-white"
                 >
                   Material & Tutoriais
                 </h3>
@@ -554,8 +542,8 @@ export const HubPage: React.FC = () => {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {materialItems.map((item) => {
+            <div className="divide-y divide-slate-200/80 dark:divide-[#221f2d] bg-white dark:bg-[#0c0a14] rounded-[14px] border border-slate-200/80 dark:border-[#221f2d] overflow-hidden">
+              {materialItems.map((item, idx) => {
                 const IconComponent = ICON_MAP[item.icone || ''] || FileText
                 const isEmBreve =
                   item.rotulo_badge?.toLowerCase().includes('breve') ||
@@ -564,50 +552,44 @@ export const HubPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    className="astral-card-interactive p-6 flex flex-col justify-between group relative overflow-hidden border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B]"
+                    className="p-5 sm:p-6 editorial-row flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors"
                   >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="w-11 h-11 rounded-[10px] bg-orange-50 dark:bg-[#0A0A14] border border-orange-200 dark:border-[#27272A] text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shadow-xs">
-                          <IconComponent className="w-5 h-5" />
+                    <div className="space-y-1.5 flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="font-mono text-xs text-[#ea580c] dark:text-[#FB923C] font-semibold">
+                          0{idx + 1}
+                        </span>
+                        <div className="w-7 h-7 rounded-[6px] bg-orange-50 dark:bg-[#201511] text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
+                          <IconComponent className="w-4 h-4" />
                         </div>
-                        <Badge className="bg-slate-100 dark:bg-[#27272A] text-slate-600 dark:text-[#A1A1AA] border-slate-200 dark:border-[#3f3f46] text-[10px] font-mono font-semibold uppercase tracking-wider">
+                        <h4 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white">
+                          {item.titulo}
+                        </h4>
+                        <Badge className="bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border-slate-200 dark:border-[#2b273b] text-[10px] font-mono tracking-wider uppercase">
                           {item.rotulo_badge || 'Em breve'}
                         </Badge>
                       </div>
 
-                      <div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
-                          Material Pedagógico
-                        </span>
-                        <h4 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">
-                          {item.titulo}
-                        </h4>
-                        <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed">
-                          {item.descricao}
-                        </p>
-                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl font-normal">
+                        {item.descricao}
+                      </p>
                     </div>
 
-                    <div className="pt-6 mt-6 border-t border-slate-100 dark:border-[#27272A]/80">
+                    <div className="shrink-0 flex items-center">
                       {isEmBreve ? (
-                        <div className="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#71717A] py-2">
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                            <span>Espaço reservado para a coordenação</span>
-                          </span>
-                          <span className="text-[11px] font-medium text-[#7c3aed] dark:text-[#C084FC]">
-                            Turma 2026
-                          </span>
+                        <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#71717A] py-1">
+                          <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                          <span>Coordenação Pedagógica</span>
                         </div>
                       ) : (
                         <Button
                           onClick={() => handleItemClick(item)}
                           variant="outline"
-                          className="w-full gap-2 border-slate-300 dark:border-[#27272A] font-semibold rounded-[8px] min-h-[44px] cursor-pointer"
+                          size="sm"
+                          className="w-full sm:w-auto min-h-[44px] px-4 font-mono text-xs rounded-[8px]"
                         >
                           <span>Consultar Material</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
                       )}
                     </div>

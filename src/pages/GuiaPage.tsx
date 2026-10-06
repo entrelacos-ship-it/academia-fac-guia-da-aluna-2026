@@ -51,16 +51,15 @@ export const GuiaPage: React.FC = () => {
     AlunaGuiaService.getLocalSession(),
   )
 
-  // Encontro atualmente selecionado (1 a 19, padrão: 1)
+  // Encontro atualmente selecionado (padrão: 1)
   // Ou modo Retrato de Autoria se a rota for /guia/retrato-de-autoria
   const isRetratoRoute = window.location.pathname.includes('retrato-de-autoria')
   const [encontroSelecionado, setEncontroSelecionado] = useState<number>(1)
   const [exibirSkillRetrato, setExibirSkillRetrato] = useState<boolean>(isRetratoRoute)
 
-  // Lista dos 19 encontros carregada do backend
+  // Lista de encontros do ciclo carregada do backend
   const [encontrosList, setEncontrosList] = useState<EncontroResumo[]>([])
   const [loadingEncontros, setLoadingEncontros] = useState<boolean>(true)
-
   // Dados do encontro detalhado (obtido sob demanda com validação de matrícula)
   const [encontroDetalhe, setEncontroDetalhe] = useState<EncontroDetalhe | null>(null)
   const [loadingDetalhe, setLoadingDetalhe] = useState<boolean>(false)
@@ -98,7 +97,7 @@ export const GuiaPage: React.FC = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  // Carregar lista dos 19 encontros
+  // Carregar lista de encontros
   useEffect(() => {
     const fetchEncontros = async () => {
       setLoadingEncontros(true)
@@ -278,7 +277,7 @@ export const GuiaPage: React.FC = () => {
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold truncate">
-              Guia da Aluna · 19 Encontros
+              Guia da Aluna · Trilha do Ciclo
             </span>
           </div>
 
@@ -310,7 +309,7 @@ export const GuiaPage: React.FC = () => {
             <span className="text-slate-600 dark:text-[#A1A1AA]">ENCONTRO 1 · 06/10/2026</span>
           </div>
 
-          <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.08]">
+          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.1]">
             O Chão da Clínica Sustentável & os Três Pilares FAC.
           </h1>
 
@@ -344,19 +343,19 @@ export const GuiaPage: React.FC = () => {
         </div>
       </section>
 
-      {/* MAPA DOS 19 ENCONTROS (LAYOUT EM DUAS COLUNAS: MENU LATERAL + CONTEÚDO) */}
+      {/* MAPA DE ENCONTROS (LAYOUT EM DUAS COLUNAS: MENU LATERAL + CONTEÚDO) */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Coluna Esquerda: Índice dos 19 Encontros */}
+          {/* Coluna Esquerda: Trilha Completa de Encontros */}
           <aside className="lg:col-span-4 space-y-4">
-            <div className="p-4 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-sm">
+            <div className="p-4 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A] mb-3">
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
                   <Compass className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                  <span>Índice dos 19 Encontros</span>
+                  <span>Trilha de Encontros</span>
                 </span>
                 <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-                  Turma 2026
+                  Ciclo de Formação
                 </span>
               </div>
 
@@ -396,7 +395,7 @@ export const GuiaPage: React.FC = () => {
                     </Badge>
                   </button>
 
-                  {/* Encontros 2 a 19 */}
+                  {/* Demais Encontros do Ciclo */}
                   {encontrosList
                     .filter((e) => e.numero >= 2)
                     .map((enc) => {
@@ -467,8 +466,8 @@ export const GuiaPage: React.FC = () => {
                 Regras de Acesso Pedagógico
               </p>
               <p className="text-[11px] leading-relaxed">
-                A Aula 1 é 100% aberta e gratuita. Os encontros 2 a 19 são exclusivos para alunas
-                matriculadas. O calendário não publica automaticamente: cada encontro é
+                A Aula 1 é 100% aberta e gratuita. Os demais encontros do ciclo são exclusivos para
+                alunas matriculadas. O calendário não publica automaticamente: cada encontro é
                 disponibilizado manualmente antes da respectiva aula ao vivo.
               </p>
             </div>
@@ -498,7 +497,7 @@ export const GuiaPage: React.FC = () => {
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
                         Caderno Didático · Acesso Aberto Gratuito
                       </span>
-                      <h2 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
+                      <h2 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
                         {ENCONTRO_1_CONTENT.titulo}
                       </h2>
                       <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
@@ -575,8 +574,8 @@ export const GuiaPage: React.FC = () => {
                           Já se matriculou na Academia Método FAC?
                         </h4>
                         <p className="text-xs text-slate-600 dark:text-[#A1A1AA] mt-0.5">
-                          Valide seu e-mail de compra para liberar os Encontros 2 a 19 e as
-                          gravações.
+                          Valide seu e-mail de compra para liberar a trilha completa de encontros e
+                          as gravações.
                         </p>
                       </div>
                       <Button
@@ -697,7 +696,7 @@ export const GuiaPage: React.FC = () => {
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                           Caderno Didático Exclusivo · Encontro {encontroDetalhe.numero}
                         </span>
-                        <h2 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
+                        <h2 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
                           {encontroDetalhe.titulo}
                         </h2>
                         <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">

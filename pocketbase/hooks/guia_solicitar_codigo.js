@@ -106,7 +106,7 @@ routerAdd('POST', '/backend/v1/fac/guia/solicitar-codigo', (e) => {
         Recebemos sua solicitação de validação para liberar o seu acesso completo ao <strong>Guia da Aluna da Academia Método FAC</strong>.
       </p>
       <p style="font-size: 14px; line-height: 1.65; color: #334155; margin: 0 0 20px;">
-        Com este acesso você acompanha os <strong>19 encontros pedagógicos do Ciclo FAC</strong>, seus cadernos didáticos, gravações de aula e todas as ferramentas integradas da Academia (como a Calculadora de Precificação, o Meu IKIGAI e os materiais complementares).
+        Com este acesso você acompanha a <strong>trilha completa de encontros do Ciclo FAC</strong>, seus cadernos didáticos, gravações de aula e todas as ferramentas integradas da Academia (como a Calculadora de Precificação, o Meu IKIGAI e os materiais complementares).
       </p>
 
       <div style="text-align: center; margin: 26px 0; background: linear-gradient(180deg, #faf5ff 0%, #f5f3ff 100%); border: 2px dashed #7c3aed; border-radius: 14px; padding: 22px;">
