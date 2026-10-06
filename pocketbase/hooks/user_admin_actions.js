@@ -186,7 +186,13 @@ routerAdd(
       })
     }
 
-    const targetId = (e.requestInfo().params.id || '').toString().trim()
+    const targetId = (
+      e.request.pathValue('id') ||
+      (e.requestInfo().params && e.requestInfo().params.id) ||
+      ''
+    )
+      .toString()
+      .trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }
@@ -313,7 +319,13 @@ routerAdd(
       })
     }
 
-    const targetId = (e.requestInfo().params.id || '').toString().trim()
+    const targetId = (
+      e.request.pathValue('id') ||
+      (e.requestInfo().params && e.requestInfo().params.id) ||
+      ''
+    )
+      .toString()
+      .trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }
@@ -378,7 +390,13 @@ routerAdd(
       })
     }
 
-    const targetId = (e.requestInfo().params.id || '').toString().trim()
+    const targetId = (
+      e.request.pathValue('id') ||
+      (e.requestInfo().params && e.requestInfo().params.id) ||
+      ''
+    )
+      .toString()
+      .trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }
@@ -392,16 +410,35 @@ routerAdd(
     }
 
     try {
-      const targetUser = $app.findFirstRecordByData('users', 'id', targetId)
-      const targetEmail = targetUser.email()
-      const targetName = targetUser.getString('name')
-      const targetRole = targetUser.getString('role')
+      let targetUser
+      try {
+        targetUser = $app.findRecordById('users', targetId)
+      } catch (_) {
+        try {
+          targetUser = $app.findFirstRecordByData('users', 'id', targetId)
+        } catch (findErr) {
+          return e.json(404, {
+            success: false,
+            message: 'Conta não encontrada no sistema para o ID informado.',
+          })
+        }
+      }
 
-      // Cuidado do briefing: não quebrar as matrículas nem outras coleções.
-      // A coleção fac_matriculas não tem cascadeDelete e referencia por e-mail,
-      // portanto ela continua intacta.
-      // Na coleção fac_backups, user_id aponta para o usuário. Se houver backups,
-      // removemos ou desvinculamos para manter a consistência de banco.
+      const targetEmail = targetUser.email()
+      const targetName = targetUser.getString('name') || ''
+      const targetRole = targetUser.getString('role') || 'user'
+
+      // Não permitir exclusão se a conta alvo for a própria usuária logada
+      if (targetEmail.toLowerCase() === authUser.email().toLowerCase()) {
+        return e.json(400, {
+          success: false,
+          message: 'Você não pode excluir a sua própria conta de administradora.',
+        })
+      }
+
+      // Conforme o briefing: as matrículas permanecem intactas (fac_matriculas vincula por e-mail e não é tocada).
+      // Limpeza de dependências vinculadas por chave estrangeira ou por ID:
+      // 1. fac_backups vincula user_id -> users com cascade ou FK. Removemos todos os backups associados.
       try {
         const backups = $app.findRecordsByFilter(
           'fac_backups',
@@ -411,13 +448,16 @@ routerAdd(
           0,
         )
         for (const b of backups) {
-          $app.delete(b)
+          try {
+            $app.delete(b)
+          } catch (_) {}
         }
       } catch (_) {}
 
+      // 2. Excluir o registro de autenticação da usuária
       $app.delete(targetUser)
 
-      // Trilha de auditoria
+      // 3. Trilha de auditoria persistente
       try {
         const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
         const auditRec = new Record(auditCol)
@@ -442,9 +482,10 @@ routerAdd(
         message: `Conta de ${targetEmail} foi excluída permanentemente.`,
       })
     } catch (err) {
+      const errMsg = err && err.message ? String(err.message) : String(err)
       return e.json(500, {
         success: false,
-        message: 'Erro ao excluir conta de usuária: ' + err,
+        message: 'Erro ao excluir conta de usuária: ' + errMsg,
       })
     }
   },

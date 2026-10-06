@@ -652,8 +652,9 @@ export const AdminDashboard: React.FC = () => {
       } else {
         alert(res.message || 'Falha ao excluir conta.')
       }
-    } catch (err) {
-      alert(`Erro ao excluir conta: ${getErrorMessage(err)}`)
+    } catch (err: unknown) {
+      const detailedMessage = getErrorMessage(err)
+      alert(`Erro ao excluir conta: ${detailedMessage}`)
     } finally {
       setDeletingUserLoading(false)
     }
