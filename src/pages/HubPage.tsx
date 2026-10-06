@@ -793,6 +793,55 @@ export const HubPage: React.FC = () => {
             </div>
           </section>
         )}
+
+        {/* ================= 4. CONVITE EDITORIAL FINAL: ACADEMIA FAC ================= */}
+        <section
+          aria-labelledby="secao-convite-academia"
+          className="relative overflow-hidden rounded-[20px] p-8 sm:p-12 border border-purple-200/80 dark:border-[#27272A] bg-gradient-to-b from-white via-purple-50/40 to-purple-100/30 dark:from-[#0E091B] dark:via-[#090614] dark:to-[#04010A] shadow-xs text-center space-y-6"
+        >
+          {/* Brilho astral sutil de fundo */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[460px] h-[240px] bg-radial from-[#7c3aed]/15 via-[#6b21a8]/5 to-transparent blur-3xl pointer-events-none -z-0"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+              <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+              <span>FORMAÇÃO CONTINUADA</span>
+              <span className="text-editorial-tertiary">•</span>
+              <span className="text-editorial-secondary">MÉTODO FAC</span>
+            </div>
+
+            <h3
+              id="secao-convite-academia"
+              className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight text-editorial-primary leading-snug"
+            >
+              Pronta para continuar seu percurso?
+            </h3>
+
+            <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-normal">
+              Aprofunde sua prática clínica com o ciclo completo de encontros, o método FAC em
+              detalhes, ferramentas exclusivas e a comunidade da Entrelaços Psicologia.
+            </p>
+
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href="https://pay.kirvano.com/36c1a314-0dc2-4bc8-9287-79fb1e804b06"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[46px] px-7 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm transition-all duration-150 focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] cursor-pointer"
+              >
+                <span>Entrar na Academia FAC</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+
+            <p className="text-[11px] font-mono text-editorial-tertiary pt-1">
+              Acesso imediato à trilha completa pedagógica e ao ecossistema de alunas.
+            </p>
+          </div>
+        </section>
       </main>
 
       {/* Footer Astral */}
