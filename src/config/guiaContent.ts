@@ -92,7 +92,8 @@ export function calcularResultadoDiagnostico(
 export const ENCONTRO_1_CONTENT = {
   numero: 1,
   titulo: 'Aula Magna: O Chão da Clínica Sustentável',
-  subtitulo: 'Diagnóstico FAC Aprofundado (Versão 2) e os Três Pilares da Autoria Ética',
+  subtitulo:
+    'Diagnóstico FAC Aprofundado — Versão 2 (04/10/2026) e os Três Pilares da Autoria Ética',
   data: '06/10/2026',
   abertaParaTodas: true,
   introducao: `Seja muito bem-vinda à Aula Magna da Academia Método FAC.
@@ -124,8 +125,8 @@ Perguntas norteadoras para sua reflexão no caderno:
     {
       id: 'construir',
       titulo: '3. Construir seu Retrato Inicial',
-      descricao: 'Aplicação do Diagnóstico FAC Aprofundado versão 2.',
-      conteudo: `Nesta página você tem acesso ao motor completo do Diagnóstico FAC Aprofundado de 24 perguntas.
+      descricao: 'Aplicação do Diagnóstico FAC Aprofundado — Versão 2 (04/10/2026).',
+      conteudo: `Nesta página você tem acesso ao motor completo do Diagnóstico FAC Aprofundado — Versão 2 (24 perguntas e 3 pilares).
 Ao final, você receberá a visão geral completa da sua prática, as leituras verbatim dos pilares, os 6 movimentos e a geração de relatório em PDF.`,
     },
     {

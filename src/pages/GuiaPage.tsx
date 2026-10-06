@@ -315,7 +315,7 @@ export const GuiaPage: React.FC = () => {
           <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto">
             A Aula 1 do Guia é gratuita e aberta a toda a categoria. Aqui você realiza o{' '}
             <strong className="text-slate-900 dark:text-white">
-              Diagnóstico FAC Aprofundado versão 2
+              Diagnóstico FAC Aprofundado — Versão 2
             </strong>
             , descobre a saúde dos seus pilares (Fundação, Atração, Conexão) e conhece os
             fundamentos do Método FAC.
@@ -592,9 +592,14 @@ export const GuiaPage: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-[#7c3aed] dark:text-[#C084FC]" />
-                    <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
-                      Diagnóstico FAC Aprofundado (Versão 2)
-                    </h3>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1.5">
+                      <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
+                        Diagnóstico FAC Aprofundado — Versão 2
+                      </h3>
+                      <span className="text-xs font-mono text-purple-700 dark:text-purple-300">
+                        (Versão 2 · 04/10/2026)
+                      </span>
+                    </div>
                   </div>
                   <DiagnosticoFACSection />
                 </div>

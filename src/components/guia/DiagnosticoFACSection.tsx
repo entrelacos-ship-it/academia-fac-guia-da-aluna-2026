@@ -39,6 +39,7 @@ import {
 } from '@/lib/diagnosticoFacEngine'
 import { DiagnosticoRadar } from '@/components/guia/DiagnosticoRadar'
 import { PrintableDiagnosticoReport } from '@/components/guia/PrintableDiagnosticoReport'
+import { downloadDiagnosticoPdf } from '@/lib/diagnosticoPdfGenerator'
 
 const STORAGE_KEY_DIAGNOSTICO_V2 = 'entrelacos_fac_diagnostico_v2_data'
 
@@ -112,6 +113,9 @@ export const DiagnosticoFACSection: React.FC = () => {
   const [perguntaAtual, setPerguntaAtual] = useState<number>(1)
   const [abaResultado, setAbaResultado] = useState<AbaResultado>('visao_geral')
   const [copiadoComunidade, setCopiadoComunidade] = useState(false)
+  const [isGerandoPdf, setIsGerandoPdf] = useState(false)
+  const [pdfError, setPdfError] = useState<string | null>(null)
+  const [pdfSuccess, setPdfSuccess] = useState(false)
 
   // Salvar no navegador da usuária (100% local)
   useEffect(() => {
@@ -190,7 +194,39 @@ export const DiagnosticoFACSection: React.FC = () => {
     setTimeout(() => setCopiadoComunidade(false), 3000)
   }
 
-  const handleImprimirPDF = () => {
+  const handleBaixarPdf = async () => {
+    if (!resultado) {
+      setPdfError('Conclua as perguntas antes de gerar o PDF.')
+      return
+    }
+
+    setIsGerandoPdf(true)
+    setPdfError(null)
+    setPdfSuccess(false)
+
+    try {
+      const res = await downloadDiagnosticoPdf(resultado)
+      if (res.success) {
+        setPdfSuccess(true)
+        setTimeout(() => setPdfSuccess(false), 4000)
+      } else {
+        setPdfError(
+          res.error || 'Não foi possível gerar o PDF. Você também pode usar Imprimir na tela.',
+        )
+      }
+    } catch (err) {
+      console.error('[DiagnosticoFAC] Falha inesperada ao baixar PDF:', err)
+      setPdfError(
+        err instanceof Error
+          ? err.message
+          : 'Erro inesperado na geração do PDF. Tente novamente ou use a impressão do navegador.',
+      )
+    } finally {
+      setIsGerandoPdf(false)
+    }
+  }
+
+  const handleImprimirNavegador = () => {
     window.print()
   }
 
@@ -214,7 +250,7 @@ export const DiagnosticoFACSection: React.FC = () => {
             variant="outline"
             className="text-[10px] font-mono text-purple-800 dark:text-purple-300 border-purple-300 dark:border-[#7c3aed]/50 shrink-0"
           >
-            v2 Instrumento Oficial
+            Versão 2 · 04/10/2026
           </Badge>
           <span className="text-[11px] font-mono text-slate-500">24 Perguntas · 3 Pilares FAC</span>
         </div>
@@ -769,9 +805,17 @@ export const DiagnosticoFACSection: React.FC = () => {
           {/* Barra superior de Ações e Exportações */}
           <div className="p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
-                Diagnóstico FAC Aprofundado (Versão 2) Concluído
-              </span>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                  Diagnóstico FAC Aprofundado — Versão 2 Concluído
+                </span>
+                <Badge
+                  variant="outline"
+                  className="text-[9px] font-mono border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300"
+                >
+                  Versão 2 · 04/10/2026
+                </Badge>
+              </div>
               <h3 className="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white">
                 {resultado.tituloLeitura}
               </h3>
@@ -790,13 +834,35 @@ export const DiagnosticoFACSection: React.FC = () => {
               </Button>
 
               <Button
+                variant="default"
+                size="sm"
+                onClick={handleBaixarPdf}
+                disabled={isGerandoPdf}
+                className="gap-1.5 font-mono text-xs bg-[#7c3aed] hover:bg-[#6d28d9] text-white rounded-[8px] shadow-sm disabled:opacity-60 cursor-pointer"
+                title="Gera o arquivo diagnostico-fac-aprofundado.pdf em A4 com gráficos vetoriais"
+              >
+                {isGerandoPdf ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin shrink-0" />
+                    <span>Gerando PDF...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4 shrink-0" />
+                    <span>{pdfSuccess ? 'PDF Baixado!' : 'Baixar PDF'}</span>
+                  </>
+                )}
+              </Button>
+
+              <Button
                 variant="outline"
                 size="sm"
-                onClick={handleImprimirPDF}
-                className="gap-1.5 font-mono text-xs border-slate-200 dark:border-[#27272A] rounded-[8px]"
+                onClick={handleImprimirNavegador}
+                className="gap-1.5 font-mono text-xs border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 rounded-[8px]"
+                title="Abre a tela de impressão rápida do navegador (Ctrl+P / Cmd+P)"
               >
-                <Download className="w-4 h-4 text-[#7c3aed]" />
-                <span>Baixar Relatório (PDF)</span>
+                <FileText className="w-3.5 h-3.5" />
+                <span>Imprimir</span>
               </Button>
 
               <Button
@@ -810,6 +876,59 @@ export const DiagnosticoFACSection: React.FC = () => {
               </Button>
             </div>
           </div>
+
+          {/* Mensagem de Erro Clara caso a geração de PDF falhe */}
+          {pdfError && (
+            <div className="p-4 rounded-[12px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 flex items-start gap-3 text-xs text-rose-800 dark:text-rose-200 print:hidden animate-in fade-in">
+              <AlertTriangle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+              <div className="space-y-1 flex-1">
+                <strong className="font-semibold block">
+                  Não foi possível baixar o PDF diretamente:
+                </strong>
+                <p>{pdfError}</p>
+                <div className="pt-2 flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleBaixarPdf}
+                    className="h-7 text-xs border-rose-300 text-rose-800 dark:text-rose-200 hover:bg-rose-100 dark:hover:bg-rose-900/50"
+                  >
+                    Tentar Novamente
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={handleImprimirNavegador}
+                    className="h-7 text-xs text-rose-700 dark:text-rose-300 hover:underline"
+                  >
+                    Usar Impressão / Salvar como PDF
+                  </Button>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPdfError(null)}
+                className="text-rose-500 hover:text-rose-700 text-sm font-bold ml-2 cursor-pointer"
+                title="Fechar alerta"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Notificação de Sucesso */}
+          {pdfSuccess && (
+            <div className="p-3.5 rounded-[12px] bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 text-xs text-emerald-800 dark:text-emerald-200 print:hidden animate-in fade-in">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>
+                <strong>Download iniciado com sucesso!</strong> O arquivo{' '}
+                <code className="font-mono bg-emerald-100 dark:bg-emerald-900/60 px-1 py-0.5 rounded">
+                  diagnostico-fac-aprofundado.pdf
+                </code>{' '}
+                foi gerado com gráficos vetoriais em formato A4.
+              </span>
+            </div>
+          )}
 
           {/* Navegação entre as 7 Telas */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none print:hidden">

@@ -57,9 +57,12 @@ export const PrintableDiagnosticoReport: React.FC<PrintableDiagnosticoReportProp
             <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#7c3aed]">
               Entrelaços Psicologia · Academia Método FAC
             </span>
-            <h1 className="text-3xl font-bold text-slate-900 mt-1">
-              Diagnóstico FAC Aprofundado (Versão 2)
-            </h1>
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-3xl font-bold text-slate-900 mt-1">
+                Diagnóstico FAC Aprofundado — Versão 2
+              </h1>
+              <span className="text-xs font-mono text-purple-700 font-bold">(04/10/2026)</span>
+            </div>
             <p className="text-xs text-slate-500 font-mono mt-0.5">
               Retrato Estrutural da Prática Profissional da Psicóloga
             </p>
