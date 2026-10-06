@@ -12,6 +12,7 @@ export interface HubItem {
   icone?: string
   url?: string
   exclusivo_alunas?: boolean
+  categoria?: string
   created?: string
   updated?: string
 }
@@ -61,6 +62,7 @@ export const HubService = {
           icone: 'Calculator',
           url: '/calculadora',
           exclusivo_alunas: true,
+          categoria: 'aplicativos',
         },
         {
           id: 'fallback_ikigai',
@@ -75,6 +77,22 @@ export const HubService = {
           icone: 'Compass',
           url: '/ikigai',
           exclusivo_alunas: true,
+          categoria: 'aplicativos',
+        },
+        {
+          id: 'fallback_mentora_fac',
+          chave: 'mentora-fac',
+          titulo: 'Mentora do FAC',
+          descricao:
+            'Mentora de carreira das alunas da Academia Método FAC: tira dúvidas do método, realiza o diagnóstico profundo dos 3 pilares, revisa entregáveis e direciona plano de 90 dias.',
+          bloco: 'sistema',
+          ativo: true,
+          rotulo_badge: 'Download Exclusivo',
+          ordem: 4,
+          icone: 'Sparkles',
+          url: '/downloads/Mentora-FAC.md',
+          exclusivo_alunas: true,
+          categoria: 'skills',
         },
         {
           id: 'fallback_material_1',

@@ -30,6 +30,14 @@ import pb from '@/lib/pocketbase/client'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
+import {
+  SISTEMA_CATEGORIAS,
+  SISTEMA_ITEMS_EXTRAS,
+  SKILL_MENTORA_FAC_ITEM,
+  SistemaCategory,
+} from '@/config/sistemaHubConfig'
+import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
+import { Download, Bot, Sparkles as SparklesIcon, FileDown } from 'lucide-react'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -43,6 +51,9 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Layers,
   Sparkles,
   GraduationCap,
+  Bot,
+  FileDown,
+  Download,
 }
 
 export const HubPage: React.FC = () => {
@@ -68,6 +79,12 @@ export const HubPage: React.FC = () => {
   // Itens dinâmicos vindos do PocketBase
   const [items, setItems] = useState<HubItem[]>([])
   const [loadingItems, setLoadingItems] = useState(true)
+
+  // Categoria ativa no bloco Sistema
+  const [activeSistemaCategory, setActiveSistemaCategory] = useState<string>('aplicativos')
+
+  // Modal para prévia e download da skill Mentora-FAC
+  const [skillModalOpen, setSkillModalOpen] = useState(false)
 
   // Sessão de aluna validada por e-mail de compra
   const [alunaSession, setAlunaSession] = useState<AlunaSession | null>(() =>
@@ -127,13 +144,66 @@ export const HubPage: React.FC = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  // Filtrar itens por bloco
+  // Filtrar itens por bloco e mesclar com itens extras (ex: Skill Mentora-FAC)
   const heroItem = items.find((it) => it.bloco === 'hero' && it.ativo)
-  const sistemaItems = items.filter((it) => it.bloco === 'sistema' && it.ativo)
+
+  // Garantir que a skill Mentora-FAC esteja presente se não vier do backend
+  const allSistemaItems: HubItem[] = React.useMemo(() => {
+    const fromApi = items.filter((it) => it.bloco === 'sistema' && it.ativo)
+    const hasMentora = fromApi.some((it) => it.chave === 'mentora-fac')
+    if (!hasMentora) {
+      return [...fromApi, SKILL_MENTORA_FAC_ITEM as HubItem]
+    }
+    return fromApi
+  }, [items])
+
   const materialItems = items.filter((it) => it.bloco === 'material' && it.ativo)
 
-  // Ao clicar em uma peça exclusiva de aluna (ex: Calculadora)
+  // Função para executar download seguro do arquivo Mentora-FAC.md
+  const handleDownloadMentoraFac = () => {
+    if (!isAlunaValidada) {
+      setItemBloqueadoClicado('Skill Mentora-FAC')
+      setValidarModalOpen(true)
+      return
+    }
+
+    const extra = SISTEMA_ITEMS_EXTRAS['mentora-fac']
+    const content = extra?.download?.rawContent || ''
+    const filename = extra?.download?.filename || 'Mentora-FAC.md'
+
+    try {
+      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (err) {
+      console.error('Erro ao baixar arquivo da skill:', err)
+      // Fallback via link direto do asset estático
+      window.open('/downloads/Mentora-FAC.md', '_blank')
+    }
+  }
+
+  // Ao clicar em uma peça exclusiva de aluna (ex: Calculadora, IKIGAI ou Skill)
   const handleItemClick = (item: HubItem) => {
+    const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
+
+    // Se for uma skill ou item de download
+    if (item.chave === 'mentora-fac' || extra?.tipo === 'skill') {
+      if (item.exclusivo_alunas && !isAlunaValidada) {
+        setItemBloqueadoClicado(item.titulo)
+        setValidarModalOpen(true)
+        return
+      }
+      // Aluna autenticada: abre modal para visualizar e/ou baixar
+      setSkillModalOpen(true)
+      return
+    }
+
     // Se a peça está marcada com rótulo "Em breve" ou "Em construção" e não tem rota pronta, aviso informativo
     if (
       item.rotulo_badge &&
@@ -426,118 +496,215 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 2. BLOCO SISTEMA: APLICATIVOS DO DIA A DIA (GRADE DE CARDS QUADRADOS / LAUNCHER) ================= */}
-        {sistemaItems.length > 0 && (
-          <section aria-labelledby="secao-sistema" className="space-y-4 pt-2">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
-              <div className="flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-                <h3
-                  id="secao-sistema"
-                  className="font-serif-editorial text-2xl font-medium text-slate-900 dark:text-white"
-                >
-                  Sistema & Aplicações Clínicas
-                </h3>
-              </div>
-              <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
-                Launcher de ferramentas e aplicações de trabalho contínuo
-              </span>
-            </div>
-
-            {/* Grade responsiva de cards quadrados / botões launcher de apps */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-              {sistemaItems.map((item, idx) => {
-                const IconComponent = ICON_MAP[item.icone || ''] || Cpu
-                const isBlocked = item.exclusivo_alunas && !isAlunaValidada
-                const isEmBreve =
-                  item.rotulo_badge?.toLowerCase().includes('breve') ||
-                  item.rotulo_badge?.toLowerCase().includes('construção')
-
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleItemClick(item)}
-                    aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                    className={`group relative text-left w-full h-full p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] ${
-                      isBlocked
-                        ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
-                        : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
-                    }`}
+        {/* ================= 2. BLOCO SISTEMA: ABAS EXTENSÍVEIS (APLICATIVOS, SKILLS, ETC.) ================= */}
+        {allSistemaItems.length > 0 && (
+          <section aria-labelledby="secao-sistema" className="space-y-5 pt-2">
+            {/* Cabeçalho do Bloco com Título e Abas Estilo Editorial/Pills */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-3 border-b border-slate-200 dark:border-[#221f2d]">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
+                  <h3
+                    id="secao-sistema"
+                    className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white"
                   >
-                    {/* Topo do Card: Ícone em destaque, índice e selo de status */}
-                    <div className="w-full space-y-3">
-                      <div className="flex items-start justify-between gap-2">
-                        {/* Ícone quadrado do aplicativo */}
-                        <div
-                          className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
-                            isBlocked
-                              ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
-                              : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                          }`}
-                        >
-                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
-                        </div>
+                    Sistema & Aplicações Clínicas
+                  </h3>
+                </div>
+                <p className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                  Launcher de ferramentas, aplicativos e skills exclusivas para alunas
+                </p>
+              </div>
 
-                        {/* Índice numérico sutil */}
-                        <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
-                          0{idx + 1}
-                        </span>
-                      </div>
+              {/* Seletor de Abas de Categorias */}
+              <div className="flex items-center gap-1.5 p-1 rounded-[12px] bg-slate-100 dark:bg-[#131020] border border-slate-200 dark:border-[#27272A] overflow-x-auto max-w-full scrollbar-none">
+                {SISTEMA_CATEGORIAS.map((cat) => {
+                  const isActive = activeSistemaCategory === cat.id
+                  const countInCat = allSistemaItems.filter((it) => {
+                    const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
+                    const itemCat = it.categoria || extra?.categoria || 'aplicativos'
+                    return itemCat === cat.id
+                  }).length
 
-                      {/* Selo / Badge */}
-                      <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        {isBlocked ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                            <Lock className="w-2.5 h-2.5" />
-                            <span>Exclusivo alunas</span>
-                          </span>
-                        ) : isEmBreve ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
-                            <Clock className="w-2.5 h-2.5" />
-                            <span>{item.rotulo_badge || 'Em breve'}</span>
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                            {item.rotulo_badge || 'Disponível'}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Título e Descrição do App */}
-                      <div className="space-y-1.5 pt-1">
-                        <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                          {item.titulo}
-                        </h4>
-
-                        <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal">
-                          {item.descricao}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Rodapé do Card: Destaques pontuais e Ação de Launcher */}
-                    <div className="w-full pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between text-xs font-mono">
-                      {isBlocked ? (
-                        <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300">
-                          <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                          <span>Já sou aluna? Validar e-mail de matrícula</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
-                          <span>Abrir app</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </div>
-                      )}
-
-                      <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 ml-1">
-                        App
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setActiveSistemaCategory(cat.id)}
+                      className={`relative px-3.5 py-1.5 rounded-[9px] text-xs font-mono font-medium transition-all duration-200 flex items-center gap-2 shrink-0 cursor-pointer ${
+                        isActive
+                          ? 'bg-white dark:bg-[#201833] text-[#7c3aed] dark:text-[#C084FC] shadow-xs font-semibold border border-purple-200/80 dark:border-purple-800/60'
+                          : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-[#1a1529]'
+                      }`}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      <span>{cat.label}</span>
+                      <span
+                        className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                          isActive
+                            ? 'bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 font-bold'
+                            : 'bg-slate-200/70 dark:bg-[#242033] text-slate-600 dark:text-zinc-400'
+                        }`}
+                      >
+                        {countInCat}
                       </span>
-                    </div>
-                  </button>
-                )
-              })}
+                      {cat.badge && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
+
+            {/* Descrição sutil da categoria atual */}
+            {(() => {
+              const currentCatObj = SISTEMA_CATEGORIAS.find((c) => c.id === activeSistemaCategory)
+              return currentCatObj?.descricao ? (
+                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#A1A1AA] -mt-1 px-1">
+                  <span>{currentCatObj.descricao}</span>
+                </div>
+              ) : null
+            })()}
+
+            {/* Grade responsiva de cards da categoria selecionada */}
+            {(() => {
+              const itemsNaCategoria = allSistemaItems.filter((it) => {
+                const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
+                const itemCat = it.categoria || extra?.categoria || 'aplicativos'
+                return itemCat === activeSistemaCategory
+              })
+
+              if (itemsNaCategoria.length === 0) {
+                return (
+                  <div className="p-8 text-center rounded-[18px] border border-dashed border-slate-200 dark:border-[#27272A] bg-slate-50/50 dark:bg-[#0c0915]/50">
+                    <p className="text-xs font-mono text-slate-500 dark:text-zinc-500">
+                      Nenhum item disponível nesta categoria no momento.
+                    </p>
+                  </div>
+                )
+              }
+
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                  {itemsNaCategoria.map((item, idx) => {
+                    const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
+                    const IconComponent =
+                      ICON_MAP[item.icone || ''] || (extra?.tipo === 'skill' ? Sparkles : Cpu)
+                    const isBlocked = item.exclusivo_alunas && !isAlunaValidada
+                    const isEmBreve =
+                      item.rotulo_badge?.toLowerCase().includes('breve') ||
+                      item.rotulo_badge?.toLowerCase().includes('construção')
+                    const isSkill = extra?.tipo === 'skill' || item.chave === 'mentora-fac'
+
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => handleItemClick(item)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handleItemClick(item)
+                          }
+                        }}
+                        aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                        className={`group relative text-left w-full h-full p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] ${
+                          isBlocked
+                            ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
+                            : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
+                        }`}
+                      >
+                        {/* Topo do Card: Ícone em destaque, índice e selo de status */}
+                        <div className="w-full space-y-3">
+                          <div className="flex items-start justify-between gap-2">
+                            {/* Ícone quadrado do aplicativo ou skill */}
+                            <div
+                              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
+                                isBlocked
+                                  ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
+                                  : isSkill
+                                    ? 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                                    : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                              }`}
+                            >
+                              <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                            </div>
+
+                            {/* Índice numérico sutil */}
+                            <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
+                              0{idx + 1}
+                            </span>
+                          </div>
+
+                          {/* Selo / Badge */}
+                          <div className="flex flex-wrap gap-1.5 pt-0.5">
+                            {isBlocked ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <Lock className="w-2.5 h-2.5" />
+                                <span>Exclusivo alunas</span>
+                              </span>
+                            ) : isEmBreve ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <Clock className="w-2.5 h-2.5" />
+                                <span>{item.rotulo_badge || 'Em breve'}</span>
+                              </span>
+                            ) : isSkill ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                <span>{item.rotulo_badge || 'Skill FAC'}</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                {item.rotulo_badge || 'Disponível'}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Título e Descrição */}
+                          <div className="space-y-1.5 pt-1">
+                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                              {item.titulo}
+                            </h4>
+
+                            <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal">
+                              {item.descricao}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Rodapé do Card: Ação de Launcher ou Download */}
+                        <div className="w-full pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between text-xs font-mono">
+                          {isBlocked ? (
+                            <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300">
+                              <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                              <span className="truncate">
+                                Já sou aluna? Validar e-mail de matrícula
+                              </span>
+                            </div>
+                          ) : isSkill ? (
+                            <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
+                              <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                              <span>Baixar Mentora-FAC</span>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
+                              <span>Abrir app</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </div>
+                          )}
+
+                          <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 ml-1">
+                            {isSkill ? 'Skill' : 'App'}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })()}
           </section>
         )}
 
@@ -660,8 +827,19 @@ export const HubPage: React.FC = () => {
             navigate('/calculadora')
           } else if (target.includes('ikigai')) {
             navigate('/ikigai')
+          } else if (target.includes('mentora') || target.includes('skill')) {
+            setActiveSistemaCategory('skills')
+            setSkillModalOpen(true)
           }
         }}
+      />
+
+      {/* Modal de Prévia e Download da Skill Mentora-FAC */}
+      <SkillMentoraModal
+        isOpen={skillModalOpen}
+        onClose={() => setSkillModalOpen(false)}
+        rawContent={SISTEMA_ITEMS_EXTRAS['mentora-fac']?.download?.rawContent || ''}
+        onDownload={handleDownloadMentoraFac}
       />
     </div>
   )
