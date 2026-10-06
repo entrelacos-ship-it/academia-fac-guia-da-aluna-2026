@@ -50,8 +50,8 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5">
               AULA ABERTA · ACESSO LIVRE
             </Badge>
-            <span className="text-slate-400 dark:text-[#71717A]">•</span>
-            <span className="text-slate-600 dark:text-[#A1A1AA] font-semibold">
+            <span className="text-editorial-tertiary">•</span>
+            <span className="text-editorial-secondary font-semibold">
               FUNDAÇÃO · ENCONTRO 01 · 06 de out
             </span>
           </div>
@@ -65,10 +65,10 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         <div className="space-y-4">
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-normal tracking-tight text-slate-900 dark:text-white leading-[1.14]">
+          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-normal tracking-tight text-editorial-primary leading-[1.14]">
             Aula Magna: o Método FAC e as boas-vindas
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light max-w-4xl">
+          <p className="text-base sm:text-lg md:text-xl text-editorial-secondary leading-relaxed font-light max-w-4xl">
             Antes de construir novas peças, vamos enxergar a estrutura da sua prática hoje. Nesta
             Aula Magna, você conhece os três pilares e preenche o Diagnóstico FAC Aprofundado. O
             resultado mostra suas forças, fragilidades e por onde começar.
@@ -80,7 +80,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             A PERGUNTA DO ENCONTRO
           </span>
-          <p className="font-serif-editorial text-2xl sm:text-3xl md:text-[2rem] text-slate-900 dark:text-white font-normal italic leading-snug">
+          <p className="font-serif-editorial text-2xl sm:text-3xl md:text-[2rem] text-editorial-primary font-normal italic leading-snug">
             Onde a sua prática pede estrutura primeiro?
           </p>
         </div>
@@ -92,12 +92,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             01 / ANTES DE COMEÇAR
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
+          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
             Prepare o terreno.
           </h2>
         </div>
 
-        <ul className="space-y-4 text-sm sm:text-base text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+        <ul className="space-y-4 text-sm sm:text-base text-editorial-secondary font-light leading-relaxed">
           <li className="flex items-start gap-3.5">
             <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] shrink-0 mt-2.5" />
             <span>
@@ -135,7 +135,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             02 / DURANTE O ENCONTRO
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
+          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
             Construa passo a passo.
           </h2>
         </div>
@@ -181,10 +181,10 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
                 {item.num}
               </span>
               <div className="space-y-1.5">
-                <h4 className="font-sans font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
+                <h4 className="font-sans font-semibold text-sm sm:text-base text-editorial-primary">
                   {item.titulo}
                 </h4>
-                <p className="text-sm sm:text-[15px] text-slate-600 dark:text-[#A1A1AA] leading-relaxed font-light">
+                <p className="text-sm sm:text-[15px] text-editorial-secondary leading-relaxed font-light">
                   {item.texto}
                 </p>
               </div>
@@ -254,15 +254,15 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
 
         {/* Nota e Lembrete */}
         <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-[#1f1f23] text-xs font-mono">
-          <p className="text-slate-500 dark:text-[#A1A1AA]">
-            <span className="font-bold text-slate-700 dark:text-slate-300">Nota: </span>A Aula 1 é
-            aberta. Links exclusivos da Academia aparecem apenas para alunas matriculadas.
+          <p className="text-editorial-secondary">
+            <span className="font-bold text-editorial-primary">Nota: </span>A Aula 1 é aberta. Links
+            exclusivos da Academia aparecem apenas para alunas matriculadas.
           </p>
-          <p className="text-slate-600 dark:text-[#C084FC] flex items-center gap-1.5">
+          <p className="text-editorial-secondary dark:text-[#C084FC] flex items-center gap-1.5">
             <Shield className="w-3.5 h-3.5 shrink-0" />
             <span>
-              <strong>LEMBRETE:</strong> Seu diagnóstico e PDF ficam neste aparelho. Baixe o PDF
-              para guardar o resultado.
+              <strong className="text-editorial-primary dark:text-white">LEMBRETE:</strong> Seu
+              diagnóstico e PDF ficam neste aparelho. Baixe o PDF para guardar o resultado.
             </span>
           </p>
         </div>
@@ -285,10 +285,10 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
 
         {/* Trilha do Caderno */}
         <div className="p-5 sm:p-6 rounded-[14px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A] space-y-2">
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA] block">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-editorial-tertiary block">
             Trilha do Encontro
           </span>
-          <p className="text-xs sm:text-sm font-mono text-slate-700 dark:text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm font-mono text-editorial-secondary leading-relaxed">
             01 Acolher — Boas-vindas à aula · 02 Entender — Slides e Método FAC · 03 Diagnosticar —
             Seu ponto de partida · 04 Experimentar — Ferramentas de apoio · 05 Registrar — Primeira
             ação · 06 Continuar — Ecossistema Entrelaços
@@ -362,7 +362,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               PARA LEVAR AO MAPA
             </span>
-            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-slate-900 dark:text-white font-normal italic">
+            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-editorial-primary font-normal italic">
               "Qual parte do funcionamento da sua prática hoje depende de improviso?"
             </p>
           </div>
@@ -407,7 +407,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               PARA LEVAR AO MAPA
             </span>
-            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-slate-900 dark:text-white font-normal italic">
+            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-editorial-primary font-normal italic">
               "Qual face você tenta resolver por impulso quando sente que a carreira não anda?"
             </p>
           </div>
@@ -466,7 +466,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               PARA LEVAR AO MAPA
             </span>
-            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-slate-900 dark:text-white font-normal italic">
+            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-editorial-primary font-normal italic">
               "O que uma pessoa ainda não consegue entender com clareza ao encontrar seu trabalho?"
             </p>
           </div>
@@ -506,7 +506,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               PARA LEVAR AO MAPA
             </span>
-            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-slate-900 dark:text-white font-normal italic">
+            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-editorial-primary font-normal italic">
               "Hoje, qual é sua rota principal de chegada e onde essa ponte se interrompe?"
             </p>
           </div>
@@ -547,7 +547,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               PARA LEVAR AO MAPA
             </span>
-            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-slate-900 dark:text-white font-normal italic">
+            <p className="font-serif-editorial text-base sm:text-lg md:text-xl text-editorial-primary font-normal italic">
               "Onde alguém que chega até você pode estar ficando sem orientação?"
             </p>
           </div>
@@ -581,7 +581,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span>Abrir Diagnóstico FAC Aprofundado</span>
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
-          <span className="text-xs sm:text-sm font-mono text-slate-500 dark:text-[#A1A1AA]">
+          <span className="text-xs sm:text-sm font-mono text-editorial-secondary">
             24 perguntas · 12 a 15 minutos
           </span>
         </div>

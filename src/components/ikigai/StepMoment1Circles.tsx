@@ -157,7 +157,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                 <div className="flex items-center justify-between gap-1.5 mb-1">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 dark:text-white">
                     {CIRCLE_ICONS[id]}
-                    <span className="font-mono text-[11px] font-bold text-slate-500 dark:text-[#71717A]">
+                    <span className="font-mono text-[11px] font-bold text-editorial-secondary">
                       {def.badgeText}
                     </span>
                   </div>
@@ -185,7 +185,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
                   <span className="font-semibold text-slate-900 dark:text-white">
                     {count} {count === 1 ? 'item' : 'itens'}
                   </span>
-                  <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+                  <span className="text-[11px] font-mono text-editorial-secondary">
                     ★ {stars}/3
                   </span>
                 </div>
@@ -281,7 +281,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
             </Button>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#71717A] px-1">
+          <div className="flex items-center justify-between text-xs text-editorial-secondary px-1">
             <span>
               {currentItems.length} de {currentDef.minSuggested} itens recomendados
             </span>
@@ -456,7 +456,7 @@ export const StepMoment1Circles: React.FC<StepMoment1CirclesProps> = ({
       </Card>
 
       {/* Lembrete Ético Mandatório */}
-      <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-500 dark:text-[#71717A] flex items-center gap-2">
+      <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-editorial-secondary flex items-center gap-2">
         <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
         <span>{IKIGAI_ETHICAL_REMINDER}</span>
       </div>

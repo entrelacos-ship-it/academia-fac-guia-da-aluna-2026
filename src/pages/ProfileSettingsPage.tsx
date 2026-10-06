@@ -278,41 +278,41 @@ export const ProfileSettingsPage: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <label className="text-[11px] font-mono uppercase text-slate-500 dark:text-[#71717A] block mb-1">
-                    Nome
-                  </label>
+                  <label className="text-[11px] font-mono uppercase text-editorial-secondary block mb-1">
+                    Nome Completo
+                  </label>{' '}
                   <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-sm font-medium text-slate-900 dark:text-white">
                     {currentUser?.name || 'Psicóloga / Aluna'}
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-mono uppercase text-slate-500 dark:text-[#71717A] block mb-1">
+                  <label className="text-[11px] font-mono uppercase text-editorial-secondary block mb-1">
                     E-mail de Acesso (Não editável)
                   </label>
                   <div className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs font-mono text-slate-700 dark:text-[#A1A1AA] flex items-center gap-2">
                     <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <span className="truncate">{currentUser?.email || 'Não informado'}</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 dark:text-[#71717A] mt-1">
+                  <p className="text-[11px] text-editorial-secondary mt-1">
                     O e-mail é a chave única da conta para sincronização dos cálculos e histórico.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-1">
                   <div>
-                    <label className="text-[11px] font-mono uppercase text-slate-500 dark:text-[#71717A] block mb-1">
-                      Papel
-                    </label>
+                    <label className="text-[11px] font-mono uppercase text-editorial-secondary block mb-1">
+                      Papel no Sistema
+                    </label>{' '}
                     <div className="p-2.5 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs font-mono capitalize">
                       {currentUser?.role === 'admin' ? 'Administradora' : 'Usuária / Aluna'}
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-mono uppercase text-slate-500 dark:text-[#71717A] block mb-1">
-                      Status da Conta
-                    </label>
+                    <label className="text-[11px] font-mono uppercase text-editorial-secondary block mb-1">
+                      E-mail da Conta
+                    </label>{' '}
                     <div className="p-2.5 rounded-[8px] bg-slate-50 dark:bg-[#0A0A14] border border-slate-200 dark:border-[#27272A] text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-semibold">
                       <span className="w-2 h-2 rounded-full bg-emerald-500" />
                       <span>Ativa</span>
@@ -549,7 +549,7 @@ export const ProfileSettingsPage: React.FC = () => {
           <p className="text-slate-800 dark:text-white font-medium">
             Entrelaços Psicologia · Academia Método FAC © 2026
           </p>
-          <p className="text-slate-400 dark:text-[#71717A]">
+          <p className="text-editorial-tertiary">
             Proteção e integridade de credenciais no Skip Cloud.
           </p>
         </div>

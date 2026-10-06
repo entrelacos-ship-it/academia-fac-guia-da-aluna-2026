@@ -48,10 +48,10 @@ export const BibliotecaPrompts: React.FC = () => {
                       {p.kicker} {p.numero}
                     </span>
                   </div>
-                  <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-slate-900 dark:text-white">
+                  <h4 className="font-serif-editorial text-xl sm:text-2xl font-normal text-editorial-primary">
                     {p.titulo}
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A1A1AA] italic">
+                  <p className="text-xs sm:text-sm text-editorial-secondary italic">
                     {p.momentoUso}
                   </p>
                 </div>
@@ -83,12 +83,12 @@ export const BibliotecaPrompts: React.FC = () => {
               </div>
 
               {/* Caixa com o texto do prompt */}
-              <div className="p-5 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A] text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line select-all">
+              <div className="p-5 rounded-[12px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200/80 dark:border-[#27272A] text-xs sm:text-sm font-mono text-editorial-primary leading-relaxed whitespace-pre-line select-all">
                 {p.texto}
               </div>
 
               {p.notaPosCopia && (
-                <p className="text-xs font-mono text-slate-500 dark:text-[#71717A] leading-relaxed">
+                <p className="text-xs font-mono text-editorial-secondary leading-relaxed">
                   <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">Nota: </span>
                   {p.notaPosCopia}
                 </p>

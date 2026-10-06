@@ -225,13 +225,11 @@ export const GuiaPage: React.FC = () => {
     <div className="space-y-4">
       <div className="p-4 sm:p-5 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs">
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#27272A] mb-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-editorial-primary flex items-center gap-1.5">
             <Compass className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
             <span>Trilha de Encontros</span>
           </span>
-          <span className="text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-            Ciclo de Formação
-          </span>
+          <span className="text-[11px] font-mono text-editorial-secondary">Ciclo de Formação</span>
         </div>
 
         {loadingEncontros ? (
@@ -260,9 +258,7 @@ export const GuiaPage: React.FC = () => {
                 </span>
                 <div className="truncate">
                   <p className="truncate font-medium">Aula Magna Aberta</p>
-                  <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
-                    06/10/2026
-                  </p>
+                  <p className="text-[10px] font-mono text-editorial-secondary">06/10/2026</p>
                 </div>
               </div>
               <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[9px] font-mono shrink-0">
@@ -297,7 +293,7 @@ export const GuiaPage: React.FC = () => {
                       </span>
                       <div className="truncate">
                         <p className="truncate font-medium">{enc.titulo}</p>
-                        <p className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
+                        <p className="text-[10px] font-mono text-editorial-secondary">
                           {enc.data_prevista || 'Em breve'}
                         </p>
                       </div>
@@ -321,7 +317,7 @@ export const GuiaPage: React.FC = () => {
                       ) : (
                         <Badge
                           variant="outline"
-                          className="text-[9px] font-mono text-slate-500 dark:text-[#71717A] border-slate-300 dark:border-[#3f3f46]"
+                          className="text-[9px] font-mono text-editorial-secondary border-slate-300 dark:border-[#3f3f46]"
                         >
                           Em breve
                         </Badge>
@@ -335,8 +331,8 @@ export const GuiaPage: React.FC = () => {
       </div>
 
       {/* Caixa de Aviso Pedagógico */}
-      <div className="p-4 sm:p-5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] space-y-2">
-        <p className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+      <div className="p-4 sm:p-5 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-xs text-editorial-secondary space-y-2">
+        <p className="font-semibold text-editorial-primary flex items-center gap-1.5">
           <HelpCircle className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
           Regras de Acesso Pedagógico
         </p>
@@ -436,14 +432,11 @@ export const GuiaPage: React.FC = () => {
       {/* Subcabeçalho / Breadcrumbs */}
       <div className="border-b border-slate-200 dark:border-[#27272A] bg-white/60 dark:bg-[#0A0A14]/60 backdrop-blur-xs py-2.5 px-3 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-[#A1A1AA] min-w-0">
-            <Link
-              to="/"
-              className="hover:text-slate-900 dark:hover:text-white transition-colors shrink-0"
-            >
+          <div className="flex items-center gap-1.5 text-editorial-secondary min-w-0">
+            <Link to="/" className="hover:text-editorial-primary transition-colors shrink-0">
               Academia
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <ChevronRight className="w-3.5 h-3.5 text-editorial-tertiary shrink-0" />
             <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold truncate">
               Guia da Aluna · Trilha do Ciclo
             </span>
@@ -478,17 +471,17 @@ export const GuiaPage: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
             <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
             <span>AULA MAGNA ABERTA</span>
-            <span className="text-slate-400 dark:text-[#71717A]">•</span>
-            <span className="text-slate-600 dark:text-[#A1A1AA]">ENCONTRO 1 · 06/10/2026</span>
+            <span className="text-editorial-tertiary">•</span>
+            <span className="text-editorial-secondary">ENCONTRO 1 · 06/10/2026</span>
           </div>
 
-          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.08]">
+          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-medium tracking-tight text-editorial-primary leading-[1.08]">
             O Chão da Clínica Sustentável & os Três Pilares FAC.
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-3xl mx-auto font-light">
+          <p className="text-sm sm:text-base md:text-lg text-editorial-secondary leading-relaxed max-w-3xl mx-auto font-light">
             A Aula 1 do Guia é gratuita e aberta a toda a categoria. Aqui você realiza o{' '}
-            <strong className="text-slate-900 dark:text-white font-medium">
+            <strong className="text-editorial-primary font-medium">
               Diagnóstico FAC Aprofundado — Versão 2
             </strong>
             , descobre a saúde dos seus pilares (Fundação, Atração, Conexão) e conhece os
@@ -575,15 +568,15 @@ export const GuiaPage: React.FC = () => {
 
             {/* Identificação do encontro em foco */}
             <div className="flex items-center gap-2 text-xs sm:text-[13px] font-mono">
-              <span className="text-slate-500 dark:text-[#71717A]">Visualizando:</span>
-              <span className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span className="text-editorial-secondary">Visualizando:</span>
+              <span className="font-semibold text-editorial-primary flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] animate-pulse" />
                 Encontro {encontroSelecionado} {encontroSelecionado === 1 ? '— Aula Magna' : ''}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500 dark:text-[#A1A1AA]">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-editorial-secondary">
             {!isSidebarOpen && (
               <span className="hidden lg:inline-flex items-center gap-1 text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/30 px-2 py-0.5 rounded-[6px] border border-purple-200 dark:border-purple-800/40">
                 <Maximize2 className="w-3 h-3" />
@@ -665,14 +658,14 @@ export const GuiaPage: React.FC = () => {
                     </div>
 
                     <div className="max-w-md mx-auto space-y-2">
-                      <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
+                      <h3 className="font-sans text-xl font-semibold text-editorial-primary">
                         {erroAcesso.tipo === 'suspensa'
                           ? 'Acesso Temporariamente Suspenso'
                           : erroAcesso.tipo === 'expirada'
                             ? 'Período da Turma Concluído'
                             : 'Encontro Exclusivo para Alunas'}
                       </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
+                      <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
                         {erroAcesso.mensagem}
                       </p>
                     </div>
@@ -711,13 +704,13 @@ export const GuiaPage: React.FC = () => {
                 ) : encontroDetalhe?.em_breve ? (
                   /* Encontro em Rascunho / Futuro */
                   <div className="p-8 sm:p-10 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md text-center space-y-4">
-                    <Badge className="bg-slate-100 dark:bg-[#27272A] text-slate-600 dark:text-[#A1A1AA] border-slate-200 dark:border-[#3f3f46] font-mono text-xs">
+                    <Badge className="bg-slate-100 dark:bg-[#27272A] text-editorial-secondary border-slate-200 dark:border-[#3f3f46] font-mono text-xs">
                       Em breve · Encontro {encontroDetalhe.numero}
                     </Badge>
-                    <h3 className="font-sans text-xl font-semibold text-slate-900 dark:text-white">
+                    <h3 className="font-sans text-xl font-semibold text-editorial-primary">
                       {encontroDetalhe.titulo}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] max-w-md mx-auto leading-relaxed">
+                    <p className="text-xs sm:text-sm text-editorial-secondary max-w-md mx-auto leading-relaxed">
                       O caderno e as atividades deste encontro serão liberados pela coordenação
                       pedagógica antes da data da aula ao vivo (
                       {encontroDetalhe.data_prevista || 'Em breve'}).
@@ -741,10 +734,10 @@ export const GuiaPage: React.FC = () => {
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                           Caderno Didático Exclusivo · Encontro {encontroDetalhe.numero}
                         </span>
-                        <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
+                        <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-editorial-primary">
                           {encontroDetalhe.titulo}
                         </h2>
-                        <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-1">
+                        <p className="text-xs font-mono text-editorial-secondary mt-1">
                           Data prevista: {encontroDetalhe.data_prevista}
                         </p>
                       </div>
@@ -764,7 +757,7 @@ export const GuiaPage: React.FC = () => {
                     {encontroDetalhe.conteudo?.secoes &&
                       encontroDetalhe.conteudo.secoes.length > 0 && (
                         <div className="space-y-5">
-                          <h3 className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
+                          <h3 className="font-sans text-lg sm:text-xl font-semibold text-editorial-primary">
                             Orientações & Atividades do Encontro
                           </h3>
                           <div className="grid grid-cols-1 gap-5">
@@ -773,10 +766,10 @@ export const GuiaPage: React.FC = () => {
                                 key={idx}
                                 className="p-6 sm:p-7 rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] space-y-2.5 shadow-2xs"
                               >
-                                <h4 className="font-sans font-semibold text-base sm:text-lg text-slate-900 dark:text-white">
+                                <h4 className="font-sans font-semibold text-base sm:text-lg text-editorial-primary">
                                   {sec.titulo}
                                 </h4>
-                                <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed whitespace-pre-line font-light">
+                                <p className="text-xs sm:text-sm md:text-base text-editorial-secondary leading-relaxed whitespace-pre-line font-light">
                                   {sec.texto}
                                 </p>
                               </div>
@@ -815,7 +808,7 @@ export const GuiaPage: React.FC = () => {
                     )}
 
                     {/* Aviso de gravações na plataforma da turma */}
-                    <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] flex items-start gap-2.5">
+                    <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-editorial-secondary flex items-start gap-2.5">
                       <PlayCircle className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C] shrink-0 mt-0.5" />
                       <span>
                         Gravações e entregas oficiais ficam hospedadas na plataforma da turma da

@@ -127,14 +127,12 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
             ×
           </button>
         </div>
-
         {/* Mensagem descritiva */}
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
+        <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
           {step === 'email'
             ? 'Digite o mesmo endereço de e-mail utilizado na sua inscrição da Academia. Enviaremos um código temporário de 6 dígitos para confirmar sua matrícula ativa.'
             : `Digite o código de 6 dígitos enviado para ${email}. Se não encontrar em alguns minutos, verifique a pasta de spam.`}
         </p>
-
         {/* Alerta de feedback */}
         {message && (
           <div
@@ -156,7 +154,6 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
             <span>{message.text}</span>
           </div>
         )}
-
         {/* Formulário Etapa 1: E-mail */}
         {step === 'email' && (
           <form onSubmit={handleSolicitarCodigo} className="space-y-4">
@@ -206,7 +203,6 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
             </div>
           </form>
         )}
-
         {/* Formulário Etapa 2: Código */}
         {step === 'codigo' && (
           <form onSubmit={handleConfirmarCodigo} className="space-y-4">
@@ -269,12 +265,11 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
             </div>
           </form>
         )}
-
         {/* Rodapé ético */}
-        <div className="pt-3 border-t border-slate-100 dark:border-[#27272A] text-[11px] font-mono text-slate-500 dark:text-[#71717A] flex items-center gap-1.5">
-          <HelpCircle className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <span>Comprou com outro e-mail? Fale com suporte@entrelacospsicologia.com.br</span>
-        </div>
+        <div className="pt-3 border-t border-slate-100 dark:border-[#27272A] text-[11px] font-mono text-editorial-secondary flex items-center gap-1.5">
+          <HelpCircle className="w-3.5 h-3.5 text-editorial-tertiary shrink-0" />
+          <span>Dúvidas com seu e-mail? Fale com a coordenação da Academia Entrelaços.</span>
+        </div>{' '}
       </div>
     </div>
   )

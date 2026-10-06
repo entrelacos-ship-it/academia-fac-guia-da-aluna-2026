@@ -284,7 +284,7 @@ export const HubPage: React.FC = () => {
               <span className="text-xs font-medium text-slate-900 dark:text-white truncate">
                 {currentUser?.name || 'Psicóloga'}
               </span>
-              <span className="text-[10px] font-mono text-slate-500 dark:text-[#A1A1AA] truncate -mt-0.5">
+              <span className="text-[10px] font-mono text-editorial-secondary truncate -mt-0.5">
                 {currentUser?.email}
               </span>
             </div>
@@ -349,16 +349,16 @@ export const HubPage: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50/90 dark:bg-[#18181B]/90 border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
                 <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                 <span>ACADEMIA ENTRELAÇOS</span>
-                <span className="text-slate-400 dark:text-[#71717A]">•</span>
-                <span className="text-slate-600 dark:text-[#A1A1AA]">MÉTODO FAC</span>
+                <span className="text-editorial-tertiary">•</span>
+                <span className="text-editorial-secondary">MÉTODO FAC</span>
               </div>
 
-              <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+              <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-editorial-primary leading-[1.1]">
                 Sua formação e prática integrada na{' '}
                 <span className="text-[#7c3aed] dark:text-[#C084FC] italic">Academia FAC</span>.
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+              <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
                 O Guia da Aluna conduz toda a trilha pedagógica da formação. No bloco Sistema você
                 acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os recursos de
                 apoio e estudo continuado.
@@ -452,13 +452,11 @@ export const HubPage: React.FC = () => {
                       </h2>
                     </div>
                   </div>
-
                   <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
                     {heroItem.descricao ||
                       'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), trilha completa de encontros, cadernos didáticos e validação do e-mail de compra para alunas da turma.'}
                   </p>
-
-                  <div className="flex flex-wrap gap-2 text-xs font-mono text-slate-600 dark:text-[#A1A1AA] pt-1">
+                  <div className="flex flex-wrap gap-2 text-xs font-mono text-editorial-secondary pt-1">
                     <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
                       ✓ Diagnóstico FAC 24 perguntas
                     </span>
@@ -466,9 +464,9 @@ export const HubPage: React.FC = () => {
                       ✓ Relatório PDF com radar
                     </span>
                     <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
-                      ✓ Cadernos Didáticos da Turma
+                      ✓ Acesso livre para toda a categoria
                     </span>
-                  </div>
+                  </div>{' '}
                 </div>
 
                 <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row lg:flex-col gap-2.5">
@@ -511,7 +509,7 @@ export const HubPage: React.FC = () => {
                     Aplicativos e recursos
                   </h3>
                 </div>
-                <p className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                <p className="text-xs font-mono text-editorial-secondary">
                   Launcher de ferramentas, aplicativos e skills exclusivas para alunas
                 </p>
               </div>
@@ -561,7 +559,7 @@ export const HubPage: React.FC = () => {
             {(() => {
               const currentCatObj = SISTEMA_CATEGORIAS.find((c) => c.id === activeSistemaCategory)
               return currentCatObj?.descricao ? (
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#A1A1AA] -mt-1 px-1">
+                <div className="flex items-center justify-between text-xs text-editorial-secondary -mt-1 px-1">
                   <span>{currentCatObj.descricao}</span>
                 </div>
               ) : null
@@ -664,16 +662,15 @@ export const HubPage: React.FC = () => {
 
                           {/* Título e Descrição */}
                           <div className="space-y-1.5 pt-1 min-w-0">
-                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
-                              {item.titulo}
+                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
+                              {item.title}
                             </h4>
-
                             <p
-                              title={item.descricao}
-                              className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
+                              title={item.description}
+                              className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
                             >
-                              {item.descricao}
-                            </p>
+                              {item.description}
+                            </p>{' '}
                           </div>
                         </div>
 
@@ -724,7 +721,7 @@ export const HubPage: React.FC = () => {
                   Material & Tutoriais
                 </h3>
               </div>
-              <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+              <span className="text-xs font-mono text-editorial-secondary">
                 Estudo continuado & referências
               </span>
             </div>
@@ -756,15 +753,14 @@ export const HubPage: React.FC = () => {
                           {item.rotulo_badge || 'Em breve'}
                         </Badge>
                       </div>
-
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl font-normal">
-                        {item.descricao}
-                      </p>
+                      <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed max-w-2xl font-normal">
+                        {item.description}
+                      </p>{' '}
                     </div>
 
                     <div className="shrink-0 flex items-center">
                       {isEmBreve ? (
-                        <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#71717A] py-1">
+                        <div className="flex items-center gap-2 text-xs font-mono text-editorial-secondary py-1">
                           <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                           <span>Coordenação Pedagógica</span>
                         </div>
@@ -794,7 +790,7 @@ export const HubPage: React.FC = () => {
           <p className="text-slate-800 dark:text-white font-medium">
             Entrelaços Psicologia — Academia & Método FAC · Astral System © 2026
           </p>
-          <p className="text-slate-400 dark:text-[#71717A]">
+          <p className="text-editorial-tertiary">
             Plataforma pedagógica e sistemas exclusivos para alunas da Academia.
           </p>
         </div>

@@ -240,10 +240,10 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
         <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           DEPOIS DO DIAGNÓSTICO / EXERCÍCIO OPCIONAL
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
+        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
           Meu primeiro passo no Ciclo FAC.
         </h3>
-        <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-editorial-secondary mt-2 leading-relaxed font-light">
           O diagnóstico mostra uma hipótese sobre a estrutura da sua prática. Este mapa ajuda você a
           transformar o resultado em uma escolha concreta para a semana. Traga os percentuais do
           diagnóstico, confira o pilar sugerido e escreva as demais respostas com suas palavras. Não
@@ -255,11 +255,11 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
       <div className="p-6 rounded-[14px] bg-purple-50/70 dark:bg-purple-950/25 border border-purple-200/80 dark:border-[#7c3aed]/40 space-y-3.5">
         <div className="flex items-center gap-2.5">
           <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-          <h4 className="font-sans font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
+          <h4 className="font-sans font-semibold text-sm sm:text-base text-editorial-primary">
             Comece pelo seu resultado
           </h4>
         </div>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed font-light">
           Se você concluiu o diagnóstico neste navegador, podemos trazer apenas os percentuais e o
           pilar de partida sugerido. Você decide se essa leitura faz sentido.
         </p>
@@ -301,7 +301,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
       {/* Dados de Identificação */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-2">
-          <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <label className="text-xs sm:text-sm font-mono font-medium text-editorial-secondary block">
             Seu nome
           </label>
           <input
@@ -309,12 +309,12 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.nome}
             onChange={(e) => setMapa((prev) => ({ ...prev, nome: e.target.value }))}
             placeholder="Seu nome ou como prefere ser chamada"
-            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
+          <label className="text-xs sm:text-sm font-mono font-medium text-editorial-secondary block">
             Data
           </label>
           <input
@@ -322,16 +322,16 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.data}
             onChange={(e) => setMapa((prev) => ({ ...prev, data: e.target.value }))}
             placeholder="Ex.: 06/10/2026"
-            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
 
         <div className="sm:col-span-2 space-y-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
+            <label className="text-xs sm:text-sm font-mono font-medium text-editorial-secondary block">
               Percentuais do Diagnóstico FAC
             </label>
-            <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+            <span className="text-xs font-mono text-editorial-tertiary">
               Use o botão acima ou copie os números do seu PDF. Você pode editar este campo.
             </span>
           </div>
@@ -340,7 +340,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             value={mapa.percentuais}
             onChange={(e) => setMapa((prev) => ({ ...prev, percentuais: e.target.value }))}
             placeholder="Fundação __% · Atração __% · Conexão __%"
-            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
+            className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 font-mono transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
           />
         </div>
       </div>
@@ -363,7 +363,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
 
           <div className="space-y-4 pt-1">
             <div className="space-y-2">
-              <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
+              <label className="text-xs sm:text-sm font-mono font-medium text-editorial-secondary block">
                 Pilar que vou observar primeiro:
               </label>
               <div className="flex flex-wrap gap-2.5">
@@ -377,7 +377,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                       className={`min-h-[42px] px-5 py-2 rounded-[10px] text-xs sm:text-sm font-mono transition-all cursor-pointer ${
                         isSel
                           ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14] font-semibold shadow-xs'
-                          : 'bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:border-[#7c3aed]/50'
+                          : 'bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-editorial-secondary hover:border-[#7c3aed]/50'
                       }`}
                     >
                       {p}
@@ -389,10 +389,10 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
 
             <div className="space-y-2">
               <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                <label className="text-xs sm:text-sm font-mono font-medium text-slate-700 dark:text-slate-300 block">
+                <label className="text-xs sm:text-sm font-mono font-medium text-editorial-secondary block">
                   O que acontece hoje que mostra isso?
                 </label>
-                <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                <span className="text-xs font-mono text-editorial-tertiary">
                   Prefira uma situação observável a "preciso melhorar tudo".
                 </span>
               </div>
@@ -401,7 +401,7 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
                 value={mapa.oQueAconteceHoje}
                 onChange={(e) => setMapa((prev) => ({ ...prev, oQueAconteceHoje: e.target.value }))}
                 placeholder="Ex.: Tenho dificuldade de explicar meu trabalho em uma frase."
-                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
+                className="w-full p-3 sm:p-3.5 rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-zinc-500 transition-colors focus:border-[#7c3aed] dark:focus:border-[#C084FC] focus:outline-hidden"
               />
             </div>
           </div>
@@ -660,14 +660,14 @@ export const MapaPessoal: React.FC<MapaPessoalProps> = ({ onAbrirDiagnostico }) 
             variant="ghost"
             size="sm"
             onClick={handleLimparRascunho}
-            className="min-h-[40px] px-3 font-mono text-xs text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-[8px] cursor-pointer"
+            className="min-h-[40px] px-3 font-mono text-xs text-editorial-tertiary hover:text-rose-600 dark:hover:text-rose-400 rounded-[8px] cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-1" />
             <span>Limpar rascunho</span>
           </Button>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-editorial-secondary">
           <ShieldAlert className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
           <span>Suas respostas ficam neste navegador. Não inclua dados de pacientes.</span>
         </div>

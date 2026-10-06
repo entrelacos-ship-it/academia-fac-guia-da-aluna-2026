@@ -37,7 +37,7 @@ export const CuboFacSelector: React.FC<CuboFacSelectorProps> = ({ onScrollToAnch
 
         {/* Botões seletores de Face */}
         <div className="inline-flex items-center p-1.5 rounded-[12px] bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] self-start sm:self-auto">
-          <span className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] px-3 hidden sm:inline">
+          <span className="text-xs font-mono text-editorial-secondary px-3 hidden sm:inline">
             Escolha uma face:
           </span>
           {(['F', 'A', 'C'] as const).map((letra) => {
@@ -51,7 +51,7 @@ export const CuboFacSelector: React.FC<CuboFacSelectorProps> = ({ onScrollToAnch
                 className={`min-h-[40px] px-4 py-2 rounded-[9px] text-xs sm:text-sm font-mono font-medium transition-all flex items-center gap-2 cursor-pointer ${
                   isSelected
                     ? 'bg-white dark:bg-[#27272A] text-slate-900 dark:text-white shadow-xs font-semibold border border-slate-200 dark:border-[#3f3f46]'
-                    : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
+                    : 'text-editorial-secondary hover:text-slate-900 dark:hover:text-white'
                 }`}
                 aria-pressed={isSelected}
               >
@@ -71,28 +71,26 @@ export const CuboFacSelector: React.FC<CuboFacSelectorProps> = ({ onScrollToAnch
           <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] px-2.5 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50">
             {current.kicker}
           </span>
-          <span className="text-xs font-mono text-slate-400 dark:text-[#71717A]">•</span>
-          <span className="text-xs sm:text-sm font-mono text-slate-500 dark:text-[#A1A1AA]">
+          <span className="text-xs font-mono text-editorial-tertiary">•</span>
+          <span className="text-xs sm:text-sm font-mono text-editorial-secondary">
             Pilar {current.pilar}
           </span>
         </div>
 
-        <h5 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white leading-snug">
+        <h5 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-editorial-primary leading-snug">
           "{current.pergunta}"
         </h5>
 
-        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
           {current.corpo}
         </p>
 
         <div className="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100 dark:border-[#1f1f23]">
-          <div className="text-xs sm:text-sm font-mono text-slate-600 dark:text-[#A1A1AA] flex items-center gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-[#71717A]">
+          <div className="text-xs sm:text-sm font-mono text-editorial-secondary flex items-center gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-editorial-tertiary">
               Peça possível:
             </span>
-            <span className="text-slate-800 dark:text-slate-200 font-medium">
-              {current.pecaPossivel}
-            </span>
+            <span className="text-editorial-primary font-medium">{current.pecaPossivel}</span>
           </div>
 
           <a

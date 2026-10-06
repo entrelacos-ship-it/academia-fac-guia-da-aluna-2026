@@ -1269,9 +1269,7 @@ export const AdminDashboard: React.FC = () => {
               <p className="text-xs font-semibold text-slate-900 dark:text-white">
                 {currentUser?.name || 'Administradora'}
               </p>
-              <p className="text-[10px] font-mono text-slate-500 dark:text-[#A1A1AA]">
-                {currentUser?.email}
-              </p>
+              <p className="text-[10px] font-mono text-editorial-secondary">{currentUser?.email}</p>
             </div>
             <Link
               to="/perfil"
@@ -1422,7 +1420,7 @@ export const AdminDashboard: React.FC = () => {
                     <Sparkles className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
                     Controle de Liberação das Peças do Hub
                   </h3>
-                  <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA] mt-0.5">
+                  <p className="text-xs font-mono text-editorial-secondary mt-0.5">
                     Ligue ou desligue módulos da Academia instantaneamente e personalize os rótulos
                     de status (ex.: &quot;Em construção&quot;, &quot;Em breve&quot;,
                     &quot;Disponível&quot;).
@@ -1467,7 +1465,7 @@ export const AdminDashboard: React.FC = () => {
                       <h4 className="font-sans text-sm font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
                         {blocoTitulo}
                       </h4>
-                      <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
+                      <span className="text-xs font-mono text-editorial-secondary">
                         {blocoDesc}
                       </span>
                     </div>
@@ -1497,7 +1495,7 @@ export const AdminDashboard: React.FC = () => {
                                   <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
                                     {item.titulo}
                                   </span>
-                                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-[4px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-500">
+                                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-[4px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-editorial-secondary">
                                     chave:{' '}
                                     <code className="text-[#7c3aed] dark:text-[#C084FC]">
                                       {item.chave}
@@ -1520,11 +1518,11 @@ export const AdminDashboard: React.FC = () => {
                                   )}
                                 </div>
 
-                                <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-3xl">
+                                <p className="text-xs text-editorial-secondary leading-relaxed max-w-3xl">
                                   {item.descricao || 'Sem descrição cadastrada.'}
                                 </p>
 
-                                <div className="text-[11px] font-mono text-slate-500 flex flex-wrap items-center gap-3 pt-0.5">
+                                <div className="text-[11px] font-mono text-editorial-secondary flex flex-wrap items-center gap-3 pt-0.5">
                                   <span>Ordem: #{item.ordem ?? '-'}</span>
                                   <span>Ícone: {item.icone || '-'}</span>
                                   {item.url && <span>Rota: {item.url}</span>}
@@ -1536,7 +1534,7 @@ export const AdminDashboard: React.FC = () => {
                                 {/* Campo editável para o rótulo do badge */}
                                 <div className="flex items-center gap-1.5 w-full sm:w-auto">
                                   <div className="flex flex-col">
-                                    <span className="text-[10px] font-mono uppercase text-slate-500 mb-0.5">
+                                    <span className="text-[10px] font-mono uppercase text-editorial-secondary mb-0.5">
                                       Rótulo do Badge
                                     </span>
                                     <div className="flex items-center gap-1">
@@ -1574,7 +1572,7 @@ export const AdminDashboard: React.FC = () => {
 
                                 {/* Botão Toggle com confirmação */}
                                 <div className="flex flex-col w-full sm:w-auto">
-                                  <span className="text-[10px] font-mono uppercase text-slate-500 mb-0.5">
+                                  <span className="text-[10px] font-mono uppercase text-editorial-secondary mb-0.5">
                                     Disponibilidade
                                   </span>
                                   <Button
@@ -1623,7 +1621,7 @@ export const AdminDashboard: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
               <Card className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px]">
                 <CardHeader className="pb-1">
-                  <CardTitle className="text-[11px] font-mono uppercase text-slate-500">
+                  <CardTitle className="text-[11px] font-mono uppercase text-editorial-secondary">
                     Total
                   </CardTitle>
                 </CardHeader>
@@ -1955,9 +1953,9 @@ export const AdminDashboard: React.FC = () => {
                                       />
                                     )}
                                   </p>
-                                  <p className="text-[11px] text-slate-500 dark:text-[#71717A]">
-                                    {mat.nome || 'Sem nome cadastrado'}
-                                  </p>
+                                  <p className="text-[11px] text-editorial-secondary">
+                                    {mat.nome ? mat.email : ''}
+                                  </p>{' '}
                                 </div>
                               </td>
 
@@ -2017,7 +2015,7 @@ export const AdminDashboard: React.FC = () => {
                                 </div>
                               </td>
 
-                              <td className="py-3 px-4 text-[11px] font-mono text-slate-500">
+                              <td className="py-3 px-4 text-[11px] font-mono text-editorial-secondary">
                                 <div>
                                   <span>{mat.origem || 'Painel'}</span>
                                   {mat.anotacao && (
@@ -2144,7 +2142,7 @@ export const AdminDashboard: React.FC = () => {
                             ({enc.data_prevista || 'Em breve'})
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 dark:text-[#71717A] mt-0.5">
+                        <p className="text-[11px] text-editorial-secondary mt-0.5">
                           Status atual: <strong className="uppercase">{enc.status}</strong>
                         </p>
                       </div>
@@ -2532,7 +2530,9 @@ export const AdminDashboard: React.FC = () => {
                             key={aud.id}
                             className="hover:bg-slate-100/70 dark:hover:bg-[#18181B]/80"
                           >
-                            <td className="py-3 px-4 text-slate-500">{formatDate(aud.created)}</td>
+                            <td className="py-3 px-4 text-editorial-secondary">
+                              {formatDate(aud.created)}
+                            </td>
                             <td className="py-3 px-4 font-semibold text-slate-900 dark:text-white">
                               {aud.operador}
                             </td>
@@ -2554,7 +2554,7 @@ export const AdminDashboard: React.FC = () => {
                             <td className="py-3 px-4 text-slate-700 dark:text-slate-300">
                               {aud.alvo || '-'}
                             </td>
-                            <td className="py-3 px-4 text-slate-500 text-[11px]">
+                            <td className="py-3 px-4 text-editorial-secondary text-[11px]">
                               <div>{aud.motivo || '-'}</div>
                               {aud.detalhes &&
                                 typeof aud.detalhes === 'object' &&

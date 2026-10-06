@@ -238,24 +238,21 @@ export const DiagnosticoFACSection: React.FC = () => {
     <div className="space-y-6">
       {/* Aviso de privacidade editorial */}
       <div className="p-4 rounded-xl border border-slate-200/70 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-900/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs print:hidden">
-        <div className="flex items-center gap-2 text-slate-600 dark:text-zinc-400">
+        <div className="flex items-center gap-2 text-editorial-secondary">
           <Shield className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
           <span>
-            <strong className="text-slate-900 dark:text-zinc-200 font-medium">
-              Privacidade local:
-            </strong>{' '}
-            Seus dados e respostas ficam salvos neste navegador. Baixe o PDF para arquivar seu
-            resultado.
+            <strong className="text-editorial-primary font-medium">Privacidade local:</strong> Seus
+            dados e respostas ficam salvos neste navegador. Baixe o PDF para arquivar seu resultado.
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Badge
             variant="outline"
-            className="text-[10px] font-mono border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-400 shrink-0"
+            className="text-[10px] font-mono border-slate-200 dark:border-zinc-800 text-editorial-secondary shrink-0"
           >
             Versão 2
           </Badge>
-          <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+          <span className="text-[11px] font-mono text-editorial-tertiary">
             24 Perguntas · 3 Pilares
           </span>
         </div>
@@ -268,10 +265,10 @@ export const DiagnosticoFACSection: React.FC = () => {
             <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Etapa Preparatória · Antes das 24 Perguntas
             </span>
-            <h3 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-slate-900 dark:text-zinc-100">
+            <h3 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-editorial-primary">
               Contexto da sua Prática Clínica Atual
             </h3>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-zinc-400 mt-2 font-light max-w-3xl">
+            <p className="text-sm sm:text-base text-editorial-secondary mt-2 font-light max-w-3xl">
               Essas respostas complementares não alteram a nota FAC. Elas enriquecem a
               contextualização e alimentam alertas sobre sua agenda.
             </p>
@@ -280,7 +277,7 @@ export const DiagnosticoFACSection: React.FC = () => {
           <div className="space-y-5 text-xs sm:text-sm">
             {/* Momento de Carreira */}
             <div className="space-y-2">
-              <label className="font-semibold text-slate-900 dark:text-white block">
+              <label className="font-semibold text-editorial-primary block">
                 1. Momento de carreira:
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -297,7 +294,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                     className={`p-3 rounded-[8px] border text-left cursor-pointer transition-all ${
                       contexto.momentoCarreira === momento
                         ? 'border-[#7c3aed] bg-purple-50 dark:bg-purple-950/40 font-semibold text-[#7c3aed] dark:text-[#C084FC]'
-                        : 'border-slate-200 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#121216] text-slate-700 dark:text-slate-300'
+                        : 'border-slate-200 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#121216] text-editorial-secondary'
                     }`}
                   >
                     {momento}
@@ -308,7 +305,7 @@ export const DiagnosticoFACSection: React.FC = () => {
 
             {/* Formas Atuais de Atendimento */}
             <div className="space-y-2">
-              <label className="font-semibold text-slate-900 dark:text-white block">
+              <label className="font-semibold text-editorial-primary block">
                 2. Formas atuais de atendimento (marque todas que você usa hoje):
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -337,7 +334,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                       className={`p-3 rounded-[8px] border text-left cursor-pointer transition-all ${
                         checked
                           ? 'border-[#7c3aed] bg-purple-50 dark:bg-purple-950/40 font-semibold text-[#7c3aed] dark:text-[#C084FC]'
-                          : 'border-slate-200 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#121216] text-slate-700 dark:text-slate-300'
+                          : 'border-slate-200 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#121216] text-editorial-secondary'
                       }`}
                     >
                       <span className="flex items-center gap-2">
@@ -470,7 +467,7 @@ export const DiagnosticoFACSection: React.FC = () => {
           </div>
 
           <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <span className="text-xs text-slate-500 text-center sm:text-left">
+            <span className="text-xs text-editorial-secondary text-center sm:text-left">
               Pronta para iniciar as 24 perguntas do Diagnóstico.
             </span>
             <Button
@@ -490,7 +487,7 @@ export const DiagnosticoFACSection: React.FC = () => {
           {/* Barra de progresso discreta das 24 perguntas */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-slate-500 dark:text-zinc-400">
+              <span className="text-editorial-secondary">
                 Questão {perguntaAtual} de 24 ({totalRespondidas} respondidas)
               </span>
               <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
@@ -512,11 +509,11 @@ export const DiagnosticoFACSection: React.FC = () => {
                 {perguntaObj.codigo}
               </span>
               <span className="text-slate-300 dark:text-zinc-700">•</span>
-              <span className="font-mono text-xs text-slate-500 dark:text-zinc-400">
+              <span className="font-mono text-xs text-editorial-secondary">
                 {perguntaObj.dimensaoNome}
               </span>
             </div>
-            <h4 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-normal text-slate-900 dark:text-zinc-100 leading-snug">
+            <h4 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-normal text-editorial-primary leading-snug">
               {perguntaObj.enunciado}
             </h4>
           </div>
@@ -532,15 +529,15 @@ export const DiagnosticoFACSection: React.FC = () => {
                   onClick={() => handleSelectOpcao(perguntaObj.id, opcao.valor)}
                   className={`w-full p-4 rounded-xl text-left text-xs sm:text-sm border transition-colors flex items-start gap-3.5 cursor-pointer ${
                     selecionada
-                      ? 'bg-purple-500/10 border-[#7c3aed]/50 dark:border-[#C084FC]/50 text-slate-900 dark:text-zinc-100 shadow-xs'
-                      : 'bg-white/50 dark:bg-zinc-900/30 border-slate-200/70 dark:border-zinc-800/70 text-slate-700 dark:text-zinc-300 hover:border-purple-300 dark:hover:border-zinc-700'
+                      ? 'bg-purple-500/10 border-[#7c3aed]/50 dark:border-[#C084FC]/50 text-editorial-primary shadow-xs'
+                      : 'bg-white/50 dark:bg-zinc-900/30 border-slate-200/70 dark:border-zinc-800/70 text-editorial-secondary hover:border-purple-300 dark:hover:border-zinc-700'
                   }`}
                 >
                   <span
                     className={`font-mono text-xs shrink-0 mt-0.5 ${
                       selecionada
                         ? 'font-bold text-[#7c3aed] dark:text-[#C084FC]'
-                        : 'text-slate-400 dark:text-zinc-500'
+                        : 'text-editorial-tertiary'
                     }`}
                   >
                     0{opcao.valor}
@@ -871,7 +868,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={handleLimparRascunho}
-                className="min-h-[44px] min-w-[44px] text-xs font-mono text-slate-500 hover:text-rose-600 rounded-[8px]"
+                className="min-h-[44px] min-w-[44px] text-xs font-mono text-editorial-secondary hover:text-rose-600 rounded-[8px]"
                 title="Reiniciar respostas"
                 aria-label="Reiniciar respostas do questionário"
               >
@@ -1001,7 +998,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-500 dark:text-zinc-400 max-w-xs leading-relaxed font-light">
+                  <p className="text-xs text-editorial-secondary max-w-xs leading-relaxed font-light">
                     A Média FAC utiliza a soma bruta das 24 respostas, sem pesos extras.
                   </p>
                 </div>
@@ -1009,7 +1006,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 {/* Coluna Direita: Radar FAC e Ordem dos Pilares */}
                 <div className="md:col-span-7 space-y-5">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-serif-editorial text-xl text-slate-900 dark:text-zinc-100">
+                    <h4 className="font-serif-editorial text-xl text-editorial-primary">
                       Radar da Tríade Clínica
                     </h4>
                     <span className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC]">
@@ -1030,10 +1027,10 @@ export const DiagnosticoFACSection: React.FC = () => {
                         className="p-3 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/40 dark:bg-zinc-900/30 text-center flex sm:flex-col items-center sm:justify-center justify-between"
                       >
                         <div className="text-left sm:text-center">
-                          <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 block">
+                          <span className="text-[10px] font-mono text-editorial-tertiary block">
                             0{idx + 1}
                           </span>
-                          <span className="text-xs font-serif-editorial text-slate-900 dark:text-zinc-100 block mt-0.5">
+                          <span className="text-xs font-serif-editorial text-editorial-primary block mt-0.5">
                             {p.nome}
                           </span>
                         </div>
@@ -1047,7 +1044,7 @@ export const DiagnosticoFACSection: React.FC = () => {
               </div>
 
               {/* Ressalva obrigatória */}
-              <div className="py-3 border-t border-slate-200/60 dark:border-zinc-800/60 text-xs text-slate-500 dark:text-zinc-400 font-light italic text-center">
+              <div className="py-3 border-t border-slate-200/60 dark:border-zinc-800/60 text-xs text-editorial-secondary font-light italic text-center">
                 {RESSALVA_PERCENTUAL}
               </div>
             </div>
@@ -1078,10 +1075,10 @@ export const DiagnosticoFACSection: React.FC = () => {
                 <h4 className="font-sans font-semibold text-sm text-slate-900 dark:text-white">
                   Relação entre os Pilares & Nuances de Proximidade
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
+                <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
                   {resultado.relacaoEntrePilares}
                 </p>
-                <p className="text-xs text-slate-500 pt-2 border-t border-slate-200 dark:border-[#27272A]">
+                <p className="text-xs text-editorial-secondary pt-2 border-t border-slate-200 dark:border-[#27272A]">
                   Esta análise descreve fielmente as respostas assinaladas, sem atribuir causa
                   individual e sem prometer resultado imediato de captação ou permanência de
                   pacientes.
@@ -1174,7 +1171,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-xs text-slate-500 italic">
+              <p className="text-xs text-editorial-secondary italic">
                 {resultado.porOndeComecar.motivoDimensoes}
               </p>
             </div>
@@ -1200,7 +1197,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                             {p.nivel.rotulo}
                           </Badge>
                         </div>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-editorial-secondary mt-0.5">
                           {p.nivel.descricao} · {p.soma}/32 pontos
                         </p>
                       </div>
@@ -1294,13 +1291,13 @@ export const DiagnosticoFACSection: React.FC = () => {
                           </p>
 
                           <div className="pt-2 border-t border-slate-100 dark:border-[#27272A] space-y-1">
-                            <span className="text-[10px] font-mono text-slate-400 block uppercase">
+                            <span className="text-[10px] font-mono text-editorial-tertiary block uppercase">
                               Alternativas marcadas:
                             </span>
-                            <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-snug">
+                            <p className="text-[11px] text-editorial-secondary leading-snug">
                               1. "{d.alternativasTextos[0]}"
                             </p>
-                            <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-snug">
+                            <p className="text-[11px] text-editorial-secondary leading-snug">
                               2. "{d.alternativasTextos[1]}"
                             </p>
                           </div>
@@ -1449,8 +1446,8 @@ export const DiagnosticoFACSection: React.FC = () => {
 
               {/* Disclaimer de Escopo Final */}
               <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] text-center space-y-1">
-                <p className="text-xs text-slate-500 italic">{RESSALVA_ESCOPO}</p>
-                <p className="text-[11px] font-mono text-slate-400">
+                <p className="text-xs text-editorial-secondary italic">{RESSALVA_ESCOPO}</p>
+                <p className="text-[11px] font-mono text-editorial-tertiary">
                   Seu rascunho e histórico ficam neste navegador. Baixe o PDF para guardar o
                   resultado.
                 </p>

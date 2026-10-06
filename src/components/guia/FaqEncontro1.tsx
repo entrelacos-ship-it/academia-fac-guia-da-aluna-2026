@@ -15,10 +15,10 @@ export const FaqEncontro1: React.FC = () => {
         <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           DÚVIDAS COMUNS
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
+        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
           Se algo travar.
         </h3>
-        <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-editorial-secondary mt-2 leading-relaxed font-light">
           Orientações rápidas sobre acesso, tempo do diagnóstico, perda da aula ao vivo e
           compartilhamento seguro do seu resultado.
         </p>
@@ -39,19 +39,19 @@ export const FaqEncontro1: React.FC = () => {
                 className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-[#18181B] transition-colors"
                 aria-expanded={isOpen}
               >
-                <span className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white flex items-center gap-3">
+                <span className="font-sans font-medium text-base sm:text-lg text-editorial-primary flex items-center gap-3">
                   <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] shrink-0" />
                   <span>{item.pergunta}</span>
                 </span>
                 <ChevronDown
-                  className={`w-4 h-4 text-slate-400 dark:text-[#71717A] shrink-0 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-editorial-tertiary shrink-0 transition-transform duration-200 ${
                     isOpen ? 'rotate-180 text-[#7c3aed] dark:text-[#C084FC]' : ''
                   }`}
                 />
               </button>
 
               {isOpen && (
-                <div className="px-6 pb-6 pt-3 text-sm sm:text-[15px] text-slate-600 dark:text-[#A1A1AA] leading-relaxed border-t border-slate-100 dark:border-[#1f1f23] animate-in fade-in duration-150 font-light">
+                <div className="px-6 pb-6 pt-3 text-sm sm:text-[15px] text-editorial-secondary leading-relaxed border-t border-slate-100 dark:border-[#1f1f23] animate-in fade-in duration-150 font-light">
                   {item.resposta}
                 </div>
               )}

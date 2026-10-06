@@ -57,10 +57,10 @@ export const SkillMentoraModal: React.FC<SkillMentoraModalProps> = ({
               Aluna Validada
             </Badge>
           </div>
-          <DialogTitle className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+          <DialogTitle className="font-serif-editorial text-2xl sm:text-3xl font-medium text-editorial-primary">
             Mentora do FAC — Instruções & Download
           </DialogTitle>
-          <DialogDescription className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] pt-1 leading-relaxed">
+          <DialogDescription className="text-xs sm:text-sm text-editorial-secondary pt-1 leading-relaxed">
             Skill completa em Markdown criada para alunas da Academia Método FAC. Você pode baixar o
             arquivo{' '}
             <code className="font-mono text-purple-700 dark:text-[#C084FC]">Mentora-FAC.md</code> ou
@@ -126,9 +126,9 @@ export const SkillMentoraModal: React.FC<SkillMentoraModalProps> = ({
         </div>
 
         {/* Rodapé informativo */}
-        <div className="p-4 px-5 sm:px-6 bg-slate-50 dark:bg-[#0f0c1a] border-t border-slate-100 dark:border-[#1e1b29] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-[#71717A]">
+        <div className="p-4 px-5 sm:px-6 bg-slate-50 dark:bg-[#0f0c1a] border-t border-slate-100 dark:border-[#1e1b29] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-editorial-secondary">
           <p className="text-[11px] leading-snug">
-            💡 Dica: No ChatGPT Plus, acrie um GPT Customizado ou use no campo de instruções
+            Dica: No ChatGPT Plus, crie um GPT Customizado ou use no campo de instruções
             personalizadas.
           </p>
           <Button

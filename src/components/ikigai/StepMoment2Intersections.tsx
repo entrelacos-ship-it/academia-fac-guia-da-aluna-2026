@@ -121,7 +121,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="font-mono text-[11px] font-bold text-slate-500 dark:text-[#71717A]">
+                <span className="font-mono text-[11px] font-bold text-editorial-secondary">
                   0{idx + 1}
                 </span>
                 {complete ? (
@@ -148,7 +148,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
                 {def.name}
               </div>
 
-              <div className="text-[11px] text-slate-500 dark:text-[#71717A] truncate">
+              <div className="text-[11px] text-editorial-secondary truncate">
                 {def.subtitle.replace('Encontro entre ', '')}
               </div>
 
@@ -354,7 +354,7 @@ export const StepMoment2Intersections: React.FC<StepMoment2IntersectionsProps> =
             >
               Ainda não encontrei esse encontro
             </label>
-            <p className="text-xs text-slate-500 dark:text-[#71717A] select-none">
+            <p className="text-xs text-editorial-secondary select-none">
               Isso é informação diagnóstica preciosa, não erro. O painel apontará essa lacuna para
               você trabalhar.
             </p>

@@ -390,7 +390,7 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
         {showMissionEditor && (
           <div className="space-y-3 pt-1 animate-fadeIn">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-editorial-secondary">
                 Sintetize quem você cuida, qual a transformação e como você intervém:
               </span>
               <Button
@@ -625,7 +625,7 @@ export const StepMoment3Panel: React.FC<StepMoment3PanelProps> = ({
               className="w-full justify-between border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#18181B] text-xs font-semibold min-h-[44px] rounded-[8px] cursor-pointer px-3"
             >
               <span className="flex items-center gap-2 truncate">
-                <Share2 className="w-4 h-4 text-slate-500 shrink-0" />
+                <Share2 className="w-4 h-4 text-editorial-secondary shrink-0" />
                 <span className="truncate">Copiar texto pronto para Comunidade</span>
               </span>
               {copiedCommunity ? (

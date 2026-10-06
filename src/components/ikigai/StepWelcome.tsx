@@ -56,7 +56,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
               <Clock className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-mono font-semibold uppercase text-slate-500 dark:text-[#71717A] block">
+              <span className="text-xs font-mono font-semibold uppercase text-editorial-secondary block">
                 Duração estimada
               </span>
               <span className="text-sm font-medium text-slate-900 dark:text-white">
@@ -70,7 +70,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-mono font-semibold uppercase text-slate-500 dark:text-[#71717A] block">
+              <span className="text-xs font-mono font-semibold uppercase text-editorial-secondary block">
                 Os 4 Círculos
               </span>
               <span className="text-sm font-medium text-slate-900 dark:text-white">
@@ -84,7 +84,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-mono font-semibold uppercase text-slate-500 dark:text-[#71717A] block">
+              <span className="text-xs font-mono font-semibold uppercase text-editorial-secondary block">
                 Sua Conta
               </span>
               <span className="text-sm font-medium text-slate-900 dark:text-white">
@@ -99,7 +99,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
             O que você leva ao finalizar:
           </h2>
-          <ul className="space-y-2 text-sm text-slate-600 dark:text-[#A1A1AA]">
+          <ul className="space-y-2 text-sm text-editorial-secondary">
             <li className="flex items-start gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
               <span>
@@ -132,7 +132,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
         </div>
 
         {/* Aviso de salvamento na nuvem da conta */}
-        <div className="p-3.5 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-600 dark:text-[#A1A1AA] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="p-3.5 rounded-[10px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-editorial-secondary flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-start sm:items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shrink-0 mt-1 sm:mt-0" />
             <span>
@@ -180,9 +180,7 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
       </Card>
 
       {/* Nota ética de rodapé */}
-      <p className="text-center text-xs font-mono text-slate-400 dark:text-[#71717A]">
-        {IKIGAI_WARNING_NOTE}
-      </p>
+      <p className="text-center text-xs font-mono text-editorial-tertiary">{IKIGAI_WARNING_NOTE}</p>
     </div>
   )
 }

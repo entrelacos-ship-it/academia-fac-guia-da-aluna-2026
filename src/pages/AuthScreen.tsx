@@ -220,7 +220,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             {mode === 'reset-token' && 'Definir Nova Senha'}
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 mt-2 max-w-[330px] font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-editorial-secondary mt-2 max-w-[330px] font-light leading-relaxed">
             {mode === 'login' && 'Acesse suas aplicações e mantenha seus cálculos sincronizados.'}
             {mode === 'signup' && 'Cadastre-se para acessar o ecossistema da Academia FAC.'}
             {mode === 'forgot' &&
@@ -228,7 +228,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             {mode === 'reset-token' && 'Digite sua nova senha de acesso à conta.'}
           </p>
         </div>
-
         {/* Feedback de status */}
         {statusMessage && (
           <div
@@ -251,7 +250,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <span className="flex-1 font-medium leading-relaxed">{statusMessage.text}</span>
           </div>
         )}
-
         {/* 1. MODO: LOGIN */}
         {mode === 'login' && (
           <form onSubmit={handleLogin} className="space-y-4 relative z-10">
@@ -338,7 +336,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               />
               <label
                 htmlFor="gate-remember-me"
-                className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] cursor-pointer select-none font-medium"
+                className="text-xs sm:text-[13px] text-editorial-secondary cursor-pointer select-none font-medium"
               >
                 Lembrar meu e-mail neste navegador
               </label>
@@ -374,7 +372,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
           </form>
         )}
-
         {/* 2. MODO: CADASTRO */}
         {mode === 'signup' && (
           <form onSubmit={handleSignup} className="space-y-3.5 relative z-10">
@@ -544,7 +541,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
           </form>
         )}
-
         {/* 3. MODO: ESQUECI MINHA SENHA */}
         {mode === 'forgot' && (
           <form onSubmit={handleForgotPassword} className="space-y-4 relative z-10">
@@ -621,7 +617,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
           </form>
         )}
-
         {/* 4. MODO: RESET TOKEN */}
         {mode === 'reset-token' && (
           <form onSubmit={handleResetWithToken} className="space-y-4 relative z-10">
@@ -763,18 +758,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </div>
           </form>
         )}
-
         {/* Rodapé LGPD & Segurança Ética */}
-        <div className="mt-6 pt-4 border-t border-slate-200/80 dark:border-[#27272A] text-[11px] sm:text-xs text-slate-600 dark:text-[#A1A1AA] flex items-start gap-2.5 leading-relaxed relative z-10 bg-slate-50/50 dark:bg-transparent -mx-2 px-2 py-2 rounded-lg">
-          <ShieldCheck className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0 mt-0.5" />
+        <div className="mt-6 pt-4 border-t border-slate-200/80 dark:border-[#27272A] text-[11px] sm:text-xs text-editorial-secondary flex items-start gap-2.5 leading-relaxed relative z-10 bg-slate-50/50 dark:bg-transparent -mx-2 px-2 py-2 rounded-lg">
+          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
           <span>
-            <strong className="text-slate-800 dark:text-slate-200 font-semibold">
-              LGPD & Privacidade Ética:
-            </strong>{' '}
-            Acesso criptografado e seguro. Seus cálculos são protegidos e nenhum dado de pacientes é
-            armazenado.
+            <strong className="text-editorial-primary font-semibold">Privacidade Clínica:</strong>{' '}
+            Seus dados locais são isolados e a sincronização em nuvem é opcional e protegida no
+            servidor da Entrelaços.
           </span>
-        </div>
+        </div>{' '}
       </div>
     </div>
   )
