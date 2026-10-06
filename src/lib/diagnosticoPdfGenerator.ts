@@ -50,6 +50,7 @@ const PALETTE = {
   slate700: [51, 65, 85] as [number, number, number], // #334155
   slate500: [100, 116, 139] as [number, number, number], // #64748b
   slate400: [148, 163, 184] as [number, number, number],
+  slate300: [203, 213, 225] as [number, number, number], // #cbd5e1
   slate200: [226, 232, 240] as [number, number, number],
   slate100: [241, 245, 249] as [number, number, number],
   slate50: [248, 250, 252] as [number, number, number],
@@ -672,14 +673,17 @@ export function buildDiagnosticoPdfDocument(
   // Box 2: Cuidado Clínico & Sustentação Ética
   const cuidBoxY = currentY
   const cuidBoxH = 30
-  doc.setFillColor(resultado.avisoCuidadoClinico ? PALETTE.amberLight : PALETTE.slate50)
-  doc.setDrawColor(resultado.avisoCuidadoClinico ? PALETTE.amber : PALETTE.slate200)
+  const cuidBg = resultado.avisoCuidadoClinico ? PALETTE.amberLight : PALETTE.slate50
+  const cuidBorder = resultado.avisoCuidadoClinico ? PALETTE.amber : PALETTE.slate200
+  doc.setFillColor(...cuidBg)
+  doc.setDrawColor(...cuidBorder)
   doc.setLineWidth(0.3)
   doc.roundedRect(marginX, cuidBoxY, contentWidth, cuidBoxH, 2, 2, 'FD')
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(8)
-  doc.setTextColor(resultado.avisoCuidadoClinico ? PALETTE.amber : PALETTE.primaryDark)
+  const cuidText = resultado.avisoCuidadoClinico ? PALETTE.amber : PALETTE.primaryDark
+  doc.setTextColor(...cuidText)
   doc.text('2. CUIDADO CLÍNICO & SUSTENTAÇÃO ÉTICA', marginX + 4, cuidBoxY + 5)
 
   const txtCond =
