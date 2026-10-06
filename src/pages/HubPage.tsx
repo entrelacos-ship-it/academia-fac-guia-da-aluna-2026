@@ -610,7 +610,7 @@ export const HubPage: React.FC = () => {
                           }
                         }}
                         aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                        className={`group relative text-left w-full min-h-[300px] sm:min-h-[320px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
+                        className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
                           isBlocked
                             ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
                             : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
@@ -677,28 +677,28 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        {/* Rodapé do Card: Ação de Launcher ou Download */}
-                        <div className="w-full pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between text-xs font-mono">
+                        {/* Rodapé do Card: Ação de Launcher ou Download — sem truncar texto, quebra em linhas se necessário */}
+                        <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
                           {isBlocked ? (
-                            <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300">
-                              <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                              <span className="truncate">
+                            <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
+                              <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                              <span className="break-words">
                                 Já sou aluna? Validar e-mail de matrícula
                               </span>
                             </div>
                           ) : isSkill ? (
-                            <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
-                              <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                              <span>Baixar Mentora-FAC</span>
+                            <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
+                              <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
+                              <span className="break-words">Baixar Mentora-FAC</span>
                             </div>
                           ) : (
-                            <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
-                              <span>Abrir app</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
+                            <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
+                              <span className="break-words">Abrir app</span>
+                              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                             </div>
                           )}
 
-                          <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 ml-1">
+                          <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
                             {isSkill ? 'Skill' : 'App'}
                           </span>
                         </div>

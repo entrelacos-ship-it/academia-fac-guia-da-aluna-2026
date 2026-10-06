@@ -36,7 +36,7 @@ export const FACSymbol: React.FC<{
     <div
       style={{ width: pixelSize, height: pixelSize }}
       className={cn(
-        'relative shrink-0 select-none aspect-square rounded-[9px] sm:rounded-[10px] overflow-hidden bg-black shadow-xs ring-1 ring-black/10 dark:ring-white/10 transition-transform duration-200',
+        'relative shrink-0 select-none aspect-square rounded-[9px] sm:rounded-[10px] overflow-hidden bg-slate-900/5 dark:bg-white/5 border border-purple-500/20 dark:border-purple-400/20 shadow-xs transition-transform duration-200 flex items-center justify-center p-0.5',
         glow && 'shadow-[0_0_12px_rgba(124,58,237,0.35)]',
         className,
       )}
@@ -44,7 +44,7 @@ export const FACSymbol: React.FC<{
       <img
         src={facLogoSrc}
         alt={alt}
-        className="w-full h-full object-cover select-none"
+        className="w-full h-full object-contain select-none mix-blend-screen contrast-125 rounded-[inherit]"
         loading="eager"
         decoding="async"
       />
@@ -98,11 +98,11 @@ export const FACLogo: React.FC<FACLogoProps> = ({
 
   return (
     <div className={cn('inline-flex items-center gap-2.5 select-none', className)}>
-      {/* Box arredondado com a logo oficial quadrada */}
+      {/* Box arredondado elegante sem o bloco preto sólido opaco */}
       <div
         className={cn(
           sizeMap.box,
-          'relative shrink-0 aspect-square overflow-hidden bg-black ring-1 ring-black/15 dark:ring-white/15 shadow-sm transition-transform duration-200 group-hover:scale-102 flex items-center justify-center p-0.5',
+          'relative shrink-0 aspect-square overflow-hidden bg-slate-900/5 dark:bg-white/5 border border-purple-500/20 dark:border-purple-400/20 shadow-xs transition-transform duration-200 group-hover:scale-102 flex items-center justify-center p-0.5',
         )}
       >
         <img
@@ -110,7 +110,7 @@ export const FACLogo: React.FC<FACLogoProps> = ({
           alt={alt}
           width={sizeMap.imgSize}
           height={sizeMap.imgSize}
-          className="w-full h-full object-cover rounded-[inherit] select-none"
+          className="w-full h-full object-contain rounded-[inherit] select-none mix-blend-screen contrast-125"
           loading="eager"
           decoding="async"
         />
