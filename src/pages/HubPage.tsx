@@ -422,10 +422,10 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 2. BLOCO SISTEMA: APLICATIVOS DO DIA A DIA (ESTILO EDITORIAL) ================= */}
+        {/* ================= 2. BLOCO SISTEMA: APLICATIVOS DO DIA A DIA (GRADE DE CARDS QUADRADOS / LAUNCHER) ================= */}
         {sistemaItems.length > 0 && (
-          <section aria-labelledby="secao-sistema" className="space-y-3 pt-2">
-            <div className="flex items-baseline justify-between pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
+          <section aria-labelledby="secao-sistema" className="space-y-4 pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                 <h3
@@ -436,88 +436,101 @@ export const HubPage: React.FC = () => {
                 </h3>
               </div>
               <span className="text-xs font-mono text-slate-500 dark:text-[#71717A]">
-                Ferramentas de trabalho contínuo
+                Launcher de ferramentas e aplicações de trabalho contínuo
               </span>
             </div>
 
-            <div className="divide-y divide-slate-200/80 dark:divide-[#221f2d] bg-white dark:bg-[#0c0a14] rounded-[14px] border border-slate-200/80 dark:border-[#221f2d] overflow-hidden">
+            {/* Grade responsiva de cards quadrados / botões launcher de apps */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
               {sistemaItems.map((item, idx) => {
                 const IconComponent = ICON_MAP[item.icone || ''] || Cpu
                 const isBlocked = item.exclusivo_alunas && !isAlunaValidada
+                const isEmBreve =
+                  item.rotulo_badge?.toLowerCase().includes('breve') ||
+                  item.rotulo_badge?.toLowerCase().includes('construção')
 
                 return (
-                  <div
+                  <button
                     key={item.id}
-                    className="p-5 sm:p-6 editorial-row flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors"
+                    type="button"
+                    onClick={() => handleItemClick(item)}
+                    aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                    className={`group relative text-left w-full h-full p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] ${
+                      isBlocked
+                        ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
+                        : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
+                    }`}
                   >
-                    <div className="space-y-2 flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="font-mono text-xs text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                    {/* Topo do Card: Ícone em destaque, índice e selo de status */}
+                    <div className="w-full space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        {/* Ícone quadrado do aplicativo */}
+                        <div
+                          className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
+                            isBlocked
+                              ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
+                              : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                          }`}
+                        >
+                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </div>
+
+                        {/* Índice numérico sutil */}
+                        <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
                           0{idx + 1}
                         </span>
-                        <div className="w-7 h-7 rounded-[6px] bg-purple-50 dark:bg-[#1a1429] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                          <IconComponent className="w-4 h-4" />
-                        </div>
-                        <h4 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white">
+                      </div>
+
+                      {/* Selo / Badge */}
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        {isBlocked ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                            <Lock className="w-2.5 h-2.5" />
+                            <span>Exclusivo alunas</span>
+                          </span>
+                        ) : isEmBreve ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
+                            <Clock className="w-2.5 h-2.5" />
+                            <span>{item.rotulo_badge || 'Em breve'}</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                            {item.rotulo_badge || 'Disponível'}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Título e Descrição do App */}
+                      <div className="space-y-1.5 pt-1">
+                        <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
                           {item.titulo}
                         </h4>
-                        {isBlocked ? (
-                          <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono tracking-wider uppercase flex items-center gap-1">
-                            <Lock className="w-3 h-3" />
-                            <span>Alunas</span>
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono tracking-wider uppercase">
-                            {item.rotulo_badge || 'Disponível'}
-                          </Badge>
-                        )}
-                      </div>
 
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-2xl font-normal">
-                        {item.descricao}
-                      </p>
-
-                      <div className="pt-1 flex flex-wrap gap-2 text-[11px] font-mono text-slate-500 dark:text-[#71717A]">
-                        {item.chave === 'calculadora' && (
-                          <>
-                            <span>· Piso ético real</span>
-                            <span>· Simulador fiscal 2025</span>
-                            <span>· Planejamento e cenários</span>
-                          </>
-                        )}
-                        {item.chave === 'ikigai' && (
-                          <>
-                            <span>· 4 círculos reflexivos</span>
-                            <span>· Diagnóstico de vazios</span>
-                            <span>· Exportação PNG / PDF / IA</span>
-                          </>
-                        )}
+                        <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3 font-normal">
+                          {item.descricao}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="shrink-0 flex items-center">
+                    {/* Rodapé do Card: Destaques pontuais e Ação de Launcher */}
+                    <div className="w-full pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between text-xs font-mono">
                       {isBlocked ? (
-                        <Button
-                          onClick={() => handleItemClick(item)}
-                          variant="outline"
-                          size="sm"
-                          className="w-full sm:w-auto min-h-[44px] gap-1.5 font-mono text-xs border-amber-300 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-[8px]"
-                        >
-                          <Lock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                        <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium">
+                          <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                           <span>Validar Matrícula</span>
-                        </Button>
+                        </div>
                       ) : (
-                        <Button
-                          onClick={() => handleItemClick(item)}
-                          size="sm"
-                          className="w-full sm:w-auto min-h-[44px] px-5 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-medium text-xs font-mono rounded-[8px]"
-                        >
-                          <span>Acessar {item.titulo.split(' ')[0]}</span>
+                        <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
+                          <span>Abrir app</span>
                           <ArrowRight className="w-3.5 h-3.5" />
-                        </Button>
+                        </div>
                       )}
+
+                      <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider">
+                        App
+                      </span>
                     </div>
-                  </div>
+                  </button>
                 )
               })}
             </div>
