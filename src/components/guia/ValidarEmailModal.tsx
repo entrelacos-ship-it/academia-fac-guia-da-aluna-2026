@@ -123,7 +123,7 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 dark:hover:text-white text-lg font-mono leading-none"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white text-xl font-mono leading-none rounded-[8px]"
             aria-label="Fechar"
           >
             ×
@@ -174,7 +174,7 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
                   placeholder="seu.email@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-9 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] rounded-[8px] h-10"
+                  className="pl-9 text-sm bg-slate-50 dark:bg-[#0A0A14] border-slate-200 dark:border-[#27272A] rounded-[8px] min-h-[44px] h-11"
                 />
               </div>
             </div>

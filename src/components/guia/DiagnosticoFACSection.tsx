@@ -464,13 +464,13 @@ export const DiagnosticoFACSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] flex items-center justify-between">
-            <span className="text-xs text-slate-500">
+          <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <span className="text-xs text-slate-500 text-center sm:text-left">
               Pronta para iniciar as 24 perguntas do Diagnóstico.
             </span>
             <Button
               onClick={() => setEtapaFluxo('perguntas')}
-              className="bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-semibold gap-1.5 rounded-[8px]"
+              className="bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-semibold gap-1.5 rounded-[8px] min-h-[44px] justify-center"
             >
               <span>Iniciar 24 Perguntas</span>
               <ArrowRight className="w-4 h-4" />
@@ -629,7 +629,7 @@ export const DiagnosticoFACSection: React.FC = () => {
           )}
 
           {/* Navegação entre perguntas */}
-          <div className="pt-4 flex items-center justify-between border-t border-slate-200 dark:border-[#27272A]">
+          <div className="pt-4 flex flex-wrap items-center justify-between gap-2.5 border-t border-slate-200 dark:border-[#27272A]">
             <Button
               variant="outline"
               size="sm"
@@ -640,7 +640,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                   setPerguntaAtual((prev) => Math.max(1, prev - 1))
                 }
               }}
-              className="gap-1 font-mono text-xs rounded-[8px]"
+              className="min-h-[44px] px-3 gap-1 font-mono text-xs rounded-[8px]"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Anterior</span>
@@ -650,9 +650,9 @@ export const DiagnosticoFACSection: React.FC = () => {
               {perguntasCompletas && (
                 <Button
                   onClick={() => setEtapaFluxo(cuidadoPreenchido ? 'resultado' : 'cuidado_clinico')}
-                  className="bg-[#ea580c] hover:bg-[#c2410c] text-white font-semibold text-xs rounded-[8px]"
+                  className="bg-[#ea580c] hover:bg-[#c2410c] text-white font-semibold text-xs rounded-[8px] min-h-[44px] px-3"
                 >
-                  {cuidadoPreenchido ? 'Ver Resultado Completo' : 'Avançar para Cuidado Clínico'}
+                  {cuidadoPreenchido ? 'Ver Resultado' : 'Cuidado Clínico →'}
                 </Button>
               )}
 
@@ -661,7 +661,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => setPerguntaAtual((prev) => Math.min(24, prev + 1))}
-                  className="gap-1 font-mono text-xs rounded-[8px]"
+                  className="min-h-[44px] px-3 gap-1 font-mono text-xs rounded-[8px]"
                 >
                   <span>Próxima</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -821,16 +821,18 @@ export const DiagnosticoFACSection: React.FC = () => {
               </h3>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleCopiarResumoComunidade}
-                className="gap-1.5 font-mono text-xs border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] rounded-[8px]"
+                className="min-h-[44px] sm:min-h-0 sm:h-9 flex-1 sm:flex-none gap-1.5 font-mono text-xs border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] rounded-[8px]"
                 title="Compartilhar apenas ordem dos pilares e título"
               >
                 <Share2 className="w-3.5 h-3.5" />
-                <span>{copiadoComunidade ? 'Copiado!' : 'Resumo p/ Comunidade'}</span>
+                <span className="truncate">
+                  {copiadoComunidade ? 'Copiado!' : 'Resumo Comunidade'}
+                </span>
               </Button>
 
               <Button
@@ -838,7 +840,7 @@ export const DiagnosticoFACSection: React.FC = () => {
                 size="sm"
                 onClick={handleBaixarPdf}
                 disabled={isGerandoPdf}
-                className="gap-1.5 font-mono text-xs bg-[#7c3aed] hover:bg-[#6d28d9] text-white rounded-[8px] shadow-sm disabled:opacity-60 cursor-pointer"
+                className="min-h-[44px] sm:min-h-0 sm:h-9 flex-1 sm:flex-none gap-1.5 font-mono text-xs bg-[#7c3aed] hover:bg-[#6d28d9] text-white rounded-[8px] shadow-sm disabled:opacity-60 cursor-pointer"
                 title="Gera o arquivo diagnostico-fac-aprofundado.pdf em A4 com gráficos vetoriais"
               >
                 {isGerandoPdf ? (
@@ -858,21 +860,22 @@ export const DiagnosticoFACSection: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={handleImprimirNavegador}
-                className="gap-1.5 font-mono text-xs border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 rounded-[8px]"
+                className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 font-mono text-xs border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 rounded-[8px]"
                 title="Abre a tela de impressão rápida do navegador (Ctrl+P / Cmd+P)"
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span>Imprimir</span>
+                <span className="hidden sm:inline">Imprimir</span>
               </Button>
 
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleLimparRascunho}
-                className="text-xs font-mono text-slate-500 hover:text-rose-600"
+                className="min-h-[44px] min-w-[44px] text-xs font-mono text-slate-500 hover:text-rose-600 rounded-[8px]"
                 title="Reiniciar respostas"
+                aria-label="Reiniciar respostas do questionário"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
+                <RotateCcw className="w-4 h-4" />
               </Button>
             </div>
           </div>
@@ -1020,19 +1023,21 @@ export const DiagnosticoFACSection: React.FC = () => {
                     conexao={resultado.pilares.conexao.percentual}
                   />
 
-                  <div className="grid grid-cols-3 gap-2 pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
                     {resultado.pilaresOrdenados.map((p, idx) => (
                       <div
                         key={p.id}
-                        className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-center"
+                        className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-center flex sm:flex-col items-center sm:justify-center justify-between"
                       >
-                        <span className="text-[10px] font-mono text-slate-500 block">
-                          {idx + 1}º Lugar
-                        </span>
-                        <strong className="text-xs text-slate-900 dark:text-white block mt-0.5">
-                          {p.nome}
-                        </strong>
-                        <span className="text-sm font-mono font-bold text-[#7c3aed] dark:text-[#C084FC]">
+                        <div className="text-left sm:text-center">
+                          <span className="text-[10px] font-mono text-slate-500 block">
+                            {idx + 1}º Lugar
+                          </span>
+                          <strong className="text-xs text-slate-900 dark:text-white block mt-0.5">
+                            {p.nome}
+                          </strong>
+                        </div>
+                        <span className="text-base sm:text-sm font-mono font-bold text-[#7c3aed] dark:text-[#C084FC]">
                           {p.percentual}%
                         </span>
                       </div>

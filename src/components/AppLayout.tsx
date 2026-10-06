@@ -260,10 +260,10 @@ export const AppLayout: React.FC<LayoutProps> = ({
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden h-9 w-9 text-slate-800 dark:text-white rounded-[8px]"
-              aria-label="Abrir menu de navegação"
+              className="lg:hidden min-h-[44px] min-w-[44px] h-11 w-11 text-slate-800 dark:text-white rounded-[8px]"
+              aria-label={mobileMenuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
         </div>
@@ -364,21 +364,22 @@ export const AppLayout: React.FC<LayoutProps> = ({
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex print:hidden">
             <div
-              className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-xs"
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <div className="relative w-80 max-w-[85vw] bg-white dark:bg-[#0A0A14] border-r border-slate-200 dark:border-[#27272A] h-full shadow-2xl p-6 flex flex-col z-10 overflow-y-auto">
+            <div className="relative w-84 max-w-[88vw] bg-white dark:bg-[#0A0A14] border-r border-slate-200 dark:border-[#27272A] h-full shadow-2xl p-5 flex flex-col z-10 overflow-y-auto">
               <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-[#27272A] mb-4">
-                <span className="font-sans font-semibold text-lg text-slate-900 dark:text-white">
+                <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
                   Passos da Calculadora
                 </span>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="h-8 w-8 text-slate-500 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white"
+                  className="min-h-[44px] min-w-[44px] h-10 w-10 text-slate-500 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white rounded-[8px]"
+                  aria-label="Fechar menu"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
               <div className="space-y-2 flex-1">
@@ -390,7 +391,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                     <button
                       key={step.index}
                       onClick={() => handleStepClick(step.index)}
-                      className={`w-full text-left p-3 rounded-[12px] flex items-center gap-3 transition-colors border ${
+                      className={`w-full text-left p-3 min-h-[48px] rounded-[12px] flex items-center gap-3 transition-colors border ${
                         isCurrent
                           ? 'bg-purple-50 dark:bg-[#18181B] border-[#7c3aed] dark:border-[#C084FC] text-slate-900 dark:text-white font-medium'
                           : isPast
@@ -444,20 +445,20 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 {/* Links Rápidos Mobile: Hub, Retrato e Perfil/Senha */}
                 <a
                   href="/"
-                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-800 dark:text-white font-mono text-xs rounded-[8px]"
                 >
                   HUB DA ACADEMIA
                 </a>
                 <a
                   href="/perfil"
-                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
                 >
                   <KeyRound className="w-4 h-4" />
                   PERFIL & TROCA DE SENHA
                 </a>
                 <a
                   href="/guia/retrato-de-autoria"
-                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs rounded-[8px]"
+                  className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-xs rounded-[8px]"
                 >
                   RETRATO DE AUTORIA (GUIA)
                 </a>
@@ -465,7 +466,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 {currentUser?.role === 'admin' && (
                   <a
                     href="/admin"
-                    className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 bg-purple-100/70 dark:bg-purple-950/40 border border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
+                    className="w-full flex items-center justify-center gap-2 min-h-[44px] px-3 py-2.5 bg-purple-100/70 dark:bg-purple-950/40 border border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs rounded-[8px] font-semibold"
                   >
                     <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                     PAINEL ADMINISTRATIVO
@@ -509,7 +510,7 @@ export const AppLayout: React.FC<LayoutProps> = ({
                   <LogOut className="w-4 h-4" />
                   SAIR DO SISTEMA
                 </Button>
-              </div>{' '}
+              </div>
             </div>
           </div>
         )}

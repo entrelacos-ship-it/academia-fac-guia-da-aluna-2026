@@ -197,42 +197,40 @@ export const GuiaPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <Button
               variant="outline"
               size="sm"
               onClick={() => navigate('/')}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] rounded-[8px] text-xs font-mono font-semibold"
+              className="min-h-[44px] h-10 px-2.5 sm:px-3 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] rounded-[8px] text-xs font-mono font-semibold"
             >
               <ArrowLeft className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              <span className="hidden sm:inline">HUB DA ACADEMIA</span>
+              <span className="hidden sm:inline">HUB</span>
             </Button>
 
             {/* Atalho Perfil e Senha */}
             <Link
               to="/perfil"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              className="inline-flex items-center gap-1.5 p-2 sm:px-2.5 sm:py-1.5 min-h-[44px] rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
               title="Acessar Perfil e Alterar Senha"
+              aria-label="Perfil e Senha"
             >
               <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-              <span className="hidden sm:inline">PERFIL & SENHA</span>
+              <span className="hidden sm:inline">PERFIL</span>
             </Link>
 
             {/* Status da Aluna / Botão Validar E-mail */}
             {isAlunaValidada ? (
               <div
-                className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-[8px] bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs font-mono"
+                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs font-mono"
                 title={`Matrícula Ativa: ${alunaSession?.email}`}
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Aluna:</span>
-                <span className="text-slate-700 dark:text-slate-300 truncate max-w-[120px]">
-                  {alunaSession?.email}
-                </span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Aluna</span>
                 <button
                   type="button"
                   onClick={handleSairSessaoAluna}
-                  className="text-rose-500 hover:text-rose-700 ml-1 text-[11px]"
+                  className="text-rose-500 hover:text-rose-700 ml-1 text-[11px] underline"
                   title="Desconectar e-mail de aluna deste navegador"
                 >
                   Sair
@@ -243,10 +241,11 @@ export const GuiaPage: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setValidarModalOpen(true)}
-                className="min-h-[44px] sm:min-h-0 sm:h-9 gap-1.5 border-purple-300 dark:border-[#7c3aed]/50 bg-purple-50 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-100 dark:hover:bg-[#27272A] rounded-[8px] text-xs font-mono font-semibold"
+                className="min-h-[44px] h-10 px-2.5 sm:px-3 gap-1 border-purple-300 dark:border-[#7c3aed]/50 bg-purple-50 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-100 dark:hover:bg-[#27272A] rounded-[8px] text-xs font-mono font-semibold"
               >
-                <ShieldCheck className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-                <span>JÁ SOU ALUNA</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                <span className="hidden xs:inline">JÁ SOU ALUNA</span>
+                <span className="xs:hidden">ALUNA</span>
               </Button>
             )}
 
@@ -254,7 +253,7 @@ export const GuiaPage: React.FC = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="h-9 w-9 text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
+              className="h-10 w-10 min-h-[44px] min-w-[44px] text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
               aria-label={theme === 'light' ? 'Modo escuro' : 'Modo claro'}
             >
               {theme === 'light' ? (
@@ -268,31 +267,34 @@ export const GuiaPage: React.FC = () => {
       </header>
 
       {/* Subcabeçalho / Breadcrumbs */}
-      <div className="border-b border-slate-200 dark:border-[#27272A] bg-white/60 dark:bg-[#0A0A14]/60 backdrop-blur-xs py-3 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-[#A1A1AA]">
-            <Link to="/" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+      <div className="border-b border-slate-200 dark:border-[#27272A] bg-white/60 dark:bg-[#0A0A14]/60 backdrop-blur-xs py-2.5 px-3 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-[#A1A1AA] min-w-0">
+            <Link
+              to="/"
+              className="hover:text-slate-900 dark:hover:text-white transition-colors shrink-0"
+            >
               Academia
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
-              Guia da Aluna · Percurso dos 19 Encontros
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold truncate">
+              Guia da Aluna · 19 Encontros
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {isAlunaValidada && (
-              <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+              <span className="hidden sm:inline-flex text-emerald-600 dark:text-emerald-400 font-semibold items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Matrícula Ativa ({alunaSession?.ciclo || 'Ciclo 2026'})
+                Matrícula Ativa
               </span>
             )}
             <button
               type="button"
               onClick={() => setExibirSkillRetrato(!exibirSkillRetrato)}
-              className="text-[#ea580c] dark:text-[#FB923C] hover:underline cursor-pointer"
+              className="text-[#ea580c] dark:text-[#FB923C] hover:underline cursor-pointer min-h-[36px] flex items-center"
             >
-              {exibirSkillRetrato ? '← Voltar ao Guia da Aluna' : 'Skill Retrato de Autoria →'}
+              {exibirSkillRetrato ? '← Guia da Aluna' : 'Retrato de Autoria →'}
             </button>
           </div>
         </div>

@@ -29,7 +29,6 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
-import { HeroMagicCube, CanvasErrorBoundary } from '@/components/hub/HeroMagicCube'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -156,19 +155,19 @@ export const HubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg">
       {/* Topbar Fixa Astral */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0A0A14]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <Link
               to="/"
-              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90 min-w-0 shrink"
               aria-label="Página inicial da Academia Entrelaços"
             >
               <FACLogo size="md" subtitle="Academia Entrelaços" />
             </Link>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Indicador de Matrícula de Aluna */}
             {isAlunaValidada ? (
               <div
@@ -185,21 +184,23 @@ export const HubPage: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setValidarModalOpen(true)}
-                className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono gap-1.5 border-purple-200 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[8px]"
+                className="min-h-[44px] h-10 px-2.5 sm:px-3 text-xs font-mono gap-1 border-purple-200 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[8px]"
               >
                 <Lock className="w-3.5 h-3.5" />
-                <span>Já sou aluna</span>
+                <span className="hidden xs:inline">Já sou aluna</span>
+                <span className="xs:hidden">Aluna</span>
               </Button>
             )}
 
             {/* Identificação de Usuária e Atalho Perfil */}
             <Link
               to="/perfil"
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              className="inline-flex items-center gap-1.5 p-2 sm:px-2.5 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
               title="Acessar Perfil e Alterar Senha"
+              aria-label="Perfil e Senha"
             >
               <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-              <span>PERFIL & SENHA</span>
+              <span className="hidden md:inline">PERFIL & SENHA</span>
             </Link>
 
             <div
@@ -217,7 +218,7 @@ export const HubPage: React.FC = () => {
             {currentUser?.role === 'admin' && (
               <a
                 href="/admin"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+                className="inline-flex items-center gap-1.5 p-2 sm:px-2.5 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
                 title="Painel de Administração FAC"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
@@ -229,7 +230,7 @@ export const HubPage: React.FC = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="h-9 w-9 text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
+              className="h-10 w-10 min-h-[44px] min-w-[44px] text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
               aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
             >
               {theme === 'light' ? (
@@ -241,17 +242,18 @@ export const HubPage: React.FC = () => {
 
             <Button
               variant="ghost"
-              size="sm"
+              size="icon"
               onClick={() => {
                 logout()
                 AlunaGuiaService.clearLocalSession()
                 window.location.href = '/login'
               }}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 gap-1 px-2.5 hidden md:inline-flex rounded-[8px]"
+              className="min-h-[44px] min-w-[44px] h-10 w-10 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-[8px] sm:w-auto sm:px-2.5 sm:gap-1"
               title="Encerrar sessão e voltar ao login"
+              aria-label="Sair da conta"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>SAIR</span>
+              <span className="hidden sm:inline text-xs font-mono font-medium">SAIR</span>
             </Button>
           </div>
         </div>
@@ -312,11 +314,34 @@ export const HubPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Lado Direito: O Cubo Mágico 3D que monta com o scroll */}
-            <div className="lg:col-span-5 flex items-center justify-center pt-2 lg:pt-0">
-              <CanvasErrorBoundary>
-                <HeroMagicCube className="w-full" />
-              </CanvasErrorBoundary>
+            {/* Lado Direito: Percurso dos 3 Pilares e Destaque Metodológico (sem cubo 3D) */}
+            <div className="lg:col-span-5 flex flex-col justify-center space-y-3 pt-2 lg:pt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
+                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
+                    Pilar 1 · Fundação
+                  </span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
+                    Custo de vida real, reserva ética e piso mínimo sustentável da sessão.
+                  </p>
+                </div>
+                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block">
+                    Pilar 2 · Atração
+                  </span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
+                    Posicionamento ético, autoridade técnica e fluxo consistente de pacientes.
+                  </p>
+                </div>
+                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">
+                    Pilar 3 · Conexão
+                  </span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
+                    Primeira consulta acolhedora, contrato clínico e retenção ética continuada.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
