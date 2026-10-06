@@ -374,24 +374,11 @@ const CubeScene: React.FC<{
     return map
   }, [])
 
-  // Limpeza segura de recursos Three ao desmontar
-  useEffect(() => {
-    return () => {
-      // Executa o descarte em macro/microtask assíncrono para permitir que o reconciliador
-      // R3F desmonte com segurança todos os nós e nós-filhos do container sem tentar
-      // acessar nós ou estruturas internas já descartadas concorrentemente.
-      setTimeout(() => {
-        try {
-          baseGeometry.dispose()
-          stickerGeometry.dispose()
-          bodyMaterial.dispose()
-          Object.values(stickerMaterialsMap).forEach((mat) => mat.dispose())
-        } catch {
-          // No-op para evitar falhas silenciosas na desmontagem
-        }
-      }, 0)
-    }
-  }, [baseGeometry, stickerGeometry, bodyMaterial, stickerMaterialsMap])
+  // Não fazemos dispose() manual em useEffect de geometrias/materiais compartilhados aqui:
+  // no ciclo de commit/unmount do R3F em conjunto com React 19, chamar dispose() enquanto nós
+  // ou containers estão sendo desmontados invalida referências internas e desencadeia
+  // "Cannot convert undefined or null to object" durante removeChild / removeChildFromContainer.
+  // Deixamos a gestão de memória segura a cargo do próprio ciclo de vida do contexto WebGL.
 
   // Ângulo isométrico similar à imagem de referência:
   // Cubo visto ligeiramente de cima e da direita (ex: rotação X de ~22º, rotação Y de ~-38º, rotação Z leve)
@@ -446,7 +433,7 @@ const CubeScene: React.FC<{
 }
 
 // Error Boundary resiliente exclusivo para o Canvas 3D para isolar qualquer falha WebGL/R3F
-class CanvasErrorBoundary extends React.Component<
+export class CanvasErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback?: React.ReactNode },
   { hasError: boolean }
 > {
@@ -470,7 +457,6 @@ class CanvasErrorBoundary extends React.Component<
     return this.props.children
   }
 }
-
 export interface HeroMagicCubeProps {
   className?: string
 }
@@ -479,8 +465,14 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
   const containerRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef(0)
   const targetProgressRef = useRef(0)
+  const [hasMounted, setHasMounted] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+
+  // Garantir montagem isolada apenas no cliente após primeiro commit do React
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   // Detectar preferência de movimento reduzido (acessibilidade)
   useEffect(() => {
@@ -563,49 +555,51 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
       {/* Canvas 3D envolto com ErrorBoundary */}
       <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[360px] sm:h-[360px] md:w-[400px] md:h-[400px] lg:w-[440px] lg:h-[440px] relative pointer-events-none">
         <CanvasErrorBoundary>
-          <Canvas
-            dpr={[1, 2]} // Performance otimizada: cap em 2x retina
-            camera={{ position: [0, 0, 7.8], fov: 42 }}
-            gl={{
-              antialias: true,
-              alpha: true,
-              powerPreference: 'high-performance',
-              toneMapping: THREE.ACESFilmicToneMapping,
-              toneMappingExposure: 1.15,
-            }}
-            className="pointer-events-none"
-          >
-            {/* Iluminação de estúdio profissional */}
-            {/* Luz ambiente suave com tom arroxeado frio */}
-            <ambientLight intensity={0.9} color="#d8b4fe" />
+          {hasMounted && (
+            <Canvas
+              dpr={[1, 2]} // Performance otimizada: cap em 2x retina
+              camera={{ position: [0, 0, 7.8], fov: 42 }}
+              gl={{
+                antialias: true,
+                alpha: true,
+                powerPreference: 'high-performance',
+                toneMapping: THREE.ACESFilmicToneMapping,
+                toneMappingExposure: 1.15,
+              }}
+              className="pointer-events-none"
+            >
+              {/* Iluminação de estúdio profissional */}
+              {/* Luz ambiente suave com tom arroxeado frio */}
+              <ambientLight intensity={0.9} color="#d8b4fe" />
 
-            {/* Key Light principal: topo direito com tom lilás branco potente */}
-            <directionalLight
-              position={[5, 8, 6]}
-              intensity={2.5}
-              color="#ffffff"
-              castShadow
-              shadow-mapSize={[1024, 1024]}
-              shadow-bias={-0.0001}
-            />
+              {/* Key Light principal: topo direito com tom lilás branco potente */}
+              <directionalLight
+                position={[5, 8, 6]}
+                intensity={2.5}
+                color="#ffffff"
+                castShadow
+                shadow-mapSize={[1024, 1024]}
+                shadow-bias={-0.0001}
+              />
 
-            {/* Fill Light: lado esquerdo inferior com tom violeta da marca */}
-            <directionalLight position={[-6, -3, 3]} intensity={1.6} color="#9333ea" />
+              {/* Fill Light: lado esquerdo inferior com tom violeta da marca */}
+              <directionalLight position={[-6, -3, 3]} intensity={1.6} color="#9333ea" />
 
-            {/* Rim Light / Back Light: atrás do cubo para recortar as bordas de plástico escuro */}
-            <pointLight position={[0, 4, -5]} intensity={2.8} color="#c084fc" distance={15} />
+              {/* Rim Light / Back Light: atrás do cubo para recortar as bordas de plástico escuro */}
+              <pointLight position={[0, 4, -5]} intensity={2.8} color="#c084fc" distance={15} />
 
-            {/* Luz frontal suave para realçar o adesivo de destaque lilás */}
-            <pointLight position={[0, 0, 6]} intensity={1.3} color="#e9d5ff" distance={12} />
+              {/* Luz frontal suave para realçar o adesivo de destaque lilás */}
+              <pointLight position={[0, 0, 6]} intensity={1.3} color="#e9d5ff" distance={12} />
 
-            {/* O Cubo Mágico Montável */}
-            <CubeScene
-              progressRef={progressRef}
-              targetProgressRef={targetProgressRef}
-              reducedMotion={reducedMotion}
-              isHovered={isHovered}
-            />
-          </Canvas>
+              {/* O Cubo Mágico Montável */}
+              <CubeScene
+                progressRef={progressRef}
+                targetProgressRef={targetProgressRef}
+                reducedMotion={reducedMotion}
+                isHovered={isHovered}
+              />
+            </Canvas>
+          )}
         </CanvasErrorBoundary>
       </div>
 

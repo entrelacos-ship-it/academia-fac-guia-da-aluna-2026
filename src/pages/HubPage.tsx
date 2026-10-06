@@ -29,7 +29,7 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
-import { HeroMagicCube } from '@/components/hub/HeroMagicCube'
+import { HeroMagicCube, CanvasErrorBoundary } from '@/components/hub/HeroMagicCube'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -314,7 +314,9 @@ export const HubPage: React.FC = () => {
 
             {/* Lado Direito: O Cubo Mágico 3D que monta com o scroll */}
             <div className="lg:col-span-5 flex items-center justify-center pt-2 lg:pt-0">
-              <HeroMagicCube className="w-full" />
+              <CanvasErrorBoundary>
+                <HeroMagicCube className="w-full" />
+              </CanvasErrorBoundary>
             </div>
           </div>
         </div>
