@@ -26,6 +26,7 @@ import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useCloudSync } from '@/hooks/useCloudSync'
+import pb from '@/lib/pocketbase/client'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import { AlunaGuiaService, AlunaSession } from '@/services/alunaGuiaService'
 import { HubService, HubItem } from '@/services/hubService'
@@ -73,8 +74,11 @@ export const HubPage: React.FC = () => {
     AlunaGuiaService.getLocalSession(),
   )
 
+  // Conta verificada (verified = true no PocketBase) OU matrícula ativa local OU admin
   const isAlunaValidada =
-    (!!alunaSession && alunaSession.status === 'ativa') || currentUser?.role === 'admin'
+    currentUser?.role === 'admin' ||
+    currentUser?.verified === true ||
+    (!!alunaSession && alunaSession.status === 'ativa')
 
   // Carregar os itens do hub no backend
   useEffect(() => {
@@ -515,9 +519,9 @@ export const HubPage: React.FC = () => {
                     {/* Rodapé do Card: Destaques pontuais e Ação de Launcher */}
                     <div className="w-full pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between text-xs font-mono">
                       {isBlocked ? (
-                        <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium">
+                        <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300">
                           <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                          <span>Validar Matrícula</span>
+                          <span>Já sou aluna? Validar e-mail de matrícula</span>
                         </div>
                       ) : (
                         <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform">
@@ -526,7 +530,7 @@ export const HubPage: React.FC = () => {
                         </div>
                       )}
 
-                      <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider">
+                      <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 ml-1">
                         App
                       </span>
                     </div>
@@ -629,13 +633,33 @@ export const HubPage: React.FC = () => {
       {/* Modais */}
       <ValidarEmailModal
         isOpen={validarModalOpen}
-        onClose={() => setValidarModalOpen(false)}
+        onClose={() => {
+          setValidarModalOpen(false)
+          setItemBloqueadoClicado(null)
+        }}
         defaultEmail={currentUser?.email || ''}
-        onSuccess={(aluna) => {
+        onSuccess={async (aluna) => {
           setAlunaSession(aluna)
-          // Se estava tentando abrir a Calculadora, redireciona agora que validou
-          if (itemBloqueadoClicado?.toLowerCase().includes('calculadora')) {
+
+          // Atualizar o authStore local se a usuária logada tiver o mesmo e-mail validado
+          try {
+            if (pb.authStore.isValid && pb.authStore.model) {
+              const currentEmail = (pb.authStore.model.email || '').toLowerCase()
+              if (currentEmail === aluna.email.toLowerCase()) {
+                await pb.collection('users').authRefresh()
+              }
+            }
+          } catch {
+            // ignore
+          }
+
+          const target = itemBloqueadoClicado?.toLowerCase() || ''
+          setItemBloqueadoClicado(null)
+
+          if (target.includes('calculadora')) {
             navigate('/calculadora')
+          } else if (target.includes('ikigai')) {
+            navigate('/ikigai')
           }
         }}
       />

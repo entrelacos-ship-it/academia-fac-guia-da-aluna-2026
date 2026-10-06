@@ -217,7 +217,8 @@ export const GuiaPage: React.FC = () => {
   }
 
   // Verifica se o encontro 1 deve mostrar a variante pública ou com complementos
-  const isAlunaValidada = !!alunaSession && alunaSession.status === 'ativa'
+  const isAlunaValidada =
+    isAdmin || currentUser?.verified === true || (!!alunaSession && alunaSession.status === 'ativa')
 
   // Componente interno reutilizável da lista da trilha de encontros (usado tanto no desktop quanto no mobile sheet)
   const renderTrilhaContent = (isMobileSheet = false) => (

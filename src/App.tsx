@@ -33,10 +33,10 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return <>{children}</>
 }
 
-// Componente de proteção para APPs exclusivos de alunas (Calculadora)
-// Exige conta conectada E (matrícula de aluna validada ou perfil de admin)
+// Componente de proteção para APPs exclusivos de alunas (Calculadora, Meu IKIGAI)
+// Exige conta conectada E (matrícula de aluna validada, usuário com verified ou perfil de admin)
 const AlunaRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isConnected, isAdmin } = useCloudSync()
+  const { isConnected, isAdmin, currentUser } = useCloudSync()
   const location = useLocation()
 
   if (!isConnected) {
@@ -52,11 +52,17 @@ const AlunaRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return <>{children}</>
   }
 
-  // Verifica se possui sessão de aluna ativa no navegador
+  // Se a conta de usuária já estiver verificada (ex: após fluxo Já sou aluna)
+  if (currentUser?.verified) {
+    return <>{children}</>
+  }
+
+  // Verifica se possui sessão de aluna ativa no navegador (token de matrícula ativa)
   const aluna = AlunaGuiaService.getLocalSession()
   if (!aluna || aluna.status !== 'ativa') {
-    // Redireciona para o Hub inicial com mensagem/estado para validar
-    return <Navigate to="/?motivo=exclusivo_aluna" replace />
+    // Redireciona acolhedoramente para o Hub inicial com flag para abrir o modal de validação
+    const nomeRecurso = location.pathname.includes('ikigai') ? 'ikigai' : 'calculadora'
+    return <Navigate to={`/?motivo=exclusivo_aluna&recurso=${nomeRecurso}`} replace />
   }
 
   return <>{children}</>
@@ -114,21 +120,21 @@ const AppRoutes = () => {
         />
         {/* Guia da Aluna da Academia Método FAC (Acesso aberto para Aula 1 / validação para alunas) */}
         <Route path="/guia" element={<GuiaPage />} />
-        {/* App Meu IKIGAI da Academia Método FAC */}
+        {/* App Meu IKIGAI da Academia Método FAC (Exclusivo para alunas da Academia) */}
         <Route
           path="/ikigai"
           element={
-            <ProtectedRoute>
+            <AlunaRoute>
               <IkigaiPage />
-            </ProtectedRoute>
+            </AlunaRoute>
           }
         />
         <Route
           path="/ikigai/*"
           element={
-            <ProtectedRoute>
+            <AlunaRoute>
               <IkigaiPage />
-            </ProtectedRoute>
+            </AlunaRoute>
           }
         />
         {/* Configurações da Conta & Troca de Senha */}

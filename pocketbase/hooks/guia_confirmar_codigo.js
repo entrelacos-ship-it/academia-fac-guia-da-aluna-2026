@@ -126,7 +126,21 @@ routerAdd('POST', '/backend/v1/fac/guia/confirmar-codigo', (e) => {
     })
   }
 
-  // 3. Gerar token assinado de sessão de aluna (JWT com 7 dias de validade)
+  // 3. Atualizar a conta users correspondente (se existir) com verified = true
+  let userAccountUpdated = false
+  try {
+    const userRec = $app.findAuthRecordByEmail('_pb_users_auth_', rawEmail)
+    if (userRec) {
+      userRec.setVerified(true)
+      userRec.set('is_active', true)
+      $app.save(userRec)
+      userAccountUpdated = true
+    }
+  } catch (_) {
+    // Se a usuária ainda não criou conta no app de precificação, a matrícula segue validada
+  }
+
+  // 4. Gerar token assinado de sessão de aluna (JWT com 7 dias de validade)
   const jwtSecret =
     $secrets.get('PB_SUPERUSER_TOKEN') || 'entrelacos-fac-aluna-session-token-secret-key-2026'
   const payload = {
@@ -138,9 +152,11 @@ routerAdd('POST', '/backend/v1/fac/guia/confirmar-codigo', (e) => {
   }
   const token = $security.createJWT(payload, jwtSecret, 7 * 24 * 3600)
 
-  // Auditoria
+  // 5. Auditoria de confirmação de código e de verificação de e-mail da aluna
   try {
     const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
+
+    // Evento de confirmação de código com sucesso
     const auditRec = new Record(auditCol)
     auditRec.set('operador', rawEmail)
     auditRec.set('acao', 'confirmar_codigo_sucesso')
@@ -148,6 +164,18 @@ routerAdd('POST', '/backend/v1/fac/guia/confirmar-codigo', (e) => {
     auditRec.set('motivo', 'Validação com sucesso de matrícula da aluna')
     auditRec.set('detalhes', { ciclo: matricula.getString('ciclo') })
     $app.save(auditRec)
+
+    // Evento específico exigido: email_aluna_verificado com operador sistema_guia
+    const auditVerif = new Record(auditCol)
+    auditVerif.set('operador', 'sistema_guia')
+    auditVerif.set('acao', 'email_aluna_verificado')
+    auditVerif.set('alvo', rawEmail)
+    auditVerif.set('motivo', 'E-mail de aluna verificado via fluxo Já sou aluna')
+    auditVerif.set('detalhes', {
+      ciclo: matricula.getString('ciclo'),
+      conta_usuario_atualizada: userAccountUpdated,
+    })
+    $app.save(auditVerif)
   } catch (_) {}
 
   return e.json(200, {
@@ -160,6 +188,7 @@ routerAdd('POST', '/backend/v1/fac/guia/confirmar-codigo', (e) => {
       status: 'ativa',
       ciclo: matricula.getString('ciclo') || 'Ciclo FAC 2026',
       token: token,
+      verified: true,
     },
   })
 })

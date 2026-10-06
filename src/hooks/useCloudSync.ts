@@ -17,6 +17,7 @@ export interface CloudUserState {
   name?: string
   role?: 'admin' | 'user' | string
   is_active?: boolean
+  verified?: boolean
 }
 
 export function useCloudSync() {
@@ -28,6 +29,8 @@ export function useCloudSync() {
         email: pb.authStore.model.email || '',
         name: record.name as string | undefined,
         role: (record.role as string | undefined) || 'user',
+        is_active: record.is_active !== false,
+        verified: record.verified === true,
       }
     }
     return null
@@ -71,6 +74,7 @@ export function useCloudSync() {
           name: record.name as string | undefined,
           role: (record.role as string | undefined) || 'user',
           is_active: record.is_active !== false,
+          verified: record.verified === true,
         })
       } else {
         setCurrentUser(null)
@@ -134,6 +138,7 @@ export function useCloudSync() {
           name: authData.record.name,
           role: (record.role as string | undefined) || 'user',
           is_active: record.is_active !== false,
+          verified: record.verified === true,
         })
         setStatusMessage({
           type: 'success',
@@ -181,6 +186,7 @@ export function useCloudSync() {
           password: pass,
           passwordConfirm: finalConfirm,
           name: name?.trim() || 'Psicóloga',
+          is_active: true,
         })
         // Realiza login imediato após cadastro
         const authData = await pb.collection('users').authWithPassword(email.trim(), pass)
@@ -190,6 +196,8 @@ export function useCloudSync() {
           email: authData.record.email || '',
           name: authData.record.name,
           role: (record.role as string | undefined) || 'user',
+          is_active: true,
+          verified: record.verified === true,
         })
         setStatusMessage({
           type: 'success',
