@@ -77,55 +77,55 @@ export const IkigaiWorkflow: React.FC = () => {
 
   return (
     <div className="w-full space-y-6">
-      {/* Barra de Progresso e Navegação Superior */}
+      {/* Barra de Progresso e Navegação Superior Editorial */}
       {currentStep > 0 && (
-        <div className="astral-card p-4 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-[#7c3aed] dark:text-[#C084FC]">
-                ETAPA {currentStep} DE {STEPS_CONFIG.length - 1}
+              <span className="font-mono text-[#7c3aed] dark:text-[#C084FC] font-medium">
+                0{currentStep} / 0{STEPS_CONFIG.length - 1}
               </span>
-              <span className="text-slate-400">•</span>
-              <span className="font-semibold text-slate-800 dark:text-slate-200">
+              <span className="text-slate-300 dark:text-zinc-700">•</span>
+              <span className="font-serif-editorial text-sm sm:text-base text-slate-900 dark:text-zinc-100">
                 {STEPS_CONFIG[currentStep]?.title}
               </span>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {/* Botão Apresentação */}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setPresentationOpen(true)}
-                className="min-h-[44px] sm:min-h-0 sm:h-8 text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#1f1f23] px-2.5 cursor-pointer"
+                className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-500/10 px-2.5 rounded-lg"
                 title="Abrir tela limpa da facilitadora"
               >
                 <Presentation className="w-3.5 h-3.5 mr-1" />
                 <span>Modo Apresentação</span>
               </Button>
 
-              {/* Botão Recomeçar com Diálogo de Confirmação */}
+              {/* Botão Recomeçar */}
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <button
                     type="button"
-                    className="min-h-[44px] sm:min-h-0 px-2 py-1 text-xs font-mono text-rose-500 hover:text-rose-600 transition-colors cursor-pointer inline-flex items-center"
+                    className="px-2 py-1 text-xs font-mono text-muted-foreground hover:text-rose-500 transition-colors cursor-pointer"
                   >
                     Recomeçar
                   </button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="w-[92vw] max-w-lg bg-white dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] rounded-[16px] p-5 sm:p-6 max-h-[90vh] overflow-y-auto">
+                <AlertDialogContent className="w-[92vw] max-w-lg bg-background border border-border/80 rounded-2xl p-5 sm:p-6">
                   <AlertDialogHeader>
-                    <AlertDialogTitle className="text-base sm:text-lg">
+                    <AlertDialogTitle className="font-serif-editorial text-xl">
                       Deseja recomeçar seu IKIGAI do zero?
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-xs sm:text-sm">
+                    <AlertDialogDescription className="text-xs sm:text-sm text-muted-foreground font-light">
                       Isso limpará os círculos, encontros e a declaração preenchida. Seus dados na
                       nuvem serão reiniciados para novo preenchimento.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="flex flex-col-reverse sm:flex-row gap-2 mt-4">
-                    <AlertDialogCancel className="cursor-pointer min-h-[44px] text-xs font-mono">
+                    <AlertDialogCancel className="cursor-pointer text-xs font-mono rounded-lg">
                       Cancelar
                     </AlertDialogCancel>
                     <AlertDialogAction
@@ -133,7 +133,7 @@ export const IkigaiWorkflow: React.FC = () => {
                         resetToEmpty()
                         setStep(1)
                       }}
-                      className="bg-rose-600 hover:bg-rose-700 text-white cursor-pointer min-h-[44px] text-xs font-mono"
+                      className="bg-rose-600 hover:bg-rose-700 text-white cursor-pointer text-xs font-mono rounded-lg"
                     >
                       Sim, recomeçar
                     </AlertDialogAction>
@@ -143,10 +143,10 @@ export const IkigaiWorkflow: React.FC = () => {
             </div>
           </div>
 
-          <Progress value={progressPercentage} className="h-1.5" />
+          <Progress value={progressPercentage} className="h-1 bg-slate-100 dark:bg-zinc-800" />
 
-          {/* Atalhos Rápidos para Voltar a Qualquer Etapa dos 3 Momentos */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-none text-xs font-mono -mx-1 px-1">
+          {/* Atalhos Rápidos */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 scrollbar-none text-xs font-mono">
             {STEPS_CONFIG.map((s) => {
               const isCurrent = s.id === currentStep
               const isPassed = s.id < currentStep
@@ -154,12 +154,12 @@ export const IkigaiWorkflow: React.FC = () => {
                 <button
                   key={s.id}
                   onClick={() => setStep(s.id)}
-                  className={`px-3.5 py-2.5 min-h-[44px] sm:min-h-[36px] sm:py-1.5 rounded-[10px] shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-lg shrink-0 transition-colors cursor-pointer flex items-center gap-1.5 ${
                     isCurrent
-                      ? 'bg-[#7c3aed] text-white font-bold shadow-xs'
+                      ? 'bg-[#7c3aed] text-white font-medium shadow-xs'
                       : isPassed
-                        ? 'bg-purple-50 dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-100 dark:hover:bg-[#27272A]'
-                        : 'bg-slate-100 dark:bg-[#18181B] text-slate-400 dark:text-[#71717A] hover:text-slate-700'
+                        ? 'bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-500/20'
+                        : 'bg-muted/40 text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <span>{s.short}</span>

@@ -103,27 +103,25 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6">
-        {/* Cabeçalho */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-md bg-background rounded-2xl border border-border/80 shadow-lg overflow-hidden p-6 sm:p-8 space-y-6">
+        {/* Cabeçalho Editorial */}
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-[10px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shadow-xs">
-              <ShieldCheck className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
-            </div>
-            <div>
-              <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-                Validar E-mail de Compra
-              </h3>
-              <p className="text-xs font-mono text-slate-500 dark:text-[#A1A1AA]">
-                Acesso Exclusivo à Academia Método FAC
-              </p>
-            </div>
+          <div>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
+              Guia da Aluna · Acesso
+            </span>
+            <h3 className="font-serif-editorial text-2xl font-normal text-foreground mt-0.5">
+              Validar E-mail de Matrícula
+            </h3>
+            <p className="text-xs text-muted-foreground font-light mt-1">
+              Exclusivo para alunas matriculadas na Academia Método FAC
+            </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white text-xl font-mono leading-none rounded-[8px]"
+            className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground text-lg rounded-lg"
             aria-label="Fechar"
           >
             ×

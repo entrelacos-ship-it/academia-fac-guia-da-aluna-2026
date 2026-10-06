@@ -28,42 +28,43 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
   onOpenTour,
 }) => {
   return (
-    <div className="space-y-10 py-6 max-w-3xl mx-auto">
-      {/* Hero Astral — display-lg Inter 64px/1.04 weight 500 */}
+    <div className="space-y-12 py-8 max-w-3xl mx-auto">
+      {/* Hero Editorial */}
       <div className="text-center space-y-5">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-          <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-          <span>ASTRAL · MÉTODO FAC</span>
-          <span className="text-slate-400 dark:text-[#71717A]">•</span>
-          <span className="text-slate-600 dark:text-[#A1A1AA]">ENTRELAÇOS PSICOLOGIA</span>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/5 dark:bg-purple-400/10 border border-purple-200/60 dark:border-purple-400/20 text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+          <Sparkles className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+          <span>MÉTODO FAC</span>
+          <span className="text-slate-300 dark:text-zinc-600">•</span>
+          <span className="text-slate-600 dark:text-zinc-400">ENTRELAÇOS PSICOLOGIA</span>
         </div>
 
-        <h1 className="font-serif-editorial text-4xl sm:text-5xl md:text-[62px] font-medium tracking-tight text-slate-900 dark:text-white leading-[1.05]">
+        <h1 className="font-serif-editorial text-4xl sm:text-5xl md:text-[58px] font-normal tracking-tight text-slate-900 dark:text-zinc-50 leading-[1.08]">
           Transforme complexidade clínica em{' '}
           <span className="text-[#7c3aed] dark:text-[#C084FC] italic">clareza ética</span>.
         </h1>
 
-        <p className="text-base sm:text-lg text-slate-600 dark:text-[#A1A1AA] max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light">
           Descubra o piso ético por sessão a partir do seu custo real de vida e da sua prática
           clínica — sem tabelas aleatórias e sem culpa por cobrar o valor justo.
         </p>
 
-        {/* Chips de Problemas — JetBrains Mono */}
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-orange-50 dark:bg-[#18181B] text-[#ea580c] dark:text-[#FB923C] border border-orange-200 dark:border-[#FB923C]/30">
-            <ShieldAlert className="w-3.5 h-3.5" /> SUBPRECIFICAÇÃO CRÔNICA
+        {/* Chips sutis em vez de blocos pesados */}
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <ShieldAlert className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC]" /> Subprecificação
+            crônica
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-rose-50 dark:bg-[#18181B] text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/30">
-            <Flame className="w-3.5 h-3.5" /> RISCO DE BURNOUT
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <Flame className="w-3 h-3 text-orange-500 dark:text-orange-400" /> Risco de burnout
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#27272A]">
-            <Scale className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" /> TABELA CFP DEFASADA
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <Scale className="w-3 h-3 text-[#7c3aed] dark:text-[#C084FC]" /> Tabela CFP defasada
           </span>
         </div>
       </div>
 
-      {/* Cartão Central Astral Surface */}
-      <div className="bg-white dark:bg-[#18181B] rounded-[16px] p-6 sm:p-8 border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6">
+      {/* Cartão Central Editorial — sem sombras pesadas, com divisórias finas */}
+      <div className="bg-white/80 dark:bg-[#0c0914] rounded-2xl p-6 sm:p-10 border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           {hasSavedState ? (
             <>
@@ -110,60 +111,60 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           )}
         </div>
 
-        {/* 4 Pilares da Metodologia — Astral Nested Surfaces */}
-        <div className="pt-6 border-t border-slate-200 dark:border-[#27272A]">
-          <div className="flex items-center gap-2 mb-4 justify-center sm:justify-start">
+        {/* 4 Pilares da Metodologia — Linhas editoriais com numeração sutil */}
+        <div className="pt-6 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-4">
+          <div className="flex items-center gap-2 justify-center sm:justify-start">
             <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A1A1AA]">
-              Como funciona o Método FAC em 4 pilares:
+            <h3 className="text-xs font-mono font-medium uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+              O Método FAC em 4 pilares:
             </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-left">
-            <div className="p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 transition-colors">
-              <span className="text-[10px] font-mono font-bold text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider block mb-1">
-                PILAR 01
+            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+              <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+                01
               </span>
-              <h4 className="font-semibold text-xs text-slate-900 dark:text-white mb-0.5">
+              <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Custos Pessoais
               </h4>
-              <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-tight">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
                 Moradia, alimentação, saúde e dignidade de vida.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] hover:border-[#ea580c]/40 dark:hover:border-[#FB923C]/40 transition-colors">
-              <span className="text-[10px] font-mono font-bold text-[#ea580c] dark:text-[#FB923C] uppercase tracking-wider block mb-1">
-                PILAR 02
+            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+              <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+                02
               </span>
-              <h4 className="font-semibold text-xs text-slate-900 dark:text-white mb-0.5">
+              <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Custos Profissionais
               </h4>
-              <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-tight">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
                 Consultório, supervisão, softwares e formação.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 transition-colors">
-              <span className="text-[10px] font-mono font-bold text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider block mb-1">
-                PILAR 03
+            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+              <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+                03
               </span>
-              <h4 className="font-semibold text-xs text-slate-900 dark:text-white mb-0.5">
-                Retirada (Pró-Labore)
+              <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
+                Retirada Desejada
               </h4>
-              <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-tight">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
                 Seu salário real para lazer e projetos futuros.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] hover:border-[#ea580c]/40 dark:hover:border-[#FB923C]/40 transition-colors">
-              <span className="text-[10px] font-mono font-bold text-[#ea580c] dark:text-[#FB923C] uppercase tracking-wider block mb-1">
-                PILAR 04
+            <div className="editorial-row p-4 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/30">
+              <span className="text-[10px] font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+                04
               </span>
-              <h4 className="font-semibold text-xs text-slate-900 dark:text-white mb-0.5">
+              <h4 className="font-serif-editorial text-base text-slate-900 dark:text-zinc-100 mb-1">
                 Reserva & Tributos
               </h4>
-              <p className="text-[11px] text-slate-600 dark:text-[#A1A1AA] leading-tight">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed font-light">
                 Markup divisor com férias, 13º e impostos.
               </p>
             </div>
@@ -171,15 +172,15 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
         </div>
       </div>
 
-      {/* Trust Strip / Citação CFP */}
-      <div className="text-center p-4 rounded-[12px] bg-slate-100/70 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A]">
-        <p className="text-xs text-slate-700 dark:text-[#A1A1AA] italic max-w-xl mx-auto leading-relaxed">
+      {/* Citação CFP — editorial discreto */}
+      <div className="text-center py-4 border-t border-b border-slate-200/60 dark:border-zinc-800/60 max-w-xl mx-auto">
+        <p className="font-serif-editorial text-sm sm:text-base text-slate-700 dark:text-zinc-300 italic leading-relaxed">
           &ldquo;A fixação de honorários deve garantir a dignidade do trabalho do psicólogo e o
           padrão ético do atendimento, considerando a complexidade e a formação técnica
           contínua.&rdquo;
         </p>
-        <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mt-1.5">
-          — DIRETRIZ ÉTICA CFP · CONSELHO FEDERAL DE PSICOLOGIA
+        <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 uppercase tracking-widest block mt-2">
+          Diretriz Ética CFP · Conselho Federal de Psicologia
         </span>
       </div>
     </div>

@@ -44,27 +44,26 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
   const sessoesEfetivas = Math.round(sessoesAgendadas * (1 - taxaFalta / 100) * 10) / 10
 
   return (
-    <div className="space-y-8 max-w-2xl mx-auto">
-      {/* Banner Astral */}
-      <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs flex items-start gap-3">
-        <div className="p-2 rounded-[8px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] shrink-0 mt-0.5">
-          <CalendarDays className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-        </div>
-        <div>
-          <span className="text-[10px] font-mono font-bold text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider">
-            PASSO 5 / 7
+    <div className="space-y-10 max-w-3xl mx-auto">
+      {/* Cabeçalho Editorial */}
+      <div className="border-b border-slate-200/80 dark:border-zinc-800/80 pb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
+            Passo 05 de 07
           </span>
-          <h2 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-            Capacidade Clínica & Parâmetros de Mercado
-          </h2>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed mt-0.5">
-            Defina sua grade semanal de atendimentos e considere as faltas reais. Uma agenda
-            sustentável protege seu tempo de estudo, prontuário e descanso.
-          </p>
+          <span className="text-slate-300 dark:text-zinc-700">•</span>
+          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Parâmetros</span>
         </div>
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+          Capacidade Clínica & Parâmetros de Mercado
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+          Defina sua grade semanal de atendimentos e considere as faltas reais. Uma agenda
+          sustentável protege seu tempo de estudo, prontuário e descanso.
+        </p>
       </div>
 
-      <div className="bg-white dark:bg-[#18181B] rounded-[16px] p-6 sm:p-8 border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-7">
+      <div className="bg-white/80 dark:bg-[#0c0914] rounded-2xl p-6 sm:p-8 border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-7">
         {/* Sessões / Semana (Stepper 1-60) Astral */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -253,18 +252,18 @@ export const StepCapacidade: React.FC<StepCapacidadeProps> = ({
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200 dark:border-[#27272A]">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200/80 dark:border-zinc-800/80">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#27272A] rounded-[8px]"
+          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white rounded-lg"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
         </Button>
         <Button
           onClick={onNext}
-          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 text-sm sm:text-base"
+          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-medium px-6 rounded-lg transition-all"
         >
           <span>Ver Resultados</span>
           <ArrowRight className="w-4 h-4" />

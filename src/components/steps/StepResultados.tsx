@@ -145,42 +145,47 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
       {/* Elemento de impressão invisível na tela normal */}
       <PrintableReport state={state} calculation={calculation} />
 
-      {/* Top Banner de Ações do Painel — Astral Style */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+      {/* Top Banner de Ações do Painel — Linha Editorial */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden border-b border-slate-200/80 dark:border-zinc-800/80 pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[11px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-            <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-            <span>PASSO 6 · CENTRAL DE RESULTADOS</span>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider">
+              Passo 06 de 07
+            </span>
+            <span className="text-slate-300 dark:text-zinc-700">•</span>
+            <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">
+              Central de Viabilidade
+            </span>
           </div>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white mt-1.5">
-            Central de Resultados & Tomada de Decisão
+          <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+            Resultados & Tomada de Decisão
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA] mt-0.5">
+          <p className="text-sm text-slate-600 dark:text-zinc-400 font-light mt-1 max-w-2xl">
             Navegue pelos 5 submenus organizados por intenção de uso para analisar, planejar e
-            formalizar sua clínica.
+            formalizar sua prática clínica com segurança.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Button
             type="button"
             variant="outline"
             onClick={handlePrint}
-            className="gap-2 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/40 rounded-[8px] font-mono text-xs font-semibold shadow-xs"
+            className="gap-2 border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white rounded-lg text-xs font-mono"
           >
             <FileDown className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-            EXPORTAR PDF
+            Exportar PDF
           </Button>
         </div>
       </div>
 
       {/* HUB COM NAVEGAÇÃO: Abas horizontais no mobile (<1024px) / Layout com Sidebar no Desktop (>=1024px) */}
       <div className="print:hidden">
-        {/* Navegação Mobile / Tablet (<1024px): abas fixas no topo durante scroll */}
-        <div className="lg:hidden sticky top-[57px] sm:top-[65px] z-30 mb-6 bg-slate-50/95 dark:bg-[#0A0A14]/95 backdrop-blur-md pt-2 pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 border-b border-slate-200/80 dark:border-[#27272A]/80 shadow-xs">
-          <div className="overflow-x-auto pb-0.5 scrollbar-none">
+        {/* Navegação Mobile / Tablet (<1024px) */}
+        <div className="lg:hidden sticky top-[57px] sm:top-[65px] z-30 mb-6 bg-background/95 backdrop-blur-md pt-2 pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 border-b border-border/70">
+          <div className="overflow-x-auto pb-0.5">
             <nav
-              className="bg-slate-100 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] p-1.5 rounded-[12px] inline-flex min-w-full gap-1 shadow-xs"
+              className="bg-muted/40 border border-border/70 p-1 rounded-xl inline-flex min-w-full gap-1"
               aria-label="Submenus da Central de Resultados"
             >
               {SUBMENUS.map((item) => {
@@ -192,20 +197,13 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                     type="button"
                     onClick={() => setActiveSubmenu(item.id)}
                     className={cn(
-                      'flex items-center gap-2 py-2 px-3 text-xs font-mono font-semibold rounded-[8px] whitespace-nowrap transition-all duration-200 shrink-0',
+                      'flex items-center gap-2 py-2 px-3 text-xs font-mono rounded-lg whitespace-nowrap transition-colors shrink-0',
                       isActive
-                        ? 'bg-white dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] border border-[#7c3aed]/40 dark:border-[#C084FC]/50 shadow-md shadow-[#7c3aed]/10 dark:shadow-[#C084FC]/10'
-                        : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-[#18181B]/50 border border-transparent',
+                        ? 'bg-background text-[#7c3aed] dark:text-[#C084FC] border border-[#7c3aed]/30 shadow-xs font-medium'
+                        : 'text-muted-foreground hover:text-foreground border border-transparent',
                     )}
                   >
-                    <Icon
-                      className={cn(
-                        'w-4 h-4',
-                        isActive
-                          ? 'text-[#7c3aed] dark:text-[#C084FC]'
-                          : 'text-slate-400 dark:text-[#71717A]',
-                      )}
-                    />
+                    <Icon className="w-4 h-4" />
                     <span>{item.shortLabel}</span>
                   </button>
                 )
@@ -216,11 +214,11 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
         {/* Layout Desktop (>=1024px): Sidebar à esquerda + Conteúdo à direita */}
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
-          {/* Sidebar Vertical Desktop: fixa no viewport considerando offset do header */}
+          {/* Sidebar Vertical Desktop */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-20 z-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto space-y-3 pr-1">
-            <div className="p-3 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-1.5">
-              <div className="px-3 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-[#71717A]">
-                SUBMENUS DA CENTRAL
+            <div className="p-3 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-1">
+              <div className="px-3 py-2 text-[10px] font-mono font-medium uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                Seções do Painel
               </div>
 
               <nav className="space-y-1" aria-label="Navegação lateral do Passo 6">
@@ -233,40 +231,28 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                       type="button"
                       onClick={() => setActiveSubmenu(item.id)}
                       className={cn(
-                        'w-full flex items-center gap-3 p-3 text-left rounded-[10px] transition-all duration-200 group relative',
+                        'w-full flex items-center gap-3 p-2.5 text-left rounded-xl transition-colors group relative',
                         isActive
-                          ? 'bg-purple-50/80 dark:bg-[#0A0A14] text-slate-900 dark:text-white border border-[#7c3aed]/40 dark:border-[#C084FC]/60 shadow-md shadow-[#7c3aed]/10 dark:shadow-[#C084FC]/10'
-                          : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-[#0A0A14]/50 border border-transparent',
+                          ? 'bg-purple-500/10 text-slate-900 dark:text-zinc-100 border border-[#7c3aed]/30'
+                          : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-100/60 dark:hover:bg-zinc-900/40 border border-transparent',
                       )}
                     >
                       <div
                         className={cn(
-                          'w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 border transition-colors',
+                          'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border transition-colors',
                           isActive
-                            ? 'bg-white dark:bg-[#18181B] border-[#7c3aed] dark:border-[#C084FC] text-[#7c3aed] dark:text-[#C084FC]'
-                            : 'bg-slate-50 dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-slate-400 dark:text-[#71717A] group-hover:text-slate-600 dark:group-hover:text-[#A1A1AA]',
+                            ? 'bg-white dark:bg-zinc-900 border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC]'
+                            : 'bg-transparent border-slate-200/60 dark:border-zinc-800 text-slate-400 dark:text-zinc-500',
                         )}
                       >
-                        <Icon className="w-4 h-4" />
+                        <Icon className="w-3.5 h-3.5" />
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <span
-                            className={cn(
-                              'font-sans text-sm font-semibold truncate',
-                              isActive
-                                ? 'text-slate-900 dark:text-white'
-                                : 'text-slate-700 dark:text-[#A1A1AA] group-hover:text-slate-900 dark:group-hover:text-white',
-                            )}
-                          >
-                            {item.label}
-                          </span>
-                          {isActive && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] animate-pulse" />
-                          )}
-                        </div>
-                        <p className="text-[11px] text-slate-500 dark:text-[#71717A] truncate font-sans">
+                        <span className="font-serif-editorial text-sm truncate block">
+                          {item.label}
+                        </span>
+                        <p className="text-[10px] text-slate-400 dark:text-zinc-500 truncate font-mono">
                           {item.shortLabel}
                         </p>
                       </div>
@@ -276,15 +262,15 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
               </nav>
 
               {/* Mini resumo de piso fixado na sidebar */}
-              <div className="pt-3 mt-3 border-t border-slate-200 dark:border-[#27272A] px-2 py-1">
-                <span className="text-[10px] font-mono text-slate-500 dark:text-[#71717A] uppercase block">
+              <div className="pt-3 mt-3 border-t border-slate-200/70 dark:border-zinc-800/70 px-2 py-1">
+                <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 uppercase block">
                   Piso FAC Calculado
                 </span>
-                <span className="font-mono text-lg font-bold text-[#7c3aed] dark:text-[#C084FC] block">
+                <span className="font-serif-editorial text-xl text-[#7c3aed] dark:text-[#C084FC] block">
                   {formatBRL(calculation.pisoMinimoSessao)}
                 </span>
-                <span className="text-[10px] font-mono text-slate-500 dark:text-[#71717A]">
-                  {calculation.sessoesEfetivas} sessões efetivas/mês
+                <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500">
+                  {calculation.sessoesEfetivas} sessões/mês
                 </span>
               </div>
             </div>
@@ -320,61 +306,60 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
 
                 {/* Cards Principais: Piso FAC + Lacuna & CFP */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Card Destaque do Piso FAC (2 cols no desktop) — Astral Bento */}
-                  <div className="lg:col-span-2 p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl flex flex-col justify-between relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1.5 h-full bg-[#7c3aed] dark:bg-[#C084FC]" />
-                    <div className="space-y-2">
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-                        Piso Ético Mínimo Calculado (Método FAC)
+                  {/* Card Destaque do Piso FAC — Editorial Clean */}
+                  <div className="lg:col-span-2 p-6 sm:p-8 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between relative overflow-hidden">
+                    <div className="space-y-3">
+                      <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                        Piso Ético Mínimo (Método FAC)
                       </span>
                       <div className="flex items-baseline gap-2">
-                        <span className="font-mono text-5xl sm:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        <span className="font-serif-editorial text-5xl sm:text-6xl text-slate-900 dark:text-zinc-50 tracking-tight">
                           {formatBRL(calculation.pisoMinimoSessao)}
                         </span>
-                        <span className="text-sm font-mono text-slate-500 dark:text-[#A1A1AA]">
+                        <span className="text-sm font-mono text-slate-400 dark:text-zinc-500">
                           / sessão
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed max-w-xl">
-                        Este é o valor mínimo por atendimento necessário para cobrir rigorosamente
-                        seu custo de vida, consultório, supervisão contínua, reserva técnica de{' '}
+                      <p className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 font-light leading-relaxed max-w-xl">
+                        Este é o valor mínimo por atendimento necessário para cobrir seu custo de
+                        vida, consultório, supervisão contínua, reserva técnica de{' '}
                         {state.reservaPct}% e impostos ({state.tributosPct}%).
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-slate-200 dark:border-[#27272A] text-xs font-mono">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-slate-200/70 dark:border-zinc-800/70 text-xs font-mono">
                       <div>
-                        <span className="text-slate-500 dark:text-[#71717A] uppercase tracking-wider text-[10px] block">
-                          Faturamento Bruto Alvo
+                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
+                          Faturamento Alvo
                         </span>
-                        <span className="text-base font-bold text-slate-900 dark:text-white mt-0.5 block">
+                        <span className="text-base font-medium text-slate-900 dark:text-zinc-100 mt-0.5 block">
                           {formatBRL(calculation.faturamentoBruto)}
                         </span>
-                        <span className="text-[10px] text-slate-500 dark:text-[#71717A]">
-                          ao mês
+                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
+                          mensal
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-slate-500 dark:text-[#71717A] uppercase tracking-wider text-[10px] block">
+                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
                           Sessões Efetivas
                         </span>
-                        <span className="text-base font-bold text-slate-900 dark:text-white mt-0.5 block">
+                        <span className="text-base font-medium text-slate-900 dark:text-zinc-100 mt-0.5 block">
                           {calculation.sessoesEfetivas} / mês
                         </span>
-                        <span className="text-[10px] text-slate-500 dark:text-[#71717A]">
+                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
                           ({state.sessoesPorSemana} sem. - {state.taxaFaltaPct}% falta)
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-slate-500 dark:text-[#71717A] uppercase tracking-wider text-[10px] block">
+                        <span className="text-slate-400 dark:text-zinc-500 uppercase tracking-wider text-[10px] block">
                           Markup Divisor
                         </span>
-                        <span className="text-base font-bold text-[#7c3aed] dark:text-[#C084FC] mt-0.5 block">
+                        <span className="text-base font-medium text-[#7c3aed] dark:text-[#C084FC] mt-0.5 block">
                           {calculation.divisor.toFixed(2)}
                         </span>
-                        <span className="text-[10px] text-slate-500 dark:text-[#71717A]">
+                        <span className="text-[10px] text-slate-400 dark:text-zinc-500">
                           ({state.reservaPct}% res. + {state.tributosPct}% imp.)
                         </span>
                       </div>
@@ -382,9 +367,9 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                   </div>
 
                   {/* Card Diagnóstico da Lacuna (Gap Analysis) + Comparativo CFP */}
-                  <div className="p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl flex flex-col justify-between">
+                  <div className="p-6 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between">
                     <div className="space-y-3">
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-600 dark:text-[#A1A1AA] block">
+                      <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-slate-500 dark:text-zinc-400 block">
                         Diagnóstico de Lacuna (Gap)
                       </span>
 
@@ -451,46 +436,45 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
                         </div>
                       )}
                     </div>
-
                     {/* Comparativo com Faixas CFP */}
-                    <div className="pt-4 mt-4 border-t border-slate-200 dark:border-[#27272A] space-y-2">
-                      <span className="text-[11px] font-mono font-semibold text-slate-600 dark:text-[#A1A1AA] flex items-center gap-1">
+                    <div className="pt-4 mt-4 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-2">
+                      <span className="text-[11px] font-mono font-medium text-slate-500 dark:text-zinc-400 flex items-center gap-1">
                         <Scale className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
-                        COMPARATIVO TABELA CFP:
+                        Referência Tabela CFP:
                       </span>
                       <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] font-mono">
                         <div
-                          className={`p-1.5 rounded-[6px] border ${
+                          className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'inferior'
-                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-bold text-[#7c3aed] dark:text-[#C084FC]'
-                              : 'border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#121216] text-slate-500 dark:text-[#71717A]'
+                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
                           }`}
                         >
                           <div>Inferior</div>
-                          <div>{formatBRL(CFP_VALUES.inferior)}</div>
+                          <div className="mt-0.5">{formatBRL(CFP_VALUES.inferior)}</div>
                         </div>
                         <div
-                          className={`p-1.5 rounded-[6px] border ${
+                          className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'medio'
-                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-bold text-[#7c3aed] dark:text-[#C084FC]'
-                              : 'border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#121216] text-slate-500 dark:text-[#71717A]'
+                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
                           }`}
                         >
                           <div>Médio</div>
-                          <div>{formatBRL(CFP_VALUES.medio)}</div>
+                          <div className="mt-0.5">{formatBRL(CFP_VALUES.medio)}</div>
                         </div>
                         <div
-                          className={`p-1.5 rounded-[6px] border ${
+                          className={`p-2 rounded-lg border transition-colors ${
                             calculation.cfpFaixaAtingida === 'superior'
-                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-50 dark:bg-[#0A0A14] font-bold text-[#7c3aed] dark:text-[#C084FC]'
-                              : 'border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#121216] text-slate-500 dark:text-[#71717A]'
+                              ? 'border-[#7c3aed] dark:border-[#C084FC] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                              : 'border-slate-200/70 dark:border-zinc-800/70 text-slate-400 dark:text-zinc-500'
                           }`}
                         >
                           <div>Superior</div>
-                          <div>{formatBRL(CFP_VALUES.superior)}</div>
+                          <div className="mt-0.5">{formatBRL(CFP_VALUES.superior)}</div>
                         </div>
                       </div>
-                    </div>
+                    </div>{' '}
                   </div>
                 </div>
 
@@ -745,19 +729,19 @@ export const StepResultados: React.FC<StepResultadosProps> = ({
         </div>
       </div>
 
-      {/* Barra Inferior de Ação Astral */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200 dark:border-[#27272A] print:hidden">
+      {/* Barra Inferior de Ação Editorial */}
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200/80 dark:border-zinc-800/80 print:hidden">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#27272A] rounded-[8px]"
+          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white rounded-lg"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
         </Button>
         <Button
           onClick={onNext}
-          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20 text-sm sm:text-base"
+          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-medium px-6 rounded-lg transition-all text-sm"
         >
           <span>Comparar Modelos</span>
           <ArrowRight className="w-4 h-4" />

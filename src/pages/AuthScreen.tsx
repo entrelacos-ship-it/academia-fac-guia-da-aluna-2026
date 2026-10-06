@@ -195,62 +195,36 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-slate-100/80 dark:bg-[#03000A] text-slate-900 dark:text-white relative overflow-hidden select-none">
-      {/* Astral Atmospheric Subtle Glow Layer */}
-      <div
-        className="absolute top-1/4 -left-32 w-[460px] h-[460px] rounded-full bg-purple-500/20 dark:bg-[#C084FC]/15 blur-[140px] pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-1/4 -right-32 w-[420px] h-[420px] rounded-full bg-orange-400/20 dark:bg-[#FB923C]/10 blur-[140px] pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full bg-purple-400/15 dark:bg-[#C084FC]/08 blur-[160px] pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Grid sutil Astral */}
-      <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,#94a3b818_1px,transparent_1px),linear-gradient(to_bottom,#94a3b818_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#27272A25_1px,transparent_1px),linear-gradient(to_bottom,#27272A25_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Cartão Central Astral Surface com suporte claro/escuro */}
-      <div className="relative w-full max-w-[440px] rounded-2xl p-6 sm:p-8 bg-white dark:bg-[#18181B] border border-slate-200/90 dark:border-[#27272A] shadow-2xl shadow-purple-950/5 dark:shadow-[0_20px_50px_rgba(0,0,0,0.7)] z-10 transition-all">
-        {/* Cabeçalho Visual Astral */}
-        <div className="flex flex-col items-center text-center mb-6 relative z-10">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 bg-background text-foreground relative overflow-hidden select-none">
+      {/* Cartão Central Editorial com respiro e linhas finas */}
+      <div className="relative w-full max-w-[440px] rounded-2xl p-6 sm:p-10 bg-white/90 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs z-10 transition-all">
+        {/* Cabeçalho Visual Editorial */}
+        <div className="flex flex-col items-center text-center mb-8 relative z-10">
           <div className="relative mb-3 group cursor-default">
-            <div
-              className="absolute inset-0 rounded-2xl bg-purple-500/30 dark:bg-[#C084FC]/30 blur-lg opacity-70 group-hover:opacity-100 transition-opacity"
-              aria-hidden="true"
-            />
-            <div className="relative w-15 h-15 rounded-2xl bg-gradient-to-b from-purple-50 to-purple-100/80 dark:from-[#1e1430] dark:to-[#0A0A14] border border-purple-200 dark:border-purple-500/30 flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC] shadow-sm">
-              <FACSymbol size={32} glow />
+            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-[#7c3aed]/20 dark:border-[#C084FC]/30 flex items-center justify-center text-[#7c3aed] dark:text-[#C084FC]">
+              <FACSymbol size={30} />
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50/90 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/40 text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-purple-500/10 border border-[#7c3aed]/20 text-[10px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] mb-2">
             <span>Método FAC</span>
-            <span className="text-purple-300 dark:text-purple-400/50">•</span>
+            <span className="text-slate-300 dark:text-zinc-700">•</span>
             <span>Entrelaços</span>
           </div>
 
-          <h1 className="font-sans text-2xl sm:text-[28px] font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-            {mode === 'login' && 'Entrar no Sistema'}
+          <h1 className="font-serif-editorial text-3xl sm:text-[32px] font-normal tracking-tight text-slate-900 dark:text-zinc-100 leading-tight">
+            {mode === 'login' && 'Entrar na Conta'}
             {mode === 'signup' && 'Criar Conta FAC'}
             {mode === 'forgot' && 'Recuperar Acesso'}
             {mode === 'reset-token' && 'Definir Nova Senha'}
           </h1>
 
-          <p className="text-xs sm:text-[13px] text-slate-600 dark:text-[#A1A1AA] mt-2 max-w-[330px] leading-relaxed">
-            {mode === 'login' &&
-              'Acesse a Calculadora de Precificação Ética com suas credenciais seguras.'}
-            {mode === 'signup' &&
-              'Cadastre-se para acessar a calculadora e manter seus cálculos protegidos.'}
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 mt-2 max-w-[330px] font-light leading-relaxed">
+            {mode === 'login' && 'Acesse suas aplicações e mantenha seus cálculos sincronizados.'}
+            {mode === 'signup' && 'Cadastre-se para acessar o ecossistema da Academia FAC.'}
             {mode === 'forgot' &&
-              'Digite seu e-mail cadastrado para receber as instruções de redefinição.'}
-            {mode === 'reset-token' && 'Digite sua nova senha de acesso à calculadora.'}
+              'Digite seu e-mail cadastrado para receber instruções de redefinição.'}
+            {mode === 'reset-token' && 'Digite sua nova senha de acesso à conta.'}
           </p>
         </div>
 

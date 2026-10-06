@@ -1216,26 +1216,23 @@ export const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white font-sans transition-colors">
-      {/* Topbar Admin */}
-      <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs">
+    <div className="min-h-screen bg-background text-foreground font-sans transition-colors">
+      {/* Topbar Admin Editorial */}
+      <header className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-border/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/')}
-              className="gap-1.5 text-xs font-mono text-slate-600 hover:text-slate-900 dark:text-[#A1A1AA] dark:hover:text-white rounded-[8px]"
+              onClick={() => navigate('/hub')}
+              className="gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground rounded-lg"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>ACADEMIA</span>
+              <span>Hub da Academia</span>
             </Button>
-            <div className="h-4 w-px bg-slate-200 dark:bg-[#27272A]" />
+            <div className="h-4 w-px bg-border/70" />
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-[8px] bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
-                <Shield className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-              </div>
-              <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
+              <span className="font-serif-editorial text-lg text-foreground">
                 Painel Administrativo FAC
               </span>
             </div>
@@ -1316,19 +1313,19 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* Abas Superiores de Navegação */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-[#27272A] pb-3">
+        {/* Abas Superiores de Navegação Editorial */}
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-border/70 pb-3">
           <Button
             variant={activeTab === 'pecas' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('pecas')}
-            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
               activeTab === 'pecas'
-                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                : ''
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
             }`}
           >
-            <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+            <Sparkles className="w-3.5 h-3.5" />
             <span>Liberação de peças ({hubItems.length})</span>
           </Button>
 
@@ -1336,56 +1333,56 @@ export const AdminDashboard: React.FC = () => {
             variant={activeTab === 'matriculas' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('matriculas')}
-            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
               activeTab === 'matriculas'
-                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                : ''
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
             }`}
           >
-            <ShieldCheck className="w-4 h-4" />
-            <span>Matrículas da Academia ({matriculas.length})</span>
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Matrículas ({matriculas.length})</span>
           </Button>
 
           <Button
             variant={activeTab === 'encontros' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('encontros')}
-            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
               activeTab === 'encontros'
-                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                : ''
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
             }`}
           >
-            <BookOpen className="w-4 h-4" />
-            <span>Encontros do Guia ({encontros.length + 1})</span>
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Encontros ({encontros.length + 1})</span>
           </Button>
 
           <Button
             variant={activeTab === 'usuarios' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('usuarios')}
-            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
               activeTab === 'usuarios'
-                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                : ''
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
             }`}
           >
-            <Users className="w-4 h-4" />
-            <span>Contas do App & Nuvem ({users.length})</span>
+            <Users className="w-3.5 h-3.5" />
+            <span>Contas ({users.length})</span>
           </Button>
 
           <Button
             variant={activeTab === 'auditoria' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('auditoria')}
-            className={`font-mono text-xs rounded-[8px] gap-1.5 ${
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
               activeTab === 'auditoria'
-                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                : ''
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
             }`}
           >
-            <History className="w-4 h-4" />
-            <span>Auditoria & Logs</span>
+            <History className="w-3.5 h-3.5" />
+            <span>Auditoria</span>
           </Button>
         </div>
 

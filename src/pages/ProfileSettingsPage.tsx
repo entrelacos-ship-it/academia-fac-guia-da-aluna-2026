@@ -144,14 +144,14 @@ export const ProfileSettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200">
       {/* Topbar Fixa */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
+      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/70 print:hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
-              to="/"
-              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
+              to="/hub"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-lg p-1 transition-opacity hover:opacity-90"
               aria-label="Voltar para a página inicial da Academia Entrelaços"
             >
               <FACLogo size="md" subtitle="Academia Entrelaços" />
@@ -213,19 +213,20 @@ export const ProfileSettingsPage: React.FC = () => {
 
       {/* Conteúdo Principal */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
-        {/* Cabeçalho da Página */}
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-            <User className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-            <span>CONFIGURAÇÕES DA CONTA</span>
-            <span className="text-slate-400 dark:text-[#71717A]">•</span>
-            <span className="text-slate-600 dark:text-[#A1A1AA]">PERFIL & CREDENCIAIS</span>
+        {/* Cabeçalho da Página Editorial */}
+        <div className="border-b border-border/70 pb-6 space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider">
+              Configurações da Conta
+            </span>
+            <span className="text-slate-300 dark:text-zinc-700">•</span>
+            <span className="text-xs font-mono text-muted-foreground">Perfil & Segurança</span>
           </div>
 
-          <h1 className="font-sans text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-foreground">
             Meu Perfil & Segurança
           </h1>
-          <p className="text-sm text-slate-600 dark:text-[#A1A1AA] max-w-2xl">
+          <p className="text-sm text-muted-foreground font-light max-w-2xl">
             Gerencie as credenciais da sua conta, consulte sua identificação na Academia Método FAC
             e altere sua senha no primeiro acesso ou sempre que necessário.
           </p>

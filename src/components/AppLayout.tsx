@@ -120,15 +120,15 @@ export const AppLayout: React.FC<LayoutProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg">
-      {/* Topbar Fixa Astral */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200">
+      {/* Topbar Fixa Editorial */}
+      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/70 print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo & Marca Astral */}
+          {/* Logo & Marca Editorial */}
           <div className="flex items-center gap-3">
             <a
               href="/"
-              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-lg p-1 transition-opacity hover:opacity-90"
               aria-label="Voltar para a página inicial da Academia Entrelaços"
             >
               <FACLogo size="md" />
@@ -136,13 +136,11 @@ export const AppLayout: React.FC<LayoutProps> = ({
           </div>
 
           {/* Progresso Compacto Mobile (<1024px) */}
-          <div className="flex lg:hidden items-center gap-1.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] px-2.5 py-1 rounded-[8px] text-xs font-mono font-medium text-slate-700 dark:text-[#A1A1AA]">
-            <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
-              PASSO {activeStep}
-            </span>
-            <span className="text-slate-400 dark:text-[#71717A]">/</span>
-            <span>7</span>
-            <span className="hidden sm:inline-block ml-1 truncate max-w-[110px] text-slate-600 dark:text-[#A1A1AA]">
+          <div className="flex lg:hidden items-center gap-1.5 bg-muted/40 border border-border/70 px-2.5 py-1 rounded-lg text-xs font-mono font-medium text-muted-foreground">
+            <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">0{activeStep}</span>
+            <span className="text-muted-foreground/60">/</span>
+            <span>07</span>
+            <span className="hidden sm:inline-block ml-1 truncate max-w-[110px] text-muted-foreground">
               · {WIZARD_STEPS[activeStep]?.shortLabel}
             </span>
           </div>
@@ -278,13 +276,13 @@ export const AppLayout: React.FC<LayoutProps> = ({
 
       {/* Conteúdo Principal com Sidebar */}
       <div className="flex-1 max-w-7xl w-full mx-auto flex">
-        {/* Sidebar Fixa Desktop (>= 1024px) Astral Nested Surface */}
-        <aside className="hidden lg:block w-72 shrink-0 border-r border-slate-200 dark:border-[#27272A] p-6 bg-slate-50/70 dark:bg-[#0A0A14] min-h-[calc(100vh-4.25rem)] sticky top-16 print:hidden">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500 dark:text-[#A1A1AA]">
+        {/* Sidebar Fixa Desktop (>= 1024px) Linha Editorial */}
+        <aside className="hidden lg:block w-72 shrink-0 border-r border-border/70 p-6 bg-background/50 min-h-[calc(100vh-4.25rem)] sticky top-16 print:hidden">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-[11px] font-mono font-medium uppercase tracking-wider text-muted-foreground">
               Jornada FAC
             </h2>
-            <span className="text-xs font-mono font-bold text-[#7c3aed] dark:text-[#C084FC]">
+            <span className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC]">
               {Math.round((activeStep / 7) * 100)}%
             </span>
           </div>
@@ -298,47 +296,41 @@ export const AppLayout: React.FC<LayoutProps> = ({
                 <button
                   key={step.index}
                   onClick={() => handleStepClick(step.index)}
-                  className={`w-full text-left p-3 rounded-[12px] flex items-center gap-3 transition-all duration-150 group border ${
+                  className={`w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors group border ${
                     isCurrent
-                      ? 'bg-white dark:bg-[#18181B] border-[#7c3aed] dark:border-[#C084FC] text-slate-900 dark:text-white shadow-md shadow-[#7c3aed]/10 dark:shadow-[#C084FC]/10 font-medium'
+                      ? 'bg-white/90 dark:bg-zinc-900/90 border-[#7c3aed]/40 dark:border-[#C084FC]/40 text-foreground shadow-xs'
                       : isPast
-                        ? 'bg-slate-100/80 dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-[#3F3F46]'
-                        : 'bg-transparent border-transparent text-slate-400 dark:text-[#71717A] hover:bg-slate-100 dark:hover:bg-[#18181B]/40 hover:text-slate-700 dark:hover:text-[#A1A1AA]'
+                        ? 'bg-transparent border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30'
+                        : 'bg-transparent border-transparent text-muted-foreground/60 hover:text-muted-foreground hover:bg-muted/20'
                   }`}
                 >
-                  <div
-                    className={`w-7 h-7 rounded-[8px] flex items-center justify-center text-xs font-mono font-bold shrink-0 transition-colors ${
+                  <span
+                    className={`font-mono text-xs w-6 shrink-0 ${
                       isCurrent
-                        ? 'bg-[#7c3aed] dark:bg-[#C084FC] text-white dark:text-[#0A0A14]'
+                        ? 'font-bold text-[#7c3aed] dark:text-[#C084FC]'
                         : isPast
-                          ? 'bg-orange-50 dark:bg-[#18181B] text-[#ea580c] dark:text-[#FB923C] border border-orange-200 dark:border-[#27272A]'
-                          : 'bg-slate-200 dark:bg-[#18181B] text-slate-500 dark:text-[#71717A]'
+                          ? 'text-[#7c3aed]/70 dark:text-[#C084FC]/70'
+                          : 'text-muted-foreground/50'
                     }`}
                   >
-                    {isPast ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : step.index}
-                  </div>
+                    {isPast ? '✓' : `0${step.index}`}
+                  </span>
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm truncate ${
+                      className={`font-serif-editorial text-sm truncate ${
                         isCurrent
-                          ? 'text-slate-900 dark:text-white font-medium'
-                          : 'text-slate-700 dark:text-[#A1A1AA] group-hover:text-slate-900 dark:group-hover:text-white'
+                          ? 'text-foreground font-normal'
+                          : 'text-muted-foreground group-hover:text-foreground'
                       }`}
                     >
                       {step.title}
                     </p>
-                    <p
-                      className={`text-[11px] truncate font-mono ${
-                        isCurrent
-                          ? 'text-[#7c3aed] dark:text-[#C084FC]'
-                          : 'text-slate-400 dark:text-[#71717A]'
-                      }`}
-                    >
+                    <p className="text-[10px] truncate font-mono text-muted-foreground/70">
                       {step.description}
                     </p>
                   </div>
                   {isCurrent && (
-                    <ChevronRight className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
+                    <ChevronRight className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
                   )}
                 </button>
               )

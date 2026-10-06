@@ -67,18 +67,18 @@ const GLOSSARY_ITEMS = [
 export const GlossaryModal: React.FC<GlossaryModalProps> = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-900 dark:text-white rounded-[16px] shadow-2xl focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]">
-        <DialogHeader className="border-b border-slate-200 dark:border-[#27272A] pb-4">
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-background border border-border/80 text-foreground rounded-2xl shadow-lg">
+        <DialogHeader className="border-b border-border/70 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-[8px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC]">
-              <BookOpen className="w-5 h-5" />
-            </div>
             <div>
-              <DialogTitle className="font-sans text-xl font-semibold text-slate-900 dark:text-white tracking-tight">
+              <span className="text-[10px] font-mono text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider block">
+                Método FAC · Referência
+              </span>
+              <DialogTitle className="font-serif-editorial text-2xl font-normal text-foreground mt-0.5">
                 Glossário Clínico e Financeiro
               </DialogTitle>
-              <DialogDescription className="text-xs text-slate-500 dark:text-[#A1A1AA] mt-0.5 font-mono">
-                CONCEITOS DO MÉTODO FAC · DIRETRIZES ASTRAL
+              <DialogDescription className="text-xs text-muted-foreground font-light">
+                Conceitos explicados com rigor ético e clareza prática.
               </DialogDescription>
             </div>
           </div>

@@ -236,37 +236,42 @@ export const DiagnosticoFACSection: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Aviso obrigatório de privacidade editorial */}
-      <div className="p-4 rounded-[12px] bg-purple-50/70 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs print:hidden">
-        <div className="flex items-center gap-2 text-purple-900 dark:text-purple-200">
+      {/* Aviso de privacidade editorial */}
+      <div className="p-4 rounded-xl border border-slate-200/70 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-900/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs print:hidden">
+        <div className="flex items-center gap-2 text-slate-600 dark:text-zinc-400">
           <Shield className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
           <span>
-            <strong>Privacidade Local Absoluta:</strong> Seus dados e respostas ficam SOMENTE neste
-            navegador. Baixe o PDF para guardar o resultado.
+            <strong className="text-slate-900 dark:text-zinc-200 font-medium">
+              Privacidade local:
+            </strong>{' '}
+            Seus dados e respostas ficam salvos neste navegador. Baixe o PDF para arquivar seu
+            resultado.
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Badge
             variant="outline"
-            className="text-[10px] font-mono text-purple-800 dark:text-purple-300 border-purple-300 dark:border-[#7c3aed]/50 shrink-0"
+            className="text-[10px] font-mono border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-400 shrink-0"
           >
-            Versão 2 · 04/10/2026
+            Versão 2
           </Badge>
-          <span className="text-[11px] font-mono text-slate-500">24 Perguntas · 3 Pilares FAC</span>
+          <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+            24 Perguntas · 3 Pilares
+          </span>
         </div>
       </div>
 
       {/* RENDERIZADOR DAS ETAPAS */}
       {etapaFluxo === 'contexto_inicial' && (
-        <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6 print:hidden">
-          <div className="border-b border-slate-200 dark:border-[#27272A] pb-4">
-            <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
+        <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+          <div className="border-b border-slate-200/70 dark:border-zinc-800/70 pb-6">
+            <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Etapa Preparatória · Antes das 24 Perguntas
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
+            <h3 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
               Contexto da sua Prática Clínica Atual
             </h3>
-            <p className="text-xs text-slate-600 dark:text-[#A1A1AA] mt-1">
+            <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 font-light max-w-2xl">
               Essas respostas complementares não alteram a nota FAC. Elas enriquecem a
               contextualização e alimentam alertas sobre sua agenda.
             </p>
@@ -481,19 +486,18 @@ export const DiagnosticoFACSection: React.FC = () => {
 
       {/* ETAPA DAS 24 PERGUNTAS */}
       {etapaFluxo === 'perguntas' && (
-        <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-6 print:hidden">
-          {/* Barra de progresso das 24 perguntas */}
+        <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+          {/* Barra de progresso discreta das 24 perguntas */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-slate-500 dark:text-[#A1A1AA]">
-                Pergunta {perguntaAtual} de 24 ({totalRespondidas} respondidas)
+              <span className="text-slate-500 dark:text-zinc-400">
+                Questão {perguntaAtual} de 24 ({totalRespondidas} respondidas)
               </span>
-              <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
-                Pilar: {perguntaObj.pilar.toUpperCase()} · Dimensão: {perguntaObj.dimensaoCodigo} (
-                {perguntaObj.dimensaoNome})
+              <span className="text-[#7c3aed] dark:text-[#C084FC] font-medium">
+                Pilar {perguntaObj.pilar.toUpperCase()} · {perguntaObj.dimensaoNome}
               </span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-[#0A0A14] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-zinc-900 overflow-hidden">
               <div
                 className="h-full bg-[#7c3aed] dark:bg-[#C084FC] transition-all duration-300 rounded-full"
                 style={{ width: `${Math.round((totalRespondidas / 24) * 100)}%` }}
@@ -502,21 +506,17 @@ export const DiagnosticoFACSection: React.FC = () => {
           </div>
 
           {/* Enunciado da pergunta */}
-          <div className="space-y-2 pt-2">
+          <div className="space-y-3 pt-2">
             <div className="flex items-center gap-2">
-              <Badge className="bg-purple-100 dark:bg-[#27272A] text-[#7c3aed] dark:text-[#C084FC] border-purple-200 dark:border-transparent font-mono text-[11px]">
-                {perguntaObj.codigo} · {perguntaObj.dimensaoNome}
-              </Badge>
-              {perguntaObj.id === 18 && (
-                <span
-                  className="text-[11px] font-mono text-slate-500"
-                  title="Diferencia ausência de dados de perda observada"
-                >
-                  (Mapeamento de agendamentos)
-                </span>
-              )}
+              <span className="font-mono text-xs text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                {perguntaObj.codigo}
+              </span>
+              <span className="text-slate-300 dark:text-zinc-700">•</span>
+              <span className="font-mono text-xs text-slate-500 dark:text-zinc-400">
+                {perguntaObj.dimensaoNome}
+              </span>
             </div>
-            <h4 className="font-sans text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-snug">
+            <h4 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-zinc-100 leading-snug">
               {perguntaObj.enunciado}
             </h4>
           </div>
@@ -530,22 +530,22 @@ export const DiagnosticoFACSection: React.FC = () => {
                   key={opcao.valor}
                   type="button"
                   onClick={() => handleSelectOpcao(perguntaObj.id, opcao.valor)}
-                  className={`w-full p-4 rounded-[10px] text-left text-xs sm:text-sm border transition-all flex items-start gap-3.5 cursor-pointer ${
+                  className={`w-full p-4 rounded-xl text-left text-xs sm:text-sm border transition-colors flex items-start gap-3.5 cursor-pointer ${
                     selecionada
-                      ? 'bg-purple-50/80 dark:bg-purple-950/40 border-[#7c3aed] dark:border-[#C084FC] text-slate-900 dark:text-white shadow-xs'
-                      : 'bg-slate-50/60 dark:bg-[#121216] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300 hover:border-purple-300 dark:hover:border-[#3f3f46]'
+                      ? 'bg-purple-500/10 border-[#7c3aed]/50 dark:border-[#C084FC]/50 text-slate-900 dark:text-zinc-100 shadow-xs'
+                      : 'bg-white/50 dark:bg-zinc-900/30 border-slate-200/70 dark:border-zinc-800/70 text-slate-700 dark:text-zinc-300 hover:border-purple-300 dark:hover:border-zinc-700'
                   }`}
                 >
                   <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5 ${
+                    className={`font-mono text-xs shrink-0 mt-0.5 ${
                       selecionada
-                        ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14]'
-                        : 'bg-white dark:bg-[#18181B] border border-slate-300 dark:border-[#27272A] text-slate-500'
+                        ? 'font-bold text-[#7c3aed] dark:text-[#C084FC]'
+                        : 'text-slate-400 dark:text-zinc-500'
                     }`}
                   >
-                    {opcao.valor}
+                    0{opcao.valor}
                   </span>
-                  <span className="leading-relaxed flex-1">{opcao.texto}</span>
+                  <span className="leading-relaxed flex-1 font-light">{opcao.texto}</span>
                 </button>
               )
             })}
@@ -936,22 +936,22 @@ export const DiagnosticoFACSection: React.FC = () => {
           {/* Navegação entre as 7 Telas */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none print:hidden">
             {[
-              { id: 'visao_geral' as const, label: '1. Visão Geral' },
-              { id: 'combinacao' as const, label: '2. Leitura da Combinação' },
-              { id: 'por_onde_comecar' as const, label: '3. Por Onde Começar' },
-              { id: 'pilares' as const, label: '4. Análise dos 3 Pilares' },
-              { id: 'dimensoes' as const, label: '5. As 12 Dimensões' },
-              { id: 'alertas' as const, label: `6. Alertas (${resultado.alertas.length})` },
-              { id: 'passos' as const, label: '7. Suas Palavras & Passos' },
+              { id: 'visao_geral' as const, label: '01. Visão Geral' },
+              { id: 'combinacao' as const, label: '02. Combinação' },
+              { id: 'por_onde_comecar' as const, label: '03. Por Onde Começar' },
+              { id: 'pilares' as const, label: '04. Os 3 Pilares' },
+              { id: 'dimensoes' as const, label: '05. 12 Dimensões' },
+              { id: 'alertas' as const, label: `06. Alertas (${resultado.alertas.length})` },
+              { id: 'passos' as const, label: '07. Síntese & Ação' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setAbaResultado(tab.id)}
-                className={`px-3 py-2 rounded-[8px] text-xs font-mono font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3 py-2 rounded-lg text-xs font-mono whitespace-nowrap transition-colors cursor-pointer ${
                   abaResultado === tab.id
-                    ? 'bg-[#7c3aed] text-white shadow-xs'
-                    : 'bg-white dark:bg-[#18181B] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#27272A] hover:bg-purple-50 dark:hover:bg-[#27272A]'
+                    ? 'bg-[#7c3aed] text-white shadow-xs font-medium'
+                    : 'bg-white/60 dark:bg-zinc-900/40 text-slate-600 dark:text-zinc-400 border border-slate-200/70 dark:border-zinc-800/70 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -961,11 +961,11 @@ export const DiagnosticoFACSection: React.FC = () => {
 
           {/* TELA 1: VISÃO GERAL */}
           {abaResultado === 'visao_geral' && (
-            <div className="p-6 sm:p-8 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-6 print:hidden">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div className="p-6 sm:p-10 rounded-2xl bg-white/80 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-8 print:hidden">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 {/* Coluna Esquerda: Anel da Média FAC */}
-                <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-[12px] bg-purple-50/50 dark:bg-[#121216] border border-purple-200 dark:border-[#27272A] text-center space-y-3">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl border border-slate-200/70 dark:border-zinc-800/70 bg-white/40 dark:bg-zinc-950/40 text-center space-y-4">
+                  <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
                     Média FAC Global (0 a 100%)
                   </span>
 
@@ -976,8 +976,8 @@ export const DiagnosticoFACSection: React.FC = () => {
                         cy="60"
                         r="50"
                         fill="none"
-                        className="stroke-slate-200 dark:stroke-[#27272A]"
-                        strokeWidth="10"
+                        className="stroke-slate-200/60 dark:stroke-zinc-800"
+                        strokeWidth="8"
                       />
                       <circle
                         cx="60"
@@ -985,35 +985,35 @@ export const DiagnosticoFACSection: React.FC = () => {
                         r="50"
                         fill="none"
                         className="stroke-[#7c3aed] dark:stroke-[#C084FC] transition-all duration-1000 ease-out"
-                        strokeWidth="10"
+                        strokeWidth="8"
                         strokeDasharray={314}
                         strokeDashoffset={314 - (314 * resultado.mediaFac) / 100}
                         strokeLinecap="round"
                       />
                     </svg>
                     <div className="absolute text-center">
-                      <span className="text-3xl font-mono font-bold text-slate-900 dark:text-white">
+                      <span className="text-3xl font-serif-editorial text-slate-900 dark:text-zinc-100 block">
                         {resultado.mediaFac}%
                       </span>
-                      <span className="text-[10px] font-mono text-slate-500 block">
+                      <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 block">
                         {resultado.somaTotal}/96 pts
                       </span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 dark:text-[#A1A1AA] max-w-xs leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 max-w-xs leading-relaxed font-light">
                     A Média FAC utiliza a soma bruta das 24 respostas, sem pesos extras.
                   </p>
                 </div>
 
                 {/* Coluna Direita: Radar FAC e Ordem dos Pilares */}
-                <div className="md:col-span-7 space-y-4">
+                <div className="md:col-span-7 space-y-5">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-sans font-semibold text-base text-slate-900 dark:text-white">
+                    <h4 className="font-serif-editorial text-xl text-slate-900 dark:text-zinc-100">
                       Radar da Tríade Clínica
                     </h4>
                     <span className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC]">
-                      Ordem: {resultado.pilaresOrdenados.map((p) => p.nome).join(' → ')}
+                      {resultado.pilaresOrdenados.map((p) => p.nome).join(' → ')}
                     </span>
                   </div>
 
@@ -1023,21 +1023,21 @@ export const DiagnosticoFACSection: React.FC = () => {
                     conexao={resultado.pilares.conexao.percentual}
                   />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
                     {resultado.pilaresOrdenados.map((p, idx) => (
                       <div
                         key={p.id}
-                        className="p-3 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-center flex sm:flex-col items-center sm:justify-center justify-between"
+                        className="p-3 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white/40 dark:bg-zinc-900/30 text-center flex sm:flex-col items-center sm:justify-center justify-between"
                       >
                         <div className="text-left sm:text-center">
-                          <span className="text-[10px] font-mono text-slate-500 block">
-                            {idx + 1}º Lugar
+                          <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 block">
+                            0{idx + 1}
                           </span>
-                          <strong className="text-xs text-slate-900 dark:text-white block mt-0.5">
+                          <span className="text-xs font-serif-editorial text-slate-900 dark:text-zinc-100 block mt-0.5">
                             {p.nome}
-                          </strong>
+                          </span>
                         </div>
-                        <span className="text-base sm:text-sm font-mono font-bold text-[#7c3aed] dark:text-[#C084FC]">
+                        <span className="text-base sm:text-sm font-mono font-medium text-[#7c3aed] dark:text-[#C084FC]">
                           {p.percentual}%
                         </span>
                       </div>
@@ -1047,7 +1047,7 @@ export const DiagnosticoFACSection: React.FC = () => {
               </div>
 
               {/* Ressalva obrigatória */}
-              <div className="p-3.5 rounded-[8px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-slate-500 italic text-center">
+              <div className="py-3 border-t border-slate-200/60 dark:border-zinc-800/60 text-xs text-slate-500 dark:text-zinc-400 font-light italic text-center">
                 {RESSALVA_PERCENTUAL}
               </div>
             </div>

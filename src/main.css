@@ -120,6 +120,49 @@
     padding: 0 !important;
     margin: 0 !important;
   }
+
+  /* Barra de rolagem minimalista, discreta e premium (Webkit + Firefox) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+  }
+
+  .dark * {
+    scrollbar-color: rgba(161, 161, 170, 0.25) transparent;
+  }
+
+  /* Custom scrollbar para navegadores WebKit */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.3);
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(124, 58, 237, 0.5);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: rgba(161, 161, 170, 0.22);
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(192, 132, 252, 0.45);
+  }
+
+  /* Scroll suave global */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer utilities {
@@ -305,15 +348,17 @@
 
   .astral-card {
     background-color: #ffffff;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    border-radius: 14px;
-    box-shadow: 0 2px 12px -2px rgba(15, 23, 42, 0.04);
-    transition: border-color 0.2s ease;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.02);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
   }
   .dark .astral-card {
-    background-color: #0f0d17;
-    border: 1px solid rgba(39, 39, 42, 0.8);
-    box-shadow: 0 2px 14px -2px rgba(0, 0, 0, 0.35);
+    background-color: #0c0a14;
+    border: 1px solid rgba(39, 39, 42, 0.65);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   }
 
   /* Linhas editoriais finas e discretas em vez de blocos pesados */
@@ -321,48 +366,64 @@
     position: relative;
     transition:
       background-color 0.18s ease,
-      border-color 0.18s ease,
-      transform 0.18s ease;
+      border-color 0.18s ease;
   }
   .editorial-row:hover {
-    background-color: rgba(124, 58, 237, 0.03);
+    background-color: rgba(124, 58, 237, 0.025);
   }
   .dark .editorial-row:hover {
-    background-color: rgba(192, 132, 252, 0.04);
+    background-color: rgba(192, 132, 252, 0.035);
+  }
+
+  /* Superfície editorial com respiro e divisórias hairline */
+  .editorial-surface {
+    background-color: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.75);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  }
+  .dark .editorial-surface {
+    background-color: #0c0915;
+    border: 1px solid rgba(39, 39, 42, 0.7);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .editorial-divider {
+    border-color: rgba(226, 232, 240, 0.7);
+  }
+  .dark .editorial-divider {
+    border-color: rgba(39, 39, 42, 0.65);
   }
 
   .astral-card-interactive {
     background-color: #ffffff;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    border-radius: 14px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(226, 232, 240, 0.75);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
     transition:
       border-color 0.2s ease,
-      box-shadow 0.2s ease,
-      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      background-color 0.2s ease;
   }
   .astral-card-interactive:hover {
-    border-color: rgba(124, 58, 237, 0.35);
-    box-shadow: 0 4px 16px -2px rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.3);
   }
   .dark .astral-card-interactive {
-    background-color: #0d0a14;
-    border: 1px solid rgba(39, 39, 42, 0.85);
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
+    background-color: #0c0914;
+    border: 1px solid rgba(39, 39, 42, 0.7);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
   }
   .dark .astral-card-interactive:hover {
-    border-color: rgba(192, 132, 252, 0.4);
-    box-shadow: 0 4px 20px -2px rgba(192, 132, 252, 0.1);
+    border-color: rgba(192, 132, 252, 0.35);
   }
 
   .astral-surface-nested {
-    background-color: #fcfcfd;
+    background-color: #fafafc;
     border: 1px solid #eef0f4;
-    border-radius: 10px;
+    border-radius: 8px;
   }
   .dark .astral-surface-nested {
-    background-color: #0a0812;
-    border: 1px solid #1f1d2b;
+    background-color: #08060f;
+    border: 1px solid #1a1824;
   }
 
   .astral-display {

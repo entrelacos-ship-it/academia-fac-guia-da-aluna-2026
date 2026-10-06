@@ -53,25 +53,23 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Banner de Explicação Astral */}
-      <div className="p-4 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xs flex items-start gap-3">
-        <div className="p-2 rounded-[8px] bg-purple-50 dark:bg-[#0A0A14] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] shrink-0 mt-0.5">
-          <Sparkles className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
-        </div>
-        <div>
-          <span className="text-[10px] font-mono font-bold text-[#7c3aed] dark:text-[#C084FC] uppercase tracking-wider">
-            PASSO 1 / 7
+      {/* Cabeçalho Editorial */}
+      <div className="border-b border-slate-200/80 dark:border-zinc-800/80 pb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[11px] font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] tracking-wider uppercase">
+            Passo 01 de 07
           </span>
-          <h2 className="font-sans text-lg font-semibold text-slate-900 dark:text-white">
-            Custos Pessoais de Vida
-          </h2>
-          <p className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed mt-0.5">
-            Despesas básicas de sobrevivência e dignidade pessoal. O Método FAC começa aqui: sua
-            clínica deve, antes de tudo, sustentar sua existência digna no mundo.
-          </p>
+          <span className="text-slate-300 dark:text-zinc-700">•</span>
+          <span className="text-xs font-mono text-slate-400 dark:text-zinc-500">Pilar 01</span>
         </div>
+        <h2 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-slate-900 dark:text-zinc-100">
+          Custos Pessoais & Custo de Vida
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-zinc-400 mt-2 max-w-2xl font-light leading-relaxed">
+          Mapeie o que você precisa para manter sua dignidade de vida. O consultório deve sustentar
+          você com estabilidade, e não o contrário.
+        </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Formulário de Categorias (2 cols) */}
         <div className="lg:col-span-2 space-y-4">
@@ -224,24 +222,24 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
           )}
         </div>
 
-        {/* Card Sticky de Totalização Astral */}
+        {/* Painel Sticky Editorial */}
         <div className="lg:sticky lg:top-24 space-y-4">
-          <div className="p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-4">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+          <div className="p-6 rounded-2xl bg-white/70 dark:bg-[#0c0914] border border-slate-200/80 dark:border-zinc-800/80 shadow-xs space-y-4">
+            <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               Subtotal Pessoal
             </span>
 
             <div className="space-y-1">
-              <div className="font-mono text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+              <div className="font-serif-editorial text-3xl sm:text-4xl text-slate-900 dark:text-zinc-100">
                 {formatBRL(totalPessoais)}
               </div>
-              <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">
+              <p className="text-xs text-slate-500 dark:text-zinc-400 font-light">
                 Necessidade mensal de sobrevivência e dignidade
               </p>
             </div>
 
-            <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-[#A1A1AA]">
+            <div className="pt-4 border-t border-slate-200/70 dark:border-zinc-800/70 space-y-2">
+              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-400 font-light">
                 <Info className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC] shrink-0" />
                 <span>Você pode preencher valores estimados e ajustá-los a qualquer momento.</span>
               </div>
@@ -251,18 +249,18 @@ export const StepPessoais: React.FC<StepPessoaisProps> = ({
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200 dark:border-[#27272A]">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 border-t border-slate-200/80 dark:border-zinc-800/80">
         <Button
           variant="outline"
           onClick={onPrev}
-          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-700 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#27272A] rounded-[8px]"
+          className="min-h-[44px] justify-center gap-2 border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white rounded-lg"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
         </Button>
         <Button
           onClick={onNext}
-          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold px-6 rounded-[8px] shadow-md shadow-[#7c3aed]/20 dark:shadow-[#C084FC]/20"
+          className="min-h-[44px] justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-medium px-6 rounded-lg transition-all"
         >
           <span>Custos Profissionais</span>
           <ArrowRight className="w-4 h-4" />

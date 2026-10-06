@@ -56,42 +56,42 @@ export const IkigaiPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg overflow-x-hidden">
-      {/* Topbar Astral Integrada */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0A0A14]/90 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200 overflow-x-hidden">
+      {/* Topbar Editorial */}
+      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/70 print:hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 shrink-0">
             <Link
-              to="/"
-              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90"
+              to="/hub"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-lg p-1 transition-opacity hover:opacity-90"
               aria-label="Voltar ao Hub da Academia Entrelaços"
             >
               <FACLogo size="md" subtitle="Academia Entrelaços" />
             </Link>
 
-            <span className="text-slate-300 dark:text-[#27272A] hidden sm:inline">|</span>
+            <span className="text-border hidden sm:inline">|</span>
 
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/')}
-              className="hidden sm:inline-flex gap-1.5 text-xs font-mono text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white h-9 min-h-[44px] sm:min-h-0 sm:h-8 px-2"
+              onClick={() => navigate('/hub')}
+              className="hidden sm:inline-flex gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground h-8 px-2 rounded-lg"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>HUB DA ACADEMIA</span>
+              <span>Hub da Academia</span>
             </Button>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {/* Atalho Perfil e Senha */}
             <Link
               to="/perfil"
-              className="inline-flex items-center gap-1.5 px-2.5 py-2 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-500/20 transition-colors"
               title="Acessar Perfil e Alterar Senha"
               aria-label="Acessar Perfil e Alterar Senha"
             >
-              <KeyRound className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-              <span className="hidden sm:inline">PERFIL & SENHA</span>
+              <KeyRound className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
+              <span className="hidden sm:inline">Perfil & Senha</span>
             </Link>
 
             {/* Glossário */}
@@ -99,11 +99,11 @@ export const IkigaiPage: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setGlossaryOpen(true)}
-              className="min-h-[44px] min-w-[44px] px-2.5 sm:px-3 sm:min-h-0 sm:h-9 gap-1.5 border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-[#1f1f23] rounded-[8px]"
+              className="h-8 px-2.5 gap-1.5 border-border bg-background text-foreground hover:bg-muted/40 rounded-lg text-xs font-mono"
               aria-label="Abrir Glossário"
             >
-              <BookOpen className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              <span className="hidden sm:inline font-mono text-xs font-semibold">GLOSSÁRIO</span>
+              <BookOpen className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+              <span className="hidden sm:inline">Glossário</span>
             </Button>
 
             {/* Tema */}
@@ -111,13 +111,13 @@ export const IkigaiPage: React.FC = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="h-11 w-11 sm:h-9 sm:w-9 text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
+              className="h-8 w-8 text-muted-foreground hover:text-foreground rounded-lg"
               aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
             >
               {theme === 'light' ? (
                 <Moon className="w-4 h-4 text-slate-700" />
               ) : (
-                <Sun className="w-4 h-4 text-[#FB923C]" />
+                <Sun className="w-4 h-4 text-amber-400" />
               )}
             </Button>
 
@@ -129,28 +129,26 @@ export const IkigaiPage: React.FC = () => {
                 logout()
                 window.location.href = '/login'
               }}
-              className="min-h-[44px] sm:min-h-0 sm:h-9 text-xs font-mono font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 gap-1 px-2.5 hidden md:inline-flex rounded-[8px]"
+              className="h-8 text-xs font-mono text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 gap-1 px-2.5 hidden md:inline-flex rounded-lg"
               title="Encerrar sessão"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>SAIR</span>
+              <span>Sair</span>
             </Button>
           </div>
         </div>
       </header>
 
       {/* Conteúdo Principal do Fluxo IKIGAI */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <IkigaiWorkflow />
       </main>
 
-      {/* Rodapé Astral */}
-      <footer className="border-t border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] py-4 px-4 text-center text-xs text-slate-600 dark:text-[#A1A1AA] print:hidden mt-auto">
+      {/* Rodapé Editorial */}
+      <footer className="border-t border-border/70 bg-background/50 py-5 px-4 text-center text-xs text-muted-foreground print:hidden mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px]">
-          <p className="text-slate-800 dark:text-white font-medium">
-            Entrelaços Psicologia, Academia & Método FAC · Astral System © 2026
-          </p>
-          <p className="text-slate-400 dark:text-[#71717A]">
+          <p className="text-foreground font-light">Entrelaços Psicologia · Academia FAC</p>
+          <p className="text-muted-foreground/70">
             Ferramenta pedagógica do Encontro 2. Dados sincronizados com a nuvem da sua conta.
           </p>
         </div>
