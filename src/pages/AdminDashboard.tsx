@@ -619,6 +619,15 @@ export const AdminDashboard: React.FC = () => {
     }
   }
 
+  // Validação case-insensitive e trim para confirmação da palavra EXCLUIR
+  const isDeleteMatriculaConfirmed =
+    deleteConfirmTyped.trim().localeCompare('EXCLUIR', undefined, { sensitivity: 'accent' }) ===
+      0 || deleteConfirmTyped.trim().toUpperCase() === 'EXCLUIR'
+
+  const isDeleteUserConfirmed =
+    deleteUserConfirmTyped.trim().localeCompare('EXCLUIR', undefined, { sensitivity: 'accent' }) ===
+      0 || deleteUserConfirmTyped.trim().toUpperCase() === 'EXCLUIR'
+
   // Abrir modal de exclusão de usuário
   const handleOpenDeleteUser = (user: AdminUserItem) => {
     if (user.id === currentUser?.id || user.email === currentUser?.email) {
@@ -629,10 +638,16 @@ export const AdminDashboard: React.FC = () => {
     setDeleteUserConfirmTyped('')
   }
 
+  // Fechar modal de exclusão de usuário e limpar estado digitado
+  const handleCloseDeleteUser = () => {
+    setDeletingUser(null)
+    setDeleteUserConfirmTyped('')
+  }
+
   // Confirmar exclusão permanente de usuário
   const handleConfirmDeleteUser = async () => {
     if (!deletingUser) return
-    if (deleteUserConfirmTyped.trim() !== 'EXCLUIR') {
+    if (!isDeleteUserConfirmed) {
       alert('Digite EXCLUIR para confirmar a exclusão.')
       return
     }
@@ -756,9 +771,19 @@ export const AdminDashboard: React.FC = () => {
     setDeleteConfirmTyped('')
   }
 
+  // Fechar diálogo de exclusão permanente e limpar estado digitado
+  const handleCloseDeleteMatricula = () => {
+    setDeletingMatricula(null)
+    setDeleteConfirmTyped('')
+  }
+
   // Executar exclusão permanente de matrícula com auditoria
   const handleConfirmarExclusaoMatricula = async () => {
     if (!deletingMatricula) return
+    if (!isDeleteMatriculaConfirmed) {
+      alert('Digite EXCLUIR para confirmar a exclusão.')
+      return
+    }
 
     setExcluindoMatricula(true)
     try {
@@ -2819,7 +2844,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Diálogo de Exclusão Permanente de Matrícula (CRUD) */}
       <AlertDialog
         open={!!deletingMatricula}
-        onOpenChange={(open) => !open && setDeletingMatricula(null)}
+        onOpenChange={(open) => !open && handleCloseDeleteMatricula()}
       >
         <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px] max-w-md">
           <AlertDialogHeader>
@@ -2850,8 +2875,25 @@ export const AdminDashboard: React.FC = () => {
                     placeholder="EXCLUIR"
                     value={deleteConfirmTyped}
                     onChange={(e) => setDeleteConfirmTyped(e.target.value)}
-                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] focus-visible:ring-rose-500/30"
                   />
+                  <div className="mt-1.5 min-h-[16px] flex items-center gap-1.5 text-[11px] font-mono">
+                    {isDeleteMatriculaConfirmed ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Palavra de confirmação reconhecida
+                      </span>
+                    ) : (
+                      <span className="text-slate-500 dark:text-slate-400">
+                        {deleteConfirmTyped.trim().length === 0
+                          ? 'Digite EXCLUIR para confirmar (maiúsculas ou minúsculas)'
+                          : 'Aviso: digite EXCLUIR para habilitar o botão'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </AlertDialogDescription>
@@ -2860,7 +2902,7 @@ export const AdminDashboard: React.FC = () => {
             <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
             <Button
               type="button"
-              disabled={deleteConfirmTyped.trim() !== 'EXCLUIR' || excluindoMatricula}
+              disabled={!isDeleteMatriculaConfirmed || excluindoMatricula}
               onClick={handleConfirmarExclusaoMatricula}
               className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
             >
@@ -3318,7 +3360,7 @@ export const AdminDashboard: React.FC = () => {
       )}
 
       {/* Diálogo de Exclusão Permanente de Conta (CRUD) */}
-      <AlertDialog open={!!deletingUser} onOpenChange={(open) => !open && setDeletingUser(null)}>
+      <AlertDialog open={!!deletingUser} onOpenChange={(open) => !open && handleCloseDeleteUser()}>
         <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px] max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle className="font-sans text-base font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-2">
@@ -3346,8 +3388,25 @@ export const AdminDashboard: React.FC = () => {
                     placeholder="EXCLUIR"
                     value={deleteUserConfirmTyped}
                     onChange={(e) => setDeleteUserConfirmTyped(e.target.value)}
-                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A] focus-visible:ring-rose-500/30"
                   />
+                  <div className="mt-1.5 min-h-[16px] flex items-center gap-1.5 text-[11px] font-mono">
+                    {isDeleteUserConfirmed ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Palavra de confirmação reconhecida
+                      </span>
+                    ) : (
+                      <span className="text-slate-500 dark:text-slate-400">
+                        {deleteUserConfirmTyped.trim().length === 0
+                          ? 'Digite EXCLUIR para confirmar (maiúsculas ou minúsculas)'
+                          : 'Aviso: digite EXCLUIR para habilitar o botão'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </AlertDialogDescription>
@@ -3356,7 +3415,7 @@ export const AdminDashboard: React.FC = () => {
             <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
             <Button
               type="button"
-              disabled={deleteUserConfirmTyped.trim() !== 'EXCLUIR' || deletingUserLoading}
+              disabled={!isDeleteUserConfirmed || deletingUserLoading}
               onClick={handleConfirmDeleteUser}
               className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
             >

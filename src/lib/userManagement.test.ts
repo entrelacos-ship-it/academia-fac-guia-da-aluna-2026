@@ -85,3 +85,37 @@ describe('UserManagementService.deleteUser', () => {
     sendSpy.mockRestore()
   })
 })
+
+describe('Validação de confirmação de exclusão (EXCLUIR)', () => {
+  const isDeleteConfirmed = (typed: string) => {
+    const trimmed = (typed || '').trim()
+    return (
+      trimmed.localeCompare('EXCLUIR', undefined, { sensitivity: 'accent' }) === 0 ||
+      trimmed.toUpperCase() === 'EXCLUIR'
+    )
+  }
+
+  it('aceita "EXCLUIR" em maiúsculas exatas', () => {
+    expect(isDeleteConfirmed('EXCLUIR')).toBe(true)
+  })
+
+  it('aceita "excluir" em minúsculas (relato verbatim da usuária)', () => {
+    expect(isDeleteConfirmed('excluir')).toBe(true)
+  })
+
+  it('aceita variações com caixa mista e espaços extras nas bordas', () => {
+    expect(isDeleteConfirmed(' Excluir ')).toBe(true)
+    expect(isDeleteConfirmed('  EXCLUIR  ')).toBe(true)
+    expect(isDeleteConfirmed('  excluir  \n')).toBe(true)
+    expect(isDeleteConfirmed('ExClUiR')).toBe(true)
+  })
+
+  it('rejeita palavras incompletas ou incorretas', () => {
+    expect(isDeleteConfirmed('')).toBe(false)
+    expect(isDeleteConfirmed('   ')).toBe(false)
+    expect(isDeleteConfirmed('exclu')).toBe(false)
+    expect(isDeleteConfirmed('exclusao')).toBe(false)
+    expect(isDeleteConfirmed('excluir! ')).toBe(false)
+    expect(isDeleteConfirmed('EXCLUIR AGORA')).toBe(false)
+  })
+})
