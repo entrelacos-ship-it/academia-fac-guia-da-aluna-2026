@@ -1224,7 +1224,7 @@ export const AdminDashboard: React.FC = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/hub')}
+              onClick={() => navigate('/')}
               className="gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground rounded-lg"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -2826,30 +2826,32 @@ export const AdminDashboard: React.FC = () => {
               <Trash2 className="w-5 h-5" />
               <span>Excluir Matrícula Definitivamente</span>
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
-              <p>
-                Você está prestes a excluir permanentemente a matrícula de{' '}
-                <strong className="text-slate-900 dark:text-white">
-                  {deletingMatricula?.email}
-                </strong>
-                {deletingMatricula?.nome && ` (${deletingMatricula.nome})`}.
-              </p>
-              <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
-                <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove a aluna da
-                base e revoga o acesso ao Guia imediatamente. Se deseja apenas bloquear
-                temporariamente, use a opção <strong>Suspender</strong>.
-              </div>
-              <div className="pt-2">
-                <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
-                  Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
-                </label>
-                <Input
-                  type="text"
-                  placeholder="EXCLUIR"
-                  value={deleteConfirmTyped}
-                  onChange={(e) => setDeleteConfirmTyped(e.target.value)}
-                  className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
-                />
+            <AlertDialogDescription asChild>
+              <div className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+                <p>
+                  Você está prestes a excluir permanentemente a matrícula de{' '}
+                  <strong className="text-slate-900 dark:text-white">
+                    {deletingMatricula?.email}
+                  </strong>
+                  {deletingMatricula?.nome && ` (${deletingMatricula.nome})`}.
+                </p>
+                <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
+                  <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove a aluna da
+                  base e revoga o acesso ao Guia imediatamente. Se deseja apenas bloquear
+                  temporariamente, use a opção <strong>Suspender</strong>.
+                </div>
+                <div className="pt-2">
+                  <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
+                    Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="EXCLUIR"
+                    value={deleteConfirmTyped}
+                    onChange={(e) => setDeleteConfirmTyped(e.target.value)}
+                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                  />
+                </div>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -2917,23 +2919,25 @@ export const AdminDashboard: React.FC = () => {
               <AlertTriangle className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
               Confirmar desativação da peça
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
-              <p>
-                Tem certeza de que deseja DESLIGAR a peça{' '}
-                <strong className="text-slate-900 dark:text-white">
-                  {targetToggleItem?.item.titulo}
-                </strong>{' '}
-                (chave:{' '}
-                <code className="text-[#7c3aed] dark:text-[#C084FC]">
-                  {targetToggleItem?.item.chave}
-                </code>
-                )?
-              </p>
-              <p className="p-2.5 rounded-[8px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">
-                ⚠️ Ao desligar, esta peça deixará de aparecer para <strong>todas as alunas</strong>{' '}
-                na página inicial do Hub imediatamente. Uma nova entrada será registrada na trilha
-                de auditoria.
-              </p>
+            <AlertDialogDescription asChild>
+              <div className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+                <p>
+                  Tem certeza de que deseja DESLIGAR a peça{' '}
+                  <strong className="text-slate-900 dark:text-white">
+                    {targetToggleItem?.item.titulo}
+                  </strong>{' '}
+                  (chave:{' '}
+                  <code className="text-[#7c3aed] dark:text-[#C084FC]">
+                    {targetToggleItem?.item.chave}
+                  </code>
+                  )?
+                </p>
+                <p className="p-2.5 rounded-[8px] bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">
+                  ⚠️ Ao desligar, esta peça deixará de aparecer para{' '}
+                  <strong>todas as alunas</strong> na página inicial do Hub imediatamente. Uma nova
+                  entrada será registrada na trilha de auditoria.
+                </p>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -3320,28 +3324,30 @@ export const AdminDashboard: React.FC = () => {
               <Trash2 className="w-5 h-5" />
               <span>Excluir Conta Permanentemente</span>
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
-              <p>
-                Você está prestes a excluir permanentemente a conta de login de{' '}
-                <strong className="text-slate-900 dark:text-white">{deletingUser?.email}</strong>
-                {deletingUser?.name && ` (${deletingUser.name})`}.
-              </p>
-              <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
-                <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove as credenciais
-                de autenticação e backups associados. Caso esta usuária possua matrícula no Guia, a
-                matrícula continuará salva na aba Matrículas.
-              </div>
-              <div className="pt-2">
-                <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
-                  Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
-                </label>
-                <Input
-                  type="text"
-                  placeholder="EXCLUIR"
-                  value={deleteUserConfirmTyped}
-                  onChange={(e) => setDeleteUserConfirmTyped(e.target.value)}
-                  className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
-                />
+            <AlertDialogDescription asChild>
+              <div className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+                <p>
+                  Você está prestes a excluir permanentemente a conta de login de{' '}
+                  <strong className="text-slate-900 dark:text-white">{deletingUser?.email}</strong>
+                  {deletingUser?.name && ` (${deletingUser.name})`}.
+                </p>
+                <div className="p-3 rounded-[8px] bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-300">
+                  <strong>Atenção:</strong> Esta ação é irreversível. A exclusão remove as
+                  credenciais de autenticação e backups associados. Caso esta usuária possua
+                  matrícula no Guia, a matrícula continuará salva na aba Matrículas.
+                </div>
+                <div className="pt-2">
+                  <label className="text-[11px] font-mono text-slate-700 dark:text-slate-300 block mb-1">
+                    Digite <strong>EXCLUIR</strong> para habilitar a confirmação:
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="EXCLUIR"
+                    value={deleteUserConfirmTyped}
+                    onChange={(e) => setDeleteUserConfirmTyped(e.target.value)}
+                    className="h-8 text-xs font-mono uppercase bg-slate-50 dark:bg-[#0A0A14] border-slate-300 dark:border-[#27272A]"
+                  />
+                </div>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>

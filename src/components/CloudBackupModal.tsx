@@ -675,20 +675,22 @@ export const CloudBackupModal: React.FC<CloudBackupModalProps> = ({
                 Recarregar dados da sua conta na nuvem?
               </AlertDialogTitle>
             </div>
-            <AlertDialogDescription className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed space-y-2">
-              <p>
-                A aplicação atualizará os dados da tela trazendo a versão mais recente salva na
-                nuvem.
-              </p>
-              {remoteBackup?.updated && (
-                <div className="p-2.5 rounded-[8px] bg-slate-100 dark:bg-[#0A0A14] font-mono text-[11px] text-slate-700 dark:text-[#A1A1AA]">
-                  Data na nuvem:{' '}
-                  <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
-                    {formatDate(remoteBackup.updated)}
-                  </span>
-                  {remoteBackup.device_name && <span> ({remoteBackup.device_name})</span>}
-                </div>
-              )}
+            <AlertDialogDescription asChild>
+              <div className="text-xs text-slate-600 dark:text-[#A1A1AA] leading-relaxed space-y-2">
+                <p>
+                  A aplicação atualizará os dados da tela trazendo a versão mais recente salva na
+                  nuvem.
+                </p>
+                {remoteBackup?.updated && (
+                  <div className="p-2.5 rounded-[8px] bg-slate-100 dark:bg-[#0A0A14] font-mono text-[11px] text-slate-700 dark:text-[#A1A1AA]">
+                    Data na nuvem:{' '}
+                    <span className="text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                      {formatDate(remoteBackup.updated)}
+                    </span>
+                    {remoteBackup.device_name && <span> ({remoteBackup.device_name})</span>}
+                  </div>
+                )}
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

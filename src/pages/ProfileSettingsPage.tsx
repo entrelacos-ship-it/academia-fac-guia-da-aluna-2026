@@ -150,7 +150,7 @@ export const ProfileSettingsPage: React.FC = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
-              to="/hub"
+              to="/"
               className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-lg p-1 transition-opacity hover:opacity-90"
               aria-label="Voltar para a página inicial da Academia Entrelaços"
             >

@@ -62,7 +62,7 @@ export const IkigaiPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 shrink-0">
             <Link
-              to="/hub"
+              to="/"
               className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-lg p-1 transition-opacity hover:opacity-90"
               aria-label="Voltar ao Hub da Academia Entrelaços"
             >
@@ -74,7 +74,7 @@ export const IkigaiPage: React.FC = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/hub')}
+              onClick={() => navigate('/')}
               className="hidden sm:inline-flex gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground h-8 px-2 rounded-lg"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
