@@ -238,6 +238,19 @@ O Guia organiza o percurso formativo da psicóloga:
      - Ações de copiar texto consolidado e baixar arquivo `.txt` localmente.
   9. _Encerramento & Critério de Pronto:_ Definição clara do entregável prático que a aluna deve possuir ao término da aula.
   10. _FAQ do Encontro 1:_ Dúvidas frequentes sobre o método, ferramentas e acesso.
+- **Caderno do Encontro 2 ("Do sentido ao mercado") — 10 Estações Didáticas:**
+  Estrutura pedagógica completa para alunas validadas, sem qualquer vínculo com o aplicativo Meu IKIGAI:
+  1. _Estação 0 — Porta de entrada:_ Frase de direção da Peça 3 (com validação de avanço condicional).
+  2. _Estação 1 — Sua conta no ChatGPT:_ Instruções passo a passo de configuração e uso clínico seguro.
+  3. _Estação 2 — Baixe e importe as skills:_ Download de Detetive de Nicho e Posicionamento (com botões "Disponível em breve" e Plano B com SKILL.md copiado).
+  4. _Estação 3 — A lente do dia:_ Mapeamento dos 5 níveis de consciência de Eugene Schwartz adaptados à clínica de psicologia.
+  5. _Estação 4 — Detetive de Nicho:_ Investigação de dor latente, sintomas e montagem dinâmica de prompt limpo e copiável (sem colchetes nem travessões).
+  6. _Estação 5 — Escolha a sua brecha:_ Identificação de brecha de mercado desassistida no nicho.
+  7. _Estação 6 — Ficha de público-alvo:_ Seleção de pelo menos duas categorias clínicas e redação da frase de trabalho.
+  8. _Estação 7 — Relatório de posicionamento:_ Geração estruturada de diretrizes de autoridade e posicionamento.
+  9. _Estação 8 — Caderno de erros:_ Armadilhas comuns de comunicação clínica para evitar.
+  10. _Estação 9 — Fechamento:_ Resumo exportável em `.txt`, impressão formatada de sistema, entrega da semana e opção segura "Apagar as minhas respostas".
+  - _Regras de Blindagem do Encontro 2:_ Privacidade total (nenhuma resposta sai do navegador da psicóloga), caixas de cuidado clínico nas Estações 4 a 7 alertando para não identificar pacientes, suporte a Modo Aula em tela cheia e conformidade estrita de vocabulário editorial.
 
 ### 3.3 Diagnóstico FAC v2
 
@@ -311,8 +324,9 @@ O principal aplicativo quantitativo da Academia, organizado em um wizard de 8 et
 
 ### 3.5 Meu IKIGAI (`/ikigai`)
 
-Ferramenta de direcionamento existencial e autoral para a prática clínica (Encontro 2 do ciclo):
+Aplicativo independente do Hub (bloco "Aplicativos e recursos", aba Aplicativos) para direcionamento existencial e autoral na prática clínica (não faz parte do fluxo do Encontro 2):
 
+- **Independência em relação ao Encontro 2:** O aplicativo Meu IKIGAI é acessado de forma autônoma pelo bloco de Aplicativos do Hub, não se misturando com o caderno de 10 estações do Encontro 2 (que é dedicado ao Detetive de Nicho, skills do ChatGPT, brecha de mercado, público-alvo e relatório de posicionamento).
 - **Fluxo em 3 Momentos Práticos:**
   - **Momento 1 — Escrever (Os 4 Círculos):**
     Preenchimento em tela única dos círculos fundamentais:

@@ -149,7 +149,7 @@ export const IkigaiPage: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px]">
           <p className="text-foreground font-light">Entrelaços Psicologia · Academia FAC</p>
           <p className="text-muted-foreground/70">
-            Ferramenta pedagógica do Encontro 2. Dados sincronizados com a nuvem da sua conta.
+            Aplicativo independente da Academia FAC. Dados sincronizados com a nuvem da sua conta.
           </p>
         </div>
       </footer>

@@ -453,7 +453,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <p>
               Fundação é conseguir dizer para quem é seu trabalho, como explicá-lo e em quais
               condições você consegue sustentá-lo. O diagnóstico observa a estrutura que existe
-              hoje. A investigação de propósito e IKIGAI fica para o Encontro 2.
+              hoje. O aprofundamento de posicionamento e nicho fica para o Encontro 2.
             </p>
             <p>
               Se uma profissional atende bem, mas descreve seu trabalho apenas como "atendimento
@@ -717,7 +717,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
                 onClick={onAvancarEncontro2}
                 className="bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-mono text-xs sm:text-sm rounded-[8px] min-h-[44px] px-4 cursor-pointer"
               >
-                <span>Avançar para o Encontro 2 (Meu IKIGAI) →</span>
+                <span>Avançar para o Encontro 2 (Do sentido ao mercado) →</span>
               </Button>
             </div>
           ) : (

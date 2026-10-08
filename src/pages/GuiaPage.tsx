@@ -735,8 +735,16 @@ export const GuiaPage: React.FC = () => {
                       </Button>
                     </div>
                   </div>
+                ) : encontroSelecionado === 2 && isAlunaValidada ? (
+                  /* Encontro 2 Liberado com o Caderno Completo de 10 Estações */
+                  <div id="caderno-encontro-2" className="w-full scroll-mt-20">
+                    <Encontro2Caderno
+                      isAlunaValidada={isAlunaValidada}
+                      onValidarEmail={() => setValidarModalOpen(true)}
+                    />
+                  </div>
                 ) : encontroDetalhe ? (
-                  /* Encontro Pago Liberado com Sucesso! */
+                  /* Demais Encontros Pagos Liberados via BD */
                   <div className="p-8 sm:p-12 lg:p-14 rounded-[20px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md dark:shadow-xl space-y-10 w-full transition-all duration-300">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-[#27272A]">
                       <div>
@@ -788,33 +796,37 @@ export const GuiaPage: React.FC = () => {
                       )}
 
                     {/* Recursos e Links */}
-                    {encontroDetalhe.recursos && encontroDetalhe.recursos.length > 0 && (
-                      <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] space-y-3">
-                        <h4 className="font-sans font-semibold text-sm text-slate-900 dark:text-white">
-                          Aplicações & Materiais Vinculados
-                        </h4>
-                        <div className="flex flex-wrap gap-2.5">
-                          {encontroDetalhe.recursos.map((rec, rIdx) => (
-                            <Button
-                              key={rIdx}
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                if (rec.url.startsWith('http')) {
-                                  window.open(rec.url, '_blank')
-                                } else {
-                                  navigate(rec.url)
-                                }
-                              }}
-                              className="font-mono text-xs gap-1.5 border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[8px]"
-                            >
-                              <span>{rec.rotulo}</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </Button>
-                          ))}
+                    {encontroDetalhe.recursos &&
+                      encontroDetalhe.recursos.filter((r) => !r.url?.includes('ikigai')).length >
+                        0 && (
+                        <div className="pt-4 border-t border-slate-200 dark:border-[#27272A] space-y-3">
+                          <h4 className="font-sans font-semibold text-sm text-slate-900 dark:text-white">
+                            Aplicações & Materiais Vinculados
+                          </h4>
+                          <div className="flex flex-wrap gap-2.5">
+                            {encontroDetalhe.recursos
+                              .filter((rec) => !rec.url?.includes('ikigai'))
+                              .map((rec, rIdx) => (
+                                <Button
+                                  key={rIdx}
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    if (rec.url.startsWith('http')) {
+                                      window.open(rec.url, '_blank')
+                                    } else {
+                                      navigate(rec.url)
+                                    }
+                                  }}
+                                  className="font-mono text-xs gap-1.5 border-purple-200 dark:border-[#7c3aed]/40 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[8px]"
+                                >
+                                  <span>{rec.rotulo}</span>
+                                  <ExternalLink className="w-3.5 h-3.5" />
+                                </Button>
+                              ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {/* Aviso de gravações na plataforma da turma */}
                     <div className="p-4 rounded-[12px] bg-slate-50 dark:bg-[#121216] border border-slate-200 dark:border-[#27272A] text-xs text-editorial-secondary flex items-start gap-2.5">
@@ -824,14 +836,6 @@ export const GuiaPage: React.FC = () => {
                         Academia e podem exigir login específico de aluna da Entrelaços.
                       </span>
                     </div>
-                  </div>
-                ) : encontroSelecionado === 2 && isAlunaValidada ? (
-                  /* Encontro 2 Liberado com o Caderno Completo de 10 Estações */
-                  <div id="caderno-encontro-2" className="w-full scroll-mt-20">
-                    <Encontro2Caderno
-                      isAlunaValidada={isAlunaValidada}
-                      onValidarEmail={() => setValidarModalOpen(true)}
-                    />
                   </div>
                 ) : null}
               </div>
