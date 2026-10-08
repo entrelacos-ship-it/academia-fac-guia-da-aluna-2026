@@ -43,6 +43,7 @@ import { useCloudSync } from '@/hooks/useCloudSync'
 import { ENCONTRO_1_CONTENT } from '@/config/guiaContent'
 import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
 import { Encontro1CadernoCompleto } from '@/components/guia/Encontro1CadernoCompleto'
+import { Encontro2Caderno } from '@/components/guia/Encontro2Caderno'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import {
   AlunaGuiaService,
@@ -482,7 +483,7 @@ export const GuiaPage: React.FC = () => {
           <p className="text-sm sm:text-base md:text-lg text-editorial-secondary leading-relaxed max-w-3xl mx-auto font-light">
             A Aula 1 do Guia é gratuita e aberta a toda a categoria. Aqui você realiza o{' '}
             <strong className="text-editorial-primary font-medium">
-              Diagnóstico FAC Aprofundado — Versão 2
+              Diagnóstico FAC Aprofundado : Versão 2
             </strong>
             , descobre a saúde dos seus pilares (Fundação, Atração, Conexão) e conhece os
             fundamentos do Método FAC.
@@ -571,7 +572,12 @@ export const GuiaPage: React.FC = () => {
               <span className="text-editorial-secondary">Visualizando:</span>
               <span className="font-semibold text-editorial-primary flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7c3aed] dark:bg-[#C084FC] animate-pulse" />
-                Encontro {encontroSelecionado} {encontroSelecionado === 1 ? '— Aula Magna' : ''}
+                Encontro {encontroSelecionado}{' '}
+                {encontroSelecionado === 1
+                  ? ': Aula Magna'
+                  : encontroSelecionado === 2
+                    ? ': Do sentido ao mercado'
+                    : ''}{' '}
               </span>
             </div>
           </div>
@@ -633,7 +639,7 @@ export const GuiaPage: React.FC = () => {
                     <FACSymbol size={36} />
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
                       <h3 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
-                        Diagnóstico FAC Aprofundado — Versão 2
+                        Diagnóstico FAC Aprofundado : Versão 2
                       </h3>
                       <span className="text-xs font-mono text-purple-700 dark:text-purple-300 font-medium">
                         (Versão 2 · 04/10/2026)
@@ -818,6 +824,14 @@ export const GuiaPage: React.FC = () => {
                         Academia e podem exigir login específico de aluna da Entrelaços.
                       </span>
                     </div>
+                  </div>
+                ) : encontroSelecionado === 2 && isAlunaValidada ? (
+                  /* Encontro 2 Liberado com o Caderno Completo de 10 Estações */
+                  <div id="caderno-encontro-2" className="w-full scroll-mt-20">
+                    <Encontro2Caderno
+                      isAlunaValidada={isAlunaValidada}
+                      onValidarEmail={() => setValidarModalOpen(true)}
+                    />
                   </div>
                 ) : null}
               </div>

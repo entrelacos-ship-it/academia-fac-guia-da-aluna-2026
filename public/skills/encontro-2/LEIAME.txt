@@ -1,0 +1,11 @@
+# Skills do Encontro 2 — Academia Método FAC
+Subpasta de assets públicos do Encontro 2 ("Do sentido ao mercado").
+Arquivos previstos pela coordenação:
+- detetive-de-nicho-chatgpt.zip (ou similar)
+- detetive-de-nicho-claude.zip (ou similar)
+- posicionamento-chatgpt.zip (ou similar)
+- posicionamento-claude.zip (ou similar)
+- detetive-de-nicho-skill.md (Plano B)
+- posicionamento-skill.md (Plano B)
+
+Quando os arquivos forem disponibilizados pela Tati nesta pasta, os botões correspondentes na Estação 2 passam a permitir download e cópia direta.
