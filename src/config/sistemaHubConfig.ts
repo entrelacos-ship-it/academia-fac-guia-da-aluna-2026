@@ -54,10 +54,13 @@ export const SISTEMA_ITEMS_EXTRAS: Record<string, SistemaItemExtra> = {
     categoria: 'aplicativos',
     tipo: 'app',
   },
-  // Configuração para Meu IKIGAI Clínico
+  // Configuração para Meu IKIGAI Clínico / SKIGAI
   ikigai: {
     categoria: 'aplicativos',
     tipo: 'app',
+    destaqueBadge: 'Mapa Ikigai-kan',
+    instrucoesUso:
+      'Conduz a aluna pelas 8 fases do mapa de ikigai-kan: as 7 necessidades de Kamiya, 5 pilares de Mogi e plano de 4 semanas com radar interativo.',
   },
   // Configuração para a Skill Mentora-FAC
   'mentora-fac': {
