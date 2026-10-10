@@ -92,8 +92,9 @@ export const IkigaiPage: React.FC = () => {
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-primary">
               Aplicação Exclusiva para Alunas FAC
             </span>
-            <h1 className="font-serif-editorial text-3xl sm:text-4xl font-medium text-foreground">
-              SKIGAI · O Mapa do seu Ikigai-kan
+            <h1 className="h-display font-medium text-foreground">
+              SKIGAI · O Mapa do seu{' '}
+              <em className="font-serif-anchor not-italic text-primary">Ikigai-kan</em>
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
               O SKIGAI é uma ferramenta reservada a alunas matriculadas na Formação em Atendimento
@@ -353,8 +354,8 @@ export const IkigaiPage: React.FC = () => {
       {modalPausaAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
           <div className="w-full max-w-lg rounded-[20px] border border-border bg-card p-6 space-y-5 text-left">
-            <h3 className="font-serif-editorial text-2xl font-medium text-foreground">
-              Pausa de Respiração
+            <h3 className="h-card font-medium text-foreground">
+              Pausa de <em className="font-serif-anchor not-italic text-primary">Respiração</em>
             </h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               O seu mapa já está salvo automaticamente na memória deste aparelho. Para guardar uma
@@ -403,8 +404,9 @@ export const IkigaiPage: React.FC = () => {
       {modalAjudaAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
           <div className="w-full max-w-lg rounded-[20px] border border-border bg-card p-6 space-y-4 text-left max-h-[85vh] overflow-y-auto">
-            <h3 className="font-serif-editorial text-2xl font-medium text-foreground">
-              Guia Rápido do Método SKIGAI
+            <h3 className="h-card font-medium text-foreground">
+              Guia Rápido do Método{' '}
+              <em className="font-serif-anchor not-italic text-primary">SKIGAI</em>
             </h3>
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <p>
@@ -442,8 +444,12 @@ export const IkigaiPage: React.FC = () => {
       {modalResetAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md">
           <div className="w-full max-w-md rounded-[20px] border border-rose-300 dark:border-rose-900 bg-card p-6 space-y-4 text-left">
-            <h3 className="font-serif-editorial text-xl font-medium text-rose-600 dark:text-rose-400">
-              Apagar meu mapa deste aparelho?
+            <h3 className="h-card font-medium text-rose-600 dark:text-rose-400">
+              Apagar meu mapa deste{' '}
+              <em className="font-serif-anchor not-italic text-rose-600 dark:text-rose-400">
+                aparelho
+              </em>
+              ?
             </h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Isto remove o seu mapa deste aparelho. Se você não exportou o arquivo de backup nem

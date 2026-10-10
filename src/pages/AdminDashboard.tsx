@@ -1208,8 +1208,12 @@ export const AdminDashboard: React.FC = () => {
           <div className="w-14 h-14 rounded-[12px] bg-rose-50 dark:bg-[#0A0A14] border border-rose-300 dark:border-rose-500/40 text-rose-600 dark:text-rose-400 mx-auto flex items-center justify-center">
             <ShieldAlert className="w-7 h-7" />
           </div>
-          <h1 className="font-sans text-2xl font-semibold text-slate-900 dark:text-white">
-            Acesso Restrito ao Painel
+          <h1 className="h-section font-medium text-slate-900 dark:text-white">
+            Acesso{' '}
+            <em className="font-serif-anchor not-italic text-rose-600 dark:text-rose-400">
+              Restrito
+            </em>{' '}
+            ao Painel
           </h1>
           <p className="text-sm text-slate-600 dark:text-[#A1A1AA] leading-relaxed">
             Esta área é exclusiva para administradoras do sistema. Sua conta atual (
@@ -1300,8 +1304,11 @@ export const AdminDashboard: React.FC = () => {
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
             GESTÃO COMPLETA · ACADEMIA MÉTODO FAC
           </span>
-          <h1 className="font-sans text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mt-1">
-            Matrículas do Guia, Encontros & Gestão do Sistema
+          <h1 className="h-section font-medium tracking-tight text-slate-900 dark:text-white mt-1">
+            Matrículas do Guia, Encontros & Gestão do{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              Sistema
+            </em>
           </h1>
         </div>
 

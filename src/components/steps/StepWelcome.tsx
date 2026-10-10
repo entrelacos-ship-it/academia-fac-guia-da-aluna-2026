@@ -39,9 +39,12 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
           <span className="text-slate-700 dark:text-zinc-300">ENTRELAÇOS PSICOLOGIA</span>
         </div>
 
-        <h1 className="font-serif-editorial text-4xl sm:text-5xl md:text-[58px] font-normal tracking-tight text-slate-900 dark:text-zinc-50 leading-[1.08]">
+        <h1 className="h-display font-medium tracking-tight text-slate-900 dark:text-zinc-50 leading-[1.05]">
           Transforme complexidade clínica em{' '}
-          <span className="text-[#7c3aed] dark:text-[#C084FC] italic">clareza ética</span>.
+          <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+            clareza
+          </em>{' '}
+          ética.
         </h1>
 
         <p className="text-base sm:text-lg text-slate-700 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed font-normal">
@@ -175,10 +178,13 @@ export const StepWelcome: React.FC<StepWelcomeProps> = ({
 
       {/* Citação CFP — editorial discreto */}
       <div className="text-center py-4 border-t border-b border-slate-200/60 dark:border-zinc-800/60 max-w-xl mx-auto">
-        <p className="font-serif-editorial text-sm sm:text-base text-slate-700 dark:text-zinc-300 italic leading-relaxed">
-          &ldquo;A fixação de honorários deve garantir a dignidade do trabalho do psicólogo e o
-          padrão ético do atendimento, considerando a complexidade e a formação técnica
-          contínua.&rdquo;
+        <p className="lead text-slate-700 dark:text-zinc-300 leading-relaxed">
+          &ldquo;A fixação de honorários deve garantir a{' '}
+          <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+            dignidade
+          </em>{' '}
+          do trabalho do psicólogo e o padrão ético do atendimento, considerando a complexidade e a
+          formação técnica contínua.&rdquo;
         </p>
         <span className="text-[10px] font-mono text-slate-600 dark:text-zinc-400 uppercase tracking-widest block mt-2">
           Diretriz Ética CFP · Conselho Federal de Psicologia

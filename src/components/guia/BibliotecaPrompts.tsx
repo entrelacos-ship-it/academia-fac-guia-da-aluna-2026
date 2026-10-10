@@ -22,8 +22,12 @@ export const BibliotecaPrompts: React.FC = () => {
         <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           BIBLIOTECA COPIÁVEL
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-          Prompts para pensar com mais clareza.
+        <h3 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+          Prompts para pensar com mais{' '}
+          <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+            clareza
+          </em>
+          .
         </h3>
         <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
           Eles ajudam a organizar suas respostas. A decisão final continua com você. Preencha apenas

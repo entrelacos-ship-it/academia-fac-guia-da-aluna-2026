@@ -15,8 +15,12 @@ export const FaqEncontro1: React.FC = () => {
         <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           DÚVIDAS COMUNS
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-          Se algo travar.
+        <h3 className="h-section font-medium text-editorial-primary mt-1">
+          Se algo{' '}
+          <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+            travar
+          </em>
+          .
         </h3>
         <p className="text-sm sm:text-base text-editorial-secondary mt-2 leading-relaxed font-light">
           Orientações rápidas sobre acesso, tempo do diagnóstico, perda da aula ao vivo e

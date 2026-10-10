@@ -111,8 +111,11 @@ export const ValidarEmailModal: React.FC<ValidarEmailModalProps> = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
               Guia da Aluna · Acesso
             </span>
-            <h3 className="font-serif-editorial text-2xl font-normal text-foreground mt-0.5">
-              Validar E-mail de Matrícula
+            <h3 className="h-card font-medium text-foreground mt-0.5">
+              Validar E-mail de{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                Matrícula
+              </em>
             </h3>
             <p className="text-xs text-muted-foreground font-light mt-1">
               Exclusivo para alunas matriculadas na Academia Método FAC

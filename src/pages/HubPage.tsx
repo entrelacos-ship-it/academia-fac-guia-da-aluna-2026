@@ -364,9 +364,12 @@ export const HubPage: React.FC = () => {
                 <span className="text-editorial-secondary">MÉTODO FAC</span>
               </div>
 
-              <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-editorial-primary leading-[1.1]">
-                Sua formação e prática integrada na{' '}
-                <span className="text-[#7c3aed] dark:text-[#C084FC] italic">Academia FAC</span>.
+              <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
+                Sua formação e prática{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  integrada
+                </em>{' '}
+                na Academia FAC.
               </h1>
 
               <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
@@ -457,9 +460,12 @@ export const HubPage: React.FC = () => {
                       </span>
                       <h2
                         id="secao-guia-aluna"
-                        className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white tracking-tight"
+                        className="h-section font-medium text-slate-900 dark:text-white tracking-tight"
                       >
-                        {heroItem.titulo}
+                        Guia da{' '}
+                        <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                          Aluna
+                        </em>
                       </h2>
                     </div>
                   </div>
@@ -515,9 +521,12 @@ export const HubPage: React.FC = () => {
                   <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
                   <h3
                     id="secao-aplicativos-recursos"
-                    className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white"
+                    className="h-section font-medium text-slate-900 dark:text-white"
                   >
-                    Aplicativos e recursos
+                    Aplicativos e{' '}
+                    <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                      recursos
+                    </em>
                   </h3>
                 </div>
                 <p className="text-xs font-mono text-editorial-secondary">
@@ -727,9 +736,12 @@ export const HubPage: React.FC = () => {
                 <FileText className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                 <h3
                   id="secao-materiais"
-                  className="font-serif-editorial text-2xl font-medium text-slate-900 dark:text-white"
+                  className="h-section font-medium text-slate-900 dark:text-white"
                 >
-                  Material & Tutoriais
+                  Material &{' '}
+                  <em className="font-serif-anchor not-italic text-[#ea580c] dark:text-[#FB923C]">
+                    Tutoriais
+                  </em>
                 </h3>
               </div>
               <span className="text-xs font-mono text-editorial-secondary">
@@ -815,9 +827,13 @@ export const HubPage: React.FC = () => {
 
             <h3
               id="secao-convite-academia"
-              className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight text-editorial-primary leading-snug"
+              className="h-section font-medium tracking-tight text-editorial-primary leading-snug"
             >
-              Pronta para continuar seu percurso?
+              Pronta para continuar seu{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                percurso
+              </em>
+              ?
             </h3>
 
             <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-normal">

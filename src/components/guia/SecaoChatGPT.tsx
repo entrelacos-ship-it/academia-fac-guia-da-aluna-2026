@@ -11,8 +11,12 @@ export const SecaoChatGPT: React.FC = () => {
         <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
           PREPARE SUA FERRAMENTA
         </span>
-        <h3 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-          ChatGPT: acesso pronto, sem complicação.
+        <h3 className="h-section font-medium text-editorial-primary mt-1">
+          ChatGPT: acesso{' '}
+          <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+            pronto
+          </em>
+          , sem complicação.
         </h3>
         <p className="text-sm sm:text-base text-editorial-secondary mt-2 leading-relaxed font-light">
           Nesta abertura, a tarefa é conseguir entrar e testar uma conversa segura. O navegador já

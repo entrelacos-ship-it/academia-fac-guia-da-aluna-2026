@@ -213,11 +213,39 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <span>Entrelaços Psicologia</span>
           </div>
 
-          <h1 className="font-serif-editorial text-3xl sm:text-[32px] font-normal tracking-tight text-slate-900 dark:text-zinc-100 leading-tight">
-            {mode === 'login' && 'Entrar na Conta'}
-            {mode === 'signup' && 'Criar Conta FAC'}
-            {mode === 'forgot' && 'Recuperar Acesso'}
-            {mode === 'reset-token' && 'Definir Nova Senha'}
+          <h1 className="h-section font-medium tracking-tight text-slate-900 dark:text-zinc-100 leading-tight">
+            {mode === 'login' && (
+              <>
+                Entrar na{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  Conta
+                </em>
+              </>
+            )}
+            {mode === 'signup' && (
+              <>
+                Criar Conta{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  FAC
+                </em>
+              </>
+            )}
+            {mode === 'forgot' && (
+              <>
+                Recuperar{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  Acesso
+                </em>
+              </>
+            )}
+            {mode === 'reset-token' && (
+              <>
+                Definir Nova{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  Senha
+                </em>
+              </>
+            )}
           </h1>
 
           <p className="text-xs sm:text-sm text-editorial-secondary mt-2 max-w-[330px] font-light leading-relaxed">

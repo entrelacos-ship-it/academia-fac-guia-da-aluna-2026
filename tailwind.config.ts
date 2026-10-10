@@ -28,6 +28,7 @@ export default {
     extend: {
       fontFamily: {
         sans: [
+          'Inter Tight',
           'Inter',
           'system-ui',
           '-apple-system',
@@ -35,8 +36,9 @@ export default {
           'Segoe UI',
           'sans-serif',
         ],
-        display: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
-        serif: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
+        display: ['Inter Tight', 'system-ui', 'sans-serif'],
+        serif: ['Instrument Serif', 'Newsreader', 'Georgia', 'Cambria', 'serif'],
+        'serif-anchor': ['Instrument Serif', 'Newsreader', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {

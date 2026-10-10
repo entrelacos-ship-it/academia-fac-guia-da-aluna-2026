@@ -276,8 +276,11 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
             <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
               Etapa Preparatória · Antes das 24 Perguntas
             </span>
-            <h3 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl font-normal text-editorial-primary">
-              Contexto da sua Prática Clínica Atual
+            <h3 className="h-section font-medium text-editorial-primary">
+              Contexto da sua Prática Clínica{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                Atual
+              </em>
             </h3>
             <p className="text-sm sm:text-base text-editorial-secondary mt-2 font-light max-w-3xl">
               Essas respostas complementares não alteram a nota FAC. Elas enriquecem a
@@ -524,7 +527,7 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                 {perguntaObj.dimensaoNome}
               </span>
             </div>
-            <h4 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-normal text-editorial-primary leading-snug">
+            <h4 className="h-section font-medium text-editorial-primary leading-snug">
               {perguntaObj.enunciado}
             </h4>
           </div>
@@ -824,7 +827,7 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                   Versão 2 · 04/10/2026
                 </Badge>
               </div>
-              <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
+              <h3 className="h-section font-medium text-slate-900 dark:text-white">
                 {resultado.tituloLeitura}
               </h3>
             </div>
@@ -1017,9 +1020,12 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                 {/* Coluna Direita: Radar FAC e Ordem dos Pilares */}
                 <div className="md:col-span-7 space-y-5">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-serif-editorial text-xl text-editorial-primary">
-                      Radar da Tríade Clínica
-                    </h4>
+                    <h4 className="h-card font-medium text-editorial-primary">
+                      Radar da Tríade{' '}
+                      <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                        Clínica
+                      </em>
+                    </h4>{' '}
                     <span className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC]">
                       {resultado.pilaresOrdenados.map((p) => p.nome).join(' → ')}
                     </span>
@@ -1068,7 +1074,7 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block mb-1">
                   Leitura da Combinação Verbatim
                 </span>
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
+                <h3 className="h-section font-medium text-slate-900 dark:text-white">
                   {resultado.tituloLeitura}
                 </h3>{' '}
               </div>
@@ -1105,9 +1111,12 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                   Direcionamento Prioritário FAC
                 </span>
-                <h3 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-slate-900 dark:text-white">
-                  Por Onde Começar
-                </h3>
+                <h3 className="h-section font-medium text-slate-900 dark:text-white">
+                  Por onde{' '}
+                  <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                    começar
+                  </em>
+                </h3>{' '}
               </div>
 
               {/* Card do Pilar Inicial */}
@@ -1497,8 +1506,11 @@ export const DiagnosticoFACSection: React.FC<DiagnosticoFACSectionProps> = ({
                     Exclusivo Alunas
                   </Badge>
                 </div>
-                <h4 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-slate-900 dark:text-white">
-                  Continue com as Skills & a Mentora-FAC
+                <h4 className="h-section font-medium text-slate-900 dark:text-white">
+                  Continue com as Skills & a{' '}
+                  <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                    Mentora-FAC
+                  </em>
                 </h4>
                 <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed font-light">
                   Aprofunde a leitura do seu diagnóstico com as instruções e agentes do Método FAC.

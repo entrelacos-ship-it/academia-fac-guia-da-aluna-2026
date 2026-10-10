@@ -223,8 +223,11 @@ export const ProfileSettingsPage: React.FC = () => {
             <span className="text-xs font-mono text-muted-foreground">Perfil & Segurança</span>
           </div>
 
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl font-normal text-foreground">
-            Meu Perfil & Segurança
+          <h1 className="h-section font-medium text-foreground">
+            Meu Perfil &{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              Segurança
+            </em>
           </h1>
           <p className="text-sm text-muted-foreground font-light max-w-2xl">
             Gerencie as credenciais da sua conta, consulte sua identificação na Academia Método FAC

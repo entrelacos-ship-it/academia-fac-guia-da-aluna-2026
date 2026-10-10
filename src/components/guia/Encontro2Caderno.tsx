@@ -516,8 +516,11 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
           <Badge className="bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] border-purple-200 dark:border-purple-800 text-xs font-mono">
             Academia Método FAC · Fundação · Encontro 2
           </Badge>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary">
-            Do sentido ao mercado
+          <h2 className="h-section font-medium text-editorial-primary">
+            Do sentido ao{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              mercado
+            </em>
           </h2>
           <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed max-w-lg mx-auto font-light">
             O Encontro 2 é exclusivo para alunas matriculadas na Academia Método FAC. Valide o seu
@@ -684,9 +687,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         </div>
 
         <div className="space-y-4">
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-normal tracking-tight text-editorial-primary leading-[1.14]">
-            Do sentido ao mercado
-          </h1>
+          <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
+            Encontro 2: Do sentido ao{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              mercado
+            </em>
+          </h1>{' '}
           <p className="text-base sm:text-lg md:text-xl text-editorial-secondary leading-relaxed font-light max-w-4xl">
             Hoje você investiga o seu mercado com buscas reais, escolhe a sua brecha, define o seu
             público e sai com o seu relatório de posicionamento.
@@ -787,9 +793,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 1
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Sua conta no ChatGPT
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 1 · Sua conta no{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                ChatGPT
+              </em>
+            </h2>{' '}
           </div>
 
           <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
@@ -917,13 +926,15 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         >
           <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-4">
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              ESTAÇÃO 2
+              ESTAÇÃO 0
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Baixe e importe as skills
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Porta de entrada · A sua frase de{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                direção
+              </em>
             </h2>
           </div>
-
           <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
             Skills são ferramentas prontas que ensinam o ChatGPT a fazer um trabalho do jeito da
             Entrelaços. Hoje você vai usar duas.
@@ -1310,9 +1321,13 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 3
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              A lente do dia
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 3 · A{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                lente
+              </em>{' '}
+              do dia
+            </h2>{' '}
           </div>
 
           <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
@@ -1393,9 +1408,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 4
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Detetive de Nicho
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 4 · Detetive de{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                Nicho
+              </em>
+            </h2>{' '}
           </div>
 
           <CaixaCuidadoFixa />
@@ -1589,9 +1607,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 5
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Escolha a sua brecha
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 5 · Escolha a sua{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                brecha
+              </em>
+            </h2>{' '}
           </div>
 
           <CaixaCuidadoFixa />
@@ -1692,9 +1713,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 6
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Ficha de público-alvo
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 6 · Ficha de{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                público-alvo
+              </em>
+            </h2>{' '}
           </div>
 
           <CaixaCuidadoFixa />
@@ -1921,9 +1945,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 7
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Relatório de posicionamento
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 7 · Relatório de{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                posicionamento
+              </em>
+            </h2>{' '}
           </div>
 
           <CaixaCuidadoFixa />
@@ -2032,9 +2059,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 8
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Caderno de erros
-            </h2>
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Estação 8 · Caderno de{' '}
+              <em className="font-serif-anchor not-italic text-[#ea580c] dark:text-[#FB923C]">
+                erros
+              </em>
+            </h2>{' '}
           </div>
 
           <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
@@ -2113,11 +2143,14 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
               ESTAÇÃO 9
             </span>
-            <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-              Fechamento
+            <h2 className="h-section font-medium text-editorial-primary mt-1">
+              Fechamento · O que você{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                leva
+              </em>{' '}
+              de hoje
             </h2>
           </div>
-
           {/* Item 1: Baixar e Imprimir */}
           <div className="p-6 rounded-[16px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/70 dark:bg-[#0c0914] space-y-4">
             <div className="flex items-center gap-2">

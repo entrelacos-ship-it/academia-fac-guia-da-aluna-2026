@@ -65,8 +65,11 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
         </div>
 
         <div className="space-y-4">
-          <h1 className="font-serif-editorial text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-normal tracking-tight text-editorial-primary leading-[1.14]">
-            Aula Magna: o Método FAC e as boas-vindas
+          <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
+            Aula Magna: o Método FAC e as{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              boas-vindas
+            </em>
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-editorial-secondary leading-relaxed font-light max-w-4xl">
             Antes de construir novas peças, vamos enxergar a estrutura da sua prática hoje. Nesta
@@ -96,8 +99,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             A PERGUNTA DO ENCONTRO
           </span>
-          <p className="font-serif-editorial text-2xl sm:text-3xl md:text-[2rem] text-editorial-primary font-normal italic leading-snug">
-            Onde a sua prática pede estrutura primeiro?
+          <p className="h-card text-editorial-primary font-normal leading-snug">
+            Onde a sua prática pede{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              estrutura
+            </em>{' '}
+            primeiro?
           </p>
         </div>
       </header>
@@ -108,8 +115,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             01 / ANTES DE COMEÇAR
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-            Prepare o terreno.
+          <h2 className="h-section font-medium text-editorial-primary mt-1">
+            Prepare o{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              terreno
+            </em>
+            .
           </h2>
         </div>
 
@@ -151,8 +162,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             02 / DURANTE O ENCONTRO
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-editorial-primary mt-1">
-            Construa passo a passo.
+          <h2 className="h-section font-medium text-editorial-primary mt-1">
+            Construa{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              passo
+            </em>{' '}
+            a passo.
           </h2>
         </div>
 
@@ -215,8 +230,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             MATERIAIS DO ENCONTRO
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-            Tenha por perto.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+            Tenha por{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              perto
+            </em>
+            .
           </h2>
         </div>
 
@@ -290,8 +309,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             CADERNO DE ESTUDO / AULA MAGNA
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-            O conteúdo para voltar, pensar e construir.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+            O conteúdo para voltar, pensar e{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              construir
+            </em>
+            .
           </h2>
           <p className="text-sm sm:text-base text-slate-600 dark:text-[#A1A1AA] mt-2 leading-relaxed font-light">
             Acompanhe as boas-vindas e os slides do Método FAC antes de fazer o diagnóstico. Depois,
@@ -341,8 +364,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             APRESENTAÇÃO DO MÉTODO FAC
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-            O que estamos construindo.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+            O que estamos{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              construindo
+            </em>
+            .
           </h2>
         </div>
 
@@ -352,8 +379,11 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               01
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              Quando trabalhar muito não vira construção
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              Quando trabalhar muito não vira{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                construção
+              </em>
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "A sensação de estar sempre recomeçando tem uma dimensão estrutural."
@@ -390,8 +420,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               02
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              A lógica do cubo FAC
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              A lógica do{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                cubo
+              </em>{' '}
+              FAC
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "Mover uma face sem considerar as outras pode desmontar o que já estava de pé."
@@ -441,8 +475,11 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               03
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              Fundação: a casa antes da visita
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              Fundação: a casa antes da{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                visita
+              </em>
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "Clareza, mensagem, valor e sustentação formam a base."
@@ -497,8 +534,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               04
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              Atração: escolher uma rota possível
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              Atração: escolher uma{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                rota
+              </em>{' '}
+              possível
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "Ser encontrada não exige estar em todos os canais."
@@ -537,8 +578,11 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               05
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              Conexão: da chegada à continuidade
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              Conexão: da chegada à{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                continuidade
+              </em>
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "Clareza e confiança aparecem também no processo."
@@ -576,8 +620,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             DEPOIS DE ENTENDER O MÉTODO / DIAGNÓSTICO FAC
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white">
-            Agora, olhe para a estrutura que existe hoje.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white">
+            Agora, olhe para a{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              estrutura
+            </em>{' '}
+            que existe hoje.
           </h2>
         </div>
 
@@ -609,8 +657,11 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
             06
           </span>
-          <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-            Do Diagnóstico à primeira ação
+          <h3 className="h-card font-medium text-slate-900 dark:text-white">
+            Do Diagnóstico à primeira{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              ação
+            </em>
           </h3>
           <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
             "O resultado aponta uma hipótese para investigar, não um rótulo sobre sua capacidade."
@@ -667,8 +718,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             ENCERRAMENTO DA AULA MAGNA
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-            Para continuar depois daqui.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+            Para continuar{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              depois
+            </em>{' '}
+            daqui.
           </h2>
         </div>
 
@@ -678,8 +733,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
               07
             </span>
-            <h3 className="font-serif-editorial text-2xl sm:text-3xl font-normal text-slate-900 dark:text-white">
-              O Ecossistema Entrelaços e os próximos passos
+            <h3 className="h-card font-medium text-slate-900 dark:text-white">
+              O Ecossistema Entrelaços e os{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                próximos
+              </em>{' '}
+              passos
             </h3>
             <p className="text-sm sm:text-base font-serif-editorial italic text-slate-600 dark:text-[#A1A1AA]">
               "No fim da Aula Magna, conheça o ecossistema que dá continuidade ao percurso."
@@ -745,8 +804,12 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
           <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
             03 / SUA ENTREGA
           </span>
-          <h2 className="font-serif-editorial text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 dark:text-white mt-1">
-            O que precisa existir ao final.
+          <h2 className="h-section font-medium text-slate-900 dark:text-white mt-1">
+            O que precisa existir ao{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              final
+            </em>
+            .
           </h2>
         </div>
 

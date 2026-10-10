@@ -476,8 +476,12 @@ export const GuiaPage: React.FC = () => {
             <span className="text-editorial-secondary">ENCONTRO 1 · 06/10/2026</span>
           </div>
 
-          <h1 className="font-serif-editorial text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] font-medium tracking-tight text-editorial-primary leading-[1.08]">
-            O Chão da Clínica Sustentável & os Três Pilares FAC.
+          <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
+            O Chão da Clínica{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              Sustentável
+            </em>{' '}
+            & os Três Pilares FAC.
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-editorial-secondary leading-relaxed max-w-3xl mx-auto font-light">
@@ -751,7 +755,7 @@ export const GuiaPage: React.FC = () => {
                         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block mb-1">
                           Caderno Didático Exclusivo · Encontro {encontroDetalhe.numero}
                         </span>
-                        <h2 className="font-serif-editorial text-2xl sm:text-3xl md:text-4xl font-medium text-editorial-primary">
+                        <h2 className="h-section font-medium text-editorial-primary">
                           {encontroDetalhe.titulo}
                         </h2>
                         <p className="text-xs font-mono text-editorial-secondary mt-1">
