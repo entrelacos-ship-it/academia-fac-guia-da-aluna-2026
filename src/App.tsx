@@ -109,6 +109,8 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        {/* Alias para /hub apontando para o Hub principal */}
+        <Route path="/hub" element={<Navigate to="/" replace />} />
         {/* Calculadora de Precificação FAC (Exclusiva para alunas da Academia) */}
         <Route
           path="/calculadora"

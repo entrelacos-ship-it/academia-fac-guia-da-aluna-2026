@@ -75,7 +75,7 @@ export const IkigaiPage: React.FC = () => {
           <Button
             type="button"
             variant="ghost"
-            onClick={() => navigate('/hub')}
+            onClick={() => navigate('/')}
             className="text-xs font-mono gap-1.5"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -156,7 +156,7 @@ export const IkigaiPage: React.FC = () => {
               type="button"
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/hub')}
+              onClick={() => navigate('/')}
               className="text-xs font-mono gap-1 text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="w-4 h-4" />
