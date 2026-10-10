@@ -715,7 +715,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
               Traga:
             </span>
             <p className="text-sm sm:text-base text-editorial-primary font-medium leading-relaxed">
-              A sua frase de direção da Peça 3.
+              A sua frase de direção do app Meu IKIGAI.
             </p>
           </div>
         </div>
@@ -749,14 +749,11 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
 
           <div className="pt-2 flex items-center gap-2">
             <a
-              href="https://entrelacos.entrelacospsicologia.com.br"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/ikigai"
               className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:underline inline-flex items-center gap-1.5"
             >
-              <span>Ainda não fiz a Peça 3</span>
-              <BlocoRevisaoTati>[TATI PREENCHE o link]</BlocoRevisaoTati>
-              <ExternalLink className="w-3 h-3 ml-0.5" />
+              <span>Ainda não fiz no app Meu IKIGAI? Acesse o app</span>
+              <ArrowRight className="w-3 h-3 ml-0.5" />
             </a>
           </div>
         </div>
@@ -926,12 +923,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         >
           <div className="border-b border-slate-200/80 dark:border-[#27272A] pb-4">
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              ESTAÇÃO 0
+              ESTAÇÃO 2
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1">
-              Porta de entrada · A sua frase de{' '}
+              Estação 2 · Baixe e importe as{' '}
               <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                direção
+                skills
               </em>
             </h2>
           </div>
