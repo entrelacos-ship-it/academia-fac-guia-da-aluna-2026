@@ -791,98 +791,188 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
               ESTAÇÃO 1
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1">
-              Estação 1 · Sua conta no{' '}
+              Estação 1 · Crie sua conta no{' '}
               <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
                 ChatGPT
               </em>
-            </h2>{' '}
+            </h2>
           </div>
 
-          <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-light">
-            As ferramentas de hoje rodam dentro do ChatGPT. Se você já tem conta, confira só o
-            último passo e avance.
-          </p>
-
-          {/* Passo a passo numerado (um por cartão) */}
+          {/* Passo a passo numerado — orientações de texto oficiais */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-            {[
-              {
-                num: '1',
-                texto:
-                  'Acesse chatgpt.com no navegador do computador ou baixe o app oficial do ChatGPT na loja do seu celular. Cuidado com aplicativos de nomes parecidos: o oficial é da OpenAI.',
-                revisao: null,
-              },
-              {
-                num: '2',
-                texto: 'Toque em criar conta',
-                revisao: '[A CONFERIR NA TELA: nome exato do botão]',
-              },
-              {
-                num: '3',
-                texto: 'Entre com o seu e-mail ou com a sua conta Google',
-                revisao: '[A CONFERIR NA TELA: opções disponíveis]',
-              },
-              {
-                num: '4',
-                texto: 'Confirme o e-mail, se for pedido, e preencha nome e data de nascimento.',
-                revisao: null,
-              },
-              {
-                num: '5',
-                texto: 'Pronto: você está na tela de conversa.',
-                revisao: null,
-              },
-              {
-                num: '6',
-                texto:
-                  'Confira a busca na internet: a investigação de hoje depende de buscas reais. Veja como confirmar que a busca está disponível na sua conta',
-                revisao: '[A CONFERIR NA TELA: onde fica a busca no plano gratuito]',
-              },
-            ].map((passo) => (
-              <div
-                key={passo.num}
-                className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4"
-              >
-                <div className="space-y-2.5">
-                  <div className="flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
-                      {passo.num}
-                    </span>
-                    <span className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
-                      Passo {passo.num}
-                    </span>
-                  </div>
-                  <p className="text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
-                    {passo.texto}
-                  </p>
-                  {passo.revisao && <BlocoRevisaoTati>{passo.revisao}</BlocoRevisaoTati>}
-                </div>
-
-                {/* Espaço para captura de tela */}
-                <div className="p-3.5 rounded-[10px] border border-dashed border-slate-300 dark:border-[#3f3f46] bg-white/70 dark:bg-[#18181B]/70 text-center">
-                  <span className="text-xs font-mono text-editorial-secondary block">
-                    Espaço para captura de tela{' '}
-                    <BlocoRevisaoTati>[TATI PREENCHE as imagens]</BlocoRevisaoTati>
+            {/* Passo 1 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    1
                   </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 1 — Acesse o ChatGPT
+                  </h3>
+                </div>
+                <p className="text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  No computador, abra{' '}
+                  <a
+                    href="https://chatgpt.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#7c3aed] dark:text-[#C084FC] hover:underline"
+                  >
+                    chatgpt.com
+                  </a>
+                  . No celular, baixe o aplicativo <strong>ChatGPT</strong>, publicado pela{' '}
+                  <strong>OpenAI</strong>, na loja oficial do seu aparelho. Confira o nome da
+                  desenvolvedora antes de instalar.
+                </p>
+              </div>
+            </div>
+
+            {/* Passo 2 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    2
+                  </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 2 — Comece o cadastro
+                  </h3>
+                </div>
+                <p className="text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  Selecione <strong>Criar conta</strong>. Dependendo do idioma e da versão da tela,
+                  o botão pode aparecer como <strong>Cadastre-se</strong> ou{' '}
+                  <strong>Sign up</strong>. Se você já tem uma conta, escolha{' '}
+                  <strong>Entrar</strong> e use seu cadastro existente.
+                </p>
+              </div>
+            </div>
+
+            {/* Passo 3 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    3
+                  </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 3 — Escolha como entrar
+                  </h3>
+                </div>
+                <div className="space-y-2 text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  <p>
+                    Você pode informar seu <strong>e-mail</strong> ou escolher uma das opções
+                    exibidas na sua tela, como <strong>Continuar com Google</strong>,{' '}
+                    <strong>Continuar com Microsoft</strong> ou <strong>Continuar com Apple</strong>
+                    . As opções podem variar conforme o aparelho.
+                  </p>
+                  <p>Guarde o método escolhido: nas próximas vezes, entre da mesma forma.</p>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Passo 4 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    4
+                  </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 4 — Conclua as informações solicitadas
+                  </h3>
+                </div>
+                <p className="text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  Siga as instruções na tela. Se receber um pedido de confirmação por e-mail, abra
+                  sua caixa de entrada e conclua a verificação. Informe seu nome e sua data de
+                  nascimento <strong>se esses dados forem solicitados</strong>.
+                </p>
+              </div>
+            </div>
+
+            {/* Passo 5 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    5
+                  </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 5 — Abra uma conversa
+                  </h3>
+                </div>
+                <p className="text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  Quando o cadastro terminar, você verá o campo onde pode escrever uma mensagem para
+                  o ChatGPT. Sua conta está pronta para começar a atividade.
+                </p>
+              </div>
+            </div>
+
+            {/* Passo 6 */}
+            <div className="p-5 sm:p-6 rounded-[14px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] flex flex-col justify-between gap-4 md:col-span-2">
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                    6
+                  </span>
+                  <h3 className="text-xs font-mono font-semibold text-editorial-secondary uppercase">
+                    Passo 6 — Confira a busca na internet
+                  </h3>
+                </div>
+                <div className="space-y-2.5 text-sm sm:text-[15px] text-editorial-primary leading-relaxed font-light">
+                  <p>
+                    A investigação de hoje usa informações encontradas na web. Em uma conversa, abra
+                    o menu de ferramentas junto ao campo de mensagem e procure{' '}
+                    <strong>Buscar</strong> ou <strong>Search</strong>. Você também pode digitar{' '}
+                    <strong>/</strong> no campo de mensagem e selecionar a opção de busca, se ela
+                    aparecer.
+                  </p>
+                  <p>
+                    Para testar, escreva:{' '}
+                    <strong>
+                      &ldquo;Pesquise na internet o site oficial do Conselho Federal de Psicologia e
+                      mostre o link da fonte.&rdquo;
+                    </strong>{' '}
+                    Confira se a resposta traz um link para a fonte consultada.
+                  </p>
+                  <p>
+                    A busca na web está disponível no plano gratuito, sujeita aos limites de uso da
+                    conta. Se a opção não aparecer, tente abrir uma nova conversa, atualizar o
+                    aplicativo ou acessar{' '}
+                    <a
+                      href="https://chatgpt.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-[#7c3aed] dark:text-[#C084FC] hover:underline"
+                    >
+                      chatgpt.com
+                    </a>{' '}
+                    pelo navegador.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Caixa "gratuito ou pago?" */}
-          <div className="p-5 sm:p-6 rounded-[14px] bg-purple-50/60 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 space-y-2">
+          <div className="p-5 sm:p-6 rounded-[14px] bg-purple-50/60 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 space-y-2.5">
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
               Gratuito ou pago?
             </span>
-            <p className="text-sm sm:text-base text-editorial-primary leading-relaxed font-light">
-              Para o encontro de hoje, a conta gratuita serve para começar. Alguns recursos, como a
-              importação de skills, podem exigir o plano pago{' '}
-              <BlocoRevisaoTati>
-                [A CONFERIR: se a importação de plugin funciona no plano gratuito]
-              </BlocoRevisaoTati>
-              . Se a sua conta não permitir importar, use o Plano B da Estação 2, que funciona em
-              qualquer conta.
-            </p>
+            <div className="space-y-2 text-sm sm:text-base text-editorial-primary leading-relaxed font-light">
+              <p>
+                <strong>
+                  A conta gratuita serve para começar o encontro de hoje e usar a busca na internet.
+                </strong>{' '}
+                A importação de <em>skills</em> tem regras diferentes: no ChatGPT, ela está
+                disponível para contas e espaços de trabalho elegíveis, conforme as permissões
+                concedidas. Ter um plano pessoal pago não garante que o botão de importação apareça.
+              </p>
+              <p>
+                Se a sua conta não oferecer essa opção, siga o <strong>Plano B da Estação 2</strong>
+                . Você poderá continuar a atividade sem importar a <em>skill</em>.
+              </p>
+            </div>
           </div>
 
           {/* Item marcável e botão de avanço */}
