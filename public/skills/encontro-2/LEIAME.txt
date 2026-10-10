@@ -1,11 +1,15 @@
-# Skills do Encontro 2 — Academia Método FAC
-Subpasta de assets públicos do Encontro 2 ("Do sentido ao mercado").
-Arquivos previstos pela coordenação:
-- detetive-de-nicho-chatgpt.zip (ou similar)
-- detetive-de-nicho-claude.zip (ou similar)
-- posicionamento-chatgpt.zip (ou similar)
-- posicionamento-claude.zip (ou similar)
-- detetive-de-nicho-skill.md (Plano B)
-- posicionamento-skill.md (Plano B)
+# Skills para download do Encontro 2 (Do sentido ao mercado)
+Pasta de arquivos estáticos das duas skills da Academia Método FAC.
 
-Quando os arquivos forem disponibilizados pela Tati nesta pasta, os botões correspondentes na Estação 2 passam a permitir download e cópia direta.
+Arquivos que devem ser colocados aqui:
+1. radar-detetive-chatgpt.zip — Radar Detetive em formato plugin/skill, para importar no ChatGPT
+2. radar-detetive-claude.zip — Radar Detetive em formato skill, para importar no Claude
+3. radar-detetive.md — texto completo da skill Radar Detetive, usado no Plano B (copiar e colar)
+4. estrategista-de-posicionamento-chatgpt.zip — Estrategista de Posicionamento em formato plugin, para o ChatGPT
+5. estrategista-de-posicionamento-claude.zip — Estrategista de Posicionamento em formato skill, para o Claude
+6. estrategista-de-posicionamento.md — texto completo da skill Estrategista de Posicionamento, usado no Plano B
+
+Comportamento do Guia da Aluna:
+- Arquivos .zip ausentes: o botão fica desabilitado com o texto "Disponível em breve".
+- Arquivos .md ausentes: o botão "Copiar o texto da skill" fica desabilitado com "Disponível em breve".
+- Assim que os arquivos forem carregados nesta pasta, os botões ativam automaticamente.

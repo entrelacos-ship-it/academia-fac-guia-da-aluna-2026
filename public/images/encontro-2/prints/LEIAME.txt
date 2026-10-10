@@ -1,0 +1,22 @@
+# Capturas de tela dos passo a passos (Encontro 2)
+Coloque aqui as imagens PNG dos passo a passos do Encontro 2.
+
+Arquivos esperados:
+- conta-1.png: Passo 1 da criação da conta no ChatGPT
+- conta-2.png: Passo 2 da criação da conta no ChatGPT
+- conta-3.png: Passo 3 da criação da conta no ChatGPT
+- conta-4.png: Passo 4 da criação da conta no ChatGPT
+- conta-5.png: Passo 5 da criação da conta no ChatGPT
+- conta-6.png: Passo 6 da criação da conta no ChatGPT (onde fica a busca na internet)
+- importar-chatgpt-1.png: Passo 1 da importação de skills no ChatGPT
+- importar-chatgpt-2.png: Passo 2 da importação de skills no ChatGPT
+- importar-chatgpt-3.png: Passo 3 da importação de skills no ChatGPT
+- importar-chatgpt-4.png: Passo 4 da importação de skills no ChatGPT
+- importar-chatgpt-5.png: Passo 5 da importação de skills no ChatGPT
+- importar-claude-1.png: Passo 1 da importação de skills no Claude
+- importar-claude-2.png: Passo 2 da importação de skills no Claude
+- importar-claude-3.png: Passo 3 da importação de skills no Claude
+- importar-claude-4.png: Passo 4 da importação de skills no Claude
+- importar-claude-5.png: Passo 5 da importação de skills no Claude
+
+Nota: Enquanto os arquivos PNG não forem colocados aqui, a página exibe graciosamente cada passo em formato puramente textual, sem espaços vazios nem caixas quebradas.

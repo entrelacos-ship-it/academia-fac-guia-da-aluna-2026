@@ -1,0 +1,12 @@
+# Imagens e Diagramas do Encontro 2 — Academia Método FAC
+Pasta de imagens locais do Encontro 2 ("Do sentido ao mercado").
+
+Arquivos locais desta pasta:
+1. funil-marketing.svg — Diagrama do funil de marketing (Seção 3, Bloco 1)
+2. niveis-consciencia.svg — Diagrama dos 5 níveis de consciência de Eugene Schwartz (Seção 3, Bloco 2)
+
+Subpasta prints/:
+Capturas de tela dos passo a passos para apoiar as psicólogas:
+- prints/conta-1.png a prints/conta-6.png (Criação de conta no ChatGPT, Seção 2)
+- prints/importar-chatgpt-1.png a prints/importar-chatgpt-5.png (Importação no ChatGPT, Seção 4)
+- prints/importar-claude-1.png a prints/importar-claude-5.png (Importação no Claude, Seção 4)

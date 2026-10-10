@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg-top { fill: #241A44; }
+      .bg-mid { fill: #5B2B9D; }
+      .bg-bot { fill: #9760CE; }
+      .f-rim { stroke: #FFFFFF; stroke-width: 2.5; }
+      .f1 { fill: #EFA642; }
+      .f2 { fill: #E3526E; }
+      .f3 { fill: #6A38B7; }
+      .f4 { fill: #2DB5A5; }
+      .arrow { stroke: none; }
+      .text-label { font-family: 'Inter Tight', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 19px; fill: #FFFFFF; }
+      .text-sub { font-family: 'Inter Tight', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 15px; fill: rgba(255, 255, 255, 0.9); }
+    </style>
+  </defs>
+
+  <!-- Painel esquerdo com 3 faixas horizontais de fundo -->
+  <rect x="40" y="60" width="460" height="235" class="bg-top" />
+  <rect x="40" y="295" width="460" height="90" class="bg-mid" />
+  <rect x="40" y="385" width="460" height="90" class="bg-bot" />
+
+  <!-- SEÇÃO 1 (TOPO) DO FUNIL: Amarelo Ocre / Laranja Dourado -->
+  <!-- Corpo cônico -->
+  <path d="M 340 70 L 730 70 L 685 195 L 385 195 Z" class="f1" />
+  <!-- Borda elíptica superior (anel aberto) -->
+  <ellipse cx="535" cy="70" rx="195" ry="32" class="f1 f-rim" />
+  <!-- Abertura elíptica inferior da seção 1 -->
+  <ellipse cx="535" cy="195" rx="150" ry="22" class="f1 f-rim" />
+
+  <!-- Seta / Faixa 1 (Amarelo Ocre) -->
+  <polygon points="760,105 1060,105 1090,135 1060,165 760,165 780,135" fill="#E08B25" class="arrow" />
+
+  <!-- SEÇÃO 2 (MEIO - SUPERIOR): Coral / Rosa Avermelhado -->
+  <!-- Corpo cônico -->
+  <path d="M 385 195 L 685 195 L 640 300 L 430 300 Z" class="f2" />
+  <!-- Borda elíptica superior do bloco 2 -->
+  <ellipse cx="535" cy="195" rx="150" ry="22" class="f2 f-rim" />
+  <!-- Abertura elíptica inferior -->
+  <ellipse cx="535" cy="300" rx="105" ry="17" class="f2 f-rim" />
+
+  <!-- Seta / Faixa 2 (Coral / Rosa avermelhado) -->
+  <polygon points="720,215 1060,215 1090,245 1060,275 720,275 740,245" fill="#C93F5E" class="arrow" />
+
+  <!-- SEÇÃO 3 (MEIO - INFERIOR): Roxo Intenso -->
+  <!-- Corpo cônico -->
+  <path d="M 430 300 L 640 300 L 600 395 L 470 395 Z" class="f3" />
+  <!-- Borda elíptica superior do bloco 3 -->
+  <ellipse cx="535" cy="300" rx="105" ry="17" class="f3 f-rim" />
+  <!-- Abertura elíptica inferior -->
+  <ellipse cx="535" cy="395" rx="65" ry="12" class="f3 f-rim" />
+
+  <!-- Seta / Faixa 3 (Roxo Vibrante) -->
+  <polygon points="690,315 1060,315 1090,345 1060,375 690,375 710,345" fill="#5B2FA8" class="arrow" />
+
+  <!-- SEÇÃO 4 (FUNDO DO FUNIL): Verde Água / Petróleo Escuro -->
+  <!-- Corpo cilíndrico / cônico final -->
+  <path d="M 460 395 L 610 395 L 590 480 L 480 480 Z" class="f4" />
+  <!-- Borda elíptica superior da base -->
+  <ellipse cx="535" cy="395" rx="75" ry="14" class="f4 f-rim" />
+  <!-- Base inferior arredondada -->
+  <ellipse cx="535" cy="480" rx="55" ry="10" class="f4" />
+
+  <!-- Seta / Faixa 4 (Verde Água / Petróleo) -->
+  <polygon points="660,400 1060,400 1090,430 1060,460 660,460 680,430" fill="#209285" class="arrow" />
+</svg>

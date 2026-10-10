@@ -89,6 +89,12 @@ export function calcularResultadoDiagnostico(
  * CONTEÚDO PEDAGÓGICO DO ENCONTRO 1 (AULA MAGNA ABERTA — 06/10/2026)
  * Único encontro gratuito e aberto a todas as visitantes.
  */
+/**
+ * Configurações e links do Guia da Aluna (Encontro 2 e afins)
+ */
+export const LINK_PECA_3 = '/ikigai'
+export const LINK_COMUNIDADE = ''
+
 export const ENCONTRO_1_CONTENT = {
   numero: 1,
   titulo: 'Aula Magna: O Chão da Clínica Sustentável',

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 950" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg-card { fill: #171738; }
+      .circle-main { fill: #693CA5; stroke: #9B78D8; stroke-width: 4; }
+      .arc-path { fill: none; stroke: #A797D6; stroke-width: 2.5; stroke-dasharray: 6 0; }
+      .node-circle { fill: #FFFFFF; stroke: #8057C0; stroke-width: 4; }
+      .pill { fill: #242254; }
+    </style>
+  </defs>
+
+  <!-- Fundo com cantos arredondados -->
+  <rect x="0" y="0" width="1100" height="950" rx="36" class="bg-card" />
+
+  <!-- Círculo Grande Central à Esquerda -->
+  <circle cx="250" cy="485" r="165" class="circle-main" />
+
+  <!-- Arco semicircular conectando os 5 nós orbitais -->
+  <!-- Conecta do topo ao nó inferior passando pela direita -->
+  <path d="M 350 145 C 640 240, 640 730, 350 825" class="arc-path" />
+
+  <!-- 5 Pílulas Horizontais à Direita -->
+  <!-- Nível 1 -->
+  <rect x="445" y="125" width="585" height="100" rx="50" class="pill" />
+  <!-- Nível 2 -->
+  <rect x="560" y="260" width="470" height="100" rx="50" class="pill" />
+  <!-- Nível 3 -->
+  <rect x="615" y="445" width="415" height="100" rx="50" class="pill" />
+  <!-- Nível 4 -->
+  <rect x="560" y="625" width="470" height="100" rx="50" class="pill" />
+  <!-- Nível 5 -->
+  <rect x="445" y="760" width="585" height="100" rx="50" class="pill" />
+
+  <!-- 5 Nós Circulares Brancos sobre a órbita -->
+  <!-- Nó 1 -->
+  <circle cx="410" cy="180" r="35" class="node-circle" />
+  <!-- Nó 2 -->
+  <circle cx="530" cy="310" r="35" class="node-circle" />
+  <!-- Nó 3 -->
+  <circle cx="575" cy="495" r="35" class="node-circle" />
+  <!-- Nó 4 -->
+  <circle cx="530" cy="675" r="35" class="node-circle" />
+  <!-- Nó 5 -->
+  <circle cx="410" cy="810" r="35" class="node-circle" />
+</svg>

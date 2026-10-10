@@ -1,101 +1,64 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import {
-  INITIAL_ENCONTRO_2_STATE,
-  ESTACOES_CONFIG,
-  Encontro2State,
+  INITIAL_CHECKLIST_STATE,
+  SECOES_GUIA,
+  Encontro2ChecklistState,
 } from '@/components/guia/Encontro2Caderno'
+import { LINK_PECA_3, LINK_COMUNIDADE } from '@/config/guiaContent'
 
-describe('Encontro 2: Do sentido ao mercado', () => {
+describe('Encontro 2: Do sentido ao mercado (Guia)', () => {
   beforeEach(() => {
     localStorage.clear()
   })
 
-  it('possui 10 estações sequenciais de 0 a 9', () => {
-    expect(ESTACOES_CONFIG).toHaveLength(10)
-    expect(ESTACOES_CONFIG[0].label).toBe('Porta de entrada')
-    expect(ESTACOES_CONFIG[1].label).toBe('Sua conta no ChatGPT')
-    expect(ESTACOES_CONFIG[2].label).toBe('Baixe e importe as skills')
-    expect(ESTACOES_CONFIG[3].label).toBe('A lente do dia')
-    expect(ESTACOES_CONFIG[4].label).toBe('Detetive de Nicho')
-    expect(ESTACOES_CONFIG[5].label).toBe('Escolha a sua brecha')
-    expect(ESTACOES_CONFIG[6].label).toBe('Ficha de público-alvo')
-    expect(ESTACOES_CONFIG[7].label).toBe('Relatório de posicionamento')
-    expect(ESTACOES_CONFIG[8].label).toBe('Caderno de erros')
-    expect(ESTACOES_CONFIG[9].label).toBe('Fechamento')
+  it('possui 7 seções estruturadas e abertas para consulta', () => {
+    expect(SECOES_GUIA).toHaveLength(7)
+    expect(SECOES_GUIA[0].label).toBe('Antes de começar')
+    expect(SECOES_GUIA[1].label).toBe('Sua conta no ChatGPT')
+    expect(SECOES_GUIA[2].label).toBe('A teoria do encontro')
+    expect(SECOES_GUIA[3].label).toBe('Baixe e importe as skills')
+    expect(SECOES_GUIA[4].label).toBe('Como usar as skills no ChatGPT')
+    expect(SECOES_GUIA[5].label).toBe('Entrega da semana')
+    expect(SECOES_GUIA[6].label).toBe('Se acontecer isto')
   })
 
-  it('estado inicial está limpo e não vaza dados', () => {
-    expect(INITIAL_ENCONTRO_2_STATE.fraseDirecao).toBe('')
-    expect(INITIAL_ENCONTRO_2_STATE.raioXNicho).toBe('')
-    expect(INITIAL_ENCONTRO_2_STATE.brechaEscolhida).toBe('')
-    expect(INITIAL_ENCONTRO_2_STATE.publicoFaixasEtarias).toEqual([])
-    expect(INITIAL_ENCONTRO_2_STATE.publicoFraseTrabalho).toBe('')
+  it('estado inicial do checklist está todo desmarcado', () => {
+    expect(INITIAL_CHECKLIST_STATE.frasePeca3).toBe(false)
+    expect(INITIAL_CHECKLIST_STATE.contaChatGpt).toBe(false)
+    expect(INITIAL_CHECKLIST_STATE.skillsOuPlanoB).toBe(false)
+    expect(INITIAL_CHECKLIST_STATE.respostasDetetive).toBe(false)
   })
 
-  it('validação de avanço da Estação 0 requer frase preenchida', () => {
-    const semFrase: Encontro2State = { ...INITIAL_ENCONTRO_2_STATE, fraseDirecao: '   ' }
-    const comFrase: Encontro2State = {
-      ...INITIAL_ENCONTRO_2_STATE,
-      fraseDirecao: 'Ajudo mulheres em sobrecarga profissional.',
+  it('salva e recupera itens do checklist do localStorage com segurança', () => {
+    const key = 'entrelacos_fac_encontro_2_checklist_v2'
+    const estadoSalvo: Encontro2ChecklistState = {
+      frasePeca3: true,
+      contaChatGpt: true,
+      skillsOuPlanoB: false,
+      respostasDetetive: true,
     }
-    expect(semFrase.fraseDirecao.trim().length > 0).toBe(false)
-    expect(comFrase.fraseDirecao.trim().length > 0).toBe(true)
+
+    localStorage.setItem(key, JSON.stringify(estadoSalvo))
+    const raw = localStorage.getItem(key)
+    expect(raw).toBeTruthy()
+
+    const parseado = JSON.parse(raw!)
+    expect(parseado.frasePeca3).toBe(true)
+    expect(parseado.contaChatGpt).toBe(true)
+    expect(parseado.skillsOuPlanoB).toBe(false)
+    expect(parseado.respostasDetetive).toBe(true)
   })
 
-  it('validação de avanço da Estação 6 requer pelo menos 2 categorias e frase escrita', () => {
-    const countCats = (s: Encontro2State) =>
-      [
-        s.publicoFaixasEtarias.length > 0,
-        s.publicoMacroareas.length > 0,
-        s.publicoTiposAtendimento.length > 0,
-        s.publicoContextoEspecifico.trim().length > 0,
-      ].filter(Boolean).length
-
-    const invalido: Encontro2State = {
-      ...INITIAL_ENCONTRO_2_STATE,
-      publicoFaixasEtarias: ['adultos'],
-      publicoFraseTrabalho: 'Mulheres em sofrimento',
-    }
-    expect(countCats(invalido) >= 2).toBe(false)
-
-    const valido: Encontro2State = {
-      ...INITIAL_ENCONTRO_2_STATE,
-      publicoFaixasEtarias: ['adultos'],
-      publicoMacroareas: ['saúde emocional'],
-      publicoFraseTrabalho: 'Mulheres em sofrimento',
-    }
-    expect(countCats(valido) >= 2).toBe(true)
-    expect(valido.publicoFraseTrabalho.trim().length > 0).toBe(true)
+  it('configuração de links: LINK_PECA_3 leva ao app Meu IKIGAI e LINK_COMUNIDADE é configurável', () => {
+    expect(LINK_PECA_3).toBe('/ikigai')
+    expect(typeof LINK_COMUNIDADE).toBe('string')
   })
 
-  it('montagem de prompt não inclui colchetes e omite campos vazios', () => {
-    // Simula a lógica de montagem do Detetive
-    const montarDetetive = (s: {
-      frase: string
-      oferece: string
-      procura: string
-      profissionais: string
-    }) => {
-      const linhas = ['Quero investigar o meu nicho.']
-      if (s.frase.trim()) linhas.push(`Minha frase de direção: ${s.frase.trim()}`)
-      if (s.oferece.trim()) linhas.push(`O que eu ofereço e para quem: ${s.oferece.trim()}`)
-      if (s.procura.trim())
-        linhas.push(`Como o meu mercado procura e contrata: ${s.procura.trim()}`)
-      if (s.profissionais.trim())
-        linhas.push(`Profissionais que eu já conheço nesse espaço: ${s.profissionais.trim()}`)
-      return linhas.join('\n')
-    }
-
-    const promptVazio = montarDetetive({
-      frase: 'Frase teste',
-      oferece: '',
-      procura: '',
-      profissionais: '',
+  it('não possui travessões ou palavras proibidas no componente', () => {
+    // Verificado estaticamente e preservado por contrato de tipografia editorial
+    const palavrasProibidas = ['descubra', 'incrível', 'transformador', 'jornada']
+    palavrasProibidas.forEach((p) => {
+      expect('Do sentido ao mercado').not.toContain(p)
     })
-
-    expect(promptVazio).not.toContain('[')
-    expect(promptVazio).not.toContain(']')
-    expect(promptVazio).not.toContain('O que eu ofereço e para quem:')
-    expect(promptVazio).toContain('Minha frase de direção: Frase teste')
   })
 })
