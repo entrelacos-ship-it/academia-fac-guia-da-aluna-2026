@@ -35,6 +35,8 @@ import {
   CheckSquare,
   Square,
   KeyRound,
+  FileCode,
+  FolderDown,
 } from 'lucide-react'
 import { getMatriculaExpiration, shouldForceExpiredStatus } from '@/lib/matriculaExpiration'
 import { useNavigate, Link } from 'react-router-dom'
@@ -63,6 +65,7 @@ import {
   CreateUserData,
   UpdateUserData,
 } from '@/services/userManagementService'
+import { SkillsService, SkillItem } from '@/services/skillsService'
 
 export interface UserRecord {
   id: string
@@ -119,9 +122,9 @@ export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate()
   const { currentUser, isConnected, isAdmin, logout } = useCloudSync()
 
-  // Aba selecionada: 'pecas' ou 'matriculas' ou 'encontros' ou 'usuarios' ou 'auditoria'
+  // Aba selecionada: 'pecas' ou 'skills' ou 'matriculas' ou 'encontros' ou 'usuarios' ou 'auditoria'
   const [activeTab, setActiveTab] = useState<
-    'pecas' | 'matriculas' | 'encontros' | 'usuarios' | 'auditoria'
+    'pecas' | 'skills' | 'matriculas' | 'encontros' | 'usuarios' | 'auditoria'
   >('pecas')
 
   // Estado Peças do Hub
@@ -182,6 +185,23 @@ export const AdminDashboard: React.FC = () => {
 
   // Estado Encontros do Guia
   const [encontros, setEncontros] = useState<GuiaEncontroAdmin[]>([])
+
+  // Estado Skills para Download
+  const [skillsList, setSkillsList] = useState<SkillItem[]>([])
+  const [showNovaSkillModal, setShowNovaSkillModal] = useState(false)
+  const [editingSkill, setEditingSkill] = useState<SkillItem | null>(null)
+  const [skillTitulo, setSkillTitulo] = useState('')
+  const [skillDescricao, setSkillDescricao] = useState('')
+  const [skillCategoria, setSkillCategoria] = useState('Skills Clínicas')
+  const [skillOrdem, setSkillOrdem] = useState(1)
+  const [skillVersao, setSkillVersao] = useState('v1.0')
+  const [skillRotuloBadge, setSkillRotuloBadge] = useState('Disponível')
+  const [skillInstrucoes, setSkillInstrucoes] = useState('')
+  const [skillArquivo, setSkillArquivo] = useState<File | null>(null)
+  const [salvandoSkill, setSalvandoSkill] = useState(false)
+  const [deletingSkill, setDeletingSkill] = useState<SkillItem | null>(null)
+  const [excluindoSkill, setExcluindoSkill] = useState(false)
+  const [togglingSkillId, setTogglingSkillId] = useState<string | null>(null)
 
   // Estado Auditoria
   const [auditorias, setAuditorias] = useState<AuditoriaRecord[]>([])
@@ -329,6 +349,14 @@ export const AdminDashboard: React.FC = () => {
         console.warn('Erro ao carregar fac_hub_items:', hubErr)
       }
 
+      // 5.1 Skills para Download
+      try {
+        const sList = await SkillsService.listarSkills(false)
+        setSkillsList(sList)
+      } catch (skillsErr) {
+        console.warn('Erro ao carregar fac_skills:', skillsErr)
+      }
+
       // 6. Auditoria
       try {
         const audList = await pb.collection('fac_auditoria').getList<AuditoriaRecord>(1, 30, {
@@ -385,6 +413,125 @@ export const AdminDashboard: React.FC = () => {
       setErrorMessage(`Erro ao alterar liberação da peça: ${getErrorMessage(err)}`)
     } finally {
       setTogglingChave(null)
+    }
+  }
+
+  // Handlers para Skills
+  const handleAbrirNovaSkill = () => {
+    setEditingSkill(null)
+    setSkillTitulo('')
+    setSkillDescricao('')
+    setSkillCategoria('Skills Clínicas')
+    setSkillOrdem(skillsList.length + 1)
+    setSkillVersao('v1.0')
+    setSkillRotuloBadge('Disponível')
+    setSkillInstrucoes('')
+    setSkillArquivo(null)
+    setShowNovaSkillModal(true)
+  }
+
+  const handleAbrirEditarSkill = (sk: SkillItem) => {
+    setEditingSkill(sk)
+    setSkillTitulo(sk.titulo || '')
+    setSkillDescricao(sk.descricao || '')
+    setSkillCategoria(sk.categoria || 'Skills Clínicas')
+    setSkillOrdem(sk.ordem || 1)
+    setSkillVersao(sk.versao || 'v1.0')
+    setSkillRotuloBadge(sk.rotulo_badge || 'Disponível')
+    setSkillInstrucoes(sk.instrucoes || '')
+    setSkillArquivo(null)
+    setShowNovaSkillModal(true)
+  }
+
+  const handleSalvarSkill = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!skillTitulo.trim()) {
+      setErrorMessage('O título da skill é obrigatório.')
+      return
+    }
+    if (!editingSkill && !skillArquivo) {
+      setErrorMessage('Selecione um arquivo (.zip, .md, etc.) para fazer o upload da skill.')
+      return
+    }
+
+    setSalvandoSkill(true)
+    setErrorMessage(null)
+    setSuccessActionMessage(null)
+
+    try {
+      if (editingSkill) {
+        await SkillsService.atualizarSkill(editingSkill.id, {
+          titulo: skillTitulo.trim(),
+          descricao: skillDescricao.trim(),
+          categoria: skillCategoria.trim(),
+          ordem: Number(skillOrdem) || 1,
+          versao: skillVersao.trim(),
+          rotulo_badge: skillRotuloBadge.trim(),
+          instrucoes: skillInstrucoes.trim(),
+          ...(skillArquivo ? { arquivo: skillArquivo } : {}),
+        })
+        setSuccessActionMessage(`Skill "${skillTitulo}" atualizada com sucesso.`)
+      } else {
+        if (!skillArquivo) throw new Error('Arquivo não fornecido.')
+        await SkillsService.criarSkill({
+          titulo: skillTitulo.trim(),
+          descricao: skillDescricao.trim(),
+          categoria: skillCategoria.trim(),
+          ordem: Number(skillOrdem) || 1,
+          ativo: true,
+          versao: skillVersao.trim(),
+          rotulo_badge: skillRotuloBadge.trim(),
+          instrucoes: skillInstrucoes.trim(),
+          arquivo: skillArquivo,
+        })
+        setSuccessActionMessage(`Skill "${skillTitulo}" cadastrada com upload realizado!`)
+      }
+
+      setShowNovaSkillModal(false)
+      const reloaded = await SkillsService.listarSkills(false)
+      setSkillsList(reloaded)
+    } catch (err) {
+      console.error('Erro ao salvar skill:', err)
+      setErrorMessage(`Falha ao salvar skill: ${getErrorMessage(err)}`)
+    } finally {
+      setSalvandoSkill(false)
+    }
+  }
+
+  const handleToggleSkillAtivo = async (sk: SkillItem) => {
+    setTogglingSkillId(sk.id)
+    setErrorMessage(null)
+    try {
+      const novoAtivo = !sk.ativo
+      await SkillsService.toggleAtivo(sk.id, novoAtivo)
+      setSkillsList((prev) =>
+        prev.map((item) => (item.id === sk.id ? { ...item, ativo: novoAtivo } : item)),
+      )
+      setSuccessActionMessage(
+        novoAtivo
+          ? `Skill "${sk.titulo}" ativada e visível para as alunas.`
+          : `Skill "${sk.titulo}" desativada e oculta das alunas.`,
+      )
+    } catch (err) {
+      setErrorMessage(`Erro ao alterar visibilidade: ${getErrorMessage(err)}`)
+    } finally {
+      setTogglingSkillId(null)
+    }
+  }
+
+  const handleConfirmarExclusaoSkill = async () => {
+    if (!deletingSkill) return
+    setExcluindoSkill(true)
+    setErrorMessage(null)
+    try {
+      await SkillsService.excluirSkill(deletingSkill.id)
+      setSkillsList((prev) => prev.filter((item) => item.id !== deletingSkill.id))
+      setSuccessActionMessage(`Skill "${deletingSkill.titulo}" excluída com sucesso.`)
+      setDeletingSkill(null)
+    } catch (err) {
+      setErrorMessage(`Erro ao excluir skill: ${getErrorMessage(err)}`)
+    } finally {
+      setExcluindoSkill(false)
     }
   }
 
@@ -1361,6 +1508,20 @@ export const AdminDashboard: React.FC = () => {
           </Button>
 
           <Button
+            variant={activeTab === 'skills' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setActiveTab('skills')}
+            className={`font-mono text-xs rounded-lg gap-1.5 ${
+              activeTab === 'skills'
+                ? 'bg-[#7c3aed] text-white dark:bg-[#C084FC] dark:text-[#0A0A14] font-medium'
+                : 'border-border/70 text-muted-foreground'
+            }`}
+          >
+            <FolderDown className="w-3.5 h-3.5" />
+            <span>Skills para download ({skillsList.length})</span>
+          </Button>
+
+          <Button
             variant={activeTab === 'matriculas' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveTab('matriculas')}
@@ -1416,6 +1577,194 @@ export const AdminDashboard: React.FC = () => {
             <span>Auditoria</span>
           </Button>
         </div>
+
+        {/* ================= ABA: SKILLS PARA DOWNLOAD ================= */}
+        {activeTab === 'skills' && (
+          <div className="space-y-6">
+            <div className="p-4 sm:p-6 rounded-[16px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-md space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-[#27272A]">
+                <div>
+                  <h3 className="font-sans text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                    <FolderDown className="w-5 h-5 text-[#ea580c] dark:text-[#FB923C]" />
+                    Gestão de Skills para Download (Alunas FAC)
+                  </h3>
+                  <p className="text-xs font-mono text-editorial-secondary mt-0.5">
+                    Faça upload dos pacotes de skills (.zip, .md, .json) para as alunas baixarem na
+                    aba &quot;Skills&quot; do Hub e importarem no ChatGPT.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Badge className="font-mono text-xs bg-purple-50 dark:bg-[#0A0A14] text-[#7c3aed] border-purple-200">
+                    {skillsList.filter((s) => s.ativo).length} ativas / {skillsList.length}{' '}
+                    cadastradas
+                  </Badge>
+                  <Button
+                    size="sm"
+                    onClick={handleAbrirNovaSkill}
+                    className="gap-1.5 font-mono text-xs bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[8px]"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Nova Skill</span>
+                  </Button>
+                </div>
+              </div>
+
+              {skillsList.length === 0 ? (
+                <div className="p-12 text-center space-y-3 bg-slate-50 dark:bg-[#0A0A14] rounded-[12px] border border-dashed border-slate-300 dark:border-[#27272A]">
+                  <FolderDown className="w-10 h-10 text-muted-foreground mx-auto" />
+                  <div className="text-sm font-sans font-semibold text-slate-900 dark:text-white">
+                    Nenhuma skill cadastrada ainda
+                  </div>
+                  <p className="text-xs font-mono text-editorial-secondary max-w-md mx-auto">
+                    Faça o upload do seu primeiro arquivo de skill (.zip ou .md) para disponibilizar
+                    na área de alunas autenticadas.
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={handleAbrirNovaSkill}
+                    className="font-mono text-xs bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[8px] mt-2"
+                  >
+                    <Plus className="w-4 h-4 mr-1.5" />
+                    Fazer Upload da Primeira Skill
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-3">
+                  {skillsList.map((sk) => {
+                    const isToggling = togglingSkillId === sk.id
+                    return (
+                      <div
+                        key={sk.id}
+                        className={`p-4 rounded-[14px] border transition-all ${
+                          sk.ativo
+                            ? 'bg-slate-50/70 dark:bg-[#121216] border-slate-200 dark:border-[#27272A]'
+                            : 'bg-rose-50/40 dark:bg-rose-950/10 border-rose-200 dark:border-rose-900/40 opacity-90'
+                        }`}
+                      >
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                          <div className="space-y-1.5 flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="font-sans font-semibold text-base text-slate-900 dark:text-white">
+                                {sk.titulo}
+                              </span>
+                              {sk.versao && (
+                                <Badge variant="outline" className="text-[10px] font-mono">
+                                  {sk.versao}
+                                </Badge>
+                              )}
+                              {sk.categoria && (
+                                <span className="text-[11px] font-mono px-2 py-0.5 rounded-[4px] bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-[#7c3aed] dark:text-[#C084FC]">
+                                  {sk.categoria}
+                                </span>
+                              )}
+                              {sk.rotulo_badge && (
+                                <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 text-[10px] font-mono">
+                                  {sk.rotulo_badge}
+                                </Badge>
+                              )}
+                              {sk.ativo ? (
+                                <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-mono uppercase">
+                                  Ativa (Visível)
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 text-[10px] font-mono uppercase">
+                                  Desativada (Oculta)
+                                </Badge>
+                              )}
+                            </div>
+
+                            <p className="text-xs text-editorial-secondary leading-relaxed max-w-3xl">
+                              {sk.descricao || 'Sem descrição cadastrada.'}
+                            </p>
+
+                            <div className="text-[11px] font-mono text-editorial-secondary flex flex-wrap items-center gap-3 pt-0.5">
+                              <span className="flex items-center gap-1 text-slate-700 dark:text-slate-300">
+                                <FileCode className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+                                Arquivo: <strong>{sk.arquivo}</strong>
+                              </span>
+                              <span>Ordem: #{sk.ordem ?? 1}</span>
+                              {sk.created && (
+                                <span>
+                                  Cadastrado em: {new Date(sk.created).toLocaleDateString('pt-BR')}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2 shrink-0 lg:pl-4 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-[#27272A] pt-3 lg:pt-0">
+                            {/* Baixar Arquivo Original */}
+                            <a
+                              href={SkillsService.getFileUrl(sk, true)}
+                              download={sk.arquivo}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center justify-center h-8 px-3 text-xs font-mono rounded-[6px] border border-slate-300 dark:border-[#27272A] bg-white dark:bg-[#18181B] hover:bg-slate-50 dark:hover:bg-[#27272A] text-slate-800 dark:text-slate-200 gap-1.5"
+                              title="Baixar arquivo salvo no PocketBase"
+                            >
+                              <Download className="w-3.5 h-3.5 text-[#7c3aed] dark:text-[#C084FC]" />
+                              <span>Baixar</span>
+                            </a>
+
+                            {/* Editar */}
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleAbrirEditarSkill(sk)}
+                              className="h-8 px-2.5 text-xs font-mono rounded-[6px] gap-1"
+                              title="Editar informações da skill"
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                              <span>Editar</span>
+                            </Button>
+
+                            {/* Toggle Ativar / Desativar */}
+                            <Button
+                              size="sm"
+                              disabled={isToggling}
+                              variant={sk.ativo ? 'outline' : 'default'}
+                              onClick={() => handleToggleSkillAtivo(sk)}
+                              className={`h-8 font-mono text-xs rounded-[6px] gap-1.5 ${
+                                sk.ativo
+                                  ? 'border-rose-300 dark:border-rose-900/60 text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                  : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                              }`}
+                            >
+                              {isToggling ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : sk.ativo ? (
+                                <>
+                                  <EyeOff className="w-3.5 h-3.5" />
+                                  <span>Desativar</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Eye className="w-3.5 h-3.5" />
+                                  <span>Ativar</span>
+                                </>
+                              )}
+                            </Button>
+
+                            {/* Excluir */}
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => setDeletingSkill(sk)}
+                              className="h-8 px-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-[6px]"
+                              title="Excluir skill"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* ================= ABA 0: LIBERAÇÃO DE PEÇAS DO HUB ================= */}
         {activeTab === 'pecas' && (
@@ -2590,6 +2939,234 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Modal Nova / Editar Skill */}
+      {showNovaSkillModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-white dark:bg-[#18181B] rounded-[16px] border border-slate-200 dark:border-[#27272A] p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[8px] bg-purple-100 dark:bg-purple-950/60 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center">
+                  <FolderDown className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-sans text-base font-semibold text-slate-900 dark:text-white">
+                    {editingSkill ? 'Editar Skill para Download' : 'Cadastrar Nova Skill'}
+                  </h3>
+                  <p className="text-[11px] font-mono text-slate-500">
+                    {editingSkill ? `ID: ${editingSkill.id}` : 'Upload para o PocketBase'}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowNovaSkillModal(false)}
+                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700"
+              >
+                ✕
+              </Button>
+            </div>
+
+            <form onSubmit={handleSalvarSkill} className="space-y-3.5">
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Título da Skill*
+                </label>
+                <Input
+                  type="text"
+                  required
+                  placeholder="Ex: Skill Detetive de Nicho FAC"
+                  value={skillTitulo}
+                  onChange={(e) => setSkillTitulo(e.target.value)}
+                  className="mt-1 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Descrição Curta
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="Ex: Guia passo a passo para mapeamento de público, dor e posicionamento clínico..."
+                  value={skillDescricao}
+                  onChange={(e) => setSkillDescricao(e.target.value)}
+                  className="mt-1 w-full p-2.5 rounded-[8px] bg-white dark:bg-[#0A0A14] border border-slate-300 dark:border-[#27272A] text-xs text-slate-900 dark:text-white leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#7c3aed]/20"
+                />
+              </div>
+
+              {/* Upload de Arquivo */}
+              <div className="p-3.5 rounded-[10px] bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/50 space-y-2">
+                <label className="text-xs font-mono font-medium text-slate-900 dark:text-white flex items-center justify-between">
+                  <span>Arquivo da Skill (.zip, .md, .json)*</span>
+                  {editingSkill && (
+                    <span className="text-[11px] text-muted-foreground font-normal">
+                      Atual: <strong>{editingSkill.arquivo}</strong>
+                    </span>
+                  )}
+                </label>
+                <Input
+                  type="file"
+                  required={!editingSkill}
+                  accept=".zip,.md,.txt,.json,application/zip,application/x-zip-compressed,text/markdown,text/plain"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) setSkillArquivo(file)
+                  }}
+                  className="text-xs font-mono bg-white dark:bg-[#18181B] border-purple-300 dark:border-purple-800"
+                />
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  O arquivo será salvo intacto no PocketBase e servido para download direto (.zip
+                  faz download imediato, sem abrir no navegador).
+                  {editingSkill && ' Deixe vazio caso não queira substituir o arquivo atual.'}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Categoria
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Ex: Skills Clínicas"
+                    value={skillCategoria}
+                    onChange={(e) => setSkillCategoria(e.target.value)}
+                    className="mt-1 text-xs font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Ordem de Exibição
+                  </label>
+                  <Input
+                    type="number"
+                    min={1}
+                    value={skillOrdem}
+                    onChange={(e) => setSkillOrdem(Number(e.target.value) || 1)}
+                    className="mt-1 text-xs font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Versão
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="v1.0"
+                    value={skillVersao}
+                    onChange={(e) => setSkillVersao(e.target.value)}
+                    className="mt-1 text-xs font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Rótulo do Badge
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Disponível"
+                    value={skillRotuloBadge}
+                    onChange={(e) => setSkillRotuloBadge(e.target.value)}
+                    className="mt-1 text-xs font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                  Instruções de Importação para a Aluna (Opcional)
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="Ex: Baixe o arquivo .zip, descompacte e anexe o prompt no ChatGPT Plus/Team..."
+                  value={skillInstrucoes}
+                  onChange={(e) => setSkillInstrucoes(e.target.value)}
+                  className="mt-1 w-full p-2.5 rounded-[8px] bg-white dark:bg-[#0A0A14] border border-slate-300 dark:border-[#27272A] text-xs text-slate-900 dark:text-white leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#7c3aed]/20"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowNovaSkillModal(false)}
+                  className="text-xs font-mono"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  disabled={salvandoSkill}
+                  className="text-xs font-mono bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                >
+                  {salvandoSkill ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                      Fazendo Upload...
+                    </>
+                  ) : editingSkill ? (
+                    'Salvar Alterações'
+                  ) : (
+                    'Cadastrar e Fazer Upload'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Diálogo de Exclusão de Skill */}
+      <AlertDialog open={!!deletingSkill} onOpenChange={(open) => !open && setDeletingSkill(null)}>
+        <AlertDialogContent className="bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] rounded-[16px] max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-sans text-base font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-2">
+              <Trash2 className="w-5 h-5" />
+              <span>Excluir Skill Definitivamente</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="text-xs text-slate-600 dark:text-[#A1A1AA] pt-2 space-y-2">
+                <p>
+                  Tem certeza que deseja excluir a skill{' '}
+                  <strong className="text-slate-900 dark:text-white">
+                    {deletingSkill?.titulo}
+                  </strong>
+                  ?
+                </p>
+                <p>
+                  O arquivo <code>{deletingSkill?.arquivo}</code> será removido do PocketBase e as
+                  alunas não poderão mais baixá-lo.
+                </p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-xs font-mono">Cancelar</AlertDialogCancel>
+            <Button
+              type="button"
+              disabled={excluindoSkill}
+              onClick={handleConfirmarExclusaoSkill}
+              className="text-xs font-mono bg-rose-600 hover:bg-rose-700 text-white"
+            >
+              {excluindoSkill ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                  Excluindo...
+                </>
+              ) : (
+                'Confirmar Exclusão'
+              )}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Modal Nova Matrícula */}
       {showNovaMatriculaModal && (

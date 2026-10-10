@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSkigaiManager } from '@/hooks/useSkigaiManager'
 import { useCloudSync } from '@/hooks/useCloudSync'
@@ -27,8 +27,12 @@ import {
   HelpCircle,
   AlertCircle,
   FileDown,
+  Sun,
+  Moon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+
+const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
 export const IkigaiPage: React.FC = () => {
   const navigate = useNavigate()
@@ -37,6 +41,39 @@ export const IkigaiPage: React.FC = () => {
   const [alunaSession, setAlunaSession] = useState<AlunaSession | null>(() =>
     AlunaGuiaService.getLocalSession(),
   )
+
+  // Sincronização do tema global (persistido em localStorage)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_THEME)
+      if (saved === 'dark' || saved === 'light') return saved
+    } catch {
+      // ignore
+    }
+    // Se o DOM já tiver classe .dark (ex: herdado da página anterior)
+    if (typeof document !== 'undefined' && document.documentElement.classList.contains('dark')) {
+      return 'dark'
+    }
+    return 'light'
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY_THEME, theme)
+    } catch {
+      // ignore
+    }
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
 
   const isAlunaValidada =
     currentUser?.role === 'admin' ||
@@ -205,6 +242,22 @@ export const IkigaiPage: React.FC = () => {
             >
               <Pause className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Pausar</span>
+            </Button>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-8 w-8 min-h-[32px] min-w-[32px] text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
+              aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
+              title={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
+            >
+              {theme === 'light' ? (
+                <Moon className="w-4 h-4 text-slate-700" />
+              ) : (
+                <Sun className="w-4 h-4 text-[#FB923C]" />
+              )}
             </Button>
 
             <Button

@@ -37,7 +37,9 @@ import {
   SistemaCategory,
 } from '@/config/sistemaHubConfig'
 import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
-import { Download, Bot, Sparkles as SparklesIcon, FileDown } from 'lucide-react'
+import { SkillsService, SkillItem } from '@/services/skillsService'
+import { useToast } from '@/hooks/use-toast'
+import { Download, Bot, Sparkles as SparklesIcon, FileDown, Loader2 } from 'lucide-react'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -76,9 +78,16 @@ export const HubPage: React.FC = () => {
     }
   })
 
+  const { toast } = useToast()
+
   // Itens dinâmicos vindos do PocketBase
   const [items, setItems] = useState<HubItem[]>([])
   const [loadingItems, setLoadingItems] = useState(true)
+
+  // Skills cadastradas no PocketBase (fac_skills) para download
+  const [dbSkills, setDbSkills] = useState<SkillItem[]>([])
+  const [loadingDbSkills, setLoadingDbSkills] = useState(true)
+  const [downloadingSkillId, setDownloadingSkillId] = useState<string | null>(null)
 
   // Categoria ativa no bloco Sistema (permite inicialização via query param ?aba=skills ou ?aba=aplicativos)
   const [activeSistemaCategory, setActiveSistemaCategory] = useState<string>(() => {
@@ -108,7 +117,7 @@ export const HubPage: React.FC = () => {
     currentUser?.verified === true ||
     (!!alunaSession && alunaSession.status === 'ativa')
 
-  // Carregar os itens do hub no backend
+  // Carregar os itens do hub no backend e as skills cadastradas
   useEffect(() => {
     let isMounted = true
     HubService.listarItens(false)
@@ -121,6 +130,19 @@ export const HubPage: React.FC = () => {
       .catch(() => {
         if (isMounted) setLoadingItems(false)
       })
+
+    // Carregar skills ativas para alunas
+    SkillsService.listarSkills(true)
+      .then((data) => {
+        if (isMounted) {
+          setDbSkills(data)
+          setLoadingDbSkills(false)
+        }
+      })
+      .catch(() => {
+        if (isMounted) setLoadingDbSkills(false)
+      })
+
     return () => {
       isMounted = false
     }
@@ -196,6 +218,41 @@ export const HubPage: React.FC = () => {
       console.error('Erro ao baixar arquivo da skill:', err)
       // Fallback via link direto do asset estático
       window.open('/downloads/Mentora-FAC.md', '_blank')
+    }
+  }
+
+  // Função para download autenticado de skills cadastradas no PocketBase
+  const handleDownloadDbSkill = async (sk: SkillItem) => {
+    if (!isAlunaValidada) {
+      setItemBloqueadoClicado(sk.titulo)
+      setValidarModalOpen(true)
+      return
+    }
+
+    setDownloadingSkillId(sk.id)
+    try {
+      const res = await SkillsService.downloadSkillAluna(sk, alunaSession?.token)
+      if (res.success) {
+        toast({
+          title: 'Download iniciado',
+          description: `O arquivo ${sk.arquivo} foi baixado com sucesso.`,
+        })
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Não foi possível baixar',
+          description: res.message || 'Verifique sua matrícula de aluna.',
+        })
+      }
+    } catch (err) {
+      console.error('Erro no download:', err)
+      toast({
+        variant: 'destructive',
+        title: 'Erro no download',
+        description: 'Tente novamente em instantes.',
+      })
+    } finally {
+      setDownloadingSkillId(null)
     }
   }
 
@@ -538,11 +595,17 @@ export const HubPage: React.FC = () => {
               <div className="flex items-center gap-1.5 p-1 rounded-[12px] bg-slate-100 dark:bg-[#131020] border border-slate-200 dark:border-[#27272A] overflow-x-auto max-w-full scrollbar-none">
                 {SISTEMA_CATEGORIAS.map((cat) => {
                   const isActive = activeSistemaCategory === cat.id
-                  const countInCat = allSistemaItems.filter((it) => {
-                    const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
-                    const itemCat = it.categoria || extra?.categoria || 'aplicativos'
-                    return itemCat === cat.id
-                  }).length
+                  const countInCat =
+                    cat.id === 'skills'
+                      ? allSistemaItems.filter((it) => {
+                          const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
+                          return (it.categoria || extra?.categoria) === 'skills'
+                        }).length + dbSkills.length
+                      : allSistemaItems.filter((it) => {
+                          const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
+                          const itemCat = it.categoria || extra?.categoria || 'aplicativos'
+                          return itemCat === cat.id
+                        }).length
 
                   return (
                     <button
@@ -593,7 +656,9 @@ export const HubPage: React.FC = () => {
                 return itemCat === activeSistemaCategory
               })
 
-              if (itemsNaCategoria.length === 0) {
+              const hasDbSkills = activeSistemaCategory === 'skills' && dbSkills.length > 0
+
+              if (itemsNaCategoria.length === 0 && !hasDbSkills) {
                 return (
                   <div className="p-8 text-center rounded-[18px] border border-dashed border-slate-200 dark:border-[#27272A] bg-slate-50/50 dark:bg-[#0c0915]/50">
                     <p className="text-xs font-mono text-slate-500 dark:text-zinc-500">
@@ -604,124 +669,239 @@ export const HubPage: React.FC = () => {
               }
 
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-                  {itemsNaCategoria.map((item, idx) => {
-                    const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
-                    const IconComponent =
-                      ICON_MAP[item.icone || ''] || (extra?.tipo === 'skill' ? Sparkles : Cpu)
-                    const isBlocked = item.exclusivo_alunas && !isAlunaValidada
-                    const isEmBreve =
-                      item.rotulo_badge?.toLowerCase().includes('breve') ||
-                      item.rotulo_badge?.toLowerCase().includes('construção')
-                    const isSkill = extra?.tipo === 'skill' || item.chave === 'mentora-fac'
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                    {itemsNaCategoria.map((item, idx) => {
+                      const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
+                      const IconComponent =
+                        ICON_MAP[item.icone || ''] || (extra?.tipo === 'skill' ? Sparkles : Cpu)
+                      const isBlocked = item.exclusivo_alunas && !isAlunaValidada
+                      const isEmBreve =
+                        item.rotulo_badge?.toLowerCase().includes('breve') ||
+                        item.rotulo_badge?.toLowerCase().includes('construção')
+                      const isSkill = extra?.tipo === 'skill' || item.chave === 'mentora-fac'
 
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={() => handleItemClick(item)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            handleItemClick(item)
-                          }
-                        }}
-                        aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                        className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
-                          isBlocked
-                            ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
-                            : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
-                        }`}
-                      >
-                        {/* Topo do Card: Ícone em destaque, índice e selo de status */}
-                        <div className="w-full space-y-3">
-                          <div className="flex items-start justify-between gap-2">
-                            {/* Ícone quadrado do aplicativo ou skill */}
-                            <div
-                              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
-                                isBlocked
-                                  ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
-                                  : isSkill
-                                    ? 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                                    : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                              }`}
-                            >
-                              <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => handleItemClick(item)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              handleItemClick(item)
+                            }
+                          }}
+                          aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                          className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
+                            isBlocked
+                              ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
+                              : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
+                          }`}
+                        >
+                          {/* Topo do Card: Ícone em destaque, índice e selo de status */}
+                          <div className="w-full space-y-3">
+                            <div className="flex items-start justify-between gap-2">
+                              {/* Ícone quadrado do aplicativo ou skill */}
+                              <div
+                                className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
+                                  isBlocked
+                                    ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
+                                    : isSkill
+                                      ? 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                                      : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                                }`}
+                              >
+                                <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                              </div>
+
+                              {/* Índice numérico sutil */}
+                              <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
+                                0{idx + 1}
+                              </span>
                             </div>
 
-                            {/* Índice numérico sutil */}
-                            <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
-                              0{idx + 1}
+                            {/* Selo / Badge */}
+                            <div className="flex flex-wrap gap-1.5 pt-0.5">
+                              {isBlocked ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                  <Lock className="w-2.5 h-2.5" />
+                                  <span>Exclusivo alunas</span>
+                                </span>
+                              ) : isEmBreve ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
+                                  <Clock className="w-2.5 h-2.5" />
+                                  <span>{item.rotulo_badge || 'Em breve'}</span>
+                                </span>
+                              ) : isSkill ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                  <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                  <span>{item.rotulo_badge || 'Skill FAC'}</span>
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                  {item.rotulo_badge || 'Disponível'}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Título e Descrição */}
+                            <div className="space-y-1.5 pt-1 min-w-0">
+                              <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
+                                {item.titulo}
+                              </h4>
+                              <p
+                                title={item.descricao}
+                                className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
+                              >
+                                {item.descricao}
+                              </p>{' '}
+                            </div>
+                          </div>
+
+                          {/* Rodapé do Card: Ação de Launcher ou Download — sem truncar texto, quebra em linhas se necessário */}
+                          <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
+                            {isBlocked ? (
+                              <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
+                                <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                                <span className="break-words">
+                                  Já sou aluna? Validar e-mail de matrícula
+                                </span>
+                              </div>
+                            ) : isSkill ? (
+                              <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
+                                <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
+                                <span className="break-words">Baixar Mentora-FAC</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
+                                <span className="break-words">Abrir app</span>
+                                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                              </div>
+                            )}
+
+                            <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
+                              {isSkill ? 'Skill' : 'App'}
                             </span>
                           </div>
-
-                          {/* Selo / Badge */}
-                          <div className="flex flex-wrap gap-1.5 pt-0.5">
-                            {isBlocked ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                                <Lock className="w-2.5 h-2.5" />
-                                <span>Exclusivo alunas</span>
-                              </span>
-                            ) : isEmBreve ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
-                                <Clock className="w-2.5 h-2.5" />
-                                <span>{item.rotulo_badge || 'Em breve'}</span>
-                              </span>
-                            ) : isSkill ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                                <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
-                                <span>{item.rotulo_badge || 'Skill FAC'}</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                                {item.rotulo_badge || 'Disponível'}
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Título e Descrição */}
-                          <div className="space-y-1.5 pt-1 min-w-0">
-                            <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
-                              {item.titulo}
-                            </h4>
-                            <p
-                              title={item.descricao}
-                              className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
-                            >
-                              {item.descricao}
-                            </p>{' '}
-                          </div>
                         </div>
+                      )
+                    })}
 
-                        {/* Rodapé do Card: Ação de Launcher ou Download — sem truncar texto, quebra em linhas se necessário */}
-                        <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
-                          {isBlocked ? (
-                            <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
-                              <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                              <span className="break-words">
-                                Já sou aluna? Validar e-mail de matrícula
+                    {/* Cards de Skills cadastradas no PocketBase (Uploads da Tati / Admin) */}
+                    {activeSistemaCategory === 'skills' &&
+                      dbSkills.map((sk, skIdx) => {
+                        const isBlocked = !isAlunaValidada
+                        const isDownloading = downloadingSkillId === sk.id
+
+                        return (
+                          <div
+                            key={sk.id}
+                            onClick={() => handleDownloadDbSkill(sk)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
+                                handleDownloadDbSkill(sk)
+                              }
+                            }}
+                            aria-label={`Baixar skill ${sk.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                            className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
+                              isBlocked
+                                ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
+                                : 'bg-white dark:bg-[#0c0915] border-purple-200/80 dark:border-[#2a1740] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
+                            }`}
+                          >
+                            <div className="w-full space-y-3">
+                              <div className="flex items-start justify-between gap-2">
+                                <div
+                                  className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
+                                    isBlocked
+                                      ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
+                                      : 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
+                                  }`}
+                                >
+                                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </div>
+
+                                <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
+                                  0{itemsNaCategoria.length + skIdx + 1}
+                                </span>
+                              </div>
+
+                              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                                {isBlocked ? (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                    <Lock className="w-2.5 h-2.5" />
+                                    <span>Exclusivo alunas</span>
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                    <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                    <span>{sk.rotulo_badge || sk.versao || 'Skill FAC'}</span>
+                                  </span>
+                                )}
+                                {sk.versao && (
+                                  <Badge variant="outline" className="text-[10px] font-mono">
+                                    {sk.versao}
+                                  </Badge>
+                                )}
+                              </div>
+
+                              <div className="space-y-1.5 pt-1 min-w-0">
+                                <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
+                                  {sk.titulo}
+                                </h4>
+                                <p
+                                  title={sk.descricao}
+                                  className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
+                                >
+                                  {sk.descricao ||
+                                    'Pacote de instrução clínica para uso no ChatGPT.'}
+                                </p>
+                                <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 pt-0.5">
+                                  Arquivo:{' '}
+                                  <strong className="text-slate-700 dark:text-slate-200">
+                                    {sk.arquivo}
+                                  </strong>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
+                              {isBlocked ? (
+                                <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
+                                  <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                                  <span className="break-words">
+                                    Já sou aluna? Validar e-mail de matrícula
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
+                                  {isDownloading ? (
+                                    <>
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+                                      <span className="break-words">Baixando...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
+                                      <span className="break-words">Baixar Arquivo</span>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+
+                              <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
+                                Skill
                               </span>
                             </div>
-                          ) : isSkill ? (
-                            <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
-                              <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
-                              <span className="break-words">Baixar Mentora-FAC</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
-                              <span className="break-words">Abrir app</span>
-                              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-                            </div>
-                          )}
-
-                          <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
-                            {isSkill ? 'Skill' : 'App'}
-                          </span>
-                        </div>
-                      </div>
-                    )
-                  })}
+                          </div>
+                        )
+                      })}
+                  </div>
                 </div>
               )
             })()}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Sparkles,
   CheckCircle2,
@@ -748,13 +749,13 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
           </p>
 
           <div className="pt-2 flex items-center gap-2">
-            <a
-              href="/ikigai"
+            <Link
+              to="/ikigai"
               className="text-xs font-mono text-[#7c3aed] dark:text-[#C084FC] hover:underline inline-flex items-center gap-1.5"
             >
               <span>Ainda não fiz no app Meu IKIGAI? Acesse o app</span>
               <ArrowRight className="w-3 h-3 ml-0.5" />
-            </a>
+            </Link>
           </div>
         </div>
 
