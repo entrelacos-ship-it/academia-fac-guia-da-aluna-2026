@@ -4,7 +4,7 @@ import {
   SECOES_GUIA,
   Encontro2ChecklistState,
 } from '@/components/guia/Encontro2Caderno'
-import { LINK_PECA_3, LINK_COMUNIDADE } from '@/config/guiaContent'
+import { LINK_PECA_3, LINK_COMUNIDADE, LINK_ECOSSISTEMA } from '@/config/guiaContent'
 
 describe('Encontro 2: Do sentido ao mercado (Guia)', () => {
   beforeEach(() => {
@@ -49,9 +49,11 @@ describe('Encontro 2: Do sentido ao mercado (Guia)', () => {
     expect(parseado.respostasDetetive).toBe(true)
   })
 
-  it('configuração de links: LINK_PECA_3 leva ao app Meu IKIGAI e LINK_COMUNIDADE é configurável', () => {
+  it('configuração de links: LINK_PECA_3 leva ao app Meu IKIGAI e LINK_COMUNIDADE e LINK_ECOSSISTEMA são configuráveis', () => {
     expect(LINK_PECA_3).toBe('/ikigai')
     expect(typeof LINK_COMUNIDADE).toBe('string')
+    expect(LINK_COMUNIDADE).toBe('https://chat.whatsapp.com/GuztcxmjzoN06vHw6rQ21U')
+    expect(LINK_ECOSSISTEMA).toBe('https://ecossistema.entrelacospsicologia.com.br/')
   })
 
   it('não possui travessões ou palavras proibidas no componente', () => {

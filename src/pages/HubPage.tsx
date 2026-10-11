@@ -36,6 +36,7 @@ import {
   SKILL_MENTORA_FAC_ITEM,
   SistemaCategory,
 } from '@/config/sistemaHubConfig'
+import { LINK_ECOSSISTEMA } from '@/config/guiaContent'
 import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
 import { SkillsService, SkillItem } from '@/services/skillsService'
 import { useToast } from '@/hooks/use-toast'
@@ -260,14 +261,24 @@ export const HubPage: React.FC = () => {
   const handleItemClick = (item: HubItem) => {
     const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
 
-    // Se for uma skill ou item de download
-    if (item.chave === 'mentora-fac' || extra?.tipo === 'skill') {
+    // Se for a skill Mentora-FAC
+    if (item.chave === 'mentora-fac') {
       if (item.exclusivo_alunas && !isAlunaValidada) {
         setItemBloqueadoClicado(item.titulo)
         setValidarModalOpen(true)
         return
       }
       // Aluna autenticada: abre modal para visualizar e/ou baixar
+      setSkillModalOpen(true)
+      return
+    }
+
+    if (extra?.tipo === 'skill') {
+      if (item.exclusivo_alunas && !isAlunaValidada) {
+        setItemBloqueadoClicado(item.titulo)
+        setValidarModalOpen(true)
+        return
+      }
       setSkillModalOpen(true)
       return
     }
@@ -1030,6 +1041,16 @@ export const HubPage: React.FC = () => {
               >
                 <span>Entrar na Academia FAC</span>
                 <ExternalLink className="w-4 h-4" />
+              </a>
+
+              <a
+                href={LINK_ECOSSISTEMA}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[46px] px-6 gap-2 rounded-[10px] border border-purple-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/30 text-xs font-mono font-medium transition-all"
+              >
+                <span>Acessar Plataforma Ecossistema</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 

@@ -23,7 +23,8 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { LINK_PECA_3, LINK_COMUNIDADE } from '@/config/guiaContent'
+import { useToast } from '@/hooks/use-toast'
+import { LINK_PECA_3, LINK_COMUNIDADE, LINK_ECOSSISTEMA } from '@/config/guiaContent'
 
 export interface Encontro2ChecklistState {
   frasePeca3: boolean
@@ -60,6 +61,8 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   isAlunaValidada,
   onValidarEmail,
 }) => {
+  const { toast } = useToast()
+
   // Único estado salvo: checklist da Seção 1 em localStorage com try/catch
   const [checklist, setChecklist] = useState<Encontro2ChecklistState>(() => {
     try {
@@ -148,10 +151,11 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
 
     const checkStatic = async (url: string): Promise<boolean> => {
       try {
-        const res = await fetch(url, { method: 'HEAD' })
+        // Usar GET com verificação de status e Content-Type para evitar falso positivo do SPA fallback
+        const res = await fetch(url, { method: 'GET', headers: { Range: 'bytes=0-0' } })
         if (!res.ok) return false
         const ct = res.headers.get('content-type') || ''
-        // Se a SPA respondeu com index.html em rota inexistente
+        // Se a SPA respondeu com index.html em rota estática inexistente (SPA catch-all)
         if (ct.includes('text/html')) return false
         return true
       } catch {
@@ -232,10 +236,24 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   // Copiar texto da skill (Plano B)
   const handleCopySkillText = async (tipo: 'radar' | 'estrategista', path: string) => {
     try {
-      const res = await fetch(path)
-      if (!res.ok) return
+      const res = await fetch(path, { cache: 'no-cache' })
+      if (!res.ok) {
+        toast({
+          variant: 'destructive',
+          title: 'Texto não disponível',
+          description: 'O arquivo da skill ainda não está disponível para cópia.',
+        })
+        return
+      }
       const text = await res.text()
-      if (!text || text.includes('<!DOCTYPE html>')) return
+      if (!text || text.includes('<!DOCTYPE html>') || text.includes('<html')) {
+        toast({
+          variant: 'destructive',
+          title: 'Arquivo indisponível',
+          description: 'O texto desta skill estará disponível em breve.',
+        })
+        return
+      }
       await navigator.clipboard.writeText(text)
       if (tipo === 'radar') {
         setCopiedSkill1(true)
@@ -244,8 +262,16 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         setCopiedSkill2(true)
         setTimeout(() => setCopiedSkill2(false), 2400)
       }
+      toast({
+        title: 'Texto copiado com sucesso!',
+        description: 'Agora cole no ChatGPT ou Claude para ativar o Plano B.',
+      })
     } catch {
-      // falha silenciosa
+      toast({
+        variant: 'destructive',
+        title: 'Erro ao copiar',
+        description: 'Não foi possível copiar o texto da skill para a área de transferência.',
+      })
     }
   }
 
@@ -1782,19 +1808,31 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
             <p>3. O seu relatório de posicionamento.</p>
           </div>
 
-          {LINK_COMUNIDADE && (
-            <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            {LINK_COMUNIDADE && (
               <a
                 href={LINK_COMUNIDADE}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold text-xs font-mono min-h-[42px]"
               >
-                <span>Ir para a comunidade</span>
+                <span>Ir para a comunidade (WhatsApp)</span>
                 <ExternalLink className="w-3.5 h-3.5 ml-1" />
               </a>
-            </div>
-          )}
+            )}
+
+            {LINK_ECOSSISTEMA && (
+              <a
+                href={LINK_ECOSSISTEMA}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-purple-300 dark:border-purple-800/70 bg-white dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/40 font-semibold text-xs font-mono min-h-[42px]"
+              >
+                <span>Plataforma Ecossistema (Aulas)</span>
+                <ExternalLink className="w-3.5 h-3.5 ml-1" />
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Próximo encontro em destaque */}

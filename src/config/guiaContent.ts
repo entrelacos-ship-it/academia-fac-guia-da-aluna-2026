@@ -93,7 +93,8 @@ export function calcularResultadoDiagnostico(
  * Configurações e links do Guia da Aluna (Encontro 2 e afins)
  */
 export const LINK_PECA_3 = '/ikigai'
-export const LINK_COMUNIDADE = ''
+export const LINK_COMUNIDADE = 'https://chat.whatsapp.com/GuztcxmjzoN06vHw6rQ21U'
+export const LINK_ECOSSISTEMA = 'https://ecossistema.entrelacospsicologia.com.br/'
 
 export const ENCONTRO_1_CONTENT = {
   numero: 1,

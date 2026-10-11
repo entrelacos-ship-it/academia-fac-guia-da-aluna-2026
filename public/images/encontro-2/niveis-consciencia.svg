@@ -86,7 +86,7 @@
       <tspan class="pill-num">1. </tspan>
       <tspan class="pill-title">Inconsciente do problema</tspan>
     </text>
-    <text x="475" y="200" class="pill-fala">&ldquo;Eu só sou assim.&rdquo;</text>
+    <text x="475" y="200" class="pill-fala">&#8220;Eu só sou assim.&#8221;</text>
   </g>
 
   <!-- Nível 2: x=560, y=260, width=470, height=100 -->
@@ -96,7 +96,7 @@
       <tspan class="pill-num">2. </tspan>
       <tspan class="pill-title">Consciente do problema</tspan>
     </text>
-    <text x="590" y="335" class="pill-fala">&ldquo;Não consigo mais dormir.&rdquo;</text>
+    <text x="590" y="335" class="pill-fala">&#8220;Não consigo mais dormir.&#8221;</text>
   </g>
 
   <!-- Nível 3: x=615, y=445, width=415, height=100 -->
@@ -106,7 +106,7 @@
       <tspan class="pill-num">3. </tspan>
       <tspan class="pill-title" font-size="19px">Consciente da solução</tspan>
     </text>
-    <text x="635" y="520" class="pill-fala" font-size="17px">&ldquo;Acho que terapia pode ajudar.&rdquo;</text>
+    <text x="635" y="520" class="pill-fala" font-size="17px">&#8220;Acho que terapia pode ajudar.&#8221;</text>
   </g>
 
   <!-- Nível 4: x=560, y=625, width=470, height=100 -->
@@ -116,7 +116,7 @@
       <tspan class="pill-num">4. </tspan>
       <tspan class="pill-title">Consciente do serviço</tspan>
     </text>
-    <text x="590" y="700" class="pill-fala">&ldquo;Vi o perfil dela, mas é para mim?&rdquo;</text>
+    <text x="590" y="700" class="pill-fala">&#8220;Vi o perfil dela, mas é para mim?&#8221;</text>
   </g>
 
   <!-- Nível 5: x=445, y=760, width=585, height=100 -->
@@ -126,7 +126,7 @@
       <tspan class="pill-num">5. </tspan>
       <tspan class="pill-title">Pronta para agendar</tspan>
     </text>
-    <text x="475" y="835" class="pill-fala">&ldquo;Qual o valor e o horário?&rdquo;</text>
+    <text x="475" y="835" class="pill-fala">&#8220;Qual o valor e o horário?&#8221;</text>
   </g>
 
   <!-- 5 Nós Circulares Brancos sobre a órbita -->
