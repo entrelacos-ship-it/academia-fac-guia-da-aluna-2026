@@ -5,7 +5,59 @@
       .circle-main { fill: #693CA5; stroke: #9B78D8; stroke-width: 4; }
       .arc-path { fill: none; stroke: #A797D6; stroke-width: 2.5; stroke-dasharray: 6 0; }
       .node-circle { fill: #FFFFFF; stroke: #8057C0; stroke-width: 4; }
-      .pill { fill: #242254; }
+      .pill { fill: #242254; stroke: rgba(155, 120, 216, 0.35); stroke-width: 1.5; }
+
+      /* Tipografia do Design System */
+      .center-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        fill: #E9D5FF;
+        text-anchor: middle;
+      }
+      .center-title {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        fill: #FFFFFF;
+        text-anchor: middle;
+      }
+      .center-author {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        fill: #D8B4FE;
+        text-anchor: middle;
+      }
+      .node-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 30px;
+        fill: #5B2B9D;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .pill-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 20px;
+        fill: #C084FC;
+      }
+      .pill-title {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 21px;
+        fill: #FFFFFF;
+      }
+      .pill-fala {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 18px;
+        fill: #DDD6FE;
+      }
     </style>
   </defs>
 
@@ -14,32 +66,87 @@
 
   <!-- Círculo Grande Central à Esquerda -->
   <circle cx="250" cy="485" r="165" class="circle-main" />
+  <!-- Textos no Círculo Central -->
+  <g id="circulo-central">
+    <text x="250" y="420" class="center-tag">MODELO DE</text>
+    <text x="250" y="460" class="center-title" font-size="30px">5 NÍVEIS DE</text>
+    <text x="250" y="498" class="center-title" font-size="28px">CONSCIÊNCIA</text>
+    <text x="250" y="542" class="center-author">Eugene Schwartz</text>
+  </g>
 
   <!-- Arco semicircular conectando os 5 nós orbitais -->
   <!-- Conecta do topo ao nó inferior passando pela direita -->
   <path d="M 350 145 C 640 240, 640 730, 350 825" class="arc-path" />
 
   <!-- 5 Pílulas Horizontais à Direita -->
-  <!-- Nível 1 -->
+  <!-- Nível 1: x=445, y=125, width=585, height=100 -->
   <rect x="445" y="125" width="585" height="100" rx="50" class="pill" />
-  <!-- Nível 2 -->
+  <g id="conteudo-nivel-1">
+    <text x="475" y="166">
+      <tspan class="pill-num">1. </tspan>
+      <tspan class="pill-title">Inconsciente do problema</tspan>
+    </text>
+    <text x="475" y="200" class="pill-fala">&ldquo;Eu só sou assim.&rdquo;</text>
+  </g>
+
+  <!-- Nível 2: x=560, y=260, width=470, height=100 -->
   <rect x="560" y="260" width="470" height="100" rx="50" class="pill" />
-  <!-- Nível 3 -->
+  <g id="conteudo-nivel-2">
+    <text x="590" y="301">
+      <tspan class="pill-num">2. </tspan>
+      <tspan class="pill-title">Consciente do problema</tspan>
+    </text>
+    <text x="590" y="335" class="pill-fala">&ldquo;Não consigo mais dormir.&rdquo;</text>
+  </g>
+
+  <!-- Nível 3: x=615, y=445, width=415, height=100 -->
   <rect x="615" y="445" width="415" height="100" rx="50" class="pill" />
-  <!-- Nível 4 -->
+  <g id="conteudo-nivel-3">
+    <text x="635" y="486">
+      <tspan class="pill-num">3. </tspan>
+      <tspan class="pill-title" font-size="19px">Consciente da solução</tspan>
+    </text>
+    <text x="635" y="520" class="pill-fala" font-size="17px">&ldquo;Acho que terapia pode ajudar.&rdquo;</text>
+  </g>
+
+  <!-- Nível 4: x=560, y=625, width=470, height=100 -->
   <rect x="560" y="625" width="470" height="100" rx="50" class="pill" />
-  <!-- Nível 5 -->
+  <g id="conteudo-nivel-4">
+    <text x="590" y="666">
+      <tspan class="pill-num">4. </tspan>
+      <tspan class="pill-title">Consciente do serviço</tspan>
+    </text>
+    <text x="590" y="700" class="pill-fala">&ldquo;Vi o perfil dela, mas é para mim?&rdquo;</text>
+  </g>
+
+  <!-- Nível 5: x=445, y=760, width=585, height=100 -->
   <rect x="445" y="760" width="585" height="100" rx="50" class="pill" />
+  <g id="conteudo-nivel-5">
+    <text x="475" y="801">
+      <tspan class="pill-num">5. </tspan>
+      <tspan class="pill-title">Pronta para agendar</tspan>
+    </text>
+    <text x="475" y="835" class="pill-fala">&ldquo;Qual o valor e o horário?&rdquo;</text>
+  </g>
 
   <!-- 5 Nós Circulares Brancos sobre a órbita -->
   <!-- Nó 1 -->
   <circle cx="410" cy="180" r="35" class="node-circle" />
+  <text x="410" y="180" class="node-num">1</text>
+
   <!-- Nó 2 -->
   <circle cx="530" cy="310" r="35" class="node-circle" />
+  <text x="530" y="310" class="node-num">2</text>
+
   <!-- Nó 3 -->
   <circle cx="575" cy="495" r="35" class="node-circle" />
+  <text x="575" y="495" class="node-num">3</text>
+
   <!-- Nó 4 -->
   <circle cx="530" cy="675" r="35" class="node-circle" />
+  <text x="530" y="675" class="node-num">4</text>
+
   <!-- Nó 5 -->
   <circle cx="410" cy="810" r="35" class="node-circle" />
+  <text x="410" y="810" class="node-num">5</text>
 </svg>

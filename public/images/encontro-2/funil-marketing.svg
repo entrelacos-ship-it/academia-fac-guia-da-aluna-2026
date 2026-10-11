@@ -10,15 +10,69 @@
       .f3 { fill: #6A38B7; }
       .f4 { fill: #2DB5A5; }
       .arrow { stroke: none; }
-      .text-label { font-family: 'Inter Tight', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 19px; fill: #FFFFFF; }
-      .text-sub { font-family: 'Inter Tight', system-ui, -apple-system, sans-serif; font-weight: 400; font-size: 15px; fill: rgba(255, 255, 255, 0.9); }
+
+      /* Tipografia do Design System */
+      .etapa-title {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-anchor: middle;
+      }
+      .panel-label {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .panel-text {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        fill: #FFFFFF;
+      }
+      .arrow-label {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        fill: rgba(255, 255, 255, 0.85);
+      }
+      .arrow-text {
+        font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 17px;
+        fill: #FFFFFF;
+      }
     </style>
   </defs>
 
   <!-- Painel esquerdo com 3 faixas horizontais de fundo -->
-  <rect x="40" y="60" width="460" height="235" class="bg-top" />
-  <rect x="40" y="295" width="460" height="90" class="bg-mid" />
-  <rect x="40" y="385" width="460" height="90" class="bg-bot" />
+  <rect x="40" y="60" width="460" height="235" class="bg-top" rx="8" />
+  <rect x="40" y="295" width="460" height="90" class="bg-mid" rx="8" />
+  <rect x="40" y="385" width="460" height="95" class="bg-bot" rx="8" />
+
+  <!-- Textos no Painel Esquerdo: Estado da Pessoa -->
+  <!-- Topo: y=60 a 295 (centro vertical ~145 para o texto, já que o cone cobre a parte direita) -->
+  <g id="painel-topo">
+    <text x="65" y="118" class="panel-label" fill="#EFA642">ESTADO DA PESSOA</text>
+    <text x="65" y="152" class="panel-text">Sente o sintoma,</text>
+    <text x="65" y="178" class="panel-text">não nomeia o problema</text>
+  </g>
+
+  <!-- Meio: y=295 a 385 (centro vertical 340) -->
+  <g id="painel-meio">
+    <text x="65" y="326" class="panel-label" fill="#FFB4C8">ESTADO DA PESSOA</text>
+    <text x="65" y="354" class="panel-text">Sabe que tem um problema,</text>
+    <text x="65" y="376" class="panel-text" font-size="16px">pesquisa soluções</text>
+  </g>
+
+  <!-- Fundo: y=385 a 480 (centro vertical 432) -->
+  <g id="painel-fundo">
+    <text x="65" y="420" class="panel-label" fill="#E5D6FA">ESTADO DA PESSOA</text>
+    <text x="65" y="450" class="panel-text">Pronta para decidir</text>
+  </g>
 
   <!-- SEÇÃO 1 (TOPO) DO FUNIL: Amarelo Ocre / Laranja Dourado -->
   <!-- Corpo cônico -->
@@ -28,8 +82,15 @@
   <!-- Abertura elíptica inferior da seção 1 -->
   <ellipse cx="535" cy="195" rx="150" ry="22" class="f1 f-rim" />
 
-  <!-- Seta / Faixa 1 (Amarelo Ocre) -->
+  <!-- Rótulo no cone do TOPO -->
+  <text x="535" y="148" class="etapa-title" font-size="30px" fill="#241A44">TOPO</text>
+
+  <!-- Seta / Faixa 1 (Amarelo Ocre): O que precisa receber -->
   <polygon points="760,105 1060,105 1090,135 1060,165 760,165 780,135" fill="#E08B25" class="arrow" />
+  <g id="seta-topo">
+    <text x="805" y="126" class="arrow-label">O QUE PRECISA RECEBER</text>
+    <text x="805" y="152" class="arrow-text">Conteúdo que nomeia a dor</text>
+  </g>
 
   <!-- SEÇÃO 2 (MEIO - SUPERIOR): Coral / Rosa Avermelhado -->
   <!-- Corpo cônico -->
@@ -39,8 +100,15 @@
   <!-- Abertura elíptica inferior -->
   <ellipse cx="535" cy="300" rx="105" ry="17" class="f2 f-rim" />
 
+  <!-- Rótulo no cone do MEIO (parte superior do bloco meio) -->
+  <text x="535" y="258" class="etapa-title" font-size="28px" fill="#FFFFFF">MEIO</text>
+
   <!-- Seta / Faixa 2 (Coral / Rosa avermelhado) -->
   <polygon points="720,215 1060,215 1090,245 1060,275 720,275 740,245" fill="#C93F5E" class="arrow" />
+  <g id="seta-meio-1">
+    <text x="770" y="236" class="arrow-label">O QUE PRECISA RECEBER</text>
+    <text x="770" y="262" class="arrow-text">Autoridade, confiança, comparação</text>
+  </g>
 
   <!-- SEÇÃO 3 (MEIO - INFERIOR): Roxo Intenso -->
   <!-- Corpo cônico -->
@@ -52,6 +120,10 @@
 
   <!-- Seta / Faixa 3 (Roxo Vibrante) -->
   <polygon points="690,315 1060,315 1090,345 1060,375 690,375 710,345" fill="#5B2FA8" class="arrow" />
+  <g id="seta-meio-2">
+    <text x="740" y="336" class="arrow-label">O QUE PRECISA RECEBER</text>
+    <text x="740" y="362" class="arrow-text">Autoridade, confiança, comparação</text>
+  </g>
 
   <!-- SEÇÃO 4 (FUNDO DO FUNIL): Verde Água / Petróleo Escuro -->
   <!-- Corpo cilíndrico / cônico final -->
@@ -61,6 +133,13 @@
   <!-- Base inferior arredondada -->
   <ellipse cx="535" cy="480" rx="55" ry="10" class="f4" />
 
+  <!-- Rótulo no cone do FUNDO -->
+  <text x="535" y="448" class="etapa-title" font-size="24px" fill="#FFFFFF">FUNDO</text>
+
   <!-- Seta / Faixa 4 (Verde Água / Petróleo) -->
   <polygon points="660,400 1060,400 1090,430 1060,460 660,460 680,430" fill="#209285" class="arrow" />
+  <g id="seta-fundo">
+    <text x="715" y="421" class="arrow-label">O QUE PRECISA RECEBER</text>
+    <text x="715" y="447" class="arrow-text">Caminho simples para agendar</text>
+  </g>
 </svg>
