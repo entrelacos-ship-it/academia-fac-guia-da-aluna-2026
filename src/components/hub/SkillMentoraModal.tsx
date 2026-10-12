@@ -64,8 +64,8 @@ export const SkillMentoraModal: React.FC<SkillMentoraModalProps> = ({
             Skill completa em Markdown criada para alunas da Academia Método FAC. Você pode baixar o
             arquivo{' '}
             <code className="font-mono text-purple-700 dark:text-[#C084FC]">Mentora-FAC.md</code> ou
-            copiar todo o conteúdo para usar no seu assistente de IA preferido (ChatGPT, Claude,
-            Cursor, etc.).
+            copiar todo o conteúdo para usar no seu assistente de IA preferido (ChatGPT, OpenAI
+            Codex, etc.).
           </DialogDescription>
         </DialogHeader>
 

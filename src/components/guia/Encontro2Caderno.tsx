@@ -122,9 +122,6 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   // Bloco expansível "Ver orientações completas" da Seção 2
   const [orientacoesCompletasOpen, setOrientacoesCompletasOpen] = useState<boolean>(false)
 
-  // Bloco recolhido "Como importar no Claude" da Seção 4
-  const [claudeGuideOpen, setClaudeGuideOpen] = useState<boolean>(false)
-
   // Modal de imagem ampliada para as duas imagens da teoria
   const [modalImage, setModalImage] = useState<{ src: string; alt: string; title: string } | null>(
     null,
@@ -145,35 +142,27 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   // Disponibilidade dos arquivos (PocketBase prioritário + fallback de arquivos públicos)
   const [filesStatus, setFilesStatus] = useState<{
     radarGptZip: boolean
-    radarClaudeZip: boolean
     radarMd: boolean
     estrategistaGptZip: boolean
-    estrategistaClaudeZip: boolean
     estrategistaMd: boolean
     manifestoGptZip: boolean
-    manifestoClaudeZip: boolean
     manifestoMd: boolean
     // Prints Seção 2
     contaPrints: Record<number, boolean>
     // Prints Seção 4
     gptPrints: Record<number, boolean>
-    claudePrints: Record<number, boolean>
     // Imagens teoria
     funilImg: boolean
     niveisImg: boolean
   }>({
     radarGptZip: false,
-    radarClaudeZip: false,
     radarMd: false,
     estrategistaGptZip: false,
-    estrategistaClaudeZip: false,
     estrategistaMd: false,
     manifestoGptZip: false,
-    manifestoClaudeZip: false,
     manifestoMd: false,
     contaPrints: {},
     gptPrints: {},
-    claudePrints: {},
     funilImg: true,
     niveisImg: true,
   })
@@ -224,19 +213,15 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
 
       const [
         staticRadarGptZip,
-        staticRadarClaudeZip,
         staticRadarMd,
         staticEstrategistaGptZip,
-        staticEstrategistaClaudeZip,
         staticEstrategistaMd,
         funilImg,
         niveisImg,
       ] = await Promise.all([
         checkStatic('/skills/encontro-2/radar-detetive-chatgpt.zip'),
-        checkStatic('/skills/encontro-2/radar-detetive-claude.zip'),
         checkStatic('/skills/encontro-2/radar-detetive.md'),
         checkStatic('/skills/encontro-2/estrategista-de-posicionamento-chatgpt.zip'),
-        checkStatic('/skills/encontro-2/estrategista-de-posicionamento-claude.zip'),
         checkStatic('/skills/encontro-2/estrategista-de-posicionamento.md'),
         checkStatic('/images/encontro-2/funil-marketing.svg'),
         checkStatic('/images/encontro-2/niveis-consciencia.svg'),
@@ -250,14 +235,12 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
 
       // Prints da Seção 4
       const gptPrints: Record<number, boolean> = {}
-      const claudePrints: Record<number, boolean> = {}
       for (let i = 1; i <= 5; i++) {
         gptPrints[i] = await checkStatic(`/images/encontro-2/prints/importar-chatgpt-${i}.png`)
-        claudePrints[i] = await checkStatic(`/images/encontro-2/prints/importar-claude-${i}.png`)
       }
 
       // Se a skill do Radar está ativa no backend:
-      // O arquivo anexado habilita o download para ChatGPT (e Claude caso arquivo suporte)
+      // O arquivo anexado habilita o download para ChatGPT
       // Se for .md ou houver .md correspondente, habilita a cópia de texto
       const radarExt = matchedRadar?.arquivo?.toLowerCase().split('.').pop() || ''
       const hasRadarBackend = !!matchedRadar && !!matchedRadar.arquivo && matchedRadar.ativo
@@ -275,25 +258,17 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         setFilesStatus({
           // Radar: habilitado se existir no backend ativo OU no caminho estático
           radarGptZip: hasRadarBackend || staticRadarGptZip,
-          radarClaudeZip: hasRadarBackend || staticRadarClaudeZip,
           radarMd: (hasRadarBackend && ['md', 'txt', 'json'].includes(radarExt)) || staticRadarMd,
           // Estrategista: habilitado se existir no backend ativo OU no caminho estático
           estrategistaGptZip: hasEstrategistaBackend || staticEstrategistaGptZip,
-          estrategistaClaudeZip: hasEstrategistaBackend || staticEstrategistaClaudeZip,
           estrategistaMd:
             (hasEstrategistaBackend && ['md', 'txt', 'json'].includes(estrategistaExt)) ||
             staticEstrategistaMd,
           // Manifesto: Cartão 3
           manifestoGptZip: hasManifestoBackend,
-          manifestoClaudeZip:
-            hasManifestoBackend &&
-            (manifestoExt === 'zip' ||
-              matchedManifesto?.titulo?.toLowerCase().includes('claude') ||
-              false),
           manifestoMd: hasManifestoBackend && ['md', 'txt', 'json'].includes(manifestoExt),
           contaPrints,
           gptPrints,
-          claudePrints,
           funilImg,
           niveisImg,
         })
@@ -330,11 +305,10 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
     return session?.token || ''
   }
 
-  // Download autenticado da skill do PocketBase com fallback para rota estática
+  // Download autenticado da skill do PocketBase com fallback para rota estática (ChatGPT)
   const handleDownloadSkill = async (
     tipo: 'radar' | 'estrategista' | 'manifesto',
     fallbackPath: string,
-    targetPlatform: 'chatgpt' | 'claude' = 'chatgpt',
   ) => {
     if (!isAlunaValidada) {
       toast({
@@ -350,7 +324,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
     const token = getAlunaToken()
 
     if (matched && matched.arquivo) {
-      setDownloadingSkill(`${tipo}-${targetPlatform}`)
+      setDownloadingSkill(`${tipo}-chatgpt`)
       try {
         const res = await SkillsService.downloadSkillAluna(matched, token)
         if (res.success) {
@@ -442,7 +416,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
       }
       toast({
         title: 'Texto copiado com sucesso!',
-        description: 'Agora cole no ChatGPT ou Claude para ativar o Plano B.',
+        description: 'Agora cole no ChatGPT para ativar o Plano B.',
       })
     } catch {
       toast({
@@ -1495,54 +1469,25 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 </div>
 
                 <div className="space-y-2.5 pt-3 border-t border-slate-200/80 dark:border-[#27272A]">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button
-                      type="button"
-                      size="sm"
-                      disabled={!filesStatus.radarGptZip || downloadingSkill === 'radar-chatgpt'}
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'radar',
-                          '/skills/encontro-2/radar-detetive-chatgpt.zip',
-                          'chatgpt',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'radar-chatgpt'
-                          ? 'Baixando...'
-                          : filesStatus.radarGptZip
-                            ? 'Baixar para o ChatGPT'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      disabled={!filesStatus.radarClaudeZip || downloadingSkill === 'radar-claude'}
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'radar',
-                          '/skills/encontro-2/radar-detetive-claude.zip',
-                          'claude',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'radar-claude'
-                          ? 'Baixando...'
-                          : filesStatus.radarClaudeZip
-                            ? 'Baixar para o Claude'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-                  </div>
+                  {/* Botão Principal: Baixar para o ChatGPT com largura total */}
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled={!filesStatus.radarGptZip || downloadingSkill === 'radar-chatgpt'}
+                    onClick={() =>
+                      handleDownloadSkill('radar', '/skills/encontro-2/radar-detetive-chatgpt.zip')
+                    }
+                    className="w-full font-mono text-xs rounded-[8px] min-h-[42px] justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>
+                      {downloadingSkill === 'radar-chatgpt'
+                        ? 'Baixando...'
+                        : filesStatus.radarGptZip
+                          ? 'Baixar para o ChatGPT'
+                          : 'Disponível em breve'}
+                    </span>
+                  </Button>
 
                   {/* Botão Plano B da Skill 1 */}
                   <Button
@@ -1604,60 +1549,30 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 </div>
 
                 <div className="space-y-2.5 pt-3 border-t border-slate-200/80 dark:border-[#27272A]">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button
-                      type="button"
-                      size="sm"
-                      disabled={
-                        !filesStatus.estrategistaGptZip ||
-                        downloadingSkill === 'estrategista-chatgpt'
-                      }
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'estrategista',
-                          '/skills/encontro-2/estrategista-de-posicionamento-chatgpt.zip',
-                          'chatgpt',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'estrategista-chatgpt'
-                          ? 'Baixando...'
-                          : filesStatus.estrategistaGptZip
-                            ? 'Baixar para o ChatGPT'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      disabled={
-                        !filesStatus.estrategistaClaudeZip ||
-                        downloadingSkill === 'estrategista-claude'
-                      }
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'estrategista',
-                          '/skills/encontro-2/estrategista-de-posicionamento-claude.zip',
-                          'claude',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'estrategista-claude'
-                          ? 'Baixando...'
-                          : filesStatus.estrategistaClaudeZip
-                            ? 'Baixar para o Claude'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-                  </div>
+                  {/* Botão Principal: Baixar para o ChatGPT com largura total */}
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled={
+                      !filesStatus.estrategistaGptZip || downloadingSkill === 'estrategista-chatgpt'
+                    }
+                    onClick={() =>
+                      handleDownloadSkill(
+                        'estrategista',
+                        '/skills/encontro-2/estrategista-de-posicionamento-chatgpt.zip',
+                      )
+                    }
+                    className="w-full font-mono text-xs rounded-[8px] min-h-[42px] justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>
+                      {downloadingSkill === 'estrategista-chatgpt'
+                        ? 'Baixando...'
+                        : filesStatus.estrategistaGptZip
+                          ? 'Baixar para o ChatGPT'
+                          : 'Disponível em breve'}
+                    </span>
+                  </Button>
 
                   {/* Botão Plano B da Skill 2 */}
                   <Button
@@ -1724,58 +1639,30 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 </div>
 
                 <div className="space-y-2.5 pt-3 border-t border-slate-200/80 dark:border-[#27272A]">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button
-                      type="button"
-                      size="sm"
-                      disabled={
-                        !filesStatus.manifestoGptZip || downloadingSkill === 'manifesto-chatgpt'
-                      }
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'manifesto',
-                          '/skills/encontro-2/manifesto-da-marca-chatgpt.zip',
-                          'chatgpt',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'manifesto-chatgpt'
-                          ? 'Baixando...'
-                          : filesStatus.manifestoGptZip
-                            ? 'Baixar para o ChatGPT'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      disabled={
-                        !filesStatus.manifestoClaudeZip || downloadingSkill === 'manifesto-claude'
-                      }
-                      onClick={() =>
-                        handleDownloadSkill(
-                          'manifesto',
-                          '/skills/encontro-2/manifesto-da-marca-claude.zip',
-                          'claude',
-                        )
-                      }
-                      className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>
-                        {downloadingSkill === 'manifesto-claude'
-                          ? 'Baixando...'
-                          : filesStatus.manifestoClaudeZip
-                            ? 'Baixar para o Claude'
-                            : 'Disponível em breve'}
-                      </span>
-                    </Button>
-                  </div>
+                  {/* Botão Principal: Baixar para o ChatGPT com largura total */}
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled={
+                      !filesStatus.manifestoGptZip || downloadingSkill === 'manifesto-chatgpt'
+                    }
+                    onClick={() =>
+                      handleDownloadSkill(
+                        'manifesto',
+                        '/skills/encontro-2/manifesto-da-marca-chatgpt.zip',
+                      )
+                    }
+                    className="w-full font-mono text-xs rounded-[8px] min-h-[42px] justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>
+                      {downloadingSkill === 'manifesto-chatgpt'
+                        ? 'Baixando...'
+                        : filesStatus.manifestoGptZip
+                          ? 'Baixar para o ChatGPT'
+                          : 'Disponível em breve'}
+                    </span>
+                  </Button>
 
                   {/* Botão Plano B da Skill 3 */}
                   <Button
@@ -1873,71 +1760,6 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 <strong>Aviso:</strong> A importação funciona melhor pelo computador. Pelo celular,
                 use o Plano B.
               </div>
-            </div>
-
-            {/* Como importar no Claude (Bloco recolhido) */}
-            <div className="border border-slate-200 dark:border-[#27272A] rounded-[14px] overflow-hidden">
-              <button
-                type="button"
-                onClick={() => setClaudeGuideOpen((prev) => !prev)}
-                className="w-full p-4 sm:p-5 bg-slate-50 dark:bg-[#0c0914] flex items-center justify-between text-left cursor-pointer hover:bg-slate-100 dark:hover:bg-[#18181B] transition-colors"
-              >
-                <span className="font-sans font-semibold text-sm sm:text-base text-editorial-primary">
-                  Como importar no Claude
-                </span>
-                {claudeGuideOpen ? (
-                  <ChevronUp className="w-4 h-4 text-editorial-secondary" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-editorial-secondary" />
-                )}
-              </button>
-
-              {claudeGuideOpen && (
-                <div className="p-5 sm:p-6 space-y-4 bg-white dark:bg-[#121216] border-t border-slate-200 dark:border-[#27272A]">
-                  {[
-                    {
-                      n: 1,
-                      txt: "Baixe o arquivo 'para o Claude' no seu computador. Não abra nem descompacte o arquivo.",
-                    },
-                    {
-                      n: 2,
-                      txt: 'No Claude, abra as configurações e a área de skills, como mostra a imagem.',
-                    },
-                    {
-                      n: 3,
-                      txt: 'Envie o arquivo .zip que você baixou.',
-                    },
-                    {
-                      n: 4,
-                      txt: 'Repita para a segunda skill.',
-                    },
-                    {
-                      n: 5,
-                      txt: 'Confira se as duas aparecem ativas na sua lista.',
-                    },
-                  ].map((c) => (
-                    <div
-                      key={c.n}
-                      className="p-4 rounded-[10px] bg-slate-50/60 dark:bg-[#0c0914] border border-slate-200/70 dark:border-[#27272A] space-y-2"
-                    >
-                      <span className="text-xs font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] block">
-                        Passo {c.n}
-                      </span>
-                      <p className="text-xs sm:text-sm text-editorial-primary font-light">
-                        {c.txt}
-                      </p>
-                      {filesStatus.claudePrints[c.n] && (
-                        <img
-                          src={`/images/encontro-2/prints/importar-claude-${c.n}.png`}
-                          alt={`Passo ${c.n} da importação no Claude`}
-                          className="w-full rounded-[8px] border border-slate-200 dark:border-[#27272A] mt-2"
-                          loading="lazy"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Plano B (bloco destacado) */}

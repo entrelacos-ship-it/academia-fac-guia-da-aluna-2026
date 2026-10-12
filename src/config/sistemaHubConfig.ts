@@ -69,7 +69,7 @@ export const SISTEMA_ITEMS_EXTRAS: Record<string, SistemaItemExtra> = {
     versao: '1.0',
     destaqueBadge: 'Mentora de Carreira',
     instrucoesUso:
-      'Copie as instruções ou baixe o arquivo Mentora-FAC.md para importar como Custom Instruction ou Skill no seu assistente de IA preferido (ChatGPT, Claude, etc.).',
+      'Copie as instruções ou baixe o arquivo Mentora-FAC.md para importar como Custom Instruction ou Skill no seu assistente de IA OpenAI (ChatGPT).',
     download: {
       filename: 'Mentora-FAC.md',
       url: '/downloads/Mentora-FAC.md',
