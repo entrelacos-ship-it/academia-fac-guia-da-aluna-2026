@@ -193,10 +193,13 @@ export const SkillsService = {
   },
 
   /**
-   * Encontra a skill correspondente ao Encontro 2 por tipo ('radar' ou 'estrategista')
-   * Casamento robusto por título / categoria
+   * Encontra a skill correspondente ao Encontro 2 por tipo ('radar', 'estrategista' ou 'manifesto')
+   * Casamento robusto por título / categoria / nome de arquivo
    */
-  matchEncontro2Skill(skills: SkillItem[], tipo: 'radar' | 'estrategista'): SkillItem | undefined {
+  matchEncontro2Skill(
+    skills: SkillItem[],
+    tipo: 'radar' | 'estrategista' | 'manifesto',
+  ): SkillItem | undefined {
     return skills.find((sk) => {
       const tit = (sk.titulo || '')
         .toLowerCase()
@@ -215,7 +218,7 @@ export const SkillsService = {
           cat.includes('nicho') ||
           arq.includes('radar')
         )
-      } else {
+      } else if (tipo === 'estrategista') {
         return (
           tit.includes('estrategista') ||
           tit.includes('posicionamento') ||
@@ -223,7 +226,17 @@ export const SkillsService = {
           arq.includes('estrategista') ||
           arq.includes('posicionamento')
         )
+      } else if (tipo === 'manifesto') {
+        return (
+          tit.includes('manifesto') ||
+          tit.includes('marca') ||
+          cat.includes('manifesto') ||
+          cat.includes('marca') ||
+          arq.includes('manifesto') ||
+          arq.includes('marca')
+        )
       }
+      return false
     })
   },
 

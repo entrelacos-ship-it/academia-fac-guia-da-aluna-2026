@@ -91,4 +91,36 @@ describe('Encontro 2: Do sentido ao mercado (Guia)', () => {
     expect(estrategista).toBeDefined()
     expect(estrategista?.id).toBe('sk2')
   })
+
+  it('SkillsService.matchEncontro2Skill casa a nova skill do Manifesto da Marca (Cartão 3)', async () => {
+    const { SkillsService } = await import('@/services/skillsService')
+    const mockSkills = [
+      {
+        id: 'sk1',
+        titulo: 'Radar de Nicho FAC',
+        categoria: 'Nicho',
+        arquivo: 'radar-nicho-fac.zip',
+        ativo: true,
+      },
+      {
+        id: 'sk2',
+        titulo: 'Estrategista de Posicionamento',
+        categoria: 'Posicionamento',
+        arquivo: 'estrategista-de-posicionamento.zip',
+        ativo: true,
+      },
+      {
+        id: 'sk3',
+        titulo: 'Manifesto da Marca',
+        categoria: 'Manifesto da Marca',
+        arquivo: 'plugin_manifesto_marca_4xb1wliif3.zip',
+        ativo: true,
+      },
+    ]
+
+    const manifesto = SkillsService.matchEncontro2Skill(mockSkills, 'manifesto')
+    expect(manifesto).toBeDefined()
+    expect(manifesto?.id).toBe('sk3')
+    expect(manifesto?.titulo).toBe('Manifesto da Marca')
+  })
 })
