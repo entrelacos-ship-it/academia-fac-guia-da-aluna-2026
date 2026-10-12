@@ -360,7 +360,7 @@ Módulo de distribuição de agentes de Inteligência Artificial personalizados 
   - O download do arquivo `.md` e a cópia integral do texto são **exclusivos para alunas com matrícula validada**.
   - Usuárias sem validação visualizam a descrição do recurso e são convidadas a validar seu e-mail de matrícula.
 - **Finalidade Pedagógica:**
-  Instruir agentes em ferramentas como ChatGPT Plus (Custom GPTs), Claude Projects ou Cursor, permitindo que a IA atue como uma copiloto de negócios treinada especificamente na metodologia e nos valores éticos da Academia FAC.
+  Instruir agentes em ferramentas como ChatGPT Plus (Custom GPTs) ou OpenAI Codex, permitindo que a IA atue como uma copiloto de negócios treinada especificamente na metodologia e nos valores éticos da Academia FAC.
 
 ### 3.7 Painel Administrativo (`/admin`)
 

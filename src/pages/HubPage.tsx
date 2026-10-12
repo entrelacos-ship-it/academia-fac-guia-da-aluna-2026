@@ -414,93 +414,112 @@ export const HubPage: React.FC = () => {
 
       {/* Conteúdo Principal do Hub */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
-        {/* Hero do Hub com Cubo Mágico 3D */}
-        <div className="relative overflow-hidden rounded-[24px] p-6 sm:p-10 lg:p-12 border border-purple-200/70 dark:border-[#27272A] bg-gradient-to-br from-purple-50/60 via-white to-purple-100/30 dark:from-[#110D20] dark:via-[#0A0A14] dark:to-[#05020B] shadow-sm dark:shadow-2xl">
-          {/* Luz astral ambiente decorativa */}
+        {/* Hero Editorial Premium do Hub */}
+        <section
+          aria-label="Apresentação da Academia FAC"
+          className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] border border-slate-200/80 dark:border-[#27272A] bg-white/95 dark:bg-[#0c0915]/95 shadow-xs dark:shadow-xl transition-colors duration-200"
+        >
+          {/* Brilho atmosférico sutil da marca (roxo exclusivo, sem saturação excessiva) */}
           <div
-            className="absolute top-0 right-0 w-[420px] h-[420px] bg-radial from-[#7c3aed]/20 via-[#6b21a8]/10 to-transparent blur-3xl pointer-events-none -z-0"
+            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[520px] sm:w-[680px] h-[280px] bg-radial from-purple-500/12 via-purple-600/5 dark:from-[#C084FC]/14 dark:via-[#7c3aed]/5 to-transparent blur-3xl -z-0"
             aria-hidden="true"
           />
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
-            {/* Lado Esquerdo: Textos e Ações Principais */}
-            <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50/90 dark:bg-[#18181B]/90 border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-                <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                <span>ACADEMIA ENTRELAÇOS</span>
-                <span className="text-editorial-tertiary">•</span>
-                <span className="text-editorial-secondary">MÉTODO FAC</span>
-              </div>
-
-              <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
-                Sua formação e prática{' '}
-                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                  integrada
-                </em>{' '}
-                na Academia FAC.
-              </h1>
-
-              <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
-                O Guia da Aluna conduz toda a trilha pedagógica da formação. No bloco Sistema você
-                acessa as aplicações clínicas do dia a dia, e em Material & Tutoriais os recursos de
-                apoio e estudo continuado.
-              </p>
-
-              {/* Botões rápidos de acesso na hero */}
-              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                <Button
-                  onClick={() => navigate('/guia')}
-                  className="min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm cursor-pointer"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Entrar no Guia da Aluna</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-
-                {!isAlunaValidada && (
-                  <Button
-                    variant="outline"
-                    onClick={() => setValidarModalOpen(true)}
-                    className="min-h-[46px] px-5 gap-1.5 font-mono text-xs border-purple-300 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[10px]"
-                  >
-                    <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                    <span>Já sou aluna</span>
-                  </Button>
-                )}
-              </div>
+          <div className="relative z-10 px-5 sm:px-10 md:px-12 py-10 sm:py-14 md:py-16 flex flex-col items-center text-center">
+            {/* Eyebrow em JetBrains Mono com tracking amplo e rótulo curto */}
+            <div className="eyebrow inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/60 text-[#7c3aed] dark:text-[#C084FC] mb-5 sm:mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+              <span>ACADEMIA MÉTODO FAC</span>
+              <span className="text-slate-300 dark:text-zinc-700">•</span>
+              <span className="text-slate-600 dark:text-zinc-400">HUB DE FORMAÇÃO</span>
             </div>
 
-            {/* Lado Direito: Percurso dos 3 Pilares e Destaque Metodológico (sem cubo 3D) */}
-            <div className="lg:col-span-5 flex flex-col justify-center space-y-3 pt-2 lg:pt-0">
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
-                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
-                    Pilar 1 · Fundação
-                  </span>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
-                    Custo de vida real, reserva ética e piso mínimo sustentável da sessão.
+            {/* Título editorial em Inter Tight com palavra-âncora em Instrument Serif italic */}
+            <h1 className="h-display font-medium tracking-tight text-editorial-primary max-w-4xl text-balance">
+              Formação e prática{' '}
+              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                integrada
+              </em>{' '}
+              para psicólogas.
+            </h1>
+
+            {/* Lead em Inter Tight com largura de leitura controlada e respiro */}
+            <p className="lead text-editorial-secondary max-w-2xl mt-4 sm:mt-5 font-normal text-balance">
+              Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
+              recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
+            </p>
+
+            {/* Ações principais com botões táteis e acessíveis */}
+            <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+              <Button
+                onClick={() => navigate('/guia')}
+                className="w-full sm:w-auto min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm cursor-pointer transition-colors"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Acessar o Guia da Aluna</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+
+              {!isAlunaValidada && (
+                <Button
+                  variant="outline"
+                  onClick={() => setValidarModalOpen(true)}
+                  className="w-full sm:w-auto min-h-[46px] px-5 gap-1.5 font-mono text-xs border-purple-200 dark:border-[#27272A] bg-white/80 dark:bg-[#120f1e] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/40 rounded-[10px] cursor-pointer"
+                >
+                  <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                  <span>Validar matrícula da turma</span>
+                </Button>
+              )}
+            </div>
+
+            {/* Três pilares metodológicos em faixa hairline refinada */}
+            <div className="w-full max-w-4xl mt-10 sm:mt-12 pt-7 sm:pt-8 border-t border-slate-200/70 dark:border-[#221f2d]">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-left">
+                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="eyebrow text-[#7c3aed] dark:text-[#C084FC] font-semibold">
+                      PILAR 01
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+                      Fundação
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
+                    Custo real de vida, reserva ética e piso mínimo sustentável da sessão.
                   </p>
                 </div>
-                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block">
-                    Pilar 2 · Atração
-                  </span>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
+
+                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="eyebrow text-[#ea580c] dark:text-[#FB923C] font-semibold">
+                      PILAR 02
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+                      Atração
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
                     Posicionamento ético, autoridade técnica e fluxo consistente de pacientes.
                   </p>
                 </div>
-                <div className="p-3.5 rounded-[12px] bg-white/80 dark:bg-[#18181B]/80 border border-purple-200/80 dark:border-[#27272A] shadow-xs">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">
-                    Pilar 3 · Conexão
-                  </span>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5 leading-snug">
+
+                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="eyebrow text-emerald-700 dark:text-emerald-400 font-semibold">
+                      PILAR 03
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
+                      Conexão
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
                     Primeira consulta acolhedora, contrato clínico e retenção ética continuada.
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* ================= 1. O GUIA VEM PRIMEIRO: CARD DESTACADO HERO ================= */}
         {heroItem && (
@@ -1065,7 +1084,7 @@ export const HubPage: React.FC = () => {
       <footer className="border-t border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] py-4 px-4 text-center text-xs text-slate-600 dark:text-[#A1A1AA] print:hidden mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px]">
           <p className="text-slate-800 dark:text-white font-medium">
-            Entrelaços Psicologia — Academia & Método FAC · Astral System © 2026
+            Entrelaços Psicologia · Academia e Método FAC · Astral System © 2026
           </p>
           <p className="text-editorial-tertiary">
             Plataforma pedagógica e sistemas exclusivos para alunas da Academia.

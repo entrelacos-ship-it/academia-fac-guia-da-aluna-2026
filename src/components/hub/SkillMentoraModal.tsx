@@ -58,7 +58,7 @@ export const SkillMentoraModal: React.FC<SkillMentoraModalProps> = ({
             </Badge>
           </div>
           <DialogTitle className="font-serif-editorial text-2xl sm:text-3xl font-medium text-editorial-primary">
-            Mentora do FAC — Instruções & Download
+            Mentora do FAC: Instruções e Download
           </DialogTitle>
           <DialogDescription className="text-xs sm:text-sm text-editorial-secondary pt-1 leading-relaxed">
             Skill completa em Markdown criada para alunas da Academia Método FAC. Você pode baixar o

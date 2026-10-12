@@ -3,11 +3,9 @@ Pasta de arquivos estáticos das duas skills da Academia Método FAC.
 
 Arquivos que devem ser colocados aqui:
 1. radar-detetive-chatgpt.zip — Radar Detetive em formato plugin/skill, para importar no ChatGPT
-2. radar-detetive-claude.zip — Radar Detetive em formato skill, para importar no Claude
-3. radar-detetive.md — texto completo da skill Radar Detetive, usado no Plano B (copiar e colar)
-4. estrategista-de-posicionamento-chatgpt.zip — Estrategista de Posicionamento em formato plugin, para o ChatGPT
-5. estrategista-de-posicionamento-claude.zip — Estrategista de Posicionamento em formato skill, para o Claude
-6. estrategista-de-posicionamento.md — texto completo da skill Estrategista de Posicionamento, usado no Plano B
+2. radar-detetive.md — texto completo da skill Radar Detetive, usado no Plano B (copiar e colar)
+3. estrategista-de-posicionamento-chatgpt.zip — Estrategista de Posicionamento em formato plugin, para o ChatGPT
+4. estrategista-de-posicionamento.md — texto completo da skill Estrategista de Posicionamento, usado no Plano B
 
 Comportamento do Guia da Aluna:
 - Arquivos .zip ausentes: o botão fica desabilitado com o texto "Disponível em breve".
