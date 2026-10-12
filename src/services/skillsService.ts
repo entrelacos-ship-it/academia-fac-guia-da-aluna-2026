@@ -136,6 +136,98 @@ export const SkillsService = {
   },
 
   /**
+   * Busca o texto de uma skill .md (ou compatível) do PocketBase
+   * Retorna o conteúdo textual ou null se não for arquivo de texto
+   */
+  async fetchSkillText(
+    skill: SkillItem,
+    alunaToken?: string,
+  ): Promise<{ success: boolean; text?: string; message?: string }> {
+    try {
+      const ext = skill.arquivo?.toLowerCase().split('.').pop() || ''
+      if (!['md', 'txt', 'json'].includes(ext)) {
+        return {
+          success: false,
+          message: 'Esta skill não possui arquivo de texto (.md) direto.',
+        }
+      }
+
+      // Validar acesso com o backend
+      const res = await pb.send<{
+        success: boolean
+        file_url?: string
+        message?: string
+      }>('/backend/v1/fac/skills/download', {
+        method: 'POST',
+        body: {
+          id: skill.id,
+          token: alunaToken || '',
+        },
+      })
+
+      if (!res.success) {
+        return { success: false, message: res.message || 'Acesso não autorizado.' }
+      }
+
+      const fileUrl = this.getFileUrl(skill, false)
+      const tokenHeader: Record<string, string> = {}
+      if (pb.authStore.token) {
+        tokenHeader['Authorization'] = pb.authStore.token
+      }
+
+      const fileResponse = await fetch(fileUrl, { headers: tokenHeader })
+      if (!fileResponse.ok) {
+        return { success: false, message: 'Não foi possível ler o arquivo da skill.' }
+      }
+
+      const text = await fileResponse.text()
+      if (text.includes('<!DOCTYPE html>') || text.includes('<html')) {
+        return { success: false, message: 'Arquivo indisponível no servidor.' }
+      }
+
+      return { success: true, text }
+    } catch (err) {
+      console.error('Erro ao buscar texto da skill:', err)
+      return { success: false, message: 'Falha ao carregar texto da skill.' }
+    }
+  },
+
+  /**
+   * Encontra a skill correspondente ao Encontro 2 por tipo ('radar' ou 'estrategista')
+   * Casamento robusto por título / categoria
+   */
+  matchEncontro2Skill(skills: SkillItem[], tipo: 'radar' | 'estrategista'): SkillItem | undefined {
+    return skills.find((sk) => {
+      const tit = (sk.titulo || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+      const cat = (sk.categoria || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+      const arq = (sk.arquivo || '').toLowerCase()
+
+      if (tipo === 'radar') {
+        return (
+          tit.includes('radar') ||
+          tit.includes('detetive') ||
+          cat.includes('nicho') ||
+          arq.includes('radar')
+        )
+      } else {
+        return (
+          tit.includes('estrategista') ||
+          tit.includes('posicionamento') ||
+          cat.includes('posicionamento') ||
+          arq.includes('estrategista') ||
+          arq.includes('posicionamento')
+        )
+      }
+    })
+  },
+
+  /**
    * Criar skill (Admin) com upload nativo de arquivo (FormData)
    */
   async criarSkill(payload: CreateSkillPayload): Promise<SkillItem> {

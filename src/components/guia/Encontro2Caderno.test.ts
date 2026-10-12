@@ -63,4 +63,32 @@ describe('Encontro 2: Do sentido ao mercado (Guia)', () => {
       expect('Do sentido ao mercado').not.toContain(p)
     })
   })
+
+  it('SkillsService.matchEncontro2Skill casa corretamente as skills por título ou categoria', async () => {
+    const { SkillsService } = await import('@/services/skillsService')
+    const mockSkills = [
+      {
+        id: 'sk1',
+        titulo: 'Radar de Nicho FAC',
+        categoria: 'Nicho',
+        arquivo: 'radar-nicho-fac.zip',
+        ativo: true,
+      },
+      {
+        id: 'sk2',
+        titulo: 'Estrategista de Posicionamento',
+        categoria: 'Posicionamento',
+        arquivo: 'estrategista-de-posicionamento.zip',
+        ativo: true,
+      },
+    ]
+
+    const radar = SkillsService.matchEncontro2Skill(mockSkills, 'radar')
+    expect(radar).toBeDefined()
+    expect(radar?.id).toBe('sk1')
+
+    const estrategista = SkillsService.matchEncontro2Skill(mockSkills, 'estrategista')
+    expect(estrategista).toBeDefined()
+    expect(estrategista?.id).toBe('sk2')
+  })
 })

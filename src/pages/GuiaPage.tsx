@@ -745,6 +745,7 @@ export const GuiaPage: React.FC = () => {
                     <Encontro2Caderno
                       isAlunaValidada={isAlunaValidada}
                       onValidarEmail={() => setValidarModalOpen(true)}
+                      alunaToken={alunaSession?.token}
                     />
                   </div>
                 ) : encontroDetalhe ? (

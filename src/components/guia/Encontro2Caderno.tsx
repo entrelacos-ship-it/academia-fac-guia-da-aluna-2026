@@ -24,6 +24,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/use-toast'
+import { SkillsService, SkillItem } from '@/services/skillsService'
+import { AlunaGuiaService } from '@/services/alunaGuiaService'
 import { LINK_PECA_3, LINK_COMUNIDADE, LINK_ECOSSISTEMA } from '@/config/guiaContent'
 
 export interface Encontro2ChecklistState {
@@ -55,11 +57,13 @@ export const SECOES_GUIA = [
 interface Encontro2CadernoProps {
   isAlunaValidada: boolean
   onValidarEmail: () => void
+  alunaToken?: string
 }
 
 export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   isAlunaValidada,
   onValidarEmail,
+  alunaToken: alunaTokenProp,
 }) => {
   const { toast } = useToast()
 
@@ -106,7 +110,11 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
   const [copiedPrompt2, setCopiedPrompt2] = useState(false)
   const [copiedPrompt3, setCopiedPrompt3] = useState(false)
 
-  // Disponibilidade dos arquivos públicos
+  // Skills cadastradas no backend (fac_skills)
+  const [dbSkills, setDbSkills] = useState<SkillItem[]>([])
+  const [downloadingSkill, setDownloadingSkill] = useState<string | null>(null)
+
+  // Disponibilidade dos arquivos (PocketBase prioritário + fallback de arquivos públicos)
   const [filesStatus, setFilesStatus] = useState<{
     radarGptZip: boolean
     radarClaudeZip: boolean
@@ -164,13 +172,27 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
     }
 
     const verifyAll = async () => {
+      // 1. Carregar skills ativas cadastradas no backend PocketBase (fac_skills)
+      let skillsFromDb: SkillItem[] = []
+      try {
+        skillsFromDb = await SkillsService.listarSkills(true)
+      } catch (err) {
+        console.warn('Erro ao carregar skills do backend no Encontro 2:', err)
+      }
+
+      // Mapeamento semântico robusto:
+      // Cartão 1 = Radar de Nicho FAC / Radar Detetive
+      // Cartão 2 = Estrategista de Posicionamento
+      const matchedRadar = SkillsService.matchEncontro2Skill(skillsFromDb, 'radar')
+      const matchedEstrategista = SkillsService.matchEncontro2Skill(skillsFromDb, 'estrategista')
+
       const [
-        radarGptZip,
-        radarClaudeZip,
-        radarMd,
-        estrategistaGptZip,
-        estrategistaClaudeZip,
-        estrategistaMd,
+        staticRadarGptZip,
+        staticRadarClaudeZip,
+        staticRadarMd,
+        staticEstrategistaGptZip,
+        staticEstrategistaClaudeZip,
+        staticEstrategistaMd,
         funilImg,
         niveisImg,
       ] = await Promise.all([
@@ -198,14 +220,29 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         claudePrints[i] = await checkStatic(`/images/encontro-2/prints/importar-claude-${i}.png`)
       }
 
+      // Se a skill do Radar está ativa no backend:
+      // O arquivo anexado habilita o download para ChatGPT (e Claude caso arquivo suporte)
+      // Se for .md ou houver .md correspondente, habilita a cópia de texto
+      const radarExt = matchedRadar?.arquivo?.toLowerCase().split('.').pop() || ''
+      const hasRadarBackend = !!matchedRadar && !!matchedRadar.arquivo && matchedRadar.ativo
+
+      const estrategistaExt = matchedEstrategista?.arquivo?.toLowerCase().split('.').pop() || ''
+      const hasEstrategistaBackend =
+        !!matchedEstrategista && !!matchedEstrategista.arquivo && matchedEstrategista.ativo
+
       if (isMounted) {
+        setDbSkills(skillsFromDb)
         setFilesStatus({
-          radarGptZip,
-          radarClaudeZip,
-          radarMd,
-          estrategistaGptZip,
-          estrategistaClaudeZip,
-          estrategistaMd,
+          // Radar: habilitado se existir no backend ativo OU no caminho estático
+          radarGptZip: hasRadarBackend || staticRadarGptZip,
+          radarClaudeZip: hasRadarBackend || staticRadarClaudeZip,
+          radarMd: (hasRadarBackend && ['md', 'txt', 'json'].includes(radarExt)) || staticRadarMd,
+          // Estrategista: habilitado se existir no backend ativo OU no caminho estático
+          estrategistaGptZip: hasEstrategistaBackend || staticEstrategistaGptZip,
+          estrategistaClaudeZip: hasEstrategistaBackend || staticEstrategistaClaudeZip,
+          estrategistaMd:
+            (hasEstrategistaBackend && ['md', 'txt', 'json'].includes(estrategistaExt)) ||
+            staticEstrategistaMd,
           contaPrints,
           gptPrints,
           claudePrints,
@@ -233,28 +270,110 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
     }
   }
 
-  // Copiar texto da skill (Plano B)
-  const handleCopySkillText = async (tipo: 'radar' | 'estrategista', path: string) => {
+  // Obter token de aluna (prop ou localStorage)
+  const getAlunaToken = (): string => {
+    if (alunaTokenProp) return alunaTokenProp
+    const session = AlunaGuiaService.getLocalSession()
+    return session?.token || ''
+  }
+
+  // Download autenticado da skill do PocketBase com fallback para rota estática
+  const handleDownloadSkill = async (
+    tipo: 'radar' | 'estrategista',
+    fallbackPath: string,
+    targetPlatform: 'chatgpt' | 'claude' = 'chatgpt',
+  ) => {
+    if (!isAlunaValidada) {
+      toast({
+        variant: 'destructive',
+        title: 'Acesso exclusivo de alunas',
+        description: 'Valide seu e-mail de matrícula para liberar o download desta skill.',
+      })
+      onValidarEmail()
+      return
+    }
+
+    const matched = SkillsService.matchEncontro2Skill(dbSkills, tipo)
+    const token = getAlunaToken()
+
+    if (matched && matched.arquivo) {
+      setDownloadingSkill(`${tipo}-${targetPlatform}`)
+      try {
+        const res = await SkillsService.downloadSkillAluna(matched, token)
+        if (res.success) {
+          toast({
+            title: 'Download iniciado',
+            description: `O arquivo ${matched.arquivo} da skill "${matched.titulo}" foi baixado.`,
+          })
+          return
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Não foi possível baixar',
+            description: res.message || 'Verifique sua matrícula de aluna.',
+          })
+          return
+        }
+      } catch (err) {
+        console.error('Erro ao baixar skill do backend:', err)
+        toast({
+          variant: 'destructive',
+          title: 'Erro no download',
+          description: 'Falha ao conectar ao servidor de arquivos. Tentando fallback...',
+        })
+      } finally {
+        setDownloadingSkill(null)
+      }
+    }
+
+    // Fallback para arquivo estático caso não cadastrado no backend
+    window.open(fallbackPath, '_blank')
+  }
+
+  // Copiar texto da skill (Plano B): tenta ler do PocketBase se for .md, com fallback no static
+  const handleCopySkillText = async (tipo: 'radar' | 'estrategista', fallbackPath: string) => {
     try {
-      const res = await fetch(path, { cache: 'no-cache' })
-      if (!res.ok) {
+      let textToCopy = ''
+      const matched = SkillsService.matchEncontro2Skill(dbSkills, tipo)
+      const token = getAlunaToken()
+
+      // 1. Tentar ler do backend se a skill for arquivo textual (.md/.txt/.json)
+      if (matched) {
+        const ext = matched.arquivo?.toLowerCase().split('.').pop() || ''
+        if (['md', 'txt', 'json'].includes(ext)) {
+          const fetchRes = await SkillsService.fetchSkillText(matched, token)
+          if (fetchRes.success && fetchRes.text) {
+            textToCopy = fetchRes.text
+          }
+        }
+      }
+
+      // 2. Fallback: buscar arquivo estático em public/
+      if (!textToCopy) {
+        const res = await fetch(fallbackPath, { cache: 'no-cache' })
+        if (res.ok) {
+          const staticText = await res.text()
+          if (
+            staticText &&
+            !staticText.includes('<!DOCTYPE html>') &&
+            !staticText.includes('<html')
+          ) {
+            textToCopy = staticText
+          }
+        }
+      }
+
+      if (!textToCopy) {
         toast({
           variant: 'destructive',
           title: 'Texto não disponível',
-          description: 'O arquivo da skill ainda não está disponível para cópia.',
+          description:
+            'O arquivo desta skill é um pacote .zip para importação. Use o botão "Baixar para o ChatGPT" acima.',
         })
         return
       }
-      const text = await res.text()
-      if (!text || text.includes('<!DOCTYPE html>') || text.includes('<html')) {
-        toast({
-          variant: 'destructive',
-          title: 'Arquivo indisponível',
-          description: 'O texto desta skill estará disponível em breve.',
-        })
-        return
-      }
-      await navigator.clipboard.writeText(text)
+
+      await navigator.clipboard.writeText(textToCopy)
       if (tipo === 'radar') {
         setCopiedSkill1(true)
         setTimeout(() => setCopiedSkill1(false), 2400)
@@ -1220,17 +1339,23 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 <Button
                   type="button"
                   size="sm"
-                  disabled={!filesStatus.radarGptZip}
-                  onClick={() => {
-                    if (filesStatus.radarGptZip) {
-                      window.open('/skills/encontro-2/radar-detetive-chatgpt.zip', '_blank')
-                    }
-                  }}
-                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50"
+                  disabled={!filesStatus.radarGptZip || downloadingSkill === 'radar-chatgpt'}
+                  onClick={() =>
+                    handleDownloadSkill(
+                      'radar',
+                      '/skills/encontro-2/radar-detetive-chatgpt.zip',
+                      'chatgpt',
+                    )
+                  }
+                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>
-                    {filesStatus.radarGptZip ? 'Baixar para o ChatGPT' : 'Disponível em breve'}
+                    {downloadingSkill === 'radar-chatgpt'
+                      ? 'Baixando...'
+                      : filesStatus.radarGptZip
+                        ? 'Baixar para o ChatGPT'
+                        : 'Disponível em breve'}
                   </span>
                 </Button>
 
@@ -1238,17 +1363,23 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                   type="button"
                   size="sm"
                   variant="outline"
-                  disabled={!filesStatus.radarClaudeZip}
-                  onClick={() => {
-                    if (filesStatus.radarClaudeZip) {
-                      window.open('/skills/encontro-2/radar-detetive-claude.zip', '_blank')
-                    }
-                  }}
-                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50"
+                  disabled={!filesStatus.radarClaudeZip || downloadingSkill === 'radar-claude'}
+                  onClick={() =>
+                    handleDownloadSkill(
+                      'radar',
+                      '/skills/encontro-2/radar-detetive-claude.zip',
+                      'claude',
+                    )
+                  }
+                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>
-                    {filesStatus.radarClaudeZip ? 'Baixar para o Claude' : 'Disponível em breve'}
+                    {downloadingSkill === 'radar-claude'
+                      ? 'Baixando...'
+                      : filesStatus.radarClaudeZip
+                        ? 'Baixar para o Claude'
+                        : 'Disponível em breve'}
                   </span>
                 </Button>
               </div>
@@ -1260,7 +1391,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 size="sm"
                 disabled={!filesStatus.radarMd}
                 onClick={() => handleCopySkillText('radar', '/skills/encontro-2/radar-detetive.md')}
-                className="w-full font-mono text-xs rounded-[8px] min-h-[40px] gap-1.5 border-purple-200 dark:border-purple-900/60 text-[#7c3aed] dark:text-[#C084FC] bg-white dark:bg-[#18181B] disabled:opacity-50"
+                className="w-full font-mono text-xs rounded-[8px] min-h-[40px] gap-1.5 border-purple-200 dark:border-purple-900/60 text-[#7c3aed] dark:text-[#C084FC] bg-white dark:bg-[#18181B] disabled:opacity-50 cursor-pointer"
               >
                 {copiedSkill1 ? (
                   <>
@@ -1315,22 +1446,25 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                 <Button
                   type="button"
                   size="sm"
-                  disabled={!filesStatus.estrategistaGptZip}
-                  onClick={() => {
-                    if (filesStatus.estrategistaGptZip) {
-                      window.open(
-                        '/skills/encontro-2/estrategista-de-posicionamento-chatgpt.zip',
-                        '_blank',
-                      )
-                    }
-                  }}
-                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50"
+                  disabled={
+                    !filesStatus.estrategistaGptZip || downloadingSkill === 'estrategista-chatgpt'
+                  }
+                  onClick={() =>
+                    handleDownloadSkill(
+                      'estrategista',
+                      '/skills/encontro-2/estrategista-de-posicionamento-chatgpt.zip',
+                      'chatgpt',
+                    )
+                  }
+                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white disabled:opacity-50 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>
-                    {filesStatus.estrategistaGptZip
-                      ? 'Baixar para o ChatGPT'
-                      : 'Disponível em breve'}
+                    {downloadingSkill === 'estrategista-chatgpt'
+                      ? 'Baixando...'
+                      : filesStatus.estrategistaGptZip
+                        ? 'Baixar para o ChatGPT'
+                        : 'Disponível em breve'}
                   </span>
                 </Button>
 
@@ -1338,22 +1472,25 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                   type="button"
                   size="sm"
                   variant="outline"
-                  disabled={!filesStatus.estrategistaClaudeZip}
-                  onClick={() => {
-                    if (filesStatus.estrategistaClaudeZip) {
-                      window.open(
-                        '/skills/encontro-2/estrategista-de-posicionamento-claude.zip',
-                        '_blank',
-                      )
-                    }
-                  }}
-                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50"
+                  disabled={
+                    !filesStatus.estrategistaClaudeZip || downloadingSkill === 'estrategista-claude'
+                  }
+                  onClick={() =>
+                    handleDownloadSkill(
+                      'estrategista',
+                      '/skills/encontro-2/estrategista-de-posicionamento-claude.zip',
+                      'claude',
+                    )
+                  }
+                  className="font-mono text-xs rounded-[8px] min-h-[42px] flex-1 justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>
-                    {filesStatus.estrategistaClaudeZip
-                      ? 'Baixar para o Claude'
-                      : 'Disponível em breve'}
+                    {downloadingSkill === 'estrategista-claude'
+                      ? 'Baixando...'
+                      : filesStatus.estrategistaClaudeZip
+                        ? 'Baixar para o Claude'
+                        : 'Disponível em breve'}
                   </span>
                 </Button>
               </div>
@@ -1370,7 +1507,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
                     '/skills/encontro-2/estrategista-de-posicionamento.md',
                   )
                 }
-                className="w-full font-mono text-xs rounded-[8px] min-h-[40px] gap-1.5 border-purple-200 dark:border-purple-900/60 text-[#7c3aed] dark:text-[#C084FC] bg-white dark:bg-[#18181B] disabled:opacity-50"
+                className="w-full font-mono text-xs rounded-[8px] min-h-[40px] gap-1.5 border-purple-200 dark:border-purple-900/60 text-[#7c3aed] dark:text-[#C084FC] bg-white dark:bg-[#18181B] disabled:opacity-50 cursor-pointer"
               >
                 {copiedSkill2 ? (
                   <>
