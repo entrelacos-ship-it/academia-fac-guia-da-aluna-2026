@@ -88,7 +88,8 @@ routerAdd(
 
     const body = e.requestInfo().body || {}
     const email = (body.email || '').toString().trim().toLowerCase()
-    const password = (body.password || '').toString()
+    // Senha inicial padrão obrigatória para contas criadas pelo Admin: "Entrelacos2026@" caso não seja especificada outra
+    const password = (body.password ? body.password.toString() : 'Entrelacos2026@').trim()
     const name = (body.name || '').toString().trim()
     const role = body.role === 'admin' ? 'admin' : 'user'
     const verified = body.verified === true || body.verified === 'true'

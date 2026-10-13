@@ -395,38 +395,38 @@ export const HubPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
-      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:pt-0 lg:pb-8 space-y-4 sm:space-y-5 lg:space-y-4">
+      {/* Conteúdo Principal do Hub: Em desktop (lg:), a hero ocupa exatamente a viewport visível (100dvh - 3.5rem da topbar) com zero padding/margem vertical extra no main para eliminar qualquer barra de rolagem */}
+      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:py-0 space-y-4 sm:space-y-5 lg:space-y-0">
         {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
-        {/* Em desktop (lg: ≥1024px), hero + topbar (h-14) cabem exatamente na viewport (100dvh) sem rolagem vertical */}
+        {/* Em desktop (lg: ≥1024px), a hero tem altura exata calc(100dvh - 3.5rem) e box-border sem padding/margem vertical extra que gere overflow no body */}
         <section
           aria-label="Apresentação da Academia Entrelaços"
-          className="relative flex items-center justify-center pt-2 pb-1 sm:pt-4 sm:pb-2 lg:pt-2 lg:pb-3 antialiased overflow-x-hidden lg:h-[calc(100dvh-3.5rem)] lg:max-h-[calc(100dvh-3.5rem)] lg:box-border"
+          className="relative flex items-center justify-center pt-2 pb-1 sm:pt-4 sm:pb-2 lg:py-0 antialiased overflow-hidden lg:h-[calc(100dvh-3.5rem)] lg:max-h-[calc(100dvh-3.5rem)] lg:box-border"
         >
-          {/* Glow de fundo atmosférico e sutil (#7C3AED / ametista suave com opacidade bem baixa + toque laranja mínimo) */}
+          {/* Glow de fundo atmosférico contido (sem transbordar horizontalmente ou verticalmente) */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-24 right-0 lg:right-1/4 w-[500px] sm:w-[720px] lg:w-[820px] h-[500px] sm:h-[720px] lg:h-[820px] rounded-full bg-[#7c3aed]/12 dark:bg-[#7c3aed]/18 blur-[120px] -z-10 transition-opacity motion-reduce:hidden"
+            className="pointer-events-none absolute -top-24 right-0 lg:right-1/4 w-[400px] sm:w-[600px] lg:w-[650px] h-[400px] sm:h-[600px] lg:h-[650px] rounded-full bg-[#7c3aed]/12 dark:bg-[#7c3aed]/18 blur-[100px] -z-10 transition-opacity motion-reduce:hidden"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/3 -left-32 w-[340px] sm:w-[460px] h-[340px] sm:h-[460px] rounded-full bg-[#ea580c]/6 dark:bg-[#FB923C]/8 blur-[130px] -z-10 transition-opacity motion-reduce:hidden"
+            className="pointer-events-none absolute top-1/3 -left-20 w-[280px] sm:w-[380px] h-[280px] sm:h-[380px] rounded-full bg-[#ea580c]/6 dark:bg-[#FB923C]/8 blur-[100px] -z-10 transition-opacity motion-reduce:hidden"
           />
 
           <div className="w-full max-w-7xl px-2 sm:px-6 md:px-10 lg:px-8 my-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-[clamp(1.25rem,2vw,2.5rem)] items-center">
-              {/* Coluna Esquerda: lg:col-span-6 para respiro editorial fluido e equilibrado com a timeline */}
-              <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
-                {/* Badge Pill no topo com presença nítida */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.04] backdrop-blur-xs text-[11px] sm:text-xs font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-2 sm:mb-3 lg:mb-[clamp(0.35rem,0.8dvh,0.75rem)] transition-colors shadow-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse motion-reduce:animate-none" />
-                  <span>Academia Entrelaços</span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-[clamp(1.5rem,2.5vw,3rem)] items-center">
+              {/* Coluna Esquerda: lg:col-span-7 para dar destaque e amplitude à headline ampliada */}
+              <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
+                {/* Badge Pill no topo com escala tipográfica reforçada */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.04] backdrop-blur-xs text-xs sm:text-[13px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-3 sm:mb-4 lg:mb-[clamp(0.5rem,1.2dvh,1rem)] transition-colors shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse motion-reduce:animate-none" />
+                  <span className="font-medium">Academia Entrelaços</span>
                   <span className="text-slate-300 dark:text-white/20">•</span>
-                  <span className="text-slate-500 dark:text-[#94a3b8]">MÉTODO FAC</span>
+                  <span className="text-slate-600 dark:text-[#cbd5e1]">MÉTODO FAC</span>
                 </div>
 
-                {/* Headline: Inter Tight 500 + Instrument Serif italic na palavra-âncora com clamp responsivo à largura e à altura */}
-                <h1 className="font-sans font-medium text-3xl sm:text-4xl lg:text-[clamp(1.9rem,2.2vw+1dvh,2.85rem)] leading-[1.1] sm:leading-[1.08] tracking-tight text-slate-900 dark:text-white text-balance">
+                {/* Headline Aumentada Conforme Pedido: Inter Tight 500 + Instrument Serif italic na palavra-âncora */}
+                <h1 className="font-sans font-medium text-3xl sm:text-5xl lg:text-[clamp(2.4rem,2.3vw+1.5dvh,3.6rem)] leading-[1.08] sm:leading-[1.05] tracking-tight text-slate-900 dark:text-white text-balance">
                   Formação e prática{' '}
                   <em className="font-serif-anchor not-italic font-normal text-[#7c3aed] dark:text-[#C084FC]">
                     integrada
@@ -434,8 +434,8 @@ export const HubPage: React.FC = () => {
                   para psicólogas.
                 </h1>
 
-                {/* Parágrafo de apoio em corpo legível e confortável (clamp entre 14px e 16px com piso robusto) */}
-                <p className="text-sm sm:text-base lg:text-[clamp(0.875rem,0.825rem+0.3dvh,1rem)] text-slate-600 dark:text-gray-300 leading-relaxed max-w-xl mt-2 sm:mt-3 lg:mt-[clamp(0.35rem,0.8dvh,0.75rem)] font-normal text-balance">
+                {/* Parágrafo de apoio em corpo ampliado (16px a 18px), preservando piso legível */}
+                <p className="text-base sm:text-lg lg:text-[clamp(1rem,0.925rem+0.4dvh,1.15rem)] text-slate-600 dark:text-gray-300 leading-relaxed max-w-xl mt-3 sm:mt-4 lg:mt-[clamp(0.5rem,1.1dvh,1rem)] font-normal text-balance">
                   Acesso unificado aos{' '}
                   <strong className="font-medium text-slate-900 dark:text-gray-100">
                     cadernos pedagógicos
@@ -444,14 +444,14 @@ export const HubPage: React.FC = () => {
                   metodológicas da Academia.
                 </p>
 
-                {/* Botões com altura e tipografia reforçadas (min-h-[44px], text-sm) com margem adaptativa */}
-                <div className="mt-4 sm:mt-5 lg:mt-[clamp(0.65rem,1.2dvh,1.15rem)] flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 w-full sm:w-auto">
+                {/* Botões com escala e presença ampliadas (min-h-[46px], text-[15px]) */}
+                <div className="mt-5 sm:mt-6 lg:mt-[clamp(0.75rem,1.4dvh,1.35rem)] flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => navigate('/guia')}
-                    className="inline-flex items-center justify-center gap-2.5 px-5 py-2.5 sm:px-6 sm:py-2.5 lg:py-[clamp(0.45rem,0.7dvh,0.65rem)] min-h-[44px] rounded-lg text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer shrink-0"
+                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3 min-h-[46px] rounded-lg text-sm sm:text-[15px] font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer shrink-0"
                   >
-                    <BookOpen className="w-4 h-4" />
+                    <BookOpen className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
                     <span>Acessar o Guia da Aluna</span>
                   </button>
 
@@ -465,19 +465,19 @@ export const HubPage: React.FC = () => {
                         navigate('/calculadora')
                       }
                     }}
-                    className="group inline-flex items-center justify-center gap-2.5 px-5 py-2.5 sm:px-6 sm:py-2.5 lg:py-[clamp(0.45rem,0.7dvh,0.65rem)] min-h-[44px] rounded-lg text-sm font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer shrink-0"
+                    className="group inline-flex items-center justify-center gap-2.5 px-6 py-3 min-h-[46px] rounded-lg text-sm sm:text-[15px] font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer shrink-0"
                   >
-                    <Calculator className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                    <Calculator className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#ea580c] dark:text-[#FB923C]" />
                     <span>Calculadora FAC</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
+                    <ArrowRight className="w-4 h-4 sm:w-[18px] sm:h-[18px] transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
                   </button>
                 </div>
 
                 {/* Sublegenda de status de aluna com espaçamento fluido */}
-                <div className="mt-2.5 sm:mt-3 lg:mt-[clamp(0.35rem,0.8dvh,0.65rem)] flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                <div className="mt-3 sm:mt-3.5 lg:mt-[clamp(0.4rem,0.9dvh,0.75rem)] flex items-center gap-2 text-xs sm:text-[13px] font-mono text-slate-500 dark:text-[#94a3b8]">
                   {isAlunaValidada ? (
                     <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       <span>Matrícula ativa reconhecida</span>
                     </span>
                   ) : (
@@ -486,15 +486,15 @@ export const HubPage: React.FC = () => {
                       onClick={() => setValidarModalOpen(true)}
                       className="inline-flex items-center gap-1.5 text-slate-600 dark:text-gray-400 hover:text-[#7c3aed] dark:hover:text-[#C084FC] transition-colors cursor-pointer"
                     >
-                      <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                      <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#ea580c] dark:text-[#FB923C]" />
                       <span>Já é aluna da turma? Valide seu e-mail aqui</span>
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Coluna Direita: lg:col-span-6 (Timeline vertical elegante com os 3 pilares do Método FAC) */}
-              <div className="lg:col-span-6 w-full">
+              {/* Coluna Direita: lg:col-span-5 (Timeline vertical compacta e elegante com os 3 pilares do Método FAC) */}
+              <div className="lg:col-span-5 w-full">
                 <div className="relative pl-5 sm:pl-6">
                   {/* Trilho vertical de 1px com gradiente elegante */}
                   <div
@@ -502,7 +502,7 @@ export const HubPage: React.FC = () => {
                     className="absolute left-0 sm:left-1 top-2.5 bottom-2.5 w-px bg-gradient-to-b from-transparent via-slate-300/80 dark:via-white/15 to-transparent"
                   />
 
-                  <div className="space-y-2 sm:space-y-2.5 lg:space-y-[clamp(0.35rem,0.7dvh,0.55rem)]">
+                  <div className="space-y-2 sm:space-y-2.5 lg:space-y-[clamp(0.25rem,0.6dvh,0.5rem)]">
                     {/* Card 1 — Pilar 1 · Fundação (Em destaque / Ativo) */}
                     <div
                       onClick={() => navigate('/guia')}
@@ -522,7 +522,7 @@ export const HubPage: React.FC = () => {
                       </div>
 
                       {/* Card com hairline de highlight no topo e borda refinada */}
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-2.5 sm:p-3 lg:p-[clamp(0.5rem,0.9dvh,0.75rem)] transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 dark:via-white/20 to-transparent"
@@ -555,11 +555,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De “atendo todo mundo” para uma prática com nome, direção e preço.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Sustentação clínica
                           </span>
@@ -587,7 +587,7 @@ export const HubPage: React.FC = () => {
                         <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#ea580c] dark:bg-[#FB923C]" />
                       </div>
 
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-2.5 sm:p-3 lg:p-[clamp(0.5rem,0.9dvh,0.75rem)] transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 dark:via-white/10 to-transparent"
@@ -614,11 +614,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De esperar indicação para ser encontrada por quem precisa de você.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Posicionamento autoral
                           </span>
@@ -646,7 +646,7 @@ export const HubPage: React.FC = () => {
                         <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed]/80 dark:bg-[#C084FC]/80" />
                       </div>
 
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-2.5 sm:p-3 lg:p-[clamp(0.5rem,0.9dvh,0.75rem)] transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 dark:via-white/10 to-transparent"
@@ -673,11 +673,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De contatos que somem para pacientes que ficam.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Permanência clínica
                           </span>

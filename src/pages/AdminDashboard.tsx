@@ -146,13 +146,24 @@ export const AdminDashboard: React.FC = () => {
   const [loadingUsers, setLoadingUsers] = useState(false)
 
   // Modais de CRUD de Contas
+  // Regra: Senha inicial padrão das contas criadas pelo Admin é fixa "Entrelacos2026@" (editável pelo admin)
   const [showCreateUserModal, setShowCreateUserModal] = useState(false)
   const [createEmail, setCreateEmail] = useState('')
-  const [createPassword, setCreatePassword] = useState('')
+  const [createPassword, setCreatePassword] = useState('Entrelacos2026@')
   const [createName, setCreateName] = useState('')
   const [createRole, setCreateRole] = useState<'user' | 'admin'>('user')
   const [createVerified, setCreateVerified] = useState(true)
   const [creatingUser, setCreatingUser] = useState(false)
+
+  // Abrir modal de criação de conta com valores iniciais padrão
+  const handleOpenCreateUser = () => {
+    setCreateEmail('')
+    setCreatePassword('Entrelacos2026@')
+    setCreateName('')
+    setCreateRole('user')
+    setCreateVerified(true)
+    setShowCreateUserModal(true)
+  }
 
   const [editingUser, setEditingUser] = useState<AdminUserItem | null>(null)
   const [editUserName, setEditUserName] = useState('')
@@ -663,7 +674,7 @@ export const AdminDashboard: React.FC = () => {
         setSuccessActionMessage(`Conta para ${cleanEmail} cadastrada com sucesso!`)
         setShowCreateUserModal(false)
         setCreateEmail('')
-        setCreatePassword('')
+        setCreatePassword('Entrelacos2026@')
         setCreateName('')
         setCreateRole('user')
         setCreateVerified(true)
@@ -2565,7 +2576,7 @@ export const AdminDashboard: React.FC = () => {
                   </Badge>
                   <Button
                     size="sm"
-                    onClick={() => setShowCreateUserModal(true)}
+                    onClick={handleOpenCreateUser}
                     className="gap-1.5 font-mono text-xs bg-[#7c3aed] text-white hover:bg-[#6d28d9] rounded-[8px]"
                   >
                     <Plus className="w-4 h-4" />
@@ -3657,18 +3668,32 @@ export const AdminDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
-                  Senha inicial* (mínimo 8 caracteres)
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+                    Senha inicial* (padrão do sistema)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setCreatePassword('Entrelacos2026@')}
+                    className="text-[10px] font-mono text-[#7c3aed] dark:text-[#C084FC] hover:underline"
+                  >
+                    Restaurar Entrelacos2026@
+                  </button>
+                </div>
                 <Input
-                  type="password"
+                  type="text"
                   required
                   minLength={8}
-                  placeholder="••••••••"
+                  placeholder="Entrelacos2026@"
                   value={createPassword}
                   onChange={(e) => setCreatePassword(e.target.value)}
                   className="mt-1 text-xs font-mono"
                 />
+                <p className="text-[10px] font-mono text-slate-500 mt-1">
+                  Senha inicial padrão:{' '}
+                  <strong className="text-slate-700 dark:text-slate-300">Entrelacos2026@</strong>{' '}
+                  (pode ser personalizada se desejar).
+                </p>
               </div>
 
               <div>
