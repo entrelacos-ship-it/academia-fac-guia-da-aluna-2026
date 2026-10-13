@@ -25,7 +25,6 @@ import {
   Clock,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
-import { HeroMagicCube, CanvasErrorBoundary } from '@/components/hub/HeroMagicCube'
 import { Button } from '@/components/ui/button'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import pb from '@/lib/pocketbase/client'
@@ -397,116 +396,416 @@ export const HubPage: React.FC = () => {
 
       {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
       <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-16 lg:py-20 space-y-16 sm:space-y-24">
-        {/* ================= HERO REFINADA: Estética Resend (Container assimétrico 45% / 55%, Objeto 3D cinematográfico) ================= */}
+        {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
         <section
-          aria-label="Apresentação da Academia FAC"
-          className="relative min-h-[640px] lg:min-h-[760px] flex flex-col justify-center pt-2 sm:pt-4"
+          aria-label="Apresentação da Academia Entrelaços"
+          className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 lg:py-20 antialiased overflow-x-hidden"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-            {/* Coluna de Conteúdo (~45% no desktop: 5 de 12 colunas) */}
-            <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
-              {/* Badge Pill Superior Minimalista estilo Resend (radius 999px, borda hairline 1px, acento laranja discreto) */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/70 dark:bg-white/[0.03] backdrop-blur-xs text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors shadow-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
-                <span>ACADEMIA MÉTODO FAC</span>
-                <span className="text-slate-300 dark:text-white/20">•</span>
-                <span className="text-slate-500 dark:text-[#94a3b8]">HUB DE FORMAÇÃO</span>
-              </div>
+          {/* Glow de fundo atmosférico e sutil (#7C3AED / ametista suave com opacidade bem baixa + toque laranja mínimo) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 right-0 lg:right-1/4 w-[500px] sm:w-[720px] lg:w-[820px] h-[500px] sm:h-[720px] lg:h-[820px] rounded-full bg-[#7c3aed]/12 dark:bg-[#7c3aed]/18 blur-[120px] -z-10 transition-opacity motion-reduce:hidden"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1/3 -left-32 w-[340px] sm:w-[460px] h-[340px] sm:h-[460px] rounded-full bg-[#ea580c]/6 dark:bg-[#FB923C]/8 blur-[130px] -z-10 transition-opacity motion-reduce:hidden"
+          />
 
-              {/* Headline Protagonista: tipografia editorial de alto contraste (H1 clamp 3.5rem - 6.25rem, leading 0.98, tracking -0.035em) */}
-              <h1 className="font-sans font-normal text-[clamp(2.75rem,5.5vw,5.25rem)] leading-[0.98] tracking-[-0.035em] text-slate-900 dark:text-[#f8fafc] text-balance">
-                Formação e prática{' '}
-                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                  integrada
-                </em>{' '}
-                para psicólogas.
-              </h1>
+          <div className="w-full max-w-7xl px-2 sm:px-6 md:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+              {/* Coluna Esquerda: lg:col-span-5 */}
+              <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
+                {/* Badge Pill no topo */}
+                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] backdrop-blur-xs text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse motion-reduce:animate-none" />
+                  <span>Academia Entrelaços</span>
+                  <span className="text-slate-300 dark:text-white/20">•</span>
+                  <span className="text-slate-500 dark:text-[#94a3b8]">MÉTODO FAC</span>
+                </div>
 
-              {/* Lead editorial: sans neutra, entrelinha equilibrada, tom intermediário */}
-              <p className="text-[17px] sm:text-[19px] leading-[1.5] text-slate-600 dark:text-[#cbd5e1] max-w-lg mt-6 sm:mt-7 font-normal text-balance">
-                Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
-                recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
-              </p>
+                {/* Headline: Inter Tight 500 + Instrument Serif italic na palavra-âncora */}
+                <h1 className="font-sans font-medium text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.12] tracking-tight text-slate-900 dark:text-white text-balance">
+                  Formação e prática{' '}
+                  <em className="font-serif-anchor not-italic font-normal text-[#7c3aed] dark:text-[#C084FC]">
+                    integrada
+                  </em>{' '}
+                  para psicólogas.
+                </h1>
 
-              {/* Botões padronizados pela especificação Resend: altura 46px, radius 16px, borda 1px de baixa opacidade, sombra discreta */}
-              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 w-full sm:w-auto">
-                <Button
-                  onClick={() => navigate('/guia')}
-                  className="w-full sm:w-auto h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[16px] text-sm cursor-pointer border border-[#8b5cf6]/40 shadow-[0_4px_20px_rgba(124,58,237,0.25)] transition-all"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Acessar o Guia da Aluna</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                {/* Parágrafo com ênfase em tom mais claro */}
+                <p className="text-base lg:text-lg text-slate-600 dark:text-gray-400 leading-relaxed max-w-lg mt-6 font-normal text-balance">
+                  Acesso unificado aos{' '}
+                  <strong className="font-medium text-slate-900 dark:text-gray-200">
+                    cadernos pedagógicos
+                  </strong>
+                  , aplicações de sustentabilidade clínica, recursos de posicionamento e ferramentas
+                  metodológicas da Academia.
+                </p>
 
-                {!isAlunaValidada && (
+                {/* Botões: Primário sólido para Guia da Aluna + Secundário fantasma com seta deslizante */}
+                <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 w-full sm:w-auto">
                   <button
                     type="button"
-                    onClick={() => setValidarModalOpen(true)}
-                    className="w-full sm:w-auto h-[46px] px-5 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[16px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.03] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 shadow-xs transition-colors cursor-pointer"
+                    onClick={() => navigate('/guia')}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer"
                   >
-                    <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                    <span>Validar matrícula da turma</span>
+                    <BookOpen className="w-4 h-4" />
+                    <span>Acessar o Guia da Aluna</span>
                   </button>
-                )}
-              </div>
-            </div>
 
-            {/* Coluna do Visual 3D (~55% no desktop: 7 de 12 colunas) - Objeto emerge organicamente do fundo */}
-            <div className="lg:col-span-7 flex items-center justify-center order-first lg:order-last w-full">
-              <CanvasErrorBoundary>
-                <HeroMagicCube className="w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]" />
-              </CanvasErrorBoundary>
-            </div>
-          </div>
-
-          {/* Três pilares metodológicos: Faixa hairline de 1px, sem caixas pesadas nem sombras */}
-          <div className="w-full mt-12 sm:mt-16 pt-8 border-t border-slate-200/90 dark:border-white/[0.08]">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-left">
-              {/* Pilar 01 */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] font-medium">
-                    PILAR 01
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
-                    Fundação
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!isAlunaValidada) {
+                        setItemBloqueadoClicado('Calculadora de Precificação FAC')
+                        setValidarModalOpen(true)
+                      } else {
+                        navigate('/calculadora')
+                      }
+                    }}
+                    className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer"
+                  >
+                    <Calculator className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>Calculadora FAC</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
+                  </button>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
-                  Custo real de vida, reserva ética e piso mínimo sustentável da sessão.
-                </p>
-              </div>
 
-              {/* Pilar 02 - Acento leve em laranja */}
-              <div className="space-y-1.5 sm:border-l sm:border-slate-200/80 sm:dark:border-white/[0.08] sm:pl-8">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] font-medium flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
-                    PILAR 02
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
-                    Atração
-                  </span>
+                {/* Sublegenda de status de aluna */}
+                <div className="mt-5 flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                  {isAlunaValidada ? (
+                    <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>Matrícula ativa reconhecida</span>
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setValidarModalOpen(true)}
+                      className="inline-flex items-center gap-1 text-slate-600 dark:text-gray-400 hover:text-[#7c3aed] dark:hover:text-[#C084FC] transition-colors cursor-pointer"
+                    >
+                      <Lock className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
+                      <span>Já é aluna da turma? Valide seu e-mail aqui</span>
+                    </button>
+                  )}
                 </div>
-                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
-                  Posicionamento ético, autoridade técnica e fluxo consistente de pacientes.
-                </p>
               </div>
 
-              {/* Pilar 03 */}
-              <div className="space-y-1.5 sm:border-l sm:border-slate-200/80 sm:dark:border-white/[0.08] sm:pl-8">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-medium">
-                    PILAR 03
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
-                    Conexão
-                  </span>
+              {/* Coluna Direita: lg:col-span-7 (Timeline vertical elegante com trilho e cards reais) */}
+              <div className="lg:col-span-7 w-full">
+                <div className="relative pl-6 sm:pl-8">
+                  {/* Trilho vertical de 1px com gradiente elegante */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute left-0 sm:left-1 top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-slate-300/80 dark:via-white/15 to-transparent"
+                  />
+
+                  <div className="space-y-4 sm:space-y-5">
+                    {/* Item 1: Guia da Aluna (Ativo / Aberto) */}
+                    <div
+                      onClick={() => navigate('/guia')}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          navigate('/guia')
+                        }
+                      }}
+                      className="group relative cursor-pointer"
+                    >
+                      {/* Nó na timeline com data/label em mono à esquerda */}
+                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                        <span className="w-3 h-3 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed] dark:bg-[#C084FC] shadow-xs" />
+                      </div>
+
+                      {/* Card com hairline de highlight no topo e borda refinada */}
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-5 sm:p-6 transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-sm">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 dark:via-white/20 to-transparent"
+                        />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-start sm:items-center gap-3.5">
+                            <div className="w-9 h-9 rounded-lg border border-[#7c3aed]/30 dark:border-[#C084FC]/30 bg-[#7c3aed]/10 dark:bg-[#C084FC]/10 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                              <BookOpen className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
+                                  Frente 01 · Percurso
+                                </span>
+                              </div>
+                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                                Guia da Aluna
+                              </h3>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-center">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono uppercase tracking-wider">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+                              <span>Ativo</span>
+                            </span>
+                            <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
+                              24 Perguntas
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                          Aula Magna aberta com o Diagnóstico FAC Aprofundado, trilha pedagógica e
+                          cadernos didáticos do Ciclo.
+                        </p>
+
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                          <span className="text-[10px] uppercase tracking-wider">
+                            Diagnóstico + Cadernos
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            Abrir percurso <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Item 2: Calculadora FAC (Exclusivo de Alunas) */}
+                    <div
+                      onClick={() => {
+                        if (!isAlunaValidada) {
+                          setItemBloqueadoClicado('Calculadora de Precificação FAC')
+                          setValidarModalOpen(true)
+                        } else {
+                          navigate('/calculadora')
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          if (!isAlunaValidada) {
+                            setItemBloqueadoClicado('Calculadora de Precificação FAC')
+                            setValidarModalOpen(true)
+                          } else {
+                            navigate('/calculadora')
+                          }
+                        }
+                      }}
+                      className="group relative cursor-pointer"
+                    >
+                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                        <span className="w-2.5 h-2.5 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#ea580c] dark:bg-[#FB923C]" />
+                      </div>
+
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-5 sm:p-6 transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-sm">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 dark:via-white/10 to-transparent"
+                        />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-start sm:items-center gap-3.5">
+                            <div className="w-9 h-9 rounded-lg border border-orange-300/40 dark:border-orange-500/30 bg-orange-500/10 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
+                              <Calculator className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <span className="text-[10px] font-mono tracking-wider uppercase text-[#ea580c] dark:text-[#FB923C]">
+                                Frente 02 · Finanças
+                              </span>
+                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors">
+                                Calculadora de Precificação FAC
+                              </h3>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-center">
+                            {isAlunaValidada ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono uppercase tracking-wider">
+                                <span>Liberada</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[11px] font-mono uppercase tracking-wider">
+                                <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                <span>Exclusiva</span>
+                              </span>
+                            )}
+                            <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
+                              Piso ético
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                          Engenharia financeira do consultório: custo de vida, tributos, capacidade
+                          real e piso sustentável por hora clínica.
+                        </p>
+
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                          <span className="text-[10px] uppercase tracking-wider">
+                            Sustentabilidade clínica
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-medium text-[#ea580c] dark:text-[#FB923C] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            {isAlunaValidada ? 'Acessar ferramenta' : 'Validar acesso'}{' '}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Item 3: Meu IKIGAI Clínico */}
+                    <div
+                      onClick={() => {
+                        if (!isAlunaValidada) {
+                          setItemBloqueadoClicado('Meu IKIGAI')
+                          setValidarModalOpen(true)
+                        } else {
+                          navigate('/ikigai')
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          if (!isAlunaValidada) {
+                            setItemBloqueadoClicado('Meu IKIGAI')
+                            setValidarModalOpen(true)
+                          } else {
+                            navigate('/ikigai')
+                          }
+                        }
+                      }}
+                      className="group relative cursor-pointer"
+                    >
+                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                        <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed]/80 dark:bg-[#C084FC]/80" />
+                      </div>
+
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-5 sm:p-6 transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-sm">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 dark:via-white/10 to-transparent"
+                        />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-start sm:items-center gap-3.5">
+                            <div className="w-9 h-9 rounded-lg border border-purple-200/50 dark:border-purple-500/20 bg-purple-500/5 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                              <Compass className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <span className="text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
+                                Frente 03 · Autoria
+                              </span>
+                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                                Meu IKIGAI Clínico
+                              </h3>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-center">
+                            {isAlunaValidada ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-mono uppercase tracking-wider">
+                                <span>Disponível</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-slate-100/60 dark:bg-white/[0.03] text-slate-600 dark:text-gray-400 text-[11px] font-mono uppercase tracking-wider">
+                                <Lock className="w-2.5 h-2.5" />
+                                <span>Exclusivo</span>
+                              </span>
+                            )}
+                            <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
+                              4 Círculos
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                          Mapeamento estruturado das 4 forças e intersecções para delimitar
+                          posicionamento autêntico e nicho.
+                        </p>
+
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                          <span className="text-[10px] uppercase tracking-wider">
+                            Posicionamento ético
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            {isAlunaValidada ? 'Abrir IKIGAI' : 'Validar acesso'}{' '}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Item 4: Material & Tutoriais (Estudo continuado) */}
+                    <div
+                      onClick={() => {
+                        const target = document.getElementById('secao-materiais')
+                        if (target) {
+                          target.scrollIntoView({ behavior: 'smooth' })
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          const target = document.getElementById('secao-materiais')
+                          if (target) target.scrollIntoView({ behavior: 'smooth' })
+                        }
+                      }}
+                      className="group relative cursor-pointer opacity-85 hover:opacity-100 transition-opacity"
+                    >
+                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                        <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-slate-400 dark:bg-white/40" />
+                      </div>
+
+                      <div className="relative rounded-xl border border-slate-300/70 dark:border-white/[0.07] bg-white/60 dark:bg-white/[0.015] p-5 sm:p-6 transition-all duration-200 hover:border-slate-400 dark:hover:border-white/15">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/[0.06] to-transparent"
+                        />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-start sm:items-center gap-3.5">
+                            <div className="w-9 h-9 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-100/60 dark:bg-white/[0.02] text-slate-600 dark:text-gray-400 flex items-center justify-center shrink-0">
+                              <FileText className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <span className="text-[10px] font-mono tracking-wider uppercase text-slate-500 dark:text-gray-400">
+                                Frente 04 · Acervo
+                              </span>
+                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-gray-200 transition-colors">
+                                Material & Tutoriais
+                              </h3>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-center">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-gray-400 text-[11px] font-mono uppercase tracking-wider">
+                              <Clock className="w-2.5 h-2.5" />
+                              <span>Em expansão</span>
+                            </span>
+                            <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
+                              Apoio didático
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                          Acervo complementar com templates de contrato, materiais pedagógicos e
+                          skills para ChatGPT.
+                        </p>
+
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                          <span className="text-[10px] uppercase tracking-wider">
+                            Estudo continuado
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-medium text-slate-600 dark:text-gray-300 group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            Ver acervo <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
-                  Primeira consulta acolhedora, contrato clínico e retenção ética continuada.
-                </p>
               </div>
             </div>
           </div>
