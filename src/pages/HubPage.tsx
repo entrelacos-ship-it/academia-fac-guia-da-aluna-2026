@@ -41,6 +41,7 @@ import { LINK_ECOSSISTEMA } from '@/config/guiaContent'
 import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
 import { SkillsService, SkillItem } from '@/services/skillsService'
 import { useToast } from '@/hooks/use-toast'
+import { ScrollVelocityMarquee } from '@/components/hub/ScrollVelocityMarquee'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -693,6 +694,10 @@ export const HubPage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* ================= LETREIRO ANIMADO: SCROLL VELOCITY MARQUEE ================= */}
+        <ScrollVelocityMarquee />
+
         {/* ================= 1. O GUIA VEM PRIMEIRO: Card Hairline Estilo Resend ================= */}
         {heroItem && (
           <section aria-labelledby="secao-guia-aluna" className="space-y-3">
