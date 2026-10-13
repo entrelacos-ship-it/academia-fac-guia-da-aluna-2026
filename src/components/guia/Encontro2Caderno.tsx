@@ -109,6 +109,32 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
     }))
   }
 
+  // Seção ativa observada via scroll para destacar na barra
+  const [activeSectionId, setActiveSectionId] = useState<string>('secao-1')
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 140
+      let current = SECOES_GUIA[0].id
+      for (const sec of SECOES_GUIA) {
+        const el = document.getElementById(sec.id)
+        if (el) {
+          const top = el.offsetTop
+          if (scrollPosition >= top) {
+            current = sec.id
+          }
+        }
+      }
+      setActiveSectionId(current)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   // No modo aula, garantir que a Seção 3 esteja expandida
   useEffect(() => {
     if (modoAula) {
@@ -482,98 +508,164 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
         modoAula ? 'text-lg sm:text-xl space-y-16 sm:space-y-20' : ''
       }`}
     >
-      {/* ÍNDICE FIXO NO TOPO (Sticky bar com menu para mobile) */}
+      {/* ÍNDICE FIXO NO TOPO (Barra refinada alinhada à linguagem do hub: hairline 1px, fundo escuro #0D0522, sem sombras) */}
       <nav
         aria-label="Índice das seções do Encontro 2"
-        className="sticky top-16 z-30 -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-10 px-4 sm:px-6 lg:px-8 xl:px-10 py-3 bg-white/95 dark:bg-[#0A0A14]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] print:hidden shadow-2xs"
+        className="sticky top-16 z-30 -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-10 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 bg-white/95 dark:bg-[#0D0522]/95 backdrop-blur-md border-b border-slate-200/90 dark:border-white/[0.08] print:hidden transition-colors"
       >
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] shrink-0">
-              Guia Encontro 2
-            </span>
-            <span className="text-editorial-tertiary hidden sm:inline">•</span>
-            <span className="text-xs font-mono text-editorial-secondary truncate hidden sm:inline">
-              Do sentido ao mercado
-            </span>
-          </div>
-
-          {/* Links para desktop */}
-          <div className="hidden lg:flex items-center gap-1.5 overflow-x-auto">
-            {SECOES_GUIA.map((sec) => (
-              <button
-                key={sec.id}
-                type="button"
-                onClick={() => handleScrollTo(sec.id)}
-                className="px-2.5 py-1 rounded-[6px] text-xs font-mono text-slate-700 dark:text-slate-300 hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors whitespace-nowrap cursor-pointer"
+        <div className="max-w-6xl mx-auto flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-3 min-w-0">
+            {/* Eyebrow e título do encontro */}
+            <div className="flex items-center gap-2 min-w-0 shrink-0">
+              <span className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] shrink-0">
+                Guia Encontro 2
+              </span>
+              <span
+                className="text-slate-300 dark:text-white/20 hidden sm:inline"
+                aria-hidden="true"
               >
-                {sec.numero}. {sec.short}
-              </button>
-            ))}
-          </div>
+                •
+              </span>
+              <span className="text-[11px] sm:text-xs font-mono text-slate-500 dark:text-slate-400 truncate max-w-[140px] md:max-w-xs hidden sm:inline">
+                Do sentido ao mercado
+              </span>
+            </div>
 
-          <div className="flex items-center gap-2">
-            {/* Botão de menu móvel */}
-            <div className="lg:hidden relative">
+            {/* Abas desktop/tablet: scroll horizontal discreto, respiro confortável, item ativo destacado */}
+            <div
+              className="hidden md:flex items-center gap-1 overflow-x-auto min-w-0 py-0.5 px-1 scroll-smooth"
+              style={{ scrollbarWidth: 'thin' }}
+            >
+              {SECOES_GUIA.map((sec) => {
+                const isActive = activeSectionId === sec.id
+                return (
+                  <button
+                    key={sec.id}
+                    type="button"
+                    onClick={() => handleScrollTo(sec.id)}
+                    aria-current={isActive ? 'true' : undefined}
+                    className={`px-2.5 py-1.5 rounded-[6px] text-xs font-mono font-medium transition-all whitespace-nowrap cursor-pointer shrink-0 flex items-center gap-1.5 border ${
+                      isActive
+                        ? 'border-[#7c3aed]/40 dark:border-[#C084FC]/40 bg-[#7c3aed]/10 dark:bg-[#C084FC]/15 text-[#7c3aed] dark:text-[#C084FC]'
+                        : 'border-transparent text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/[0.05]'
+                    }`}
+                  >
+                    <span
+                      className={`text-[10px] font-mono ${
+                        isActive
+                          ? 'text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                          : 'text-slate-400 dark:text-slate-500'
+                      }`}
+                    >
+                      {sec.numero}.
+                    </span>
+                    <span>{sec.short}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Ações à direita: Menu mobile e Botão Modo Aula */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Botão de menu móvel (< md) */}
+              <div className="md:hidden relative">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setMobileMenuOpen((prev) => !prev)}
+                  className="min-h-[36px] h-9 px-2.5 text-xs font-mono font-medium gap-1.5 rounded-[6px] border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.03] text-slate-700 dark:text-slate-200 shadow-none cursor-pointer"
+                  aria-expanded={mobileMenuOpen}
+                  aria-label="Abrir índice de seções"
+                >
+                  <Menu className="w-3.5 h-3.5" />
+                  <span>
+                    {SECOES_GUIA.find((s) => s.id === activeSectionId)?.short || 'Índice'}
+                  </span>
+                  <ChevronDown className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+                </Button>
+
+                {mobileMenuOpen && (
+                  <div className="absolute right-0 top-11 w-64 p-2 rounded-[10px] bg-white dark:bg-[#0D0522] border border-slate-200 dark:border-white/[0.12] shadow-xl z-40 flex flex-col gap-1">
+                    <span className="px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                      Seções do Guia
+                    </span>
+                    {SECOES_GUIA.map((sec) => {
+                      const isActive = activeSectionId === sec.id
+                      return (
+                        <button
+                          key={sec.id}
+                          type="button"
+                          onClick={() => handleScrollTo(sec.id)}
+                          className={`w-full text-left px-3 py-2 rounded-[6px] text-xs font-mono transition-colors cursor-pointer flex items-center justify-between ${
+                            isActive
+                              ? 'bg-[#7c3aed]/10 dark:bg-[#C084FC]/15 text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                              : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/[0.05]'
+                          }`}
+                        >
+                          <span>
+                            {sec.numero}. {sec.label}
+                          </span>
+                          {isActive && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] dark:bg-[#C084FC]" />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Botão de Modo Aula: rótulo visível sempre, ícone nítido, sem corte */}
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="min-h-[38px] h-9 px-2.5 text-xs font-mono font-semibold gap-1.5 rounded-[8px] border-slate-200 dark:border-[#27272A]"
-                aria-expanded={mobileMenuOpen}
-                aria-label="Abrir índice de seções"
+                onClick={() => setModoAula((prev) => !prev)}
+                className={`min-h-[36px] h-9 px-3 text-xs font-mono font-medium gap-1.5 rounded-[6px] border transition-colors shrink-0 shadow-none cursor-pointer whitespace-nowrap ${
+                  modoAula
+                    ? 'bg-[#7c3aed]/15 dark:bg-[#C084FC]/20 border-[#7c3aed] dark:border-[#C084FC] text-[#7c3aed] dark:text-[#C084FC] font-semibold'
+                    : 'bg-white dark:bg-white/[0.03] border-slate-300/80 dark:border-white/[0.1] text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:border-[#7c3aed]/40'
+                }`}
+                title={
+                  modoAula
+                    ? 'Sair do Modo aula (retornar ao tamanho padrão)'
+                    : 'Ativar Modo aula (amplia a tipografia para tela/projeção)'
+                }
               >
-                <Menu className="w-3.5 h-3.5" />
-                <span>Índice</span>
-                <ChevronDown className="w-3 h-3 text-editorial-secondary" />
+                {modoAula ? (
+                  <>
+                    <Minimize2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Modo normal</span>
+                  </>
+                ) : (
+                  <>
+                    <Maximize2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Modo aula</span>
+                  </>
+                )}
               </Button>
-
-              {mobileMenuOpen && (
-                <div className="absolute right-0 top-11 w-56 p-2 rounded-[12px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] shadow-xl z-40 flex flex-col gap-1">
-                  {SECOES_GUIA.map((sec) => (
-                    <button
-                      key={sec.id}
-                      type="button"
-                      onClick={() => handleScrollTo(sec.id)}
-                      className="w-full text-left px-3 py-2 rounded-[6px] text-xs font-mono text-slate-700 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-950/40 hover:text-[#7c3aed] dark:hover:text-[#C084FC] transition-colors cursor-pointer"
-                    >
-                      {sec.numero}. {sec.label}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
+          </div>
 
-            {/* Alternador de Modo Aula */}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setModoAula((prev) => !prev)}
-              className={`min-h-[38px] h-9 px-2.5 text-xs font-mono font-semibold gap-1.5 rounded-[8px] border transition-colors shrink-0 ${
-                modoAula
-                  ? 'bg-purple-100 dark:bg-purple-950/50 border-[#7c3aed] text-[#7c3aed] dark:text-[#C084FC]'
-                  : 'bg-white dark:bg-[#18181B] border-slate-200 dark:border-[#27272A] text-slate-700 dark:text-slate-300'
-              }`}
-              title={
-                modoAula
-                  ? 'Sair do Modo aula (retornar tamanho padrão)'
-                  : 'Ativar Modo aula (amplia a tipografia e dá destaque de projeção)'
-              }
-            >
-              {modoAula ? (
-                <>
-                  <Minimize2 className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Modo normal</span>
-                </>
-              ) : (
-                <>
-                  <Maximize2 className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Modo aula</span>
-                </>
-              )}
-            </Button>
+          {/* Barra de progresso discreta das seções (hairline 1px, separada visualmente das abas e dos botões) */}
+          <div
+            className="w-full h-0.5 bg-slate-200/70 dark:bg-white/[0.06] rounded-full overflow-hidden"
+            aria-hidden="true"
+          >
+            {(() => {
+              const activeIdx = Math.max(
+                0,
+                SECOES_GUIA.findIndex((s) => s.id === activeSectionId),
+              )
+              const pct = Math.round(((activeIdx + 1) / SECOES_GUIA.length) * 100)
+              return (
+                <div
+                  className="h-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] dark:from-[#C084FC] dark:to-[#e879f9] transition-all duration-300 ease-out"
+                  style={{ width: `${pct}%` }}
+                />
+              )
+            })()}
           </div>
         </div>
       </nav>

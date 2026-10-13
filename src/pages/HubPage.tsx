@@ -396,12 +396,12 @@ export const HubPage: React.FC = () => {
       </header>
 
       {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
-      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 sm:py-8 lg:py-4 xl:py-5 space-y-10 sm:space-y-14 lg:space-y-12">
+      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 sm:py-8 lg:py-3 xl:py-4 space-y-5 sm:space-y-8 lg:space-y-6">
         {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
         {/* Encaixa 100% na viewport em desktop (1366×768 / 1440×900) sem rolagem para ver a hero inteira */}
         <section
           aria-label="Apresentação da Academia Entrelaços"
-          className="relative flex items-center justify-center py-2 sm:py-4 lg:py-2 antialiased overflow-x-hidden lg:min-h-[calc(100vh-3.5rem-2rem)] lg:max-h-[calc(100vh-3.5rem-1rem)]"
+          className="relative flex items-center justify-center pt-2 pb-1 sm:pt-4 sm:pb-2 lg:pt-1 lg:pb-1 antialiased overflow-x-hidden lg:min-h-[calc(100vh-3.5rem-2rem)] lg:max-h-[calc(100vh-3.5rem-1rem)]"
         >
           {/* Glow de fundo atmosférico e sutil (#7C3AED / ametista suave com opacidade bem baixa + toque laranja mínimo) */}
           <div
