@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   Calculator,
@@ -10,21 +10,22 @@ import {
   Moon,
   Sun,
   LogOut,
-  Shield,
   Layers,
   FileText,
   Video,
-  CheckCircle2,
-  Clock,
   ExternalLink,
   ShieldCheck,
   Cpu,
   GraduationCap,
   KeyRound,
+  Download,
+  Bot,
+  FileDown,
+  Loader2,
+  Clock,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import pb from '@/lib/pocketbase/client'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
@@ -34,17 +35,15 @@ import {
   SISTEMA_CATEGORIAS,
   SISTEMA_ITEMS_EXTRAS,
   SKILL_MENTORA_FAC_ITEM,
-  SistemaCategory,
 } from '@/config/sistemaHubConfig'
 import { LINK_ECOSSISTEMA } from '@/config/guiaContent'
 import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
 import { SkillsService, SkillItem } from '@/services/skillsService'
 import { useToast } from '@/hooks/use-toast'
-import { Download, Bot, Sparkles as SparklesIcon, FileDown, Loader2 } from 'lucide-react'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
-// Mapeamento de ícones suportados dinamicamente
+// Mapeamento dinâmico de ícones com stroke fino estilo Resend
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   BookOpen,
   Calculator,
@@ -149,7 +148,7 @@ export const HubPage: React.FC = () => {
     }
   }, [])
 
-  // Tema Astral Claro/Escuro (persistido em localStorage)
+  // Tema Dual-Mode (Light & Dark), com fundo escuro sendo o roxo escurão da marca (#0D0522)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_THEME)
@@ -182,7 +181,7 @@ export const HubPage: React.FC = () => {
   const heroItem = items.find((it) => it.bloco === 'hero' && it.ativo)
 
   // Garantir que a skill Mentora-FAC esteja presente se não vier do backend
-  const allSistemaItems: HubItem[] = React.useMemo(() => {
+  const allSistemaItems: HubItem[] = useMemo(() => {
     const fromApi = items.filter((it) => it.bloco === 'sistema' && it.ativo)
     const hasMentora = fromApi.some((it) => it.chave === 'mentora-fac')
     if (!hasMentora) {
@@ -217,7 +216,6 @@ export const HubPage: React.FC = () => {
       setTimeout(() => URL.revokeObjectURL(url), 1000)
     } catch (err) {
       console.error('Erro ao baixar arquivo da skill:', err)
-      // Fallback via link direto do asset estático
       window.open('/downloads/Mentora-FAC.md', '_blank')
     }
   }
@@ -261,14 +259,12 @@ export const HubPage: React.FC = () => {
   const handleItemClick = (item: HubItem) => {
     const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
 
-    // Se for a skill Mentora-FAC
     if (item.chave === 'mentora-fac') {
       if (item.exclusivo_alunas && !isAlunaValidada) {
         setItemBloqueadoClicado(item.titulo)
         setValidarModalOpen(true)
         return
       }
-      // Aluna autenticada: abre modal para visualizar e/ou baixar
       setSkillModalOpen(true)
       return
     }
@@ -283,7 +279,6 @@ export const HubPage: React.FC = () => {
       return
     }
 
-    // Se a peça está marcada com rótulo "Em breve" ou "Em construção" e não tem rota pronta, aviso informativo
     if (
       item.rotulo_badge &&
       (item.rotulo_badge.toLowerCase().includes('breve') ||
@@ -306,14 +301,14 @@ export const HubPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#03000A] text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-200 astral-glow-bg">
-      {/* Topbar Fixa Astral */}
-      <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0A0A14]/95 backdrop-blur-md border-b border-slate-200 dark:border-[#27272A] shadow-xs dark:shadow-lg print:hidden">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
+    <div className="min-h-screen bg-[#F6F6F9] dark:bg-[#0D0522] text-[#0f172a] dark:text-[#f8fafc] flex flex-col font-sans transition-colors duration-200">
+      {/* Topbar Fixa Estilo Resend: hairline fina, fundo semitransparente com blur suave */}
+      <header className="sticky top-0 z-40 bg-[#F6F6F9]/90 dark:bg-[#0D0522]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-white/[0.08] print:hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             <Link
               to="/"
-              className="flex items-center text-left group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-1 transition-opacity hover:opacity-90 min-w-0 shrink"
+              className="flex items-center text-left group focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] rounded-[8px] p-0.5 transition-opacity hover:opacity-90 min-w-0 shrink"
               aria-label="Página inicial da Academia Entrelaços"
             >
               <FACLogo size="md" subtitle="Academia Entrelaços" />
@@ -324,7 +319,7 @@ export const HubPage: React.FC = () => {
             {/* Indicador de Matrícula de Aluna */}
             {isAlunaValidada ? (
               <div
-                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium"
+                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-mono"
                 title={`Matrícula Ativa: ${alunaSession?.email || currentUser?.email}`}
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -333,216 +328,199 @@ export const HubPage: React.FC = () => {
                 </span>
               </div>
             ) : (
-              <Button
-                variant="outline"
-                size="sm"
+              <button
+                type="button"
                 onClick={() => setValidarModalOpen(true)}
-                className="min-h-[44px] h-10 px-2.5 sm:px-3 text-xs font-mono gap-1 border-purple-200 dark:border-[#7c3aed]/50 text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-[#18181B] rounded-[8px]"
+                className="inline-flex items-center gap-1.5 h-9 px-3 text-xs font-mono font-medium rounded-[6px] border border-slate-300/80 dark:border-white/[0.1] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 bg-transparent transition-colors cursor-pointer"
               >
-                <Lock className="w-3.5 h-3.5" />
+                <Lock className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
                 <span className="hidden xs:inline">Já sou aluna</span>
                 <span className="xs:hidden">Aluna</span>
-              </Button>
+              </button>
             )}
 
             {/* Identificação de Usuária e Atalho Perfil */}
             <Link
               to="/perfil"
-              className="inline-flex items-center gap-1.5 p-2 sm:px-2.5 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+              className="inline-flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-[6px] text-xs font-mono font-medium border border-slate-300/80 dark:border-white/[0.1] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors"
               title="Acessar Perfil e Alterar Senha"
               aria-label="Perfil e Senha"
             >
-              <KeyRound className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+              <KeyRound className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
               <span className="hidden md:inline">PERFIL & SENHA</span>
             </Link>
-
-            <div
-              className="hidden xl:flex flex-col text-right pl-2 pr-1 border-l border-slate-200 dark:border-[#27272A] max-w-[150px]"
-              title={`Usuária logada: ${currentUser?.email}`}
-            >
-              <span className="text-xs font-medium text-slate-900 dark:text-white truncate">
-                {currentUser?.name || 'Psicóloga'}
-              </span>
-              <span className="text-[10px] font-mono text-editorial-secondary truncate -mt-0.5">
-                {currentUser?.email}
-              </span>
-            </div>
 
             {currentUser?.role === 'admin' && (
               <a
                 href="/admin"
-                className="inline-flex items-center gap-1.5 p-2 sm:px-2.5 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-[8px] text-xs font-mono font-semibold bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-[#7c3aed] dark:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 transition-colors"
+                className="inline-flex items-center gap-1.5 h-9 px-2.5 sm:px-3 rounded-[6px] text-xs font-mono font-medium border border-slate-300/80 dark:border-white/[0.1] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors"
                 title="Painel de Administração FAC"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                <Sparkles className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
                 <span className="hidden sm:inline">ADMIN</span>
               </a>
             )}
 
-            <Button
-              variant="ghost"
-              size="icon"
+            {/* Alternador de tema claro/escuro */}
+            <button
+              type="button"
               onClick={toggleTheme}
-              className="h-10 w-10 min-h-[44px] min-w-[44px] text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#18181B] rounded-[8px]"
+              className="h-9 w-9 inline-flex items-center justify-center rounded-[6px] border border-transparent hover:border-slate-300/80 dark:hover:border-white/[0.1] text-slate-600 dark:text-[#94a3b8] hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
               aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
             >
               {theme === 'light' ? (
-                <Moon className="w-4 h-4 text-slate-700" />
+                <Moon className="w-3.5 h-3.5 text-slate-700" />
               ) : (
-                <Sun className="w-4 h-4 text-[#FB923C]" />
+                <Sun className="w-3.5 h-3.5 text-[#FB923C]" />
               )}
-            </Button>
+            </button>
 
-            <Button
-              variant="ghost"
-              size="icon"
+            {/* Logout */}
+            <button
+              type="button"
               onClick={() => {
                 logout()
                 AlunaGuiaService.clearLocalSession()
                 window.location.href = '/login'
               }}
-              className="min-h-[44px] min-w-[44px] h-10 w-10 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-[8px] sm:w-auto sm:px-2.5 sm:gap-1"
+              className="h-9 px-2.5 inline-flex items-center gap-1.5 rounded-[6px] border border-transparent hover:border-rose-300/60 dark:hover:border-rose-900/40 text-slate-500 dark:text-[#94a3b8] hover:text-rose-600 dark:hover:text-rose-400 text-xs font-mono font-medium transition-colors cursor-pointer"
               title="Encerrar sessão e voltar ao login"
               aria-label="Sair da conta"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline text-xs font-mono font-medium">SAIR</span>
-            </Button>
+              <span className="hidden sm:inline">SAIR</span>
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Conteúdo Principal do Hub */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
-        {/* Hero Editorial Premium do Hub */}
+      {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend */}
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 space-y-16 sm:space-y-24">
+        {/* ================= HERO REFINADA: Estética Resend sobre fundo roxo escurão ================= */}
         <section
           aria-label="Apresentação da Academia FAC"
-          className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] border border-slate-200/80 dark:border-[#27272A] bg-white/95 dark:bg-[#0c0915]/95 shadow-xs dark:shadow-xl transition-colors duration-200"
+          className="relative text-center flex flex-col items-center pt-2 sm:pt-6"
         >
-          {/* Brilho atmosférico sutil da marca (roxo exclusivo, sem saturação excessiva) */}
-          <div
-            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[520px] sm:w-[680px] h-[280px] bg-radial from-purple-500/12 via-purple-600/5 dark:from-[#C084FC]/14 dark:via-[#7c3aed]/5 to-transparent blur-3xl -z-0"
-            aria-hidden="true"
-          />
+          {/* Eyebrow em JetBrains Mono com tracking amplo e detalhe pontual em laranja */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.03] text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+            <span>ACADEMIA MÉTODO FAC</span>
+            <span className="text-slate-300 dark:text-white/20">•</span>
+            <span className="text-slate-500 dark:text-[#94a3b8]">HUB DE FORMAÇÃO</span>
+          </div>
 
-          <div className="relative z-10 px-5 sm:px-10 md:px-12 py-10 sm:py-14 md:py-16 flex flex-col items-center text-center">
-            {/* Eyebrow em JetBrains Mono com tracking amplo e rótulo curto */}
-            <div className="eyebrow inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/60 text-[#7c3aed] dark:text-[#C084FC] mb-5 sm:mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
-              <span>ACADEMIA MÉTODO FAC</span>
-              <span className="text-slate-300 dark:text-zinc-700">•</span>
-              <span className="text-slate-600 dark:text-zinc-400">HUB DE FORMAÇÃO</span>
-            </div>
+          {/* Título com escala tipográfica forte: Inter Tight 500 + Instrument Serif italic */}
+          <h1 className="h-display font-medium tracking-tight text-slate-900 dark:text-[#f8fafc] max-w-4xl text-balance">
+            Formação e prática{' '}
+            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+              integrada
+            </em>{' '}
+            para psicólogas.
+          </h1>
 
-            {/* Título editorial em Inter Tight com palavra-âncora em Instrument Serif italic */}
-            <h1 className="h-display font-medium tracking-tight text-editorial-primary max-w-4xl text-balance">
-              Formação e prática{' '}
-              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                integrada
-              </em>{' '}
-              para psicólogas.
-            </h1>
+          {/* Lead em coluna estreita controlada (~max-w-2xl), entrelinha 1.6, tom intermediário */}
+          <p className="lead text-slate-600 dark:text-[#cbd5e1] max-w-2xl mt-5 sm:mt-6 font-normal text-balance">
+            Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
+            recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
+          </p>
 
-            {/* Lead em Inter Tight com largura de leitura controlada e respiro */}
-            <p className="lead text-editorial-secondary max-w-2xl mt-4 sm:mt-5 font-normal text-balance">
-              Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
-              recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
-            </p>
+          {/* Ações principais: CTA primário em roxo da marca, secundário em outline hairline */}
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+            <Button
+              onClick={() => navigate('/guia')}
+              className="w-full sm:w-auto min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm cursor-pointer shadow-none transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Acessar o Guia da Aluna</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
 
-            {/* Ações principais com botões táteis e acessíveis */}
-            <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
-              <Button
-                onClick={() => navigate('/guia')}
-                className="w-full sm:w-auto min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm cursor-pointer transition-colors"
+            {!isAlunaValidada && (
+              <button
+                type="button"
+                onClick={() => setValidarModalOpen(true)}
+                className="w-full sm:w-auto min-h-[44px] px-4 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors cursor-pointer"
               >
-                <BookOpen className="w-4 h-4" />
-                <span>Acessar o Guia da Aluna</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+                <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                <span>Validar matrícula da turma</span>
+              </button>
+            )}
+          </div>
 
-              {!isAlunaValidada && (
-                <Button
-                  variant="outline"
-                  onClick={() => setValidarModalOpen(true)}
-                  className="w-full sm:w-auto min-h-[46px] px-5 gap-1.5 font-mono text-xs border-purple-200 dark:border-[#27272A] bg-white/80 dark:bg-[#120f1e] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/40 rounded-[10px] cursor-pointer"
-                >
-                  <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                  <span>Validar matrícula da turma</span>
-                </Button>
-              )}
-            </div>
-
-            {/* Três pilares metodológicos em faixa hairline refinada */}
-            <div className="w-full max-w-4xl mt-10 sm:mt-12 pt-7 sm:pt-8 border-t border-slate-200/70 dark:border-[#221f2d]">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-left">
-                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="eyebrow text-[#7c3aed] dark:text-[#C084FC] font-semibold">
-                      PILAR 01
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
-                      Fundação
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
-                    Custo real de vida, reserva ética e piso mínimo sustentável da sessão.
-                  </p>
+          {/* Três pilares metodológicos: Faixa hairline de 1px, sem caixas pesadas nem sombras */}
+          <div className="w-full max-w-4xl mt-12 sm:mt-16 pt-8 border-t border-slate-200/90 dark:border-white/[0.08]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-left">
+              {/* Pilar 01 */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] font-medium">
+                    PILAR 01
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
+                    Fundação
+                  </span>
                 </div>
+                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
+                  Custo real de vida, reserva ética e piso mínimo sustentável da sessão.
+                </p>
+              </div>
 
-                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="eyebrow text-[#ea580c] dark:text-[#FB923C] font-semibold">
-                      PILAR 02
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
-                      Atração
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
-                    Posicionamento ético, autoridade técnica e fluxo consistente de pacientes.
-                  </p>
+              {/* Pilar 02 - Acento leve em laranja */}
+              <div className="space-y-1.5 sm:border-l sm:border-slate-200/80 sm:dark:border-white/[0.08] sm:pl-8">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] font-medium flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+                    PILAR 02
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
+                    Atração
+                  </span>
                 </div>
+                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
+                  Posicionamento ético, autoridade técnica e fluxo consistente de pacientes.
+                </p>
+              </div>
 
-                <div className="p-3.5 sm:p-4 rounded-[12px] bg-slate-50/70 dark:bg-[#110d1e]/60 border border-slate-200/60 dark:border-[#201a30] transition-colors">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="eyebrow text-emerald-700 dark:text-emerald-400 font-semibold">
-                      PILAR 03
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400 dark:text-zinc-500">
-                      Conexão
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-700 dark:text-slate-300 mt-1.5 leading-relaxed font-normal">
-                    Primeira consulta acolhedora, contrato clínico e retenção ética continuada.
-                  </p>
+              {/* Pilar 03 */}
+              <div className="space-y-1.5 sm:border-l sm:border-slate-200/80 sm:dark:border-white/[0.08] sm:pl-8">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-medium">
+                    PILAR 03
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
+                    Conexão
+                  </span>
                 </div>
+                <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
+                  Primeira consulta acolhedora, contrato clínico e retenção ética continuada.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ================= 1. O GUIA VEM PRIMEIRO: CARD DESTACADO HERO ================= */}
+        {/* ================= 1. O GUIA VEM PRIMEIRO: Card Hairline Estilo Resend ================= */}
         {heroItem && (
           <section aria-labelledby="secao-guia-aluna" className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] flex items-center gap-1.5">
-                <GraduationCap className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
+            <div className="flex items-center justify-between pb-1">
+              <span className="text-[11px] font-mono font-medium uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] flex items-center gap-1.5">
+                <GraduationCap className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                 Percurso Pedagógico Principal
               </span>
-              <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono tracking-wider uppercase">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-[4px] border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">
                 {heroItem.rotulo_badge || 'Aula 1 Aberta · Trilha do Ciclo'}
-              </Badge>
+              </span>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-[16px] border border-purple-200/80 dark:border-purple-900/40 bg-gradient-to-br from-purple-50/50 via-white to-white dark:from-purple-950/20 dark:via-[#0c0914] dark:to-[#0a0712] transition-colors">
+            <div className="p-6 sm:p-8 rounded-[12px] border border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.02] transition-colors">
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                <div className="space-y-3.5 max-w-2xl">
+                <div className="space-y-3 max-w-2xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-[10px] bg-[#7c3aed] text-white flex items-center justify-center shadow-xs">
-                      <BookOpen className="w-5 h-5" />
+                    <div className="w-10 h-10 rounded-[8px] border border-[#7c3aed]/30 dark:border-[#C084FC]/30 bg-[#7c3aed]/10 dark:bg-[#C084FC]/10 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                      <BookOpen className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
+                      <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC] block">
                         Coração da Academia
                       </span>
                       <h2
@@ -556,41 +534,43 @@ export const HubPage: React.FC = () => {
                       </h2>
                     </div>
                   </div>
-                  <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
+
+                  <p className="text-sm text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
                     {heroItem.descricao ||
                       'Aula Magna aberta com o Diagnóstico FAC Aprofundado (24 perguntas), trilha completa de encontros, cadernos didáticos e validação do e-mail de compra para alunas da turma.'}
                   </p>
-                  <div className="flex flex-wrap gap-2 text-xs font-mono text-editorial-secondary pt-1">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
+
+                  <div className="flex flex-wrap gap-2 text-xs font-mono text-slate-600 dark:text-[#94a3b8] pt-1">
+                    <span className="px-2 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/60 dark:bg-white/[0.02]">
                       ✓ Diagnóstico FAC 24 perguntas
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
+                    <span className="px-2 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/60 dark:bg-white/[0.02]">
                       ✓ Relatório PDF com radar
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-white dark:bg-[#151220] border border-slate-200 dark:border-[#27272A]">
+                    <span className="px-2 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/60 dark:bg-white/[0.02]">
                       ✓ Acesso livre para toda a categoria
                     </span>
-                  </div>{' '}
+                  </div>
                 </div>
 
                 <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row lg:flex-col gap-2.5">
                   <Button
                     onClick={() => navigate('/guia')}
-                    className="w-full sm:w-auto min-h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[8px] text-sm cursor-pointer shadow-xs"
+                    className="w-full sm:w-auto min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm cursor-pointer shadow-none"
                   >
                     <span>Abrir Guia da Aluna</span>
                     <ArrowRight className="w-4 h-4" />
                   </Button>
 
                   {!isAlunaValidada && (
-                    <Button
-                      variant="outline"
+                    <button
+                      type="button"
                       onClick={() => setValidarModalOpen(true)}
-                      className="w-full sm:w-auto min-h-[44px] px-4 gap-1.5 font-mono text-xs border-purple-200 dark:border-purple-800/60 text-[#7c3aed] dark:text-[#C084FC] rounded-[8px] hover:bg-purple-50 dark:hover:bg-[#161224]"
+                      className="w-full sm:w-auto min-h-[44px] px-4 inline-flex items-center justify-center gap-1.5 font-mono text-xs rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors cursor-pointer"
                     >
                       <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                       <span>Validar Matrícula da Turma</span>
-                    </Button>
+                    </button>
                   )}
                 </div>
               </div>
@@ -598,11 +578,11 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 2. BLOCO SISTEMA: ABAS EXTENSÍVEIS (APLICATIVOS, SKILLS, ETC.) ================= */}
+        {/* ================= 2. BLOCO SISTEMA: Navegação Hairline Discreta e Lista Resend ================= */}
         {allSistemaItems.length > 0 && (
-          <section aria-labelledby="secao-aplicativos-recursos" className="space-y-5 pt-2">
-            {/* Cabeçalho do Bloco com Título e Abas Estilo Editorial/Pills */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-3 border-b border-slate-200 dark:border-[#221f2d]">
+          <section aria-labelledby="secao-aplicativos-recursos" className="space-y-6">
+            {/* Cabeçalho do Bloco com Título e Tabs Discretas Estilo Resend */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-200/90 dark:border-white/[0.08]">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Cpu className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
@@ -616,13 +596,13 @@ export const HubPage: React.FC = () => {
                     </em>
                   </h3>
                 </div>
-                <p className="text-xs font-mono text-editorial-secondary">
+                <p className="text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                   Launcher de ferramentas, aplicativos e skills exclusivas para alunas
                 </p>
               </div>
 
-              {/* Seletor de Abas de Categorias */}
-              <div className="flex items-center gap-1.5 p-1 rounded-[12px] bg-slate-100 dark:bg-[#131020] border border-slate-200 dark:border-[#27272A] overflow-x-auto max-w-full scrollbar-none">
+              {/* Tabs discretas estilo Resend: texto com indicador sutil (pílula hairline) */}
+              <div className="flex items-center gap-1 overflow-x-auto max-w-full scrollbar-none py-1">
                 {SISTEMA_CATEGORIAS.map((cat) => {
                   const isActive = activeSistemaCategory === cat.id
                   const countInCat =
@@ -642,10 +622,10 @@ export const HubPage: React.FC = () => {
                       key={cat.id}
                       type="button"
                       onClick={() => setActiveSistemaCategory(cat.id)}
-                      className={`relative px-3.5 py-1.5 rounded-[9px] text-xs font-mono font-medium transition-all duration-200 flex items-center gap-2 shrink-0 cursor-pointer ${
+                      className={`relative px-3 py-1.5 rounded-[6px] text-xs font-mono transition-colors flex items-center gap-2 shrink-0 cursor-pointer ${
                         isActive
-                          ? 'bg-white dark:bg-[#201833] text-[#7c3aed] dark:text-[#C084FC] shadow-xs font-semibold border border-purple-200/80 dark:border-purple-800/60'
-                          : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-[#1a1529]'
+                          ? 'text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-white/[0.16] bg-white dark:bg-white/[0.05]'
+                          : 'text-slate-500 dark:text-[#94a3b8] hover:text-slate-900 dark:hover:text-white border border-transparent'
                       }`}
                       aria-current={isActive ? 'page' : undefined}
                     >
@@ -653,14 +633,14 @@ export const HubPage: React.FC = () => {
                       <span
                         className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                           isActive
-                            ? 'bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 font-bold'
-                            : 'bg-slate-200/70 dark:bg-[#242033] text-slate-600 dark:text-zinc-400'
+                            ? 'bg-[#7c3aed]/15 dark:bg-[#C084FC]/15 text-[#7c3aed] dark:text-[#C084FC] font-medium'
+                            : 'bg-slate-200/60 dark:bg-white/[0.06] text-slate-500 dark:text-[#94a3b8]'
                         }`}
                       >
                         {countInCat}
                       </span>
                       {cat.badge && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+                        <span className="w-1 h-1 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
                       )}
                     </button>
                   )
@@ -668,17 +648,17 @@ export const HubPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Descrição sutil da categoria atual */}
+            {/* Descrição sutil da categoria */}
             {(() => {
               const currentCatObj = SISTEMA_CATEGORIAS.find((c) => c.id === activeSistemaCategory)
               return currentCatObj?.descricao ? (
-                <div className="flex items-center justify-between text-xs text-editorial-secondary -mt-1 px-1">
-                  <span>{currentCatObj.descricao}</span>
-                </div>
+                <p className="text-xs text-slate-500 dark:text-[#94a3b8] -mt-2">
+                  {currentCatObj.descricao}
+                </p>
               ) : null
             })()}
 
-            {/* Grade responsiva de cards da categoria selecionada */}
+            {/* LISTA EM LINHAS COM FILETE/HAIRLINE ESTILO CHANGELOG DA RESEND */}
             {(() => {
               const itemsNaCategoria = allSistemaItems.filter((it) => {
                 const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
@@ -690,8 +670,8 @@ export const HubPage: React.FC = () => {
 
               if (itemsNaCategoria.length === 0 && !hasDbSkills) {
                 return (
-                  <div className="p-8 text-center rounded-[18px] border border-dashed border-slate-200 dark:border-[#27272A] bg-slate-50/50 dark:bg-[#0c0915]/50">
-                    <p className="text-xs font-mono text-slate-500 dark:text-zinc-500">
+                  <div className="py-12 text-center rounded-[8px] border border-dashed border-slate-300/80 dark:border-white/[0.08]">
+                    <p className="text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                       Nenhum item disponível nesta categoria no momento.
                     </p>
                   </div>
@@ -699,249 +679,204 @@ export const HubPage: React.FC = () => {
               }
 
               return (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-                    {itemsNaCategoria.map((item, idx) => {
-                      const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
-                      const IconComponent =
-                        ICON_MAP[item.icone || ''] || (extra?.tipo === 'skill' ? Sparkles : Cpu)
-                      const isBlocked = item.exclusivo_alunas && !isAlunaValidada
-                      const isEmBreve =
-                        item.rotulo_badge?.toLowerCase().includes('breve') ||
-                        item.rotulo_badge?.toLowerCase().includes('construção')
-                      const isSkill = extra?.tipo === 'skill' || item.chave === 'mentora-fac'
+                <div className="divide-y divide-slate-200/90 dark:divide-white/[0.08] border-y border-slate-200/90 dark:border-white/[0.08]">
+                  {/* Itens Estáticos / Configurados da Categoria */}
+                  {itemsNaCategoria.map((item, idx) => {
+                    const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
+                    const IconComponent =
+                      ICON_MAP[item.icone || ''] || (extra?.tipo === 'skill' ? Sparkles : Cpu)
+                    const isBlocked = item.exclusivo_alunas && !isAlunaValidada
+                    const isEmBreve =
+                      item.rotulo_badge?.toLowerCase().includes('breve') ||
+                      item.rotulo_badge?.toLowerCase().includes('construção')
+                    const isSkill = extra?.tipo === 'skill' || item.chave === 'mentora-fac'
 
-                      return (
-                        <div
-                          key={item.id}
-                          onClick={() => handleItemClick(item)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault()
-                              handleItemClick(item)
-                            }
-                          }}
-                          aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                          className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
-                            isBlocked
-                              ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
-                              : 'bg-white dark:bg-[#0c0915] border-slate-200/80 dark:border-[#221f2d] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
-                          }`}
-                        >
-                          {/* Topo do Card: Ícone em destaque, índice e selo de status */}
-                          <div className="w-full space-y-3">
-                            <div className="flex items-start justify-between gap-2">
-                              {/* Ícone quadrado do aplicativo ou skill */}
-                              <div
-                                className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
-                                  isBlocked
-                                    ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
-                                    : isSkill
-                                      ? 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                                      : 'bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-[#1b142e] dark:to-[#120d20] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-900/50 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                                }`}
-                              >
-                                <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
-                              </div>
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => handleItemClick(item)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            handleItemClick(item)
+                          }
+                        }}
+                        aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                        className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                      >
+                        {/* Lado Esquerdo: Índice técnico, Ícone minimalista e Conteúdo */}
+                        <div className="flex items-start gap-4 min-w-0 flex-1">
+                          <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8] pt-1 w-6 shrink-0">
+                            0{idx + 1}
+                          </span>
 
-                              {/* Índice numérico sutil */}
-                              <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
-                                0{idx + 1}
-                              </span>
-                            </div>
+                          <div className="w-9 h-9 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-slate-700 dark:text-[#cbd5e1] group-hover:border-[#7c3aed]/40 dark:group-hover:border-[#C084FC]/40 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] flex items-center justify-center shrink-0 transition-colors">
+                            <IconComponent className="w-4 h-4" />
+                          </div>
 
-                            {/* Selo / Badge */}
-                            <div className="flex flex-wrap gap-1.5 pt-0.5">
+                          <div className="space-y-1 min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                                {item.titulo}
+                              </h4>
+
+                              {/* Badges sutis */}
                               {isBlocked ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                                  <Lock className="w-2.5 h-2.5" />
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-mono uppercase tracking-wider">
+                                  <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
                                   <span>Exclusivo alunas</span>
                                 </span>
                               ) : isEmBreve ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border border-slate-200 dark:border-[#2b273b] text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-[#94a3b8] text-[10px] font-mono uppercase tracking-wider">
                                   <Clock className="w-2.5 h-2.5" />
                                   <span>{item.rotulo_badge || 'Em breve'}</span>
                                 </span>
                               ) : isSkill ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[10px] font-mono uppercase tracking-wider">
                                   <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
                                   <span>{item.rotulo_badge || 'Skill FAC'}</span>
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-[6px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded-[4px] border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono uppercase tracking-wider">
                                   {item.rotulo_badge || 'Disponível'}
                                 </span>
                               )}
                             </div>
 
-                            {/* Título e Descrição */}
-                            <div className="space-y-1.5 pt-1 min-w-0">
-                              <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
-                                {item.titulo}
-                              </h4>
-                              <p
-                                title={item.descricao}
-                                className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
-                              >
-                                {item.descricao}
-                              </p>{' '}
-                            </div>
-                          </div>
-
-                          {/* Rodapé do Card: Ação de Launcher ou Download — sem truncar texto, quebra em linhas se necessário */}
-                          <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
-                            {isBlocked ? (
-                              <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
-                                <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                                <span className="break-words">
-                                  Já sou aluna? Validar e-mail de matrícula
-                                </span>
-                              </div>
-                            ) : isSkill ? (
-                              <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
-                                <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
-                                <span className="break-words">Baixar Mentora-FAC</span>
-                              </div>
-                            ) : (
-                              <div className="flex items-center gap-1 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
-                                <span className="break-words">Abrir app</span>
-                                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-                              </div>
-                            )}
-
-                            <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
-                              {isSkill ? 'Skill' : 'App'}
-                            </span>
+                            <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                              {item.descricao}
+                            </p>
                           </div>
                         </div>
-                      )
-                    })}
 
-                    {/* Cards de Skills cadastradas no PocketBase (Uploads da Tati / Admin) */}
-                    {activeSistemaCategory === 'skills' &&
-                      dbSkills.map((sk, skIdx) => {
-                        const isBlocked = !isAlunaValidada
-                        const isDownloading = downloadingSkillId === sk.id
+                        {/* Lado Direito: Ação discreta alinhada */}
+                        <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
+                          {isBlocked ? (
+                            <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
+                              <Lock className="w-3 h-3 shrink-0" />
+                              <span>Validar matrícula</span>
+                            </div>
+                          ) : isSkill ? (
+                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                              <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
+                              <span>Baixar Mentora-FAC</span>
+                            </div>
+                          ) : (
+                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                              <span>Abrir app</span>
+                              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
 
-                        return (
-                          <div
-                            key={sk.id}
-                            onClick={() => handleDownloadDbSkill(sk)}
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault()
-                                handleDownloadDbSkill(sk)
-                              }
-                            }}
-                            aria-label={`Baixar skill ${sk.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                            className={`group relative text-left w-full min-h-[320px] sm:min-h-[340px] p-4 sm:p-5 rounded-[18px] border transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] overflow-hidden ${
-                              isBlocked
-                                ? 'bg-gradient-to-b from-white to-amber-50/30 dark:from-[#0d0a14] dark:to-[#17110d] border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 hover:shadow-md'
-                                : 'bg-white dark:bg-[#0c0915] border-purple-200/80 dark:border-[#2a1740] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/50 hover:shadow-lg dark:hover:shadow-purple-950/20 hover:-translate-y-0.5'
-                            }`}
-                          >
-                            <div className="w-full space-y-3">
-                              <div className="flex items-start justify-between gap-2">
-                                <div
-                                  className={`w-11 h-11 sm:w-12 sm:h-12 rounded-[14px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0 ${
-                                    isBlocked
-                                      ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
-                                      : 'bg-gradient-to-br from-purple-100 via-purple-50 to-amber-50 dark:from-[#2a1740] dark:via-[#1c1230] dark:to-[#171124] text-[#7c3aed] dark:text-[#C084FC] border border-purple-200/80 dark:border-purple-800/60 group-hover:bg-[#7c3aed] group-hover:text-white dark:group-hover:bg-[#C084FC] dark:group-hover:text-[#0A0A14]'
-                                  }`}
-                                >
-                                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
-                                </div>
+                  {/* Skills do PocketBase na mesma lista hairline */}
+                  {activeSistemaCategory === 'skills' &&
+                    dbSkills.map((sk, skIdx) => {
+                      const isBlocked = !isAlunaValidada
+                      const isDownloading = downloadingSkillId === sk.id
 
-                                <span className="font-mono text-[11px] text-slate-400 dark:text-zinc-600 font-semibold pt-0.5">
-                                  0{itemsNaCategoria.length + skIdx + 1}
-                                </span>
-                              </div>
+                      return (
+                        <div
+                          key={sk.id}
+                          onClick={() => handleDownloadDbSkill(sk)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              handleDownloadDbSkill(sk)
+                            }
+                          }}
+                          aria-label={`Baixar skill ${sk.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
+                          className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                        >
+                          <div className="flex items-start gap-4 min-w-0 flex-1">
+                            <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8] pt-1 w-6 shrink-0">
+                              0{itemsNaCategoria.length + skIdx + 1}
+                            </span>
 
-                              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                            <div className="w-9 h-9 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                              <Sparkles className="w-4 h-4" />
+                            </div>
+
+                            <div className="space-y-1 min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                                  {sk.titulo}
+                                </h4>
+
                                 {isBlocked ? (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
-                                    <Lock className="w-2.5 h-2.5" />
+                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-mono uppercase tracking-wider">
+                                    <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
                                     <span>Exclusivo alunas</span>
                                   </span>
                                 ) : (
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[6px] bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] border border-purple-500/25 text-[10px] font-mono uppercase tracking-wider font-medium">
+                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[10px] font-mono uppercase tracking-wider">
                                     <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
                                     <span>{sk.rotulo_badge || sk.versao || 'Skill FAC'}</span>
                                   </span>
                                 )}
+
                                 {sk.versao && (
-                                  <Badge variant="outline" className="text-[10px] font-mono">
+                                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-[4px] border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-[#94a3b8]">
                                     {sk.versao}
-                                  </Badge>
+                                  </span>
                                 )}
                               </div>
 
-                              <div className="space-y-1.5 pt-1 min-w-0">
-                                <h4 className="font-serif-editorial text-lg sm:text-xl font-medium text-editorial-primary leading-snug group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors line-clamp-2">
-                                  {sk.titulo}
-                                </h4>
-                                <p
-                                  title={sk.descricao}
-                                  className="text-xs text-editorial-secondary leading-relaxed line-clamp-3 font-normal break-words overflow-hidden text-ellipsis"
-                                >
-                                  {sk.descricao ||
-                                    'Pacote de instrução clínica para uso no ChatGPT.'}
-                                </p>
-                                <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 pt-0.5">
-                                  Arquivo:{' '}
-                                  <strong className="text-slate-700 dark:text-slate-200">
-                                    {sk.arquivo}
-                                  </strong>
-                                </div>
+                              <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                                {sk.descricao || 'Pacote de instrução clínica para uso no ChatGPT.'}
+                              </p>
+
+                              <div className="text-[11px] font-mono text-slate-500 dark:text-[#94a3b8] pt-0.5">
+                                Arquivo:{' '}
+                                <strong className="text-slate-700 dark:text-[#e2e8f0] font-medium">
+                                  {sk.arquivo}
+                                </strong>
                               </div>
                             </div>
-
-                            <div className="w-full pt-3 sm:pt-4 mt-3 border-t border-slate-100 dark:border-[#1a1726] flex items-center justify-between gap-2 text-xs font-mono">
-                              {isBlocked ? (
-                                <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-400 text-[11px] font-medium group-hover:text-amber-800 dark:group-hover:text-amber-300 min-w-0 flex-1 leading-snug">
-                                  <Lock className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                                  <span className="break-words">
-                                    Já sou aluna? Validar e-mail de matrícula
-                                  </span>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-1.5 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-semibold group-hover:translate-x-0.5 transition-transform min-w-0 flex-1 leading-snug">
-                                  {isDownloading ? (
-                                    <>
-                                      <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
-                                      <span className="break-words">Baixando...</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
-                                      <span className="break-words">Baixar Arquivo</span>
-                                    </>
-                                  )}
-                                </div>
-                              )}
-
-                              <span className="text-[10px] text-slate-400 dark:text-zinc-600 uppercase tracking-wider shrink-0 self-center">
-                                Skill
-                              </span>
-                            </div>
                           </div>
-                        )
-                      })}
-                  </div>
+
+                          <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
+                            {isBlocked ? (
+                              <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
+                                <Lock className="w-3 h-3 shrink-0" />
+                                <span>Validar matrícula</span>
+                              </div>
+                            ) : (
+                              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                                {isDownloading ? (
+                                  <>
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+                                    <span>Baixando...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
+                                    <span>Baixar Arquivo</span>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
                 </div>
               )
             })()}
           </section>
         )}
 
-        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS (LINHAS EDITORIAIS) ================= */}
+        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS: Lista Hairline Estilo Resend ================= */}
         {materialItems.length > 0 && (
-          <section aria-labelledby="secao-materiais" className="space-y-3 pt-2">
-            <div className="flex items-baseline justify-between pb-2.5 border-b border-slate-200 dark:border-[#221f2d]">
+          <section aria-labelledby="secao-materiais" className="space-y-4">
+            <div className="flex items-baseline justify-between pb-3 border-b border-slate-200/90 dark:border-white/[0.08]">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                 <h3
@@ -954,12 +889,12 @@ export const HubPage: React.FC = () => {
                   </em>
                 </h3>
               </div>
-              <span className="text-xs font-mono text-editorial-secondary">
+              <span className="text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                 Estudo continuado & referências
               </span>
             </div>
 
-            <div className="divide-y divide-slate-200/80 dark:divide-[#221f2d] bg-white dark:bg-[#0c0a14] rounded-[14px] border border-slate-200/80 dark:border-[#221f2d] overflow-hidden">
+            <div className="divide-y divide-slate-200/90 dark:divide-white/[0.08] border-y border-slate-200/90 dark:border-white/[0.08]">
               {materialItems.map((item, idx) => {
                 const IconComponent = ICON_MAP[item.icone || ''] || FileText
                 const isEmBreve =
@@ -969,44 +904,47 @@ export const HubPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    className="p-5 sm:p-6 editorial-row flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors"
+                    className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] transition-colors"
                   >
-                    <div className="space-y-1.5 flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="font-mono text-xs text-[#ea580c] dark:text-[#FB923C] font-semibold">
-                          0{idx + 1}
-                        </span>
-                        <div className="w-7 h-7 rounded-[6px] bg-orange-50 dark:bg-[#201511] text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
-                          <IconComponent className="w-4 h-4" />
-                        </div>
-                        <h4 className="font-serif-editorial text-xl sm:text-2xl font-medium text-slate-900 dark:text-white">
-                          {item.titulo}
-                        </h4>
-                        <Badge className="bg-slate-100 dark:bg-[#1a1824] text-slate-600 dark:text-[#A1A1AA] border-slate-200 dark:border-[#2b273b] text-[10px] font-mono tracking-wider uppercase">
-                          {item.rotulo_badge || 'Em breve'}
-                        </Badge>
+                    <div className="flex items-start gap-4 min-w-0 flex-1">
+                      <span className="text-[11px] font-mono text-[#ea580c] dark:text-[#FB923C] pt-1 w-6 shrink-0">
+                        0{idx + 1}
+                      </span>
+
+                      <div className="w-9 h-9 rounded-[6px] border border-orange-200/60 dark:border-orange-500/20 bg-orange-500/5 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
+                        <IconComponent className="w-4 h-4" />
                       </div>
-                      <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed max-w-2xl font-normal">
-                        {item.descricao}
-                      </p>{' '}
+
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white">
+                            {item.titulo}
+                          </h4>
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-[4px] border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-[#94a3b8] uppercase tracking-wider">
+                            {item.rotulo_badge || 'Em breve'}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                          {item.descricao}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="shrink-0 flex items-center">
+                    <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
                       {isEmBreve ? (
-                        <div className="flex items-center gap-2 text-xs font-mono text-editorial-secondary py-1">
+                        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                           <span>Coordenação Pedagógica</span>
                         </div>
                       ) : (
-                        <Button
+                        <button
+                          type="button"
                           onClick={() => handleItemClick(item)}
-                          variant="outline"
-                          size="sm"
-                          className="w-full sm:w-auto min-h-[44px] px-4 font-mono text-xs rounded-[8px]"
+                          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] hover:underline cursor-pointer"
                         >
                           <span>Consultar Material</span>
                           <ArrowRight className="w-3.5 h-3.5" />
-                        </Button>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1016,28 +954,22 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 4. CONVITE EDITORIAL FINAL: ACADEMIA FAC ================= */}
+        {/* ================= 4. CONVITE EDITORIAL FINAL: Moldura Hairline Fina Estilo Resend ================= */}
         <section
           aria-labelledby="secao-convite-academia"
-          className="relative overflow-hidden rounded-[20px] p-8 sm:p-12 border border-purple-200/80 dark:border-[#27272A] bg-gradient-to-b from-white via-purple-50/40 to-purple-100/30 dark:from-[#0E091B] dark:via-[#090614] dark:to-[#04010A] shadow-xs text-center space-y-6"
+          className="relative rounded-[12px] p-8 sm:p-12 border border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.02] text-center space-y-6"
         >
-          {/* Brilho astral sutil de fundo */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[460px] h-[240px] bg-radial from-[#7c3aed]/15 via-[#6b21a8]/5 to-transparent blur-3xl pointer-events-none -z-0"
-            aria-hidden="true"
-          />
-
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-[#18181B] border border-purple-200 dark:border-[#27272A] text-xs font-mono font-semibold uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
-              <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-white/[0.1] text-xs font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1]">
+              <Sparkles className="w-3 h-3 text-[#ea580c] dark:text-[#FB923C]" />
               <span>FORMAÇÃO CONTINUADA</span>
-              <span className="text-editorial-tertiary">•</span>
-              <span className="text-editorial-secondary">MÉTODO FAC</span>
+              <span className="text-slate-300 dark:text-white/20">•</span>
+              <span className="text-slate-500 dark:text-[#94a3b8]">MÉTODO FAC</span>
             </div>
 
             <h3
               id="secao-convite-academia"
-              className="h-section font-medium tracking-tight text-editorial-primary leading-snug"
+              className="h-section font-medium tracking-tight text-slate-900 dark:text-white leading-snug"
             >
               Pronta para continuar seu{' '}
               <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
@@ -1046,7 +978,7 @@ export const HubPage: React.FC = () => {
               ?
             </h3>
 
-            <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
               Aprofunde sua prática clínica com o ciclo completo de encontros, o método FAC em
               detalhes, ferramentas exclusivas e a comunidade da Entrelaços Psicologia.
             </p>
@@ -1056,7 +988,7 @@ export const HubPage: React.FC = () => {
                 href="https://pay.kirvano.com/36c1a314-0dc2-4bc8-9287-79fb1e804b06"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[46px] px-7 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] font-semibold rounded-[10px] shadow-sm text-sm transition-all duration-150 focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC] cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm transition-colors cursor-pointer"
               >
                 <span>Entrar na Academia FAC</span>
                 <ExternalLink className="w-4 h-4" />
@@ -1066,33 +998,33 @@ export const HubPage: React.FC = () => {
                 href={LINK_ECOSSISTEMA}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[46px] px-6 gap-2 rounded-[10px] border border-purple-200 dark:border-[#27272A] bg-white dark:bg-[#18181B] text-[#7c3aed] dark:text-[#C084FC] hover:bg-purple-50 dark:hover:bg-purple-950/30 text-xs font-mono font-medium transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center min-h-[44px] px-5 gap-2 rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 text-xs font-mono font-medium transition-colors"
               >
                 <span>Acessar Plataforma Ecossistema</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 
-            <p className="text-[11px] font-mono text-editorial-tertiary pt-1">
+            <p className="text-[11px] font-mono text-slate-500 dark:text-[#94a3b8] pt-1">
               Acesso imediato à trilha completa pedagógica e ao ecossistema de alunas.
             </p>
           </div>
         </section>
       </main>
 
-      {/* Footer Astral */}
-      <footer className="border-t border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A14] py-4 px-4 text-center text-xs text-slate-600 dark:text-[#A1A1AA] print:hidden mt-auto">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px]">
-          <p className="text-slate-800 dark:text-white font-medium">
-            Entrelaços Psicologia · Academia e Método FAC · Astral System © 2026
+      {/* Footer Estilo Resend: hairline superior, limpo, tipografia mono */}
+      <footer className="border-t border-slate-200/90 dark:border-white/[0.08] py-6 px-4 text-xs print:hidden mt-auto">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px] text-slate-600 dark:text-[#94a3b8]">
+          <p className="text-slate-800 dark:text-[#f8fafc] font-medium">
+            Entrelaços Psicologia · Academia e Método FAC · Sistema Oficial © 2026
           </p>
-          <p className="text-editorial-tertiary">
+          <p className="text-slate-500 dark:text-[#94a3b8]">
             Plataforma pedagógica e sistemas exclusivos para alunas da Academia.
           </p>
         </div>
       </footer>
 
-      {/* Modais */}
+      {/* Modais existentes preservados */}
       <ValidarEmailModal
         isOpen={validarModalOpen}
         onClose={() => {
@@ -1103,7 +1035,6 @@ export const HubPage: React.FC = () => {
         onSuccess={async (aluna) => {
           setAlunaSession(aluna)
 
-          // Atualizar o authStore local se a usuária logada tiver o mesmo e-mail validado
           try {
             if (pb.authStore.isValid && pb.authStore.model) {
               const currentEmail = (pb.authStore.model.email || '').toLowerCase()

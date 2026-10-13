@@ -460,6 +460,42 @@
     background-color: rgba(192, 132, 252, 0.035);
   }
 
+  /* Resend Hairline & Bordas Sutis (1px) */
+  .resend-hairline {
+    border: 1px solid rgba(226, 232, 240, 0.85);
+  }
+  .dark .resend-hairline {
+    border: 1px solid rgba(168, 85, 247, 0.14);
+  }
+
+  .resend-hairline-t {
+    border-top: 1px solid rgba(226, 232, 240, 0.85);
+  }
+  .dark .resend-hairline-t {
+    border-top: 1px solid rgba(168, 85, 247, 0.14);
+  }
+
+  .resend-hairline-b {
+    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+  }
+  .dark .resend-hairline-b {
+    border-bottom: 1px solid rgba(168, 85, 247, 0.14);
+  }
+
+  /* Linha estilo changelog Resend com hover sutil */
+  .resend-list-row {
+    position: relative;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .resend-list-row:hover {
+    background-color: rgba(109, 40, 217, 0.03);
+  }
+  .dark .resend-list-row:hover {
+    background-color: rgba(192, 132, 252, 0.04);
+  }
+
   /* Superfície editorial com respiro e divisórias hairline */
   .editorial-surface {
     background-color: #ffffff;
