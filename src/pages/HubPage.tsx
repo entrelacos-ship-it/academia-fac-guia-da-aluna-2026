@@ -41,7 +41,6 @@ import { LINK_ECOSSISTEMA } from '@/config/guiaContent'
 import { SkillMentoraModal } from '@/components/hub/SkillMentoraModal'
 import { SkillsService, SkillItem } from '@/services/skillsService'
 import { useToast } from '@/hooks/use-toast'
-import { ScrollVelocityMarquee } from '@/components/hub/ScrollVelocityMarquee'
 
 const STORAGE_KEY_THEME = 'entrelacos_fac_theme_mode'
 
@@ -397,12 +396,12 @@ export const HubPage: React.FC = () => {
       </header>
 
       {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
-      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 sm:py-8 lg:py-4 xl:py-6 space-y-6 sm:space-y-8 lg:space-y-8">
+      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:pt-3 lg:pb-8 space-y-4 sm:space-y-5 lg:space-y-5">
         {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
         {/* Encaixa confortavelmente na viewport em desktop (1366×768 / 1440×900) com presença tipográfica forte */}
         <section
           aria-label="Apresentação da Academia Entrelaços"
-          className="relative flex items-center justify-center pt-2 pb-2 sm:pt-4 sm:pb-3 lg:pt-2 lg:pb-3 antialiased overflow-x-hidden lg:min-h-[calc(100vh-3.5rem-2rem)]"
+          className="relative flex items-center justify-center pt-2 pb-1 sm:pt-4 sm:pb-2 lg:pt-2 lg:pb-2 antialiased overflow-x-hidden lg:min-h-[calc(100vh-3.5rem-1.5rem)]"
         >
           {/* Glow de fundo atmosférico e sutil (#7C3AED / ametista suave com opacidade bem baixa + toque laranja mínimo) */}
           <div
@@ -695,12 +694,9 @@ export const HubPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ================= LETREIRO ANIMADO: SCROLL VELOCITY MARQUEE ================= */}
-        <ScrollVelocityMarquee />
-
         {/* ================= 1. O GUIA VEM PRIMEIRO: Card Hairline Estilo Resend ================= */}
         {heroItem && (
-          <section aria-labelledby="secao-guia-aluna" className="space-y-3">
+          <section aria-labelledby="secao-guia-aluna" className="space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between pb-1">
               <span className="text-[11px] font-mono font-medium uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] flex items-center gap-1.5">
                 <GraduationCap className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
