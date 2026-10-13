@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, Component, type ReactNode } from 'react'
 
 /**
- * Error Boundary resiliente para isolar qualquer falha
+ * Error Boundary resiliente para isolar qualquer falha gráfica
  */
 export class CanvasErrorBoundary extends Component<
   { children: ReactNode; fallback?: ReactNode },
@@ -32,49 +32,118 @@ export interface HeroMagicCubeProps {
   className?: string
 }
 
-// Representação de uma camada girando
 type RotationAxis = 'x' | 'y' | 'z'
 
 interface LayerTurnState {
   axis: RotationAxis
-  layerIndex: number // -1, 0, ou 1
-  angle: number // radianos atuais da fatia
+  layerIndex: number // -1, 0, 1
+  angle: number // graus atuais da fatia
   targetAngle: number
   progress: number // 0 a 1
 }
 
+interface PieceState {
+  id: string
+  x: number // -1, 0, 1
+  y: number // -1, 0, 1
+  z: number // -1, 0, 1
+  // Matriz de orientação 3x3 para rastrear rotações cumulativas sem gimbal lock
+  rotMatrix: [[number, number, number], [number, number, number], [number, number, number]]
+}
+
+// Multiplicação de matriz 3x3 por 3x3
+function multiply3x3(
+  a: [[number, number, number], [number, number, number], [number, number, number]],
+  b: [[number, number, number], [number, number, number], [number, number, number]],
+): [[number, number, number], [number, number, number], [number, number, number]] {
+  const r: [[number, number, number], [number, number, number], [number, number, number]] = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ]
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      r[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j]
+    }
+  }
+  return r
+}
+
+// Matriz de rotação de 90° ao redor de um eixo principal
+function getRotationMatrix90(
+  axis: RotationAxis,
+  dir: number,
+): [[number, number, number], [number, number, number], [number, number, number]] {
+  // dir = 1 ou -1
+  if (axis === 'x') {
+    // Rotação em torno do eixo X
+    // [1,   0,    0]
+    // [0, cos, -sin]
+    // [0, sin,  cos]
+    const s = dir
+    return [
+      [1, 0, 0],
+      [0, 0, -s],
+      [0, s, 0],
+    ]
+  } else if (axis === 'y') {
+    // Rotação em torno do eixo Y
+    // [ cos, 0, sin]
+    // [   0, 1,   0]
+    // [-sin, 0, cos]
+    const s = dir
+    return [
+      [0, 0, s],
+      [0, 1, 0],
+      [-s, 0, 0],
+    ]
+  } else {
+    // Rotação em torno do eixo Z
+    // [cos, -sin, 0]
+    // [sin,  cos, 0]
+    // [  0,    0, 1]
+    const s = dir
+    return [
+      [0, -s, 0],
+      [s, 0, 0],
+      [0, 0, 1],
+    ]
+  }
+}
+
 /**
- * HeroMagicCube: Cubo Mágico 3x3 estilizado na linguagem Resend / Academia FAC
- * - Implementado em CSS 3D puro (transform-style: preserve-3d, perspective)
- * - Rotação orbital suave contínua do cubo inteiro (3D)
- * - Animação contínua periódica de fatias/peças individuais girando (90 graus) simulando a resolução de um cubo mágico
- * - Tons escuros elegantes: corpo plástico grafite/roxo profundo (#0d0522, #180d38, #1e1045)
- *   com adesivos de acabamento acetinado com bevel em tons da marca:
- *   - Roxo profundo (#24104c, #3b1675)
- *   - Violeta (#6b21a8, #7c3aed)
- *   - Lilás luminoso (#a855f7, #c084fc)
- *   - Acento laranja pontual da marca (#ea580c / #fb923c) em faces seletivas como na referência da Resend
- * - Leveza total (zero dependências pesadas, sem Three.js / R3F)
- * - Respeita prefers-reduced-motion
- * - Suporte a interação por mouse/hover ou touch suave
+ * HeroMagicCube: Reconstrução cinematográfica do Cubo Mágico 3x3
+ * Inspirado na direção de arte Resend ("Dark Premium Minimalism")
+ * adaptado estritamente à identidade Academia FAC:
+ * - Fundo compartilhado com o roxo profundo da marca (#0D0522)
+ * - Cubo surge organicamente através da LUZ DE ESTÚDIO (highlights, bevel metálico de 1px, facetamento)
+ * - Superfícies com gradiente anisotrópico escuro simulando acabamento metálico anodizado / fosco de precisão
+ * - 2 a 3 peças estratégicas com sutil acento laranja (#EA580C / #FB923C) da marca
+ * - 1 a 2 peças com reflexo ametista/lilás luminoso (#7C3AED / #C084FC)
+ * - Rotação orbital suave contínua com inclinação isométrica natural
+ * - Mecânica de cubo mágico verídica: fatias giram em 90° com easing suave e pausa elegante entre movimentos
+ * - Sombra de contato e reflexo elíptico difuso projetados na base
+ * - Respeito integral a prefers-reduced-motion e responsividade fluida
  */
 export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
 
-  // Ângulos globais contínuos do cubo inteiro
-  const rotXRef = useRef(-18) // inclinação isométrica natural estilo Resend
-  const rotYRef = useRef(32)
+  // Rotação global do cubo
+  const rotXRef = useRef(-22)
+  const rotYRef = useRef(38)
   const mouseOffsetRef = useRef({ x: 0, y: 0 })
+  const mouseSmoothRef = useRef({ x: 0, y: 0 })
   const isHoveredRef = useRef(false)
 
-  // Estado da animação de fatia ativa
+  // Estado da camada ativa girando
   const currentTurnRef = useRef<LayerTurnState | null>(null)
-  const nextTurnTimerRef = useRef(1.2) // tempo para iniciar primeira rotação de fatia
+  const nextTurnTimerRef = useRef(1.4) // tempo antes do primeiro giro de fatia
 
-  // Elementos do DOM das 26 peças para atualizações diretas de alta performance via rAF
+  // Referências DOM
   const piecesDomRefs = useRef<Map<string, HTMLDivElement>>(new Map())
   const cubeRootRef = useRef<HTMLDivElement>(null)
+  const shadowRef = useRef<HTMLDivElement>(null)
 
   // Detectar prefers-reduced-motion
   useEffect(() => {
@@ -86,76 +155,91 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
     return () => mq.removeEventListener('change', handler)
   }, [])
 
-  // Gerar coordenadas dos 26 cubinhos (x, y, z em {-1, 0, 1}, excluindo o centro [0,0,0])
-  const pieces = useRef<Array<{ x: number; y: number; z: number; id: string }>>(
+  // Gerar estado inicial dos 26 cubinhos
+  const piecesStateRef = useRef<Map<string, PieceState>>(
     (() => {
-      const list: Array<{ x: number; y: number; z: number; id: string }> = []
+      const map = new Map<string, PieceState>()
       for (let x = -1; x <= 1; x++) {
         for (let y = -1; y <= 1; y++) {
           for (let z = -1; z <= 1; z++) {
-            if (x === 0 && y === 0 && z === 0) continue
-            list.push({ x, y, z, id: `p_${x}_${y}_${z}` })
+            if (x === 0 && y === 0 && z === 0) continue // interior oco
+            const id = `p_${x}_${y}_${z}`
+            map.set(id, {
+              id,
+              x,
+              y,
+              z,
+              rotMatrix: [
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1],
+              ],
+            })
           }
         }
       }
-      return list
+      return map
     })(),
   )
 
-  // Track positions das peças no espaço discreto da grade
-  const pieceCoordsRef = useRef<
-    Map<string, { x: number; y: number; z: number; rx: number; ry: number; rz: number }>
-  >(new Map())
+  // Lista estática de ids para iteração no render
+  const pieceIds = useRef<string[]>(Array.from(piecesStateRef.current.keys()))
 
-  useEffect(() => {
-    // Inicializar posições
-    pieces.current.forEach((p) => {
-      pieceCoordsRef.current.set(p.id, { x: p.x, y: p.y, z: p.z, rx: 0, ry: 0, rz: 0 })
-    })
-  }, [])
-
-  // Loop de Animação 60fps via requestAnimationFrame
+  // Loop de Animação a 60fps via rAF
   useEffect(() => {
     if (reducedMotion) return
 
     let animId: number
     let lastTime = performance.now()
 
+    // Sequência de movimentos do cubo mágico: giros elegantes com sentido e eixos variados
     const possibleTurns: Array<{ axis: RotationAxis; layerIndex: number; dir: number }> = [
-      { axis: 'y', layerIndex: 1, dir: 1 }, // topo gira no sentido horário
-      { axis: 'x', layerIndex: 1, dir: -1 }, // direita gira
-      { axis: 'y', layerIndex: -1, dir: -1 }, // base gira
+      { axis: 'y', layerIndex: 1, dir: 1 }, // topo gira horário
+      { axis: 'x', layerIndex: 1, dir: -1 }, // face direita gira
       { axis: 'z', layerIndex: 1, dir: 1 }, // frontal gira
-      { axis: 'y', layerIndex: 1, dir: -1 }, // topo volta
-      { axis: 'x', layerIndex: 0, dir: 1 }, // fatia do meio gira
-      { axis: 'z', layerIndex: -1, dir: -1 }, // traseira gira
-      { axis: 'x', layerIndex: -1, dir: 1 }, // esquerda gira
+      { axis: 'y', layerIndex: -1, dir: -1 }, // base gira anti-horário
+      { axis: 'x', layerIndex: 0, dir: 1 }, // camada central gira
+      { axis: 'y', layerIndex: 1, dir: -1 }, // topo reverte
+      { axis: 'z', layerIndex: -1, dir: 1 }, // traseira gira
+      { axis: 'x', layerIndex: -1, dir: 1 }, // face esquerda gira
     ]
     let turnSequenceIdx = 0
 
     const updateLoop = (now: number) => {
-      const dt = Math.min((now - lastTime) / 1000, 0.1)
+      const dt = Math.min((now - lastTime) / 1000, 0.08)
       lastTime = now
 
-      // 1. Rotação orbital global lenta do cubo todo (estética Resend: elegante e hipnótica)
-      const idleSpeedY = isHoveredRef.current ? 8 : 14 // graus/segundo
-      const idleSpeedX = isHoveredRef.current ? 3 : 5
-
+      // 1. Rotação orbital suave e hipnótica do cubo todo
+      const idleSpeedY = isHoveredRef.current ? 7 : 12 // graus por segundo
       rotYRef.current = (rotYRef.current + idleSpeedY * dt) % 360
-      // Oscilação suave do eixo X
-      const oscX = Math.sin(now * 0.0008) * 6
-      const currentRotX = -18 + oscX + mouseOffsetRef.current.y * 12
-      const currentRotY = rotYRef.current + mouseOffsetRef.current.x * 16
+
+      // Interpolação suave do mouse (damping / lerp)
+      mouseSmoothRef.current.x += (mouseOffsetRef.current.x - mouseSmoothRef.current.x) * 0.08
+      mouseSmoothRef.current.y += (mouseOffsetRef.current.y - mouseSmoothRef.current.y) * 0.08
+
+      // Flutuação vertical cinematográfica suave (bobbing)
+      const floatOffsetY = Math.sin(now * 0.0012) * 5
+      const oscPitch = Math.sin(now * 0.0007) * 3
+
+      const currentRotX = -20 + oscPitch + mouseSmoothRef.current.y * 14
+      const currentRotY = rotYRef.current + mouseSmoothRef.current.x * 20
 
       if (cubeRootRef.current) {
-        cubeRootRef.current.style.transform = `rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`
+        cubeRootRef.current.style.transform = `translate3d(0, ${floatOffsetY.toFixed(2)}px, 0) rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`
+      }
+
+      if (shadowRef.current) {
+        // Sombra pulsa sutilmente com a flutuação
+        const shadowScale = 1 - floatOffsetY * 0.015
+        const shadowOpacity = 0.55 + floatOffsetY * 0.01
+        shadowRef.current.style.transform = `scale(${shadowScale.toFixed(3)})`
+        shadowRef.current.style.opacity = shadowOpacity.toFixed(3)
       }
 
       // 2. Animação de giro das fatias (peças do cubo mágico)
       if (!currentTurnRef.current) {
         nextTurnTimerRef.current -= dt
         if (nextTurnTimerRef.current <= 0) {
-          // Iniciar novo giro de fatia
           const nextTurnDef = possibleTurns[turnSequenceIdx % possibleTurns.length]
           turnSequenceIdx++
 
@@ -169,110 +253,100 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
         }
       } else {
         const turn = currentTurnRef.current
-        const turnDuration = 0.95 // segundos para girar uma camada com aceleração e desaceleração suave
+        const turnDuration = 1.05 // duração suave e refinada
         turn.progress += dt / turnDuration
 
         if (turn.progress >= 1) {
-          // Concluir giro e persistir rotação na grade de coordenadas
-          const finalAngle = turn.targetAngle
-          const rad = (finalAngle * Math.PI) / 180
-          const cos = Math.round(Math.cos(rad))
-          const sin = Math.round(Math.sin(rad))
+          // Concluir giro e rotacionar as coordenadas no espaço discreto
+          const dir = turn.targetAngle > 0 ? 1 : -1
+          const rotM = getRotationMatrix90(turn.axis, dir)
 
-          // Atualizar coordenadas lógicas das peças afetadas
-          pieceCoordsRef.current.forEach((coord, id) => {
+          piecesStateRef.current.forEach((piece) => {
             let inLayer = false
-            if (turn.axis === 'x' && coord.x === turn.layerIndex) inLayer = true
-            if (turn.axis === 'y' && coord.y === turn.layerIndex) inLayer = true
-            if (turn.axis === 'z' && coord.z === turn.layerIndex) inLayer = true
+            if (turn.axis === 'x' && piece.x === turn.layerIndex) inLayer = true
+            if (turn.axis === 'y' && piece.y === turn.layerIndex) inLayer = true
+            if (turn.axis === 'z' && piece.z === turn.layerIndex) inLayer = true
 
             if (inLayer) {
-              let nx = coord.x
-              let ny = coord.y
-              let nz = coord.z
+              // Atualizar coordenadas discretas (x, y, z)
+              let nx = piece.x
+              let ny = piece.y
+              let nz = piece.z
 
               if (turn.axis === 'x') {
-                ny = coord.y * cos - coord.z * sin
-                nz = coord.y * sin + coord.z * cos
-                coord.rx = (coord.rx + finalAngle) % 360
+                ny = -piece.z * dir
+                nz = piece.y * dir
               } else if (turn.axis === 'y') {
-                nx = coord.x * cos + coord.z * sin
-                nz = -coord.x * sin + coord.z * cos
-                coord.ry = (coord.ry + finalAngle) % 360
+                nx = piece.z * dir
+                nz = -piece.x * dir
               } else if (turn.axis === 'z') {
-                nx = coord.x * cos - coord.y * sin
-                ny = coord.x * sin + coord.y * cos
-                coord.rz = (coord.rz + finalAngle) % 360
+                nx = -piece.y * dir
+                ny = piece.x * dir
               }
 
-              coord.x = nx
-              coord.y = ny
-              coord.z = nz
+              piece.x = Math.round(nx)
+              piece.y = Math.round(ny)
+              piece.z = Math.round(nz)
+
+              // Multiplicar matriz de rotação da orientação interna da peça
+              piece.rotMatrix = multiply3x3(rotM, piece.rotMatrix)
             }
           })
 
           currentTurnRef.current = null
-          nextTurnTimerRef.current = 1.1 // pausa elegante entre giros como um cubo sendo resolvido
+          nextTurnTimerRef.current = 1.35 // pausa elegante de contemplação entre movimentos
         } else {
-          // Easing cúbico suave para o movimento de giro da peça
+          // Easing quintic suave (muito cinematográfico, sem tranco)
           const p = turn.progress
-          const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2
+          const eased = p < 0.5 ? 16 * Math.pow(p, 5) : 1 - Math.pow(-2 * p + 2, 5) / 2
           turn.angle = turn.targetAngle * eased
         }
       }
 
-      // 3. Aplicar transformações CSS 3D a cada peça
-      const pieceSizePx = 44 // base de tamanho por cubie (escala controlada)
-      const spacingPx = 48 // pequeno espaçamento entre peças para chanfro realista
+      // 3. Atualizar estilos 3D de cada peça
+      const spacing = 52 // 48px tamanho do bloco + 4px de gap chanfrado
 
-      pieces.current.forEach((p) => {
-        const dom = piecesDomRefs.current.get(p.id)
+      piecesStateRef.current.forEach((piece) => {
+        const dom = piecesDomRefs.current.get(piece.id)
         if (!dom) return
 
-        const coord = pieceCoordsRef.current.get(p.id)
-        if (!coord) return
-
-        let extraAngleX = 0
-        let extraAngleY = 0
-        let extraAngleZ = 0
-
+        let inActiveTurn = false
         if (currentTurnRef.current) {
-          const turn = currentTurnRef.current
-          let inLayer = false
-          if (turn.axis === 'x' && coord.x === turn.layerIndex) inLayer = true
-          if (turn.axis === 'y' && coord.y === turn.layerIndex) inLayer = true
-          if (turn.axis === 'z' && coord.z === turn.layerIndex) inLayer = true
-
-          if (inLayer) {
-            if (turn.axis === 'x') extraAngleX = turn.angle
-            if (turn.axis === 'y') extraAngleY = turn.angle
-            if (turn.axis === 'z') extraAngleZ = turn.angle
-          }
+          const t = currentTurnRef.current
+          if (t.axis === 'x' && piece.x === t.layerIndex) inActiveTurn = true
+          if (t.axis === 'y' && piece.y === t.layerIndex) inActiveTurn = true
+          if (t.axis === 'z' && piece.z === t.layerIndex) inActiveTurn = true
         }
 
-        // Matriz de posicionamento no espaço 3D relativo ao centro do cubo
-        const posX = coord.x * spacingPx
-        const posY = -coord.y * spacingPx // Y invertido no CSS 3D
-        const posZ = coord.z * spacingPx
+        const m = piece.rotMatrix
+        const posX = piece.x * spacing
+        const posY = -piece.y * spacing // Inversão do eixo Y no CSS 3D
+        const posZ = piece.z * spacing
 
-        const totalRx = coord.rx + extraAngleX
-        const totalRy = coord.ry + extraAngleY
-        const totalRz = coord.rz + extraAngleZ
+        if (inActiveTurn && currentTurnRef.current) {
+          const t = currentTurnRef.current
+          const turnAngle = t.angle
+          const rotTransform =
+            t.axis === 'x'
+              ? `rotateX(${turnAngle.toFixed(2)}deg)`
+              : t.axis === 'y'
+                ? `rotateY(${-turnAngle.toFixed(2)}deg)`
+                : `rotateZ(${turnAngle.toFixed(2)}deg)`
 
-        dom.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px) rotateX(${totalRx}deg) rotateY(${totalRy}deg) rotateZ(${totalRz}deg)`
+          dom.style.transform = `${rotTransform} translate3d(${posX.toFixed(1)}px, ${posY.toFixed(1)}px, ${posZ.toFixed(1)}px) matrix3d(${m[0][0]}, ${m[1][0]}, ${m[2][0]}, 0, ${m[0][1]}, ${m[1][1]}, ${m[2][1]}, 0, ${m[0][2]}, ${m[1][2]}, ${m[2][2]}, 0, 0, 0, 0, 1)`
+        } else {
+          dom.style.transform = `translate3d(${posX.toFixed(1)}px, ${posY.toFixed(1)}px, ${posZ.toFixed(1)}px) matrix3d(${m[0][0]}, ${m[1][0]}, ${m[2][0]}, 0, ${m[0][1]}, ${m[1][1]}, ${m[2][1]}, 0, ${m[0][2]}, ${m[1][2]}, ${m[2][2]}, 0, 0, 0, 0, 1)`
+        }
       })
 
       animId = requestAnimationFrame(updateLoop)
     }
 
     animId = requestAnimationFrame(updateLoop)
-
-    return () => {
-      cancelAnimationFrame(animId)
-    }
+    return () => cancelAnimationFrame(animId)
   }, [reducedMotion])
 
-  // Tratar interação suave de mouse no contêiner
+  // Interatividade suave com o mouse
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (reducedMotion || !containerRef.current) return
     const rect = containerRef.current.getBoundingClientRect()
@@ -290,57 +364,71 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
     mouseOffsetRef.current = { x: 0, y: 0 }
   }
 
-  // Paleta de cores para os adesivos / stickers das faces
-  // Base do fundo é #0D0522; usamos tons ricos de roxo escuro, ametista, lilás luminoso
-  // e acentos pontuais laranja (#ea580c / #fb923c) como na imagem de referência da Resend
-  const getStickerFaceStyle = (
-    face: 'front' | 'back' | 'top' | 'bottom' | 'right' | 'left',
-    x: number,
-    y: number,
-    z: number,
+  // Estilização das 6 faces de um bloco individual
+  // Simulação de luz de estúdio e materiais metálicos anodizados:
+  // - Topo: recebe luz superior direta (+brilho suave, vivó prateado/ametista)
+  // - Frontal e Direita: luz lateral chave (key light) e de preenchimento (fill light)
+  // - Base e Traseira: sombras profundas em roxo profundo
+  // - 2 peças com acabamento em laranja da marca (acento pontual de alta classe)
+  // - 1 peça com acabamento em lilás acetinado
+  const getFaceClass = (
+    face: 'front' | 'back' | 'right' | 'left' | 'top' | 'bottom',
+    id: string,
   ) => {
-    // Determinar se esta face é externa ou oculta no interior
-    let isExternal = false
-    if (face === 'front' && z === 1) isExternal = true
-    if (face === 'back' && z === -1) isExternal = true
-    if (face === 'right' && x === 1) isExternal = true
-    if (face === 'left' && x === -1) isExternal = true
-    if (face === 'top' && y === 1) isExternal = true
-    if (face === 'bottom' && y === -1) isExternal = true
-
-    if (!isExternal) {
-      // Faces internas são do corpo plástico preto escuro fosco
-      return 'bg-[#0a0518]'
+    // Acentos pontuais em peças icônicas (pelo id original de montagem)
+    // Peça 1: Acento Laranja da marca (canto frontal direito superior)
+    if (id === 'p_1_1_1') {
+      if (face === 'top') {
+        return 'bg-gradient-to-br from-[#fb923c] via-[#ea580c] to-[#c2410c] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.45)] border border-[#fed7aa]/50'
+      }
+      if (face === 'front') {
+        return 'bg-gradient-to-br from-[#f97316] via-[#ea580c] to-[#9a3412] shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#fdba74]/40'
+      }
+      if (face === 'right') {
+        return 'bg-gradient-to-br from-[#ea580c] via-[#c2410c] to-[#7c2d12] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.2)] border border-[#ea580c]/30'
+      }
     }
 
-    // Acentos pontuais em laranja da marca (2 a 3 peças estratégicas na face frontal/superior como na foto)
-    if (face === 'front' && x === 1 && y === -1) {
-      return 'bg-gradient-to-br from-[#fb923c] to-[#ea580c] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] border border-[#fdba74]/50'
-    }
-    if (face === 'top' && x === 0 && z === 1) {
-      return 'bg-gradient-to-br from-[#ea580c] to-[#c2410c] shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] border border-[#fb923c]/40'
+    // Peça 2: Acento Laranja secundário mais sóbrio (aresta frontal inferior)
+    if (id === 'p_0_-1_1' && face === 'front') {
+      return 'bg-gradient-to-br from-[#fb923c] via-[#ea580c] to-[#7c2d12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.35)] border border-[#fdba74]/40'
     }
 
-    // Destaque brilhante em lilás acetinado na peça central frontal
-    if (face === 'front' && x === 0 && y === 0) {
-      return 'bg-gradient-to-br from-[#c084fc] to-[#9333ea] shadow-[inset_0_1px_1px_rgba(255,255,255,0.35)] border border-[#e9d5ff]/40'
+    // Peça 3: Centro frontal em Lilás Ametista Luminoso (luz chave do Método FAC)
+    if (id === 'p_0_0_1' && face === 'front') {
+      return 'bg-gradient-to-br from-[#c084fc] via-[#9333ea] to-[#6b21a8] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5)] border border-[#e9d5ff]/50'
     }
 
-    // Peças com acabamento texturizado grafite-metálico escuro com reflexo arroxeado (como no cubo Resend)
-    if ((x + y + z) % 3 === 0) {
-      return 'bg-gradient-to-br from-[#2a1355] to-[#14082c] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.18)] border border-purple-500/25'
+    // Peça 4: Bloco metálico polido com reflexo violeta intenso
+    if (id === 'p_-1_1_1' && face === 'top') {
+      return 'bg-gradient-to-br from-[#4c1d95] via-[#2e1065] to-[#1e0a45] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.35)] border border-[#a855f7]/30'
     }
 
-    if ((x + y + z) % 2 === 0) {
-      return 'bg-gradient-to-br from-[#1b0a38] to-[#0f0524] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.12)] border border-purple-900/40'
+    // Blocos padrão com iluminação de estúdio direcional:
+    switch (face) {
+      case 'top':
+        // Face superior: máxima luminosidade de estúdio, chanfro superior com brilho fino
+        return 'bg-gradient-to-b from-[#2d1157] via-[#1f0b3e] to-[#15062c] shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)] border border-purple-400/25'
+      case 'front':
+        // Face frontal: luz principal moderada, reflexo acetinado escuro
+        return 'bg-gradient-to-br from-[#240e47] via-[#170830] to-[#0f0422] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.18)] border border-purple-500/20'
+      case 'right':
+        // Face lateral direita: luz de preenchimento mais fria e densa
+        return 'bg-gradient-to-bl from-[#1c0a37] via-[#120526] to-[#0a0319] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.12)] border border-purple-600/15'
+      case 'left':
+        // Face lateral esquerda: penumbra suave
+        return 'bg-gradient-to-br from-[#18082f] via-[#100421] to-[#090216] border border-purple-900/30'
+      case 'bottom':
+        // Face inferior: sombra de oclusão profunda
+        return 'bg-[#0a0319] border border-purple-950/40'
+      case 'back':
+        // Face traseira: profundidade escura
+        return 'bg-gradient-to-tr from-[#130626] to-[#0a0318] border border-purple-900/20'
     }
-
-    // Roxo profundo elegante da marca
-    return 'bg-gradient-to-br from-[#3b1578] to-[#1c083d] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.22)] border border-purple-400/20'
   }
 
-  // Estilos 3D de cada uma das 6 faces de cada cubie de 44px
-  const cubieHalfSize = 22 // 44 / 2
+  const cubieSize = 48
+  const half = cubieSize / 2 // 24px
 
   return (
     <div
@@ -348,143 +436,127 @@ export const HeroMagicCube: React.FC<HeroMagicCubeProps> = ({ className = '' }) 
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative flex flex-col items-center justify-center select-none ${className}`}
-      style={{ perspective: '1100px' }}
-      aria-label="Cubo Mágico 3x3 animado da Academia FAC"
+      className={`relative flex flex-col items-center justify-center select-none py-6 sm:py-8 ${className}`}
+      style={{ perspective: '1200px' }}
+      aria-label="Cubo Mágico 3x3 tridimensional animado da Academia FAC"
     >
-      {/* Halo de luz de estúdio roxo suave no fundo (ambient lighting) */}
+      {/* 1. Iluminação de estúdio ambiental (Studio Lights & Reflections) */}
       <div
-        className="absolute inset-0 pointer-events-none -z-10 flex items-center justify-center"
+        className="absolute inset-0 pointer-events-none -z-10 flex items-center justify-center overflow-visible"
         aria-hidden="true"
       >
-        <div className="w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[400px] md:h-[400px] rounded-full bg-radial from-[#9333ea]/25 via-[#6b21a8]/12 to-transparent blur-3xl opacity-85" />
-        <div className="w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full bg-radial from-[#fb923c]/15 to-transparent blur-2xl opacity-60 translate-x-8 -translate-y-8" />
+        {/* Luz de preenchimento roxa de grande raio (aura atmosférica) */}
+        <div className="w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full bg-radial from-[#7c3aed]/20 via-[#4c1d95]/10 to-transparent blur-3xl opacity-80" />
+
+        {/* Luz direcional pontual em lilás (key light superior) */}
+        <div className="w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] rounded-full bg-radial from-[#c084fc]/25 via-transparent to-transparent blur-2xl opacity-75 -translate-y-16 -translate-x-12" />
+
+        {/* Luz de recorte quente em laranja (rim light pontual do design system) */}
+        <div className="w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] rounded-full bg-radial from-[#ea580c]/18 via-transparent to-transparent blur-2xl opacity-70 translate-x-16 translate-y-8" />
       </div>
 
-      {/* Palco 3D do Cubo */}
-      <div className="w-[240px] h-[240px] xs:w-[270px] xs:h-[270px] sm:w-[300px] sm:h-[300px] md:w-[340px] md:h-[340px] flex items-center justify-center relative">
+      {/* 2. Palco 3D do Cubo Mágico */}
+      <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[360px] sm:h-[360px] lg:w-[420px] lg:h-[420px] flex items-center justify-center relative">
+        {/* Sombra projetada flutuante abaixo do objeto (contato de produto cinematográfico) */}
+        <div
+          ref={shadowRef}
+          aria-hidden="true"
+          className="absolute bottom-6 sm:bottom-8 w-[240px] sm:w-[300px] h-[36px] sm:h-[44px] rounded-[100%] bg-radial from-black/80 via-[#120526]/50 to-transparent blur-xl pointer-events-none transition-transform duration-300"
+        />
+
+        {/* Raiz 3D com perspective e transform-style preservado */}
         <div
           ref={cubeRootRef}
           className="relative w-0 h-0"
           style={{
             transformStyle: 'preserve-3d',
-            transform: 'rotateX(-18deg) rotateY(32deg)',
-            transition: reducedMotion ? 'transform 0.3s ease' : 'none',
+            transform: 'rotateX(-22deg) rotateY(38deg)',
+            transition: reducedMotion ? 'transform 0.4s ease' : 'none',
           }}
         >
-          {/* 26 peças individuais do cubo mágico */}
-          {pieces.current.map((p) => (
+          {/* As 26 peças individuais do cubo */}
+          {pieceIds.current.map((id) => (
             <div
-              key={p.id}
+              key={id}
               ref={(el) => {
-                if (el) piecesDomRefs.current.set(p.id, el)
-                else piecesDomRefs.current.delete(p.id)
+                if (el) piecesDomRefs.current.set(id, el)
+                else piecesDomRefs.current.delete(id)
               }}
-              className="absolute w-[44px] h-[44px] -left-[22px] -top-[22px]"
+              className="absolute w-[48px] h-[48px] -left-[24px] -top-[24px] rounded-[8px]"
               style={{
                 transformStyle: 'preserve-3d',
-                transform: `translate3d(${p.x * 48}px, ${-p.y * 48}px, ${p.z * 48}px)`,
                 backfaceVisibility: 'hidden',
+                willChange: 'transform',
               }}
             >
-              {/* Face Frontal (+Z) */}
-              <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.z === 1 ? 'border border-black/40' : ''
-                }`}
-                style={{
-                  transform: `translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
-                  boxShadow: p.z === 1 ? '0 1px 3px rgba(0,0,0,0.6)' : 'none',
-                }}
-              >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('front', p.x, p.y, p.z)}`}
-                />
-              </div>
-
-              {/* Face Traseira (-Z) */}
-              <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.z === -1 ? 'border border-black/40' : ''
-                }`}
-                style={{
-                  transform: `rotateY(180deg) translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
-                }}
-              >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('back', p.x, p.y, p.z)}`}
-                />
-              </div>
-
-              {/* Face Direita (+X) */}
-              <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.x === 1 ? 'border border-black/40' : ''
-                }`}
-                style={{
-                  transform: `rotateY(90deg) translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
-                }}
-              >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('right', p.x, p.y, p.z)}`}
-                />
-              </div>
-
-              {/* Face Esquerda (-X) */}
-              <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.x === -1 ? 'border border-black/40' : ''
-                }`}
-                style={{
-                  transform: `rotateY(-90deg) translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
-                }}
-              >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('left', p.x, p.y, p.z)}`}
-                />
-              </div>
-
               {/* Face Superior (+Y) */}
               <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.y === 1 ? 'border border-black/40' : ''
-                }`}
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('top', id)}`}
                 style={{
-                  transform: `rotateX(90deg) translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
+                  transform: `rotateX(90deg) translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
                 }}
               >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('top', p.x, p.y, p.z)}`}
-                />
+                {/* Linha de reflexo especular de estúdio de 1px */}
+                <div className="w-full h-full rounded-[6px] bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
               </div>
 
               {/* Face Inferior (-Y) */}
               <div
-                className={`absolute inset-0 rounded-[5px] p-[2.5px] transition-colors duration-150 ${
-                  p.y === -1 ? 'border border-black/40' : ''
-                }`}
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('bottom', id)}`}
                 style={{
-                  transform: `rotateX(-90deg) translateZ(${cubieHalfSize}px)`,
-                  backgroundColor: '#0a0518',
+                  transform: `rotateX(-90deg) translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
+                }}
+              />
+
+              {/* Face Frontal (+Z) */}
+              <div
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('front', id)}`}
+                style={{
+                  transform: `translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
                 }}
               >
-                <div
-                  className={`w-full h-full rounded-[3.5px] ${getStickerFaceStyle('bottom', p.x, p.y, p.z)}`}
-                />
+                <div className="w-full h-full rounded-[6px] bg-gradient-to-b from-white/8 via-transparent to-black/30 pointer-events-none" />
               </div>
+
+              {/* Face Traseira (-Z) */}
+              <div
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('back', id)}`}
+                style={{
+                  transform: `rotateY(180deg) translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
+                }}
+              />
+
+              {/* Face Direita (+X) */}
+              <div
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('right', id)}`}
+                style={{
+                  transform: `rotateY(90deg) translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
+                }}
+              >
+                <div className="w-full h-full rounded-[6px] bg-gradient-to-r from-white/6 via-transparent to-black/35 pointer-events-none" />
+              </div>
+
+              {/* Face Esquerda (-X) */}
+              <div
+                className={`absolute inset-0 rounded-[7px] ${getFaceClass('left', id)}`}
+                style={{
+                  transform: `rotateY(-90deg) translateZ(${half}px)`,
+                  backfaceVisibility: 'hidden',
+                }}
+              />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Legenda técnica sutil estilo Resend em JetBrains Mono */}
-      <div className="mt-2 text-center pointer-events-none select-none">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-slate-300/60 dark:border-white/[0.08] bg-white/40 dark:bg-white/[0.02] text-[10px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#C084FC]/90">
+      {/* 3. Legenda editorial minimalista estilo Resend */}
+      <div className="mt-3 text-center pointer-events-none select-none">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.03] text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
           <span>FUNDAÇÃO · ATRAÇÃO · CONEXÃO</span>
         </div>

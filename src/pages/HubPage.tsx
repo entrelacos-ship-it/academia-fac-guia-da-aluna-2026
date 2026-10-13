@@ -395,23 +395,26 @@ export const HubPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 space-y-16 sm:space-y-24">
-        {/* ================= HERO REFINADA: Estética Resend (Texto à esquerda, Cubo Mágico 3x3 à direita) ================= */}
-        <section aria-label="Apresentação da Academia FAC" className="relative pt-2 sm:pt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Coluna de Texto (esquerda no desktop) */}
-            <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-              {/* Eyebrow em JetBrains Mono com tracking amplo e detalhe pontual em laranja */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.03] text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-5 sm:mb-6 transition-colors">
+      {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
+      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-16 lg:py-20 space-y-16 sm:space-y-24">
+        {/* ================= HERO REFINADA: Estética Resend (Container assimétrico 45% / 55%, Objeto 3D cinematográfico) ================= */}
+        <section
+          aria-label="Apresentação da Academia FAC"
+          className="relative min-h-[640px] lg:min-h-[760px] flex flex-col justify-center pt-2 sm:pt-4"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            {/* Coluna de Conteúdo (~45% no desktop: 5 de 12 colunas) */}
+            <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
+              {/* Badge Pill Superior Minimalista estilo Resend (radius 999px, borda hairline 1px, acento laranja discreto) */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/70 dark:bg-white/[0.03] backdrop-blur-xs text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors shadow-xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
                 <span>ACADEMIA MÉTODO FAC</span>
                 <span className="text-slate-300 dark:text-white/20">•</span>
                 <span className="text-slate-500 dark:text-[#94a3b8]">HUB DE FORMAÇÃO</span>
               </div>
 
-              {/* Título com escala tipográfica forte: Inter Tight 500 + Instrument Serif italic */}
-              <h1 className="h-display font-medium tracking-tight text-slate-900 dark:text-[#f8fafc] text-balance">
+              {/* Headline Protagonista: tipografia editorial de alto contraste (H1 clamp 3.5rem - 6.25rem, leading 0.98, tracking -0.035em) */}
+              <h1 className="font-sans font-normal text-[clamp(2.75rem,5.5vw,5.25rem)] leading-[0.98] tracking-[-0.035em] text-slate-900 dark:text-[#f8fafc] text-balance">
                 Formação e prática{' '}
                 <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
                   integrada
@@ -419,17 +422,17 @@ export const HubPage: React.FC = () => {
                 para psicólogas.
               </h1>
 
-              {/* Lead em coluna controlada, entrelinha 1.6, tom intermediário */}
-              <p className="lead text-slate-600 dark:text-[#cbd5e1] max-w-xl mt-5 sm:mt-6 font-normal text-balance">
+              {/* Lead editorial: sans neutra, entrelinha equilibrada, tom intermediário */}
+              <p className="text-[17px] sm:text-[19px] leading-[1.5] text-slate-600 dark:text-[#cbd5e1] max-w-lg mt-6 sm:mt-7 font-normal text-balance">
                 Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
                 recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
               </p>
 
-              {/* Ações principais: CTA primário em roxo da marca, secundário em outline hairline */}
-              <div className="mt-8 sm:mt-9 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+              {/* Botões padronizados pela especificação Resend: altura 46px, radius 16px, borda 1px de baixa opacidade, sombra discreta */}
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 w-full sm:w-auto">
                 <Button
                   onClick={() => navigate('/guia')}
-                  className="w-full sm:w-auto min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm cursor-pointer shadow-none transition-colors"
+                  className="w-full sm:w-auto h-[46px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[16px] text-sm cursor-pointer border border-[#8b5cf6]/40 shadow-[0_4px_20px_rgba(124,58,237,0.25)] transition-all"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Acessar o Guia da Aluna</span>
@@ -440,7 +443,7 @@ export const HubPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setValidarModalOpen(true)}
-                    className="w-full sm:w-auto min-h-[44px] px-4 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors cursor-pointer"
+                    className="w-full sm:w-auto h-[46px] px-5 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[16px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.03] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 shadow-xs transition-colors cursor-pointer"
                   >
                     <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
                     <span>Validar matrícula da turma</span>
@@ -449,10 +452,10 @@ export const HubPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Coluna do Cubo Mágico 3x3 (direita no desktop, centralizado no mobile) */}
-            <div className="lg:col-span-5 flex items-center justify-center order-first lg:order-last">
+            {/* Coluna do Visual 3D (~55% no desktop: 7 de 12 colunas) - Objeto emerge organicamente do fundo */}
+            <div className="lg:col-span-7 flex items-center justify-center order-first lg:order-last w-full">
               <CanvasErrorBoundary>
-                <HeroMagicCube className="w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[440px]" />
+                <HeroMagicCube className="w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]" />
               </CanvasErrorBoundary>
             </div>
           </div>
