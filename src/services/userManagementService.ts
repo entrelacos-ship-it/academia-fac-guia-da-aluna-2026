@@ -36,6 +36,8 @@ export interface UpdateUserData {
   role?: 'admin' | 'user'
   verified?: boolean
   is_active?: boolean
+  justificativa?: string
+  motivo?: string
 }
 
 export const UserManagementService = {

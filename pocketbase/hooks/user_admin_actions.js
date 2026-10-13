@@ -186,13 +186,7 @@ routerAdd(
       })
     }
 
-    const targetId = (
-      e.request.pathValue('id') ||
-      (e.requestInfo().params && e.requestInfo().params.id) ||
-      ''
-    )
-      .toString()
-      .trim()
+    const targetId = (e.request.pathValue('id') || '').toString().trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }
@@ -261,16 +255,21 @@ routerAdd(
 
       $app.save(targetUser)
 
-      // Trilha de auditoria
+      // Trilha de auditoria com operador e justificativa/motivo
       try {
         const auditCol = $app.findCollectionByNameOrId('fac_auditoria')
         const auditRec = new Record(auditCol)
+        const justificativaInformada = (body.justificativa || body.motivo || '').toString().trim()
         auditRec.set('operador', authUser.email())
         auditRec.set('acao', 'editar_conta_usuario')
         auditRec.set('alvo', targetUser.email())
-        auditRec.set('motivo', 'Atualização cadastral de conta pelo painel administrativo')
+        auditRec.set(
+          'motivo',
+          justificativaInformada || 'Atualização cadastral de conta pelo painel administrativo',
+        )
         auditRec.set('detalhes', {
           user_id: targetId,
+          justificativa: justificativaInformada || undefined,
           alteracoes: {
             email: { de: oldEmail, para: targetUser.email() },
             name: { de: oldName, para: targetUser.getString('name') },
@@ -319,13 +318,7 @@ routerAdd(
       })
     }
 
-    const targetId = (
-      e.request.pathValue('id') ||
-      (e.requestInfo().params && e.requestInfo().params.id) ||
-      ''
-    )
-      .toString()
-      .trim()
+    const targetId = (e.request.pathValue('id') || '').toString().trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }
@@ -390,13 +383,7 @@ routerAdd(
       })
     }
 
-    const targetId = (
-      e.request.pathValue('id') ||
-      (e.requestInfo().params && e.requestInfo().params.id) ||
-      ''
-    )
-      .toString()
-      .trim()
+    const targetId = (e.request.pathValue('id') || '').toString().trim()
     if (!targetId) {
       return e.json(400, { success: false, message: 'ID da conta não informado.' })
     }

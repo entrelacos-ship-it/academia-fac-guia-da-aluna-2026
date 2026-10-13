@@ -160,6 +160,7 @@ export const AdminDashboard: React.FC = () => {
   const [editUserRole, setEditUserRole] = useState<'user' | 'admin'>('user')
   const [editUserVerified, setEditUserVerified] = useState(false)
   const [editUserActive, setEditUserActive] = useState(true)
+  const [editUserJustificativa, setEditUserJustificativa] = useState('')
   const [savingUserEdit, setSavingUserEdit] = useState(false)
 
   const [resettingUserPassword, setResettingUserPassword] = useState<AdminUserItem | null>(null)
@@ -685,6 +686,7 @@ export const AdminDashboard: React.FC = () => {
     setEditUserRole(user.role === 'admin' ? 'admin' : 'user')
     setEditUserVerified(!!user.verified)
     setEditUserActive(user.is_active !== false)
+    setEditUserJustificativa('')
   }
 
   // Salvar edição de usuário
@@ -703,12 +705,18 @@ export const AdminDashboard: React.FC = () => {
     setSuccessActionMessage(null)
 
     try {
+      const justificativaFinal = editUserJustificativa.trim()
       const payload: UpdateUserData = {
         email: cleanEmail,
         name: editUserName.trim() || '',
         role: editUserRole,
         verified: editUserVerified,
         is_active: editUserActive,
+        justificativa:
+          justificativaFinal ||
+          `Edição da conta ${cleanEmail} (Verificado: ${editUserVerified ? 'Sim' : 'Não'}, Ativa: ${
+            editUserActive ? 'Sim' : 'Não'
+          })`,
       }
 
       const res = await UserManagementService.updateUser(editingUser.id, payload)
@@ -3804,26 +3812,57 @@ export const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col justify-end space-y-2">
-                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={editUserVerified}
                       onChange={(e) => setEditUserVerified(e.target.checked)}
-                      className="rounded text-[#7c3aed]"
+                      className="rounded text-[#7c3aed] focus:ring-[#7c3aed]"
                     />
-                    <span>E-mail verificado</span>
+                    <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-200 font-medium">
+                      E-mail verificado
+                      {editUserVerified ? (
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      ) : (
+                        <AlertCircle className="w-3.5 h-3.5 text-amber-500" />
+                      )}
+                    </span>
                   </label>
 
-                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={editUserActive}
                       onChange={(e) => setEditUserActive(e.target.checked)}
-                      className="rounded text-[#7c3aed]"
+                      className="rounded text-[#7c3aed] focus:ring-[#7c3aed]"
                     />
-                    <span>Conta ativa</span>
+                    <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-200 font-medium">
+                      Conta ativa
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          editUserActive ? 'bg-emerald-500' : 'bg-rose-500'
+                        }`}
+                      />
+                    </span>
                   </label>
                 </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 block mb-1">
+                  Justificativa / Motivo (registrado na auditoria)
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Ex: Liberação manual de aluna, confirmação de matrícula"
+                  value={editUserJustificativa}
+                  onChange={(e) => setEditUserJustificativa(e.target.value)}
+                  className="text-xs"
+                />
+                <p className="text-[10px] font-mono text-slate-500 mt-1">
+                  Esta justificativa é arquivada na trilha de auditoria (fac_auditoria) com o seu
+                  operador ({currentUser?.email}).
+                </p>
               </div>
 
               <div className="pt-3 border-t border-slate-200 dark:border-[#27272A] flex justify-end gap-2">
