@@ -23,6 +23,7 @@ import {
   FileDown,
   Loader2,
   Clock,
+  HeartHandshake,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
 import { Button } from '@/components/ui/button'
@@ -491,7 +492,7 @@ export const HubPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Coluna Direita: lg:col-span-7 (Timeline vertical elegante com trilho e cards reais) */}
+              {/* Coluna Direita: lg:col-span-7 (Timeline vertical elegante com trilho e os 3 pilares do Método FAC) */}
               <div className="lg:col-span-7 w-full">
                 <div className="relative pl-6 sm:pl-8">
                   {/* Trilho vertical de 1px com gradiente elegante */}
@@ -501,7 +502,7 @@ export const HubPage: React.FC = () => {
                   />
 
                   <div className="space-y-4 sm:space-y-5">
-                    {/* Item 1: Guia da Aluna (Ativo / Aberto) */}
+                    {/* Card 1 — Pilar 1 · Fundação (Em destaque / Ativo) */}
                     <div
                       onClick={() => navigate('/guia')}
                       role="button"
@@ -528,16 +529,16 @@ export const HubPage: React.FC = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-start sm:items-center gap-3.5">
                             <div className="w-9 h-9 rounded-lg border border-[#7c3aed]/30 dark:border-[#C084FC]/30 bg-[#7c3aed]/10 dark:bg-[#C084FC]/10 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                              <BookOpen className="w-4 h-4" />
+                              <Layers className="w-4 h-4" />
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
                                 <span className="text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
-                                  Frente 01 · Percurso
+                                  Método FAC · Eixo 01
                                 </span>
                               </div>
                               <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                                Guia da Aluna
+                                Pilar 1 · Fundação
                               </h3>
                             </div>
                           </div>
@@ -545,51 +546,38 @@ export const HubPage: React.FC = () => {
                           <div className="flex items-center gap-2 self-start sm:self-center">
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono uppercase tracking-wider">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
-                              <span>Ativo</span>
+                              <span>Em destaque</span>
                             </span>
                             <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
-                              24 Perguntas
+                              Chão estrutural
                             </span>
                           </div>
                         </div>
 
                         <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
-                          Aula Magna aberta com o Diagnóstico FAC Aprofundado, trilha pedagógica e
-                          cadernos didáticos do Ciclo.
+                          De “atendo todo mundo” para uma prática com nome, direção e preço.
                         </p>
 
                         <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
-                            Diagnóstico + Cadernos
+                            Sustentação clínica
                           </span>
                           <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            Abrir percurso <ArrowRight className="w-3.5 h-3.5" />
+                            Conhecer no Guia <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Item 2: Calculadora FAC (Exclusivo de Alunas) */}
+                    {/* Card 2 — Pilar 2 · Atração (Esmaecido) */}
                     <div
-                      onClick={() => {
-                        if (!isAlunaValidada) {
-                          setItemBloqueadoClicado('Calculadora de Precificação FAC')
-                          setValidarModalOpen(true)
-                        } else {
-                          navigate('/calculadora')
-                        }
-                      }}
+                      onClick={() => navigate('/guia')}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault()
-                          if (!isAlunaValidada) {
-                            setItemBloqueadoClicado('Calculadora de Precificação FAC')
-                            setValidarModalOpen(true)
-                          } else {
-                            navigate('/calculadora')
-                          }
+                          navigate('/guia')
                         }
                       }}
                       className="group relative cursor-pointer"
@@ -606,73 +594,49 @@ export const HubPage: React.FC = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-start sm:items-center gap-3.5">
                             <div className="w-9 h-9 rounded-lg border border-orange-300/40 dark:border-orange-500/30 bg-orange-500/10 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
-                              <Calculator className="w-4 h-4" />
+                              <Compass className="w-4 h-4" />
                             </div>
                             <div>
                               <span className="text-[10px] font-mono tracking-wider uppercase text-[#ea580c] dark:text-[#FB923C]">
-                                Frente 02 · Finanças
+                                Método FAC · Eixo 02
                               </span>
                               <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors">
-                                Calculadora de Precificação FAC
+                                Pilar 2 · Atração
                               </h3>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 self-start sm:self-center">
-                            {isAlunaValidada ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono uppercase tracking-wider">
-                                <span>Liberada</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[11px] font-mono uppercase tracking-wider">
-                                <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
-                                <span>Exclusiva</span>
-                              </span>
-                            )}
                             <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
-                              Piso ético
+                              Presença ética
                             </span>
                           </div>
                         </div>
 
                         <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
-                          Engenharia financeira do consultório: custo de vida, tributos, capacidade
-                          real e piso sustentável por hora clínica.
+                          De esperar indicação para ser encontrada por quem precisa de você.
                         </p>
 
                         <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
-                            Sustentabilidade clínica
+                            Posicionamento autoral
                           </span>
                           <span className="inline-flex items-center gap-1 font-medium text-[#ea580c] dark:text-[#FB923C] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            {isAlunaValidada ? 'Acessar ferramenta' : 'Validar acesso'}{' '}
-                            <ArrowRight className="w-3.5 h-3.5" />
+                            Ver detalhes <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Item 3: Meu IKIGAI Clínico */}
+                    {/* Card 3 — Pilar 3 · Conexão (Esmaecido) */}
                     <div
-                      onClick={() => {
-                        if (!isAlunaValidada) {
-                          setItemBloqueadoClicado('Meu IKIGAI')
-                          setValidarModalOpen(true)
-                        } else {
-                          navigate('/ikigai')
-                        }
-                      }}
+                      onClick={() => navigate('/guia')}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault()
-                          if (!isAlunaValidada) {
-                            setItemBloqueadoClicado('Meu IKIGAI')
-                            setValidarModalOpen(true)
-                          } else {
-                            navigate('/ikigai')
-                          }
+                          navigate('/guia')
                         }
                       }}
                       className="group relative cursor-pointer"
@@ -689,117 +653,35 @@ export const HubPage: React.FC = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-start sm:items-center gap-3.5">
                             <div className="w-9 h-9 rounded-lg border border-purple-200/50 dark:border-purple-500/20 bg-purple-500/5 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                              <Compass className="w-4 h-4" />
+                              <HeartHandshake className="w-4 h-4" />
                             </div>
                             <div>
                               <span className="text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
-                                Frente 03 · Autoria
+                                Método FAC · Eixo 03
                               </span>
                               <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                                Meu IKIGAI Clínico
+                                Pilar 3 · Conexão
                               </h3>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 self-start sm:self-center">
-                            {isAlunaValidada ? (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[11px] font-mono uppercase tracking-wider">
-                                <span>Disponível</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-slate-100/60 dark:bg-white/[0.03] text-slate-600 dark:text-gray-400 text-[11px] font-mono uppercase tracking-wider">
-                                <Lock className="w-2.5 h-2.5" />
-                                <span>Exclusivo</span>
-                              </span>
-                            )}
                             <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
-                              4 Círculos
+                              Vínculo & Permanência
                             </span>
                           </div>
                         </div>
 
                         <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
-                          Mapeamento estruturado das 4 forças e intersecções para delimitar
-                          posicionamento autêntico e nicho.
+                          De contatos que somem para pacientes que ficam.
                         </p>
 
                         <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
-                            Posicionamento ético
+                            Permanência clínica
                           </span>
                           <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            {isAlunaValidada ? 'Abrir IKIGAI' : 'Validar acesso'}{' '}
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Item 4: Material & Tutoriais (Estudo continuado) */}
-                    <div
-                      onClick={() => {
-                        const target = document.getElementById('secao-materiais')
-                        if (target) {
-                          target.scrollIntoView({ behavior: 'smooth' })
-                        }
-                      }}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          const target = document.getElementById('secao-materiais')
-                          if (target) target.scrollIntoView({ behavior: 'smooth' })
-                        }
-                      }}
-                      className="group relative cursor-pointer opacity-85 hover:opacity-100 transition-opacity"
-                    >
-                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
-                        <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-slate-400 dark:bg-white/40" />
-                      </div>
-
-                      <div className="relative rounded-xl border border-slate-300/70 dark:border-white/[0.07] bg-white/60 dark:bg-white/[0.015] p-5 sm:p-6 transition-all duration-200 hover:border-slate-400 dark:hover:border-white/15">
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/[0.06] to-transparent"
-                        />
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex items-start sm:items-center gap-3.5">
-                            <div className="w-9 h-9 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-100/60 dark:bg-white/[0.02] text-slate-600 dark:text-gray-400 flex items-center justify-center shrink-0">
-                              <FileText className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <span className="text-[10px] font-mono tracking-wider uppercase text-slate-500 dark:text-gray-400">
-                                Frente 04 · Acervo
-                              </span>
-                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-gray-200 transition-colors">
-                                Material & Tutoriais
-                              </h3>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 self-start sm:self-center">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-gray-400 text-[11px] font-mono uppercase tracking-wider">
-                              <Clock className="w-2.5 h-2.5" />
-                              <span>Em expansão</span>
-                            </span>
-                            <span className="text-xs font-mono text-slate-400 dark:text-white/40 hidden sm:inline">
-                              Apoio didático
-                            </span>
-                          </div>
-                        </div>
-
-                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
-                          Acervo complementar com templates de contrato, materiais pedagógicos e
-                          skills para ChatGPT.
-                        </p>
-
-                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
-                          <span className="text-[10px] uppercase tracking-wider">
-                            Estudo continuado
-                          </span>
-                          <span className="inline-flex items-center gap-1 font-medium text-slate-600 dark:text-gray-300 group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            Ver acervo <ArrowRight className="w-3.5 h-3.5" />
+                            Ver detalhes <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
                       </div>
