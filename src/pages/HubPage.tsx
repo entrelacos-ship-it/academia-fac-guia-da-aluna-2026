@@ -396,8 +396,8 @@ export const HubPage: React.FC = () => {
       </header>
 
       {/* Conteúdo Principal do Hub: Em desktop (lg:), a hero ocupa exatamente a viewport visível (100dvh - 3.5rem da topbar) com zero padding/margem vertical extra no main para eliminar qualquer barra de rolagem */}
-      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-4 sm:py-6 lg:py-0 space-y-4 sm:space-y-5 lg:space-y-0">
-        {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
+      <main className="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-6 lg:py-0 space-y-4 sm:space-y-5 lg:space-y-0">
+        {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Presença Máxima na 1ª Dobra) ================= */}
         {/* Em desktop (lg: ≥1024px), a hero tem altura exata calc(100dvh - 3.5rem) e box-border sem padding/margem vertical extra que gere overflow no body */}
         <section
           aria-label="Apresentação da Academia Entrelaços"
@@ -406,27 +406,27 @@ export const HubPage: React.FC = () => {
           {/* Glow de fundo atmosférico contido (sem transbordar horizontalmente ou verticalmente) */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-24 right-0 lg:right-1/4 w-[400px] sm:w-[600px] lg:w-[650px] h-[400px] sm:h-[600px] lg:h-[650px] rounded-full bg-[#7c3aed]/12 dark:bg-[#7c3aed]/18 blur-[100px] -z-10 transition-opacity motion-reduce:hidden"
+            className="pointer-events-none absolute -top-24 right-0 lg:right-1/4 w-[400px] sm:w-[600px] lg:w-[680px] h-[400px] sm:h-[600px] lg:h-[680px] rounded-full bg-[#7c3aed]/14 dark:bg-[#7c3aed]/22 blur-[110px] -z-10 transition-opacity motion-reduce:hidden"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/3 -left-20 w-[280px] sm:w-[380px] h-[280px] sm:h-[380px] rounded-full bg-[#ea580c]/6 dark:bg-[#FB923C]/8 blur-[100px] -z-10 transition-opacity motion-reduce:hidden"
+            className="pointer-events-none absolute top-1/3 -left-20 w-[280px] sm:w-[420px] h-[280px] sm:h-[420px] rounded-full bg-[#ea580c]/8 dark:bg-[#FB923C]/10 blur-[100px] -z-10 transition-opacity motion-reduce:hidden"
           />
 
-          <div className="w-full max-w-7xl px-2 sm:px-6 md:px-10 lg:px-8 my-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-[clamp(1.5rem,2.5vw,3rem)] items-center">
-              {/* Coluna Esquerda: lg:col-span-7 para dar destaque e amplitude à headline ampliada */}
+          <div className="w-full max-w-7xl px-2 sm:px-4 md:px-6 lg:px-6 xl:px-8 my-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-[clamp(1.5rem,1.8vw+0.6dvh,3rem)] items-center">
+              {/* Coluna Esquerda: lg:col-span-7 para dar destaque e amplitude máxima à headline */}
               <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
-                {/* Badge Pill no topo com escala tipográfica reforçada */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.04] backdrop-blur-xs text-xs sm:text-[13px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-3 sm:mb-4 lg:mb-[clamp(0.5rem,1.2dvh,1rem)] transition-colors shadow-xs">
+                {/* Badge Pill no topo com presença e escala tipográfica reforçadas */}
+                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.04] backdrop-blur-xs text-xs sm:text-[13px] lg:text-[clamp(0.75rem,0.65rem+0.25dvh,0.875rem)] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-3 sm:mb-4 lg:mb-[clamp(0.5rem,1.1dvh,1.1rem)] transition-colors shadow-xs">
                   <span className="w-2 h-2 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse motion-reduce:animate-none" />
                   <span className="font-medium">Academia Entrelaços</span>
                   <span className="text-slate-300 dark:text-white/20">•</span>
                   <span className="text-slate-600 dark:text-[#cbd5e1]">MÉTODO FAC</span>
                 </div>
 
-                {/* Headline Aumentada Conforme Pedido: Inter Tight 500 + Instrument Serif italic na palavra-âncora */}
-                <h1 className="font-sans font-medium text-3xl sm:text-5xl lg:text-[clamp(2.4rem,2.3vw+1.5dvh,3.6rem)] leading-[1.08] sm:leading-[1.05] tracking-tight text-slate-900 dark:text-white text-balance">
+                {/* Headline com Domínio Visual Completo: Inter Tight 400 + Instrument Serif italic na palavra-âncora, tracking negativo e leading super apertado */}
+                <h1 className="font-sans font-normal text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(2.75rem,1.8rem+2.6vw+1.8dvh,5.3rem)] leading-[0.98] sm:leading-[1.0] lg:leading-[1.0] tracking-[-0.04em] text-slate-900 dark:text-white text-balance">
                   Formação e prática{' '}
                   <em className="font-serif-anchor not-italic font-normal text-[#7c3aed] dark:text-[#C084FC]">
                     integrada
@@ -434,8 +434,8 @@ export const HubPage: React.FC = () => {
                   para psicólogas.
                 </h1>
 
-                {/* Parágrafo de apoio em corpo ampliado (16px a 18px), preservando piso legível */}
-                <p className="text-base sm:text-lg lg:text-[clamp(1rem,0.925rem+0.4dvh,1.15rem)] text-slate-600 dark:text-gray-300 leading-relaxed max-w-xl mt-3 sm:mt-4 lg:mt-[clamp(0.5rem,1.1dvh,1rem)] font-normal text-balance">
+                {/* Parágrafo de apoio proporcionalmente ampliado com equilíbrio e sem área morta */}
+                <p className="text-base sm:text-lg lg:text-[clamp(1.05rem,0.95rem+0.35dvh,1.25rem)] text-slate-600 dark:text-gray-300 leading-snug sm:leading-relaxed max-w-xl xl:max-w-2xl mt-3.5 sm:mt-4 lg:mt-[clamp(0.6rem,1.2dvh,1.25rem)] font-normal text-balance">
                   Acesso unificado aos{' '}
                   <strong className="font-medium text-slate-900 dark:text-gray-100">
                     cadernos pedagógicos
@@ -444,14 +444,14 @@ export const HubPage: React.FC = () => {
                   metodológicas da Academia.
                 </p>
 
-                {/* Botões com escala e presença ampliadas (min-h-[46px], text-[15px]) */}
-                <div className="mt-5 sm:mt-6 lg:mt-[clamp(0.75rem,1.4dvh,1.35rem)] flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+                {/* Botões de Ação com presença reforçada (min-h-[48px] a min-h-[52px], texto mais encorpado) */}
+                <div className="mt-5 sm:mt-6 lg:mt-[clamp(0.85rem,1.5dvh,1.5rem)] flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => navigate('/guia')}
-                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3 min-h-[46px] rounded-lg text-sm sm:text-[15px] font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer shrink-0"
+                    className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 min-h-[48px] lg:min-h-[clamp(46px,5.2dvh,52px)] rounded-lg text-sm sm:text-base font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer shrink-0"
                   >
-                    <BookOpen className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Acessar o Guia da Aluna</span>
                   </button>
 
@@ -465,16 +465,16 @@ export const HubPage: React.FC = () => {
                         navigate('/calculadora')
                       }
                     }}
-                    className="group inline-flex items-center justify-center gap-2.5 px-6 py-3 min-h-[46px] rounded-lg text-sm sm:text-[15px] font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer shrink-0"
+                    className="group inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 min-h-[48px] lg:min-h-[clamp(46px,5.2dvh,52px)] rounded-lg text-sm sm:text-base font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer shrink-0"
                   >
-                    <Calculator className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#ea580c] dark:text-[#FB923C]" />
+                    <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-[#ea580c] dark:text-[#FB923C]" />
                     <span>Calculadora FAC</span>
-                    <ArrowRight className="w-4 h-4 sm:w-[18px] sm:h-[18px] transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
                   </button>
                 </div>
 
                 {/* Sublegenda de status de aluna com espaçamento fluido */}
-                <div className="mt-3 sm:mt-3.5 lg:mt-[clamp(0.4rem,0.9dvh,0.75rem)] flex items-center gap-2 text-xs sm:text-[13px] font-mono text-slate-500 dark:text-[#94a3b8]">
+                <div className="mt-3.5 sm:mt-4 lg:mt-[clamp(0.45rem,0.9dvh,0.85rem)] flex items-center gap-2 text-xs sm:text-[13px] font-mono text-slate-500 dark:text-[#94a3b8]">
                   {isAlunaValidada ? (
                     <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                       <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -493,7 +493,7 @@ export const HubPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Coluna Direita: lg:col-span-5 (Timeline vertical compacta e elegante com os 3 pilares do Método FAC) */}
+              {/* Coluna Direita: lg:col-span-5 (Timeline vertical dos 3 pilares do Método FAC com preenchimento generoso e proporção perfeita) */}
               <div className="lg:col-span-5 w-full">
                 <div className="relative pl-5 sm:pl-6">
                   {/* Trilho vertical de 1px com gradiente elegante */}
@@ -502,7 +502,7 @@ export const HubPage: React.FC = () => {
                     className="absolute left-0 sm:left-1 top-2.5 bottom-2.5 w-px bg-gradient-to-b from-transparent via-slate-300/80 dark:via-white/15 to-transparent"
                   />
 
-                  <div className="space-y-2 sm:space-y-2.5 lg:space-y-[clamp(0.25rem,0.6dvh,0.5rem)]">
+                  <div className="space-y-2.5 sm:space-y-3 lg:space-y-[clamp(0.35rem,0.8dvh,0.75rem)]">
                     {/* Card 1 — Pilar 1 · Fundação (Em destaque / Ativo) */}
                     <div
                       onClick={() => navigate('/guia')}
@@ -522,7 +522,7 @@ export const HubPage: React.FC = () => {
                       </div>
 
                       {/* Card com hairline de highlight no topo e borda refinada */}
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-3 sm:p-3.5 lg:p-[clamp(0.55rem,0.95dvh,0.9rem)] transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 dark:via-white/20 to-transparent"
@@ -538,7 +538,7 @@ export const HubPage: React.FC = () => {
                                   Método FAC · Eixo 01
                                 </span>
                               </div>
-                              <h3 className="font-sans font-medium text-[13.5px] sm:text-sm lg:text-[clamp(0.825rem,0.775rem+0.25dvh,0.925rem)] text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
+                              <h3 className="font-sans font-medium text-sm sm:text-base lg:text-[clamp(0.85rem,0.775rem+0.3dvh,0.975rem)] text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
                                 Pilar 1 · Fundação
                               </h3>
                             </div>
@@ -555,11 +555,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] lg:text-[clamp(0.75rem,0.7rem+0.2dvh,0.85rem)] text-slate-600 dark:text-gray-300 leading-snug font-normal">
                           De “atendo todo mundo” para uma prática com nome, direção e preço.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Sustentação clínica
                           </span>
@@ -587,7 +587,7 @@ export const HubPage: React.FC = () => {
                         <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#ea580c] dark:bg-[#FB923C]" />
                       </div>
 
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-3 sm:p-3.5 lg:p-[clamp(0.55rem,0.95dvh,0.9rem)] transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 dark:via-white/10 to-transparent"
@@ -601,7 +601,7 @@ export const HubPage: React.FC = () => {
                               <span className="text-[9.5px] sm:text-[10px] font-mono tracking-wider uppercase text-[#ea580c] dark:text-[#FB923C]">
                                 Método FAC · Eixo 02
                               </span>
-                              <h3 className="font-sans font-medium text-[13.5px] sm:text-sm lg:text-[clamp(0.825rem,0.775rem+0.25dvh,0.925rem)] text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors leading-tight">
+                              <h3 className="font-sans font-medium text-sm sm:text-base lg:text-[clamp(0.85rem,0.775rem+0.3dvh,0.975rem)] text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors leading-tight">
                                 Pilar 2 · Atração
                               </h3>
                             </div>
@@ -614,11 +614,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] lg:text-[clamp(0.75rem,0.7rem+0.2dvh,0.85rem)] text-slate-600 dark:text-gray-300 leading-snug font-normal">
                           De esperar indicação para ser encontrada por quem precisa de você.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Posicionamento autoral
                           </span>
@@ -646,7 +646,7 @@ export const HubPage: React.FC = () => {
                         <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed]/80 dark:bg-[#C084FC]/80" />
                       </div>
 
-                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-2.5 sm:p-3 lg:p-[clamp(0.45rem,0.8dvh,0.7rem)] transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-xs">
+                      <div className="relative rounded-lg sm:rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-3 sm:p-3.5 lg:p-[clamp(0.55rem,0.95dvh,0.9rem)] transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-xs">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 dark:via-white/10 to-transparent"
@@ -660,7 +660,7 @@ export const HubPage: React.FC = () => {
                               <span className="text-[9.5px] sm:text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
                                 Método FAC · Eixo 03
                               </span>
-                              <h3 className="font-sans font-medium text-[13.5px] sm:text-sm lg:text-[clamp(0.825rem,0.775rem+0.25dvh,0.925rem)] text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
+                              <h3 className="font-sans font-medium text-sm sm:text-base lg:text-[clamp(0.85rem,0.775rem+0.3dvh,0.975rem)] text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
                                 Pilar 3 · Conexão
                               </h3>
                             </div>
@@ -673,11 +673,11 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
+                        <p className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] text-xs sm:text-[13px] lg:text-[clamp(0.75rem,0.7rem+0.2dvh,0.85rem)] text-slate-600 dark:text-gray-300 leading-snug font-normal">
                           De contatos que somem para pacientes que ficam.
                         </p>
 
-                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.15rem,0.35dvh,0.3rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.15rem,0.3dvh,0.25rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-1 sm:mt-1.5 lg:mt-[clamp(0.2rem,0.4dvh,0.35rem)] pt-1 sm:pt-1.5 lg:pt-[clamp(0.2rem,0.35dvh,0.3rem)] border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[9px] sm:text-[9.5px] uppercase tracking-wider">
                             Permanência clínica
                           </span>
