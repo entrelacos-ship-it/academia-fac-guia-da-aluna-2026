@@ -25,6 +25,7 @@ import {
   Clock,
 } from 'lucide-react'
 import { FACLogo } from '@/components/FACLogo'
+import { HeroMagicCube, CanvasErrorBoundary } from '@/components/hub/HeroMagicCube'
 import { Button } from '@/components/ui/button'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import pb from '@/lib/pocketbase/client'
@@ -396,59 +397,68 @@ export const HubPage: React.FC = () => {
 
       {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend */}
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 space-y-16 sm:space-y-24">
-        {/* ================= HERO REFINADA: Estética Resend sobre fundo roxo escurão ================= */}
-        <section
-          aria-label="Apresentação da Academia FAC"
-          className="relative text-center flex flex-col items-center pt-2 sm:pt-6"
-        >
-          {/* Eyebrow em JetBrains Mono com tracking amplo e detalhe pontual em laranja */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.03] text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
-            <span>ACADEMIA MÉTODO FAC</span>
-            <span className="text-slate-300 dark:text-white/20">•</span>
-            <span className="text-slate-500 dark:text-[#94a3b8]">HUB DE FORMAÇÃO</span>
-          </div>
+        {/* ================= HERO REFINADA: Estética Resend (Texto à esquerda, Cubo Mágico 3x3 à direita) ================= */}
+        <section aria-label="Apresentação da Academia FAC" className="relative pt-2 sm:pt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Coluna de Texto (esquerda no desktop) */}
+            <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+              {/* Eyebrow em JetBrains Mono com tracking amplo e detalhe pontual em laranja */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/[0.1] bg-white/60 dark:bg-white/[0.03] text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-5 sm:mb-6 transition-colors">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C]" />
+                <span>ACADEMIA MÉTODO FAC</span>
+                <span className="text-slate-300 dark:text-white/20">•</span>
+                <span className="text-slate-500 dark:text-[#94a3b8]">HUB DE FORMAÇÃO</span>
+              </div>
 
-          {/* Título com escala tipográfica forte: Inter Tight 500 + Instrument Serif italic */}
-          <h1 className="h-display font-medium tracking-tight text-slate-900 dark:text-[#f8fafc] max-w-4xl text-balance">
-            Formação e prática{' '}
-            <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-              integrada
-            </em>{' '}
-            para psicólogas.
-          </h1>
+              {/* Título com escala tipográfica forte: Inter Tight 500 + Instrument Serif italic */}
+              <h1 className="h-display font-medium tracking-tight text-slate-900 dark:text-[#f8fafc] text-balance">
+                Formação e prática{' '}
+                <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
+                  integrada
+                </em>{' '}
+                para psicólogas.
+              </h1>
 
-          {/* Lead em coluna estreita controlada (~max-w-2xl), entrelinha 1.6, tom intermediário */}
-          <p className="lead text-slate-600 dark:text-[#cbd5e1] max-w-2xl mt-5 sm:mt-6 font-normal text-balance">
-            Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
-            recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
-          </p>
+              {/* Lead em coluna controlada, entrelinha 1.6, tom intermediário */}
+              <p className="lead text-slate-600 dark:text-[#cbd5e1] max-w-xl mt-5 sm:mt-6 font-normal text-balance">
+                Acesso unificado aos cadernos pedagógicos, aplicações de sustentabilidade clínica,
+                recursos de posicionamento e ferramentas metodológicas da Academia Entrelaços.
+              </p>
 
-          {/* Ações principais: CTA primário em roxo da marca, secundário em outline hairline */}
-          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
-            <Button
-              onClick={() => navigate('/guia')}
-              className="w-full sm:w-auto min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm cursor-pointer shadow-none transition-colors"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>Acessar o Guia da Aluna</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+              {/* Ações principais: CTA primário em roxo da marca, secundário em outline hairline */}
+              <div className="mt-8 sm:mt-9 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+                <Button
+                  onClick={() => navigate('/guia')}
+                  className="w-full sm:w-auto min-h-[44px] px-6 gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#7c3aed] dark:hover:bg-[#6d28d9] text-white font-medium rounded-[8px] text-sm cursor-pointer shadow-none transition-colors"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Acessar o Guia da Aluna</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
 
-            {!isAlunaValidada && (
-              <button
-                type="button"
-                onClick={() => setValidarModalOpen(true)}
-                className="w-full sm:w-auto min-h-[44px] px-4 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors cursor-pointer"
-              >
-                <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                <span>Validar matrícula da turma</span>
-              </button>
-            )}
+                {!isAlunaValidada && (
+                  <button
+                    type="button"
+                    onClick={() => setValidarModalOpen(true)}
+                    className="w-full sm:w-auto min-h-[44px] px-4 inline-flex items-center justify-center gap-2 font-mono text-xs rounded-[8px] border border-slate-300/80 dark:border-white/[0.12] bg-white/40 dark:bg-white/[0.02] text-slate-700 dark:text-[#cbd5e1] hover:text-[#7c3aed] dark:hover:text-[#C084FC] hover:border-[#7c3aed]/50 dark:hover:border-[#C084FC]/40 transition-colors cursor-pointer"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
+                    <span>Validar matrícula da turma</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Coluna do Cubo Mágico 3x3 (direita no desktop, centralizado no mobile) */}
+            <div className="lg:col-span-5 flex items-center justify-center order-first lg:order-last">
+              <CanvasErrorBoundary>
+                <HeroMagicCube className="w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[440px]" />
+              </CanvasErrorBoundary>
+            </div>
           </div>
 
           {/* Três pilares metodológicos: Faixa hairline de 1px, sem caixas pesadas nem sombras */}
-          <div className="w-full max-w-4xl mt-12 sm:mt-16 pt-8 border-t border-slate-200/90 dark:border-white/[0.08]">
+          <div className="w-full mt-12 sm:mt-16 pt-8 border-t border-slate-200/90 dark:border-white/[0.08]">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-left">
               {/* Pilar 01 */}
               <div className="space-y-1.5">
@@ -658,7 +668,7 @@ export const HubPage: React.FC = () => {
               ) : null
             })()}
 
-            {/* LISTA EM LINHAS COM FILETE/HAIRLINE ESTILO CHANGELOG DA RESEND */}
+            {/* GRID DE CARDS ESTILO RESEND: Borda hairline de 1px, sem sombras, organização limpa */}
             {(() => {
               const itemsNaCategoria = allSistemaItems.filter((it) => {
                 const extra = SISTEMA_ITEMS_EXTRAS[it.chave]
@@ -679,8 +689,8 @@ export const HubPage: React.FC = () => {
               }
 
               return (
-                <div className="divide-y divide-slate-200/90 dark:divide-white/[0.08] border-y border-slate-200/90 dark:border-white/[0.08]">
-                  {/* Itens Estáticos / Configurados da Categoria */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                  {/* Cards dos Itens da Categoria */}
                   {itemsNaCategoria.map((item, idx) => {
                     const extra = SISTEMA_ITEMS_EXTRAS[item.chave]
                     const IconComponent =
@@ -704,67 +714,72 @@ export const HubPage: React.FC = () => {
                           }
                         }}
                         aria-label={`${item.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                        className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                        className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[10px] border border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.02] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/30 transition-colors cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                       >
-                        {/* Lado Esquerdo: Índice técnico, Ícone minimalista e Conteúdo */}
-                        <div className="flex items-start gap-4 min-w-0 flex-1">
-                          <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8] pt-1 w-6 shrink-0">
-                            0{idx + 1}
-                          </span>
-
-                          <div className="w-9 h-9 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-slate-700 dark:text-[#cbd5e1] group-hover:border-[#7c3aed]/40 dark:group-hover:border-[#C084FC]/40 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] flex items-center justify-center shrink-0 transition-colors">
-                            <IconComponent className="w-4 h-4" />
-                          </div>
-
-                          <div className="space-y-1 min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                                {item.titulo}
-                              </h4>
-
-                              {/* Badges sutis */}
-                              {isBlocked ? (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-mono uppercase tracking-wider">
-                                  <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
-                                  <span>Exclusivo alunas</span>
-                                </span>
-                              ) : isEmBreve ? (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-[#94a3b8] text-[10px] font-mono uppercase tracking-wider">
-                                  <Clock className="w-2.5 h-2.5" />
-                                  <span>{item.rotulo_badge || 'Em breve'}</span>
-                                </span>
-                              ) : isSkill ? (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[10px] font-mono uppercase tracking-wider">
-                                  <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
-                                  <span>{item.rotulo_badge || 'Skill FAC'}</span>
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded-[4px] border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono uppercase tracking-wider">
-                                  {item.rotulo_badge || 'Disponível'}
-                                </span>
-                              )}
+                        <div className="space-y-4">
+                          {/* Cabeçalho do Card: Índice técnico + Ícone + Badge */}
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2.5">
+                              <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
+                                0{idx + 1}
+                              </span>
+                              <div className="w-8 h-8 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-slate-700 dark:text-[#cbd5e1] group-hover:border-[#7c3aed]/40 dark:group-hover:border-[#C084FC]/40 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] flex items-center justify-center shrink-0 transition-colors">
+                                <IconComponent className="w-4 h-4" />
+                              </div>
                             </div>
 
-                            <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                            {/* Badge de status */}
+                            {isBlocked ? (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-mono uppercase tracking-wider">
+                                <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                <span>Exclusivo</span>
+                              </span>
+                            ) : isEmBreve ? (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-[#94a3b8] text-[10px] font-mono uppercase tracking-wider">
+                                <Clock className="w-2.5 h-2.5" />
+                                <span>{item.rotulo_badge || 'Em breve'}</span>
+                              </span>
+                            ) : isSkill ? (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[10px] font-mono uppercase tracking-wider">
+                                <Sparkles className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
+                                <span>{item.rotulo_badge || 'Skill FAC'}</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded-[4px] border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono uppercase tracking-wider">
+                                {item.rotulo_badge || 'Disponível'}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Título e Descrição */}
+                          <div className="space-y-1.5">
+                            <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-snug">
+                              {item.titulo}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
                               {item.descricao}
                             </p>
                           </div>
                         </div>
 
-                        {/* Lado Direito: Ação discreta alinhada */}
-                        <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
+                        {/* Rodapé do Card: Ação alinhada na base com filete sutil */}
+                        <div className="pt-4 mt-5 border-t border-slate-200/80 dark:border-white/[0.06] flex items-center justify-between text-xs font-mono">
+                          <span className="text-[10px] text-slate-400 dark:text-[#94a3b8] uppercase tracking-wider">
+                            {isSkill ? 'Instrução IA' : 'Módulo FAC'}
+                          </span>
+
                           {isBlocked ? (
-                            <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
+                            <div className="inline-flex items-center gap-1.5 text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
                               <Lock className="w-3 h-3 shrink-0" />
                               <span>Validar matrícula</span>
                             </div>
                           ) : isSkill ? (
-                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                            <div className="inline-flex items-center gap-1.5 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
                               <Download className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C] shrink-0" />
-                              <span>Baixar Mentora-FAC</span>
+                              <span>Baixar Mentora</span>
                             </div>
                           ) : (
-                            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                            <div className="inline-flex items-center gap-1.5 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
                               <span>Abrir app</span>
                               <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                             </div>
@@ -774,7 +789,7 @@ export const HubPage: React.FC = () => {
                     )
                   })}
 
-                  {/* Skills do PocketBase na mesma lista hairline */}
+                  {/* Cards das Skills do PocketBase no mesmo grid */}
                   {activeSistemaCategory === 'skills' &&
                     dbSkills.map((sk, skIdx) => {
                       const isBlocked = !isAlunaValidada
@@ -793,27 +808,25 @@ export const HubPage: React.FC = () => {
                             }
                           }}
                           aria-label={`Baixar skill ${sk.titulo}${isBlocked ? ' - Exclusivo para alunas' : ''}`}
-                          className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
+                          className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[10px] border border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.02] hover:border-[#7c3aed]/40 dark:hover:border-[#C084FC]/30 transition-colors cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#7c3aed] dark:focus:ring-[#C084FC]"
                         >
-                          <div className="flex items-start gap-4 min-w-0 flex-1">
-                            <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8] pt-1 w-6 shrink-0">
-                              0{itemsNaCategoria.length + skIdx + 1}
-                            </span>
+                          <div className="space-y-4">
+                            {/* Cabeçalho do Card */}
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-2.5">
+                                <span className="text-[11px] font-mono text-slate-400 dark:text-[#94a3b8]">
+                                  0{itemsNaCategoria.length + skIdx + 1}
+                                </span>
+                                <div className="w-8 h-8 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                                  <Sparkles className="w-4 h-4" />
+                                </div>
+                              </div>
 
-                            <div className="w-9 h-9 rounded-[6px] border border-slate-200 dark:border-white/[0.08] bg-slate-100/70 dark:bg-white/[0.03] text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                              <Sparkles className="w-4 h-4" />
-                            </div>
-
-                            <div className="space-y-1 min-w-0 flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-                                  {sk.titulo}
-                                </h4>
-
+                              <div className="flex items-center gap-1.5">
                                 {isBlocked ? (
                                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300 text-[10px] font-mono uppercase tracking-wider">
                                     <Lock className="w-2.5 h-2.5 text-[#ea580c] dark:text-[#FB923C]" />
-                                    <span>Exclusivo alunas</span>
+                                    <span>Exclusivo</span>
                                   </span>
                                 ) : (
                                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-purple-500/25 bg-purple-500/10 text-[#7c3aed] dark:text-[#C084FC] text-[10px] font-mono uppercase tracking-wider">
@@ -828,12 +841,17 @@ export const HubPage: React.FC = () => {
                                   </span>
                                 )}
                               </div>
+                            </div>
 
-                              <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                            {/* Título e Descrição */}
+                            <div className="space-y-1.5">
+                              <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-snug">
+                                {sk.titulo}
+                              </h4>
+                              <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
                                 {sk.descricao || 'Pacote de instrução clínica para uso no ChatGPT.'}
                               </p>
-
-                              <div className="text-[11px] font-mono text-slate-500 dark:text-[#94a3b8] pt-0.5">
+                              <div className="text-[10px] font-mono text-slate-500 dark:text-[#94a3b8] pt-1 truncate">
                                 Arquivo:{' '}
                                 <strong className="text-slate-700 dark:text-[#e2e8f0] font-medium">
                                   {sk.arquivo}
@@ -842,14 +860,19 @@ export const HubPage: React.FC = () => {
                             </div>
                           </div>
 
-                          <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
+                          {/* Rodapé do Card */}
+                          <div className="pt-4 mt-5 border-t border-slate-200/80 dark:border-white/[0.06] flex items-center justify-between text-xs font-mono">
+                            <span className="text-[10px] text-slate-400 dark:text-[#94a3b8] uppercase tracking-wider">
+                              ChatGPT Skill
+                            </span>
+
                             {isBlocked ? (
-                              <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
+                              <div className="inline-flex items-center gap-1.5 text-[#ea580c] dark:text-[#FB923C] group-hover:underline">
                                 <Lock className="w-3 h-3 shrink-0" />
                                 <span>Validar matrícula</span>
                               </div>
                             ) : (
-                              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
+                              <div className="inline-flex items-center gap-1.5 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform">
                                 {isDownloading ? (
                                   <>
                                     <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
@@ -873,9 +896,9 @@ export const HubPage: React.FC = () => {
           </section>
         )}
 
-        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS: Lista Hairline Estilo Resend ================= */}
+        {/* ================= 3. BLOCO MATERIAL & TUTORIAIS: Cards em Grid Estilo Resend ================= */}
         {materialItems.length > 0 && (
-          <section aria-labelledby="secao-materiais" className="space-y-4">
+          <section aria-labelledby="secao-materiais" className="space-y-5">
             <div className="flex items-baseline justify-between pb-3 border-b border-slate-200/90 dark:border-white/[0.08]">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
@@ -894,7 +917,7 @@ export const HubPage: React.FC = () => {
               </span>
             </div>
 
-            <div className="divide-y divide-slate-200/90 dark:divide-white/[0.08] border-y border-slate-200/90 dark:border-white/[0.08]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {materialItems.map((item, idx) => {
                 const IconComponent = ICON_MAP[item.icone || ''] || FileText
                 const isEmBreve =
@@ -904,47 +927,67 @@ export const HubPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    className="group resend-list-row py-5 px-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-[6px] transition-colors"
+                    onClick={() => {
+                      if (!isEmBreve) handleItemClick(item)
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if ((e.key === 'Enter' || e.key === ' ') && !isEmBreve) {
+                        e.preventDefault()
+                        handleItemClick(item)
+                      }
+                    }}
+                    className={`group relative flex flex-col justify-between p-5 sm:p-6 rounded-[10px] border border-slate-300/80 dark:border-white/[0.1] bg-white dark:bg-white/[0.02] transition-colors ${
+                      isEmBreve
+                        ? 'opacity-90'
+                        : 'hover:border-[#ea580c]/40 dark:hover:border-[#FB923C]/30 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#ea580c]'
+                    }`}
                   >
-                    <div className="flex items-start gap-4 min-w-0 flex-1">
-                      <span className="text-[11px] font-mono text-[#ea580c] dark:text-[#FB923C] pt-1 w-6 shrink-0">
-                        0{idx + 1}
-                      </span>
+                    <div className="space-y-4">
+                      {/* Cabeçalho do Card */}
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-[11px] font-mono text-[#ea580c] dark:text-[#FB923C]">
+                            0{idx + 1}
+                          </span>
+                          <div className="w-8 h-8 rounded-[6px] border border-orange-200/60 dark:border-orange-500/20 bg-orange-500/5 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
+                            <IconComponent className="w-4 h-4" />
+                          </div>
+                        </div>
 
-                      <div className="w-9 h-9 rounded-[6px] border border-orange-200/60 dark:border-orange-500/20 bg-orange-500/5 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
-                        <IconComponent className="w-4 h-4" />
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-[4px] border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-[#94a3b8] uppercase tracking-wider">
+                          {item.rotulo_badge || 'Em breve'}
+                        </span>
                       </div>
 
-                      <div className="space-y-1 min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white">
-                            {item.titulo}
-                          </h4>
-                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-[4px] border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-[#94a3b8] uppercase tracking-wider">
-                            {item.rotulo_badge || 'Em breve'}
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed max-w-2xl font-normal">
+                      {/* Título e Descrição */}
+                      <div className="space-y-1.5">
+                        <h4 className="font-serif-editorial text-base sm:text-lg font-medium text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors leading-snug">
+                          {item.titulo}
+                        </h4>
+                        <p className="text-xs text-slate-600 dark:text-[#cbd5e1] leading-relaxed font-normal">
                           {item.descricao}
                         </p>
                       </div>
                     </div>
 
-                    <div className="shrink-0 flex items-center justify-end pl-10 md:pl-0">
+                    {/* Rodapé do Card */}
+                    <div className="pt-4 mt-5 border-t border-slate-200/80 dark:border-white/[0.06] flex items-center justify-between text-xs font-mono">
+                      <span className="text-[10px] text-slate-400 dark:text-[#94a3b8] uppercase tracking-wider">
+                        Documentação
+                      </span>
+
                       {isEmBreve ? (
-                        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="flex items-center gap-1.5 text-slate-500 dark:text-[#94a3b8]">
                           <Clock className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
-                          <span>Coordenação Pedagógica</span>
+                          <span>Coordenação</span>
                         </div>
                       ) : (
-                        <button
-                          type="button"
-                          onClick={() => handleItemClick(item)}
-                          className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] hover:underline cursor-pointer"
-                        >
-                          <span>Consultar Material</span>
+                        <div className="inline-flex items-center gap-1.5 font-medium text-[#ea580c] dark:text-[#FB923C] group-hover:translate-x-0.5 transition-transform">
+                          <span>Consultar</span>
                           <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
+                        </div>
                       )}
                     </div>
                   </div>
