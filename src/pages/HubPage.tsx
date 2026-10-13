@@ -396,11 +396,11 @@ export const HubPage: React.FC = () => {
       </header>
 
       {/* Conteúdo Principal do Hub: Layout fluido, espaçoso, padrão Resend (container ~1360px no topo) */}
-      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-16 lg:py-20 space-y-16 sm:space-y-24">
+      <main className="flex-1 max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-10 lg:py-8 space-y-12 sm:space-y-16">
         {/* ================= HERO ELEGANTE PREMIUM (Sem 3D, Timeline Vertical com Entregas Reais) ================= */}
         <section
           aria-label="Apresentação da Academia Entrelaços"
-          className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 lg:py-20 antialiased overflow-x-hidden"
+          className="relative flex items-center justify-center py-4 lg:py-6 antialiased overflow-x-hidden"
         >
           {/* Glow de fundo atmosférico e sutil (#7C3AED / ametista suave com opacidade bem baixa + toque laranja mínimo) */}
           <div
@@ -413,11 +413,11 @@ export const HubPage: React.FC = () => {
           />
 
           <div className="w-full max-w-7xl px-2 sm:px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
               {/* Coluna Esquerda: lg:col-span-5 */}
               <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
                 {/* Badge Pill no topo */}
-                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] backdrop-blur-xs text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-6 sm:mb-8 transition-colors shadow-xs">
+                <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] backdrop-blur-xs text-[11px] font-mono tracking-widest uppercase text-slate-700 dark:text-[#cbd5e1] mb-4 sm:mb-5 transition-colors shadow-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ea580c] dark:bg-[#FB923C] animate-pulse motion-reduce:animate-none" />
                   <span>Academia Entrelaços</span>
                   <span className="text-slate-300 dark:text-white/20">•</span>
@@ -425,7 +425,7 @@ export const HubPage: React.FC = () => {
                 </div>
 
                 {/* Headline: Inter Tight 500 + Instrument Serif italic na palavra-âncora */}
-                <h1 className="font-sans font-medium text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.12] tracking-tight text-slate-900 dark:text-white text-balance">
+                <h1 className="font-sans font-medium text-3xl sm:text-4xl lg:text-[2.65rem] leading-[1.12] tracking-tight text-slate-900 dark:text-white text-balance">
                   Formação e prática{' '}
                   <em className="font-serif-anchor not-italic font-normal text-[#7c3aed] dark:text-[#C084FC]">
                     integrada
@@ -434,7 +434,7 @@ export const HubPage: React.FC = () => {
                 </h1>
 
                 {/* Parágrafo com ênfase em tom mais claro */}
-                <p className="text-base lg:text-lg text-slate-600 dark:text-gray-400 leading-relaxed max-w-lg mt-6 font-normal text-balance">
+                <p className="text-sm lg:text-base text-slate-600 dark:text-gray-400 leading-relaxed max-w-lg mt-3 sm:mt-4 font-normal text-balance">
                   Acesso unificado aos{' '}
                   <strong className="font-medium text-slate-900 dark:text-gray-200">
                     cadernos pedagógicos
@@ -444,11 +444,11 @@ export const HubPage: React.FC = () => {
                 </p>
 
                 {/* Botões: Primário sólido para Guia da Aluna + Secundário fantasma com seta deslizante */}
-                <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 w-full sm:w-auto">
+                <div className="mt-6 sm:mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => navigate('/guia')}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-[#0D0522] dark:hover:bg-slate-100 shadow-sm hover:shadow transition-all cursor-pointer"
                   >
                     <BookOpen className="w-4 h-4" />
                     <span>Acessar o Guia da Aluna</span>
@@ -464,7 +464,7 @@ export const HubPage: React.FC = () => {
                         navigate('/calculadora')
                       }
                     }}
-                    className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer"
+                    className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium border border-slate-300/80 dark:border-white/10 bg-transparent text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/25 transition-all cursor-pointer"
                   >
                     <Calculator className="w-4 h-4 text-[#ea580c] dark:text-[#FB923C]" />
                     <span>Calculadora FAC</span>
@@ -473,7 +473,7 @@ export const HubPage: React.FC = () => {
                 </div>
 
                 {/* Sublegenda de status de aluna */}
-                <div className="mt-5 flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                <div className="mt-4 flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                   {isAlunaValidada ? (
                     <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                       <ShieldCheck className="w-3.5 h-3.5" />
@@ -498,10 +498,10 @@ export const HubPage: React.FC = () => {
                   {/* Trilho vertical de 1px com gradiente elegante */}
                   <div
                     aria-hidden="true"
-                    className="absolute left-0 sm:left-1 top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-slate-300/80 dark:via-white/15 to-transparent"
+                    className="absolute left-0 sm:left-1 top-2.5 bottom-2.5 w-px bg-gradient-to-b from-transparent via-slate-300/80 dark:via-white/15 to-transparent"
                   />
 
-                  <div className="space-y-4 sm:space-y-5">
+                  <div className="space-y-2.5 sm:space-y-3">
                     {/* Card 1 — Pilar 1 · Fundação (Em destaque / Ativo) */}
                     <div
                       onClick={() => navigate('/guia')}
@@ -516,20 +516,20 @@ export const HubPage: React.FC = () => {
                       className="group relative cursor-pointer"
                     >
                       {/* Nó na timeline com data/label em mono à esquerda */}
-                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                      <div className="absolute -left-6 sm:-left-7 top-4 -translate-x-1/2 flex items-center">
                         <span className="w-3 h-3 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed] dark:bg-[#C084FC] shadow-xs" />
                       </div>
 
                       {/* Card com hairline de highlight no topo e borda refinada */}
-                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-5 sm:p-6 transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-sm">
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/90 dark:bg-white/[0.03] p-3.5 sm:p-4 transition-all duration-200 hover:border-[#7c3aed]/50 dark:hover:border-white/20 hover:shadow-sm">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 dark:via-white/20 to-transparent"
                         />
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex items-start sm:items-center gap-3.5">
-                            <div className="w-9 h-9 rounded-lg border border-[#7c3aed]/30 dark:border-[#C084FC]/30 bg-[#7c3aed]/10 dark:bg-[#C084FC]/10 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                              <Layers className="w-4 h-4" />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg border border-[#7c3aed]/30 dark:border-[#C084FC]/30 bg-[#7c3aed]/10 dark:bg-[#C084FC]/10 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                              <Layers className="w-3.5 h-3.5" />
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
@@ -537,14 +537,14 @@ export const HubPage: React.FC = () => {
                                   Método FAC · Eixo 01
                                 </span>
                               </div>
-                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                              <h3 className="font-sans font-medium text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
                                 Pilar 1 · Fundação
                               </h3>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 self-start sm:self-center">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[11px] font-mono uppercase tracking-wider">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono uppercase tracking-wider">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
                               <span>Em destaque</span>
                             </span>
@@ -554,16 +554,16 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                        <p className="mt-2 text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De “atendo todo mundo” para uma prática com nome, direção e preço.
                         </p>
 
-                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
                             Sustentação clínica
                           </span>
-                          <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            Conhecer no Guia <ArrowRight className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            Conhecer no Guia <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </div>
@@ -582,25 +582,25 @@ export const HubPage: React.FC = () => {
                       }}
                       className="group relative cursor-pointer"
                     >
-                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                      <div className="absolute -left-6 sm:-left-7 top-4 -translate-x-1/2 flex items-center">
                         <span className="w-2.5 h-2.5 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#ea580c] dark:bg-[#FB923C]" />
                       </div>
 
-                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-5 sm:p-6 transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-sm">
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/80 dark:bg-white/[0.025] p-3.5 sm:p-4 transition-all duration-200 hover:border-[#ea580c]/50 dark:hover:border-white/20 hover:shadow-sm">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 dark:via-white/10 to-transparent"
                         />
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex items-start sm:items-center gap-3.5">
-                            <div className="w-9 h-9 rounded-lg border border-orange-300/40 dark:border-orange-500/30 bg-orange-500/10 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
-                              <Compass className="w-4 h-4" />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg border border-orange-300/40 dark:border-orange-500/30 bg-orange-500/10 text-[#ea580c] dark:text-[#FB923C] flex items-center justify-center shrink-0">
+                              <Compass className="w-3.5 h-3.5" />
                             </div>
                             <div>
                               <span className="text-[10px] font-mono tracking-wider uppercase text-[#ea580c] dark:text-[#FB923C]">
                                 Método FAC · Eixo 02
                               </span>
-                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors">
+                              <h3 className="font-sans font-medium text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-[#ea580c] dark:group-hover:text-[#FB923C] transition-colors leading-tight">
                                 Pilar 2 · Atração
                               </h3>
                             </div>
@@ -613,16 +613,16 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                        <p className="mt-2 text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De esperar indicação para ser encontrada por quem precisa de você.
                         </p>
 
-                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
                             Posicionamento autoral
                           </span>
-                          <span className="inline-flex items-center gap-1 font-medium text-[#ea580c] dark:text-[#FB923C] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            Ver detalhes <ArrowRight className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-[#ea580c] dark:text-[#FB923C] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            Ver detalhes <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </div>
@@ -641,25 +641,25 @@ export const HubPage: React.FC = () => {
                       }}
                       className="group relative cursor-pointer"
                     >
-                      <div className="absolute -left-6 sm:-left-7 top-6 -translate-x-1/2 flex items-center">
+                      <div className="absolute -left-6 sm:-left-7 top-4 -translate-x-1/2 flex items-center">
                         <span className="w-2 h-2 rounded-full border-2 border-white dark:border-[#0D0522] bg-[#7c3aed]/80 dark:bg-[#C084FC]/80" />
                       </div>
 
-                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-5 sm:p-6 transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-sm">
+                      <div className="relative rounded-xl border border-slate-300/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] p-3.5 sm:p-4 transition-all duration-200 hover:border-[#7c3aed]/40 dark:hover:border-white/15 hover:shadow-sm">
                         <div
                           aria-hidden="true"
                           className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 dark:via-white/10 to-transparent"
                         />
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex items-start sm:items-center gap-3.5">
-                            <div className="w-9 h-9 rounded-lg border border-purple-200/50 dark:border-purple-500/20 bg-purple-500/5 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
-                              <HeartHandshake className="w-4 h-4" />
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg border border-purple-200/50 dark:border-purple-500/20 bg-purple-500/5 text-[#7c3aed] dark:text-[#C084FC] flex items-center justify-center shrink-0">
+                              <HeartHandshake className="w-3.5 h-3.5" />
                             </div>
                             <div>
                               <span className="text-[10px] font-mono tracking-wider uppercase text-[#7c3aed] dark:text-[#C084FC]">
                                 Método FAC · Eixo 03
                               </span>
-                              <h3 className="font-sans font-medium text-base sm:text-lg text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
+                              <h3 className="font-sans font-medium text-sm sm:text-base text-slate-900 dark:text-white group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors leading-tight">
                                 Pilar 3 · Conexão
                               </h3>
                             </div>
@@ -672,16 +672,16 @@ export const HubPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-normal">
+                        <p className="mt-2 text-xs sm:text-[13px] text-slate-600 dark:text-gray-400 leading-snug font-normal">
                           De contatos que somem para pacientes que ficam.
                         </p>
 
-                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
+                        <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-[#94a3b8]">
                           <span className="text-[10px] uppercase tracking-wider">
                             Permanência clínica
                           </span>
-                          <span className="inline-flex items-center gap-1 font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
-                            Ver detalhes <ArrowRight className="w-3.5 h-3.5" />
+                          <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-[#7c3aed] dark:text-[#C084FC] group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none">
+                            Ver detalhes <ArrowRight className="w-3 h-3" />
                           </span>
                         </div>
                       </div>
