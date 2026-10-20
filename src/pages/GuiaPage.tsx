@@ -44,6 +44,7 @@ import { ENCONTRO_1_CONTENT } from '@/config/guiaContent'
 import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
 import { Encontro1CadernoCompleto } from '@/components/guia/Encontro1CadernoCompleto'
 import { Encontro2Caderno } from '@/components/guia/Encontro2Caderno'
+import { Encontro3Caderno } from '@/components/guia/Encontro3Caderno'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import {
   AlunaGuiaService,
@@ -581,7 +582,9 @@ export const GuiaPage: React.FC = () => {
                   ? ': Aula Magna'
                   : encontroSelecionado === 2
                     ? ': Do sentido ao mercado'
-                    : ''}{' '}
+                    : encontroSelecionado === 3
+                      ? ': Sustentabilidade Financeira'
+                      : ''}{' '}
               </span>
             </div>
           </div>
@@ -743,6 +746,15 @@ export const GuiaPage: React.FC = () => {
                   /* Encontro 2 Liberado com o Caderno Completo de 10 Estações */
                   <div id="caderno-encontro-2" className="w-full scroll-mt-20">
                     <Encontro2Caderno
+                      isAlunaValidada={isAlunaValidada}
+                      onValidarEmail={() => setValidarModalOpen(true)}
+                      alunaToken={alunaSession?.token}
+                    />
+                  </div>
+                ) : encontroSelecionado === 3 && isAlunaValidada ? (
+                  /* Encontro 3 Liberado com o Caderno de Sustentabilidade Financeira */
+                  <div id="caderno-encontro-3" className="w-full scroll-mt-20">
+                    <Encontro3Caderno
                       isAlunaValidada={isAlunaValidada}
                       onValidarEmail={() => setValidarModalOpen(true)}
                       alunaToken={alunaSession?.token}
