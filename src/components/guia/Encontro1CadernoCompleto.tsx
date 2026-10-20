@@ -51,9 +51,7 @@ export const Encontro1CadernoCompleto: React.FC<Encontro1CadernoCompletoProps> =
               AULA ABERTA · ACESSO LIVRE
             </Badge>
             <span className="text-editorial-tertiary">•</span>
-            <span className="text-editorial-secondary font-semibold">
-              FUNDAÇÃO · ENCONTRO 01 · 06 de out
-            </span>
+            <span className="text-editorial-secondary font-semibold">FUNDAÇÃO · ENCONTRO 01</span>
           </div>
 
           <Badge

@@ -260,7 +260,6 @@ export const GuiaPage: React.FC = () => {
                 </span>
                 <div className="truncate">
                   <p className="truncate font-medium">Aula Magna Aberta</p>
-                  <p className="text-[10px] font-mono text-editorial-secondary">06/10/2026</p>
                 </div>
               </div>
               <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 text-[9px] font-mono shrink-0">
@@ -295,9 +294,6 @@ export const GuiaPage: React.FC = () => {
                       </span>
                       <div className="truncate">
                         <p className="truncate font-medium">{enc.titulo}</p>
-                        <p className="text-[10px] font-mono text-editorial-secondary">
-                          {enc.data_prevista || 'Em breve'}
-                        </p>
                       </div>
                     </div>
 
@@ -474,7 +470,7 @@ export const GuiaPage: React.FC = () => {
             <Sparkles className="w-3.5 h-3.5 text-[#ea580c] dark:text-[#FB923C]" />
             <span>AULA MAGNA ABERTA</span>
             <span className="text-editorial-tertiary">•</span>
-            <span className="text-editorial-secondary">ENCONTRO 1 · 06/10/2026</span>
+            <span className="text-editorial-secondary">ENCONTRO 1</span>
           </div>
 
           <h1 className="h-display font-medium tracking-tight text-editorial-primary leading-[1.05]">
@@ -728,8 +724,7 @@ export const GuiaPage: React.FC = () => {
                     </h3>
                     <p className="text-xs sm:text-sm text-editorial-secondary max-w-md mx-auto leading-relaxed">
                       O caderno e as atividades deste encontro serão liberados pela coordenação
-                      pedagógica antes da data da aula ao vivo (
-                      {encontroDetalhe.data_prevista || 'Em breve'}).
+                      pedagógica antes da aula ao vivo.
                     </p>
                     <div className="pt-2">
                       <Button
@@ -771,9 +766,6 @@ export const GuiaPage: React.FC = () => {
                         <h2 className="h-section font-medium text-editorial-primary">
                           {encontroDetalhe.titulo}
                         </h2>
-                        <p className="text-xs font-mono text-editorial-secondary mt-1">
-                          Data prevista: {encontroDetalhe.data_prevista}
-                        </p>
                       </div>
 
                       <Badge className="bg-purple-500/15 text-[#7c3aed] dark:text-[#C084FC] border-[#7c3aed]/30 text-xs font-mono px-3 py-1 self-start sm:self-auto">

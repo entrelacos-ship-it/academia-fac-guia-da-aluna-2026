@@ -575,7 +575,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
             </Badge>
             <span className="text-editorial-tertiary">•</span>
             <span className="text-editorial-secondary font-semibold">
-              {ENCONTRO_3_CONTENT.data} · {ENCONTRO_3_CONTENT.condutora}
+              {ENCONTRO_3_CONTENT.condutora}
             </span>
           </div>
 

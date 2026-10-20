@@ -678,9 +678,7 @@ export const Encontro2Caderno: React.FC<Encontro2CadernoProps> = ({
               Academia Método FAC · Fundação · Encontro 2
             </Badge>
             <span className="text-editorial-tertiary">•</span>
-            <span className="text-editorial-secondary font-semibold">
-              Terça, 13/10/2026, às 19h (ao vivo)
-            </span>
+            <span className="text-editorial-secondary font-semibold">Ao vivo</span>
           </div>
 
           <Badge
