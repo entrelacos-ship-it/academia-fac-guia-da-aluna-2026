@@ -114,40 +114,6 @@ export const ENCONTRO_3_CONTENT = {
     licaoEncontro2:
       'nenhum download e nenhum arquivo zip. A prática usa só a Calculadora do Guia da Aluna (abre no navegador) e um prompt para copiar e colar no ChatGPT. Duas atividades, não três.',
   },
-  roteiro: [
-    {
-      horario: '19h00',
-      bloco: 'Abertura (5 min)',
-      acontece: 'Boas-vindas, retomada rápida das entregas do Encontro 2',
-    },
-    {
-      horario: '19h05',
-      bloco: 'Teoria (25 min)',
-      acontece: 'Os 7 princípios em slides, com o exemplo calculado',
-    },
-    {
-      horario: '19h30',
-      bloco: 'Atividade 1 (25 min)',
-      acontece: 'Calculadora no Guia da Aluna, cada aluna com os próprios números',
-    },
-    {
-      horario: '19h55',
-      bloco: 'Laboratório (15 min)',
-      acontece: 'Leitura ao vivo do resultado de cada aluna',
-    },
-    {
-      horario: '20h10',
-      bloco: 'Atividade 2 (15 min)',
-      acontece: 'Cartão "Minha Regra de Preço" + teste no ChatGPT',
-    },
-    {
-      horario: '20h25',
-      bloco: 'Combinado da semana (5 min)',
-      acontece: 'Entrega, próximo encontro, fechamento',
-    },
-  ],
-  roteiroNota:
-    'Se a turma andar mais devagar, a Atividade 2 vira tarefa da semana. O piso calculado é o que não pode sair do encontro sem estar pronto.',
   slides: [
     {
       numero: 1,
@@ -317,18 +283,6 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
       'Confirmar com o contador o percentual de tributos usado na conta',
     ],
     fraseFechamento: 'a partir de hoje, vocês não decidem preço pelo medo. Decidem pela conta.',
-  },
-  planoB: {
-    titulo: 'Plano B se a tecnologia travar:',
-    instrucao:
-      'Se a Calculadora não abrir para alguma aluna, não perca tempo tentando resolver ao vivo. Ela faz a conta no papel com a calculadora do celular, seguindo o Slide 6, nesta ordem:',
-    passos: [
-      'Some custos pessoais + custos profissionais + retirada.',
-      'Divida pelo que sobra depois de reserva e tributos (com 16%, divida por 0,84).',
-      'Multiplique sessões por semana × semanas no mês × 0,9 (descontando 10% de faltas).',
-      'Divida o resultado do passo 2 pelo resultado do passo 3. Esse é o piso.',
-    ],
-    limite: 'Limite de 5 minutos para qualquer problema técnico. Passou disso, plano B.',
   },
 }
 

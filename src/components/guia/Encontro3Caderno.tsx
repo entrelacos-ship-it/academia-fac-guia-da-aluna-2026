@@ -8,7 +8,6 @@ import {
   ShieldCheck,
   ChevronDown,
   ChevronUp,
-  AlertTriangle,
   Maximize2,
   Minimize2,
   Check,
@@ -18,7 +17,6 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
-  Clock,
   Compass,
   CheckSquare,
   HelpCircle,
@@ -76,22 +74,21 @@ const STORAGE_KEY_PROMPT_E3 = 'entrelacos_fac_encontro_3_prompt_v1'
 
 export const SECOES_ENCONTRO_3 = [
   { id: 'secao-visao-geral', numero: '1', label: 'Visão geral', short: 'Visão geral' },
-  { id: 'secao-roteiro', numero: '2', label: 'Roteiro de 90 min', short: 'Roteiro' },
-  { id: 'secao-teoria', numero: '3', label: 'Os 7 Princípios em Slides', short: 'Teoria' },
-  { id: 'secao-atividade-1', numero: '4', label: 'Atividade 1: Meu piso', short: 'Atividade 1' },
+  { id: 'secao-teoria', numero: '2', label: 'Os 7 Princípios em Slides', short: 'Teoria' },
+  { id: 'secao-atividade-1', numero: '3', label: 'Atividade 1: Meu piso', short: 'Atividade 1' },
   {
     id: 'secao-laboratorio',
-    numero: '5',
+    numero: '4',
     label: 'Laboratório: Leitura ao vivo',
     short: 'Laboratório',
   },
   {
     id: 'secao-atividade-2',
-    numero: '6',
+    numero: '5',
     label: 'Atividade 2: Cartão de Preço',
     short: 'Atividade 2',
   },
-  { id: 'secao-combinado', numero: '7', label: 'Combinado & Plano B', short: 'Combinado' },
+  { id: 'secao-combinado', numero: '6', label: 'Combinado da semana', short: 'Combinado' },
 ]
 
 interface Encontro3CadernoProps {
@@ -113,7 +110,6 @@ export const Encontro3Caderno: React.FC<Encontro3CadernoProps> = ({
   // Seções abertas/recolhidas
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     'secao-visao-geral': true,
-    'secao-roteiro': true,
     'secao-teoria': true,
     'secao-atividade-1': true,
     'secao-laboratorio': true,
@@ -710,89 +706,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         )}
       </section>
 
-      {/* SEÇÃO 2 · ROTEIRO DE 90 MINUTOS */}
-      <section
-        id="secao-roteiro"
-        className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
-      >
-        <button
-          type="button"
-          onClick={() => toggleSection('secao-roteiro')}
-          aria-expanded={openSections['secao-roteiro']}
-          aria-controls="conteudo-secao-roteiro"
-          className="w-full text-left border-b border-slate-200/80 dark:border-[#27272A] pb-4 min-h-[44px] flex items-center justify-between gap-4 cursor-pointer group focus:outline-hidden focus:ring-2 focus:ring-[#7c3aed] rounded-[8px]"
-        >
-          <div>
-            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 2
-            </span>
-            <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-              Roteiro de{' '}
-              <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                90 minutos
-              </em>
-            </h2>
-          </div>
-          <div className="flex items-center gap-2 text-xs font-mono text-editorial-secondary shrink-0">
-            <span className="hidden sm:inline">
-              {openSections['secao-roteiro'] ? 'Recolher seção' : 'Expandir seção'}
-            </span>
-            <span className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#18181B] group-hover:bg-purple-100 dark:group-hover:bg-purple-950/60 flex items-center justify-center transition-colors">
-              {openSections['secao-roteiro'] ? (
-                <ChevronUp className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-[#7c3aed] dark:text-[#C084FC]" />
-              )}
-            </span>
-          </div>
-        </button>
-
-        {openSections['secao-roteiro'] && (
-          <div id="conteudo-secao-roteiro" className="space-y-6">
-            <div className="overflow-x-auto rounded-[14px] border border-slate-200/80 dark:border-[#27272A]">
-              <table className="w-full text-left border-collapse font-sans text-xs sm:text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200/80 dark:border-[#27272A] bg-slate-50 dark:bg-[#18181B] font-mono text-[11px] font-semibold text-editorial-secondary uppercase tracking-wider">
-                    <th className="py-3 px-4 w-28">Horário</th>
-                    <th className="py-3 px-4 w-44">Bloco</th>
-                    <th className="py-3 px-4">O que acontece</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200/70 dark:divide-[#27272A]">
-                  {ENCONTRO_3_CONTENT.roteiro.map((linha, idx) => (
-                    <tr
-                      key={idx}
-                      className="hover:bg-slate-50/70 dark:hover:bg-white/[0.02] transition-colors"
-                    >
-                      <td className="py-3.5 px-4 font-mono font-medium text-[#7c3aed] dark:text-[#C084FC] whitespace-nowrap">
-                        {linha.horario}
-                      </td>
-                      <td className="py-3.5 px-4 font-semibold text-editorial-primary whitespace-nowrap">
-                        {linha.bloco}
-                      </td>
-                      <td className="py-3.5 px-4 text-editorial-secondary font-light leading-relaxed">
-                        {linha.acontece}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="p-4 sm:p-5 rounded-[12px] bg-amber-50/80 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40 text-xs sm:text-sm text-amber-950 dark:text-amber-200 flex items-start gap-3">
-              <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-              <p className="font-light leading-relaxed">
-                <strong className="font-semibold font-sans text-amber-900 dark:text-amber-100">
-                  Nota pedagógica:{' '}
-                </strong>
-                {ENCONTRO_3_CONTENT.roteiroNota}
-              </p>
-            </div>
-          </div>
-        )}
-      </section>
-
-      {/* SEÇÃO 3 · OS 7 PRINCÍPIOS EM SLIDES (11 SLIDES) */}
+      {/* SEÇÃO 2 · OS 7 PRINCÍPIOS EM SLIDES (11 SLIDES) */}
       <section
         id="secao-teoria"
         className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
@@ -806,7 +720,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         >
           <div>
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 3 · TEORIA (25 MIN)
+              SEÇÃO 2 · TEORIA (25 MIN)
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
               Os 7 Princípios em{' '}
@@ -1025,7 +939,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         )}
       </section>
 
-      {/* SEÇÃO 4 · ATIVIDADE 1: MEU PISO POR SESSÃO */}
+      {/* SEÇÃO 3 · ATIVIDADE 1: MEU PISO POR SESSÃO */}
       <section
         id="secao-atividade-1"
         className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
@@ -1039,7 +953,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         >
           <div>
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 4 · PRÁTICA (25 MIN)
+              SEÇÃO 3 · PRÁTICA (25 MIN)
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
               Atividade 1 · Meu piso por{' '}
@@ -1127,7 +1041,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         )}
       </section>
 
-      {/* SEÇÃO 5 · LABORATÓRIO: LEITURA AO VIVO DO RESULTADO */}
+      {/* SEÇÃO 4 · LABORATÓRIO: LEITURA AO VIVO DO RESULTADO */}
       <section
         id="secao-laboratorio"
         className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
@@ -1141,7 +1055,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         >
           <div>
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 5 · LABORATÓRIO (15 MIN)
+              SEÇÃO 4 · LABORATÓRIO (15 MIN)
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
               Leitura ao vivo do{' '}
@@ -1198,7 +1112,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         )}
       </section>
 
-      {/* SEÇÃO 6 · ATIVIDADE 2: CARTÃO MINHA REGRA DE PREÇO + TESTE NO CHATGPT */}
+      {/* SEÇÃO 5 · ATIVIDADE 2: CARTÃO MINHA REGRA DE PREÇO + TESTE NO CHATGPT */}
       <section
         id="secao-atividade-2"
         className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
@@ -1212,7 +1126,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         >
           <div>
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 6 · ENTREGÁVEL (15 MIN)
+              SEÇÃO 5 · ENTREGÁVEL (15 MIN)
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
               Atividade 2 · Cartão &ldquo;Minha Regra de{' '}
@@ -1501,7 +1415,7 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         )}
       </section>
 
-      {/* SEÇÃO 7 · COMBINADO, PLANO B E FECHAMENTO */}
+      {/* SEÇÃO 6 · COMBINADO DA SEMANA E FECHAMENTO */}
       <section
         id="secao-combinado"
         className="rounded-[20px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-7 sm:p-10 lg:p-12 space-y-7 shadow-xs scroll-mt-28 transition-all"
@@ -1515,12 +1429,12 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
         >
           <div>
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed] dark:text-[#C084FC] block">
-              SEÇÃO 7 · FECHAMENTO
+              SEÇÃO 6 · FECHAMENTO
             </span>
             <h2 className="h-section font-medium text-editorial-primary mt-1 group-hover:text-[#7c3aed] dark:group-hover:text-[#C084FC] transition-colors">
-              Combinado da semana &{' '}
+              Combinado da{' '}
               <em className="font-serif-anchor not-italic text-[#7c3aed] dark:text-[#C084FC]">
-                Plano B
+                semana
               </em>
             </h2>
           </div>
@@ -1622,39 +1536,6 @@ Não me dê fórmulas genéricas. Responda considerando a realidade da psicologi
                 <p className="font-serif-editorial text-base sm:text-lg text-editorial-primary italic font-normal">
                   &ldquo;{ENCONTRO_3_CONTENT.combinado.fraseFechamento}&rdquo;
                 </p>
-              </div>
-            </div>
-
-            {/* Box do Plano B se a tecnologia travar */}
-            <div className="p-6 sm:p-7 rounded-[16px] border border-slate-200/80 dark:border-[#27272A] bg-slate-50/70 dark:bg-[#0c0914] space-y-4">
-              <div className="space-y-1">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#ea580c] dark:text-[#FB923C] block">
-                  {ENCONTRO_3_CONTENT.planoB.titulo}
-                </span>
-                <p className="text-xs sm:text-sm text-editorial-secondary font-light leading-relaxed">
-                  {ENCONTRO_3_CONTENT.planoB.instrucao}
-                </p>
-              </div>
-
-              <div className="space-y-2.5">
-                {ENCONTRO_3_CONTENT.planoB.passos.map((passo, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-[10px] bg-white dark:bg-[#18181B] border border-slate-200 dark:border-[#27272A] flex items-start gap-3"
-                  >
-                    <span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-[#27272A] text-slate-700 dark:text-[#A1A1AA] font-mono text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    <p className="text-xs sm:text-sm text-editorial-primary font-mono leading-relaxed">
-                      {passo}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="p-3.5 rounded-[10px] bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/30 text-xs text-amber-900 dark:text-amber-200 flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                <span className="font-medium">{ENCONTRO_3_CONTENT.planoB.limite}</span>
               </div>
             </div>
           </div>

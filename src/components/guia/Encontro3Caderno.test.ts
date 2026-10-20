@@ -11,15 +11,14 @@ describe('Encontro 3: Princípios da Sustentabilidade Financeira da Clínica', (
     localStorage.clear()
   })
 
-  it('possui 7 seções estruturadas no caderno do Encontro 3', () => {
-    expect(SECOES_ENCONTRO_3).toHaveLength(7)
+  it('possui 6 seções estruturadas no caderno do Encontro 3 (sem roteiro e sem plano B)', () => {
+    expect(SECOES_ENCONTRO_3).toHaveLength(6)
     expect(SECOES_ENCONTRO_3[0].label).toBe('Visão geral')
-    expect(SECOES_ENCONTRO_3[1].label).toBe('Roteiro de 90 min')
-    expect(SECOES_ENCONTRO_3[2].label).toBe('Os 7 Princípios em Slides')
-    expect(SECOES_ENCONTRO_3[3].label).toBe('Atividade 1: Meu piso')
-    expect(SECOES_ENCONTRO_3[4].label).toBe('Laboratório: Leitura ao vivo')
-    expect(SECOES_ENCONTRO_3[5].label).toBe('Atividade 2: Cartão de Preço')
-    expect(SECOES_ENCONTRO_3[6].label).toBe('Combinado & Plano B')
+    expect(SECOES_ENCONTRO_3[1].label).toBe('Os 7 Princípios em Slides')
+    expect(SECOES_ENCONTRO_3[2].label).toBe('Atividade 1: Meu piso')
+    expect(SECOES_ENCONTRO_3[3].label).toBe('Laboratório: Leitura ao vivo')
+    expect(SECOES_ENCONTRO_3[4].label).toBe('Atividade 2: Cartão de Preço')
+    expect(SECOES_ENCONTRO_3[5].label).toBe('Combinado da semana')
   })
 
   it('estado inicial do cartão de preço e checklist está limpo', () => {
@@ -42,14 +41,10 @@ describe('Encontro 3: Princípios da Sustentabilidade Financeira da Clínica', (
     )
   })
 
-  it('roteiro possui 6 blocos estruturados somando 90 minutos', () => {
-    expect(ENCONTRO_3_CONTENT.roteiro).toHaveLength(6)
-    expect(ENCONTRO_3_CONTENT.roteiro[0].bloco).toContain('Abertura')
-    expect(ENCONTRO_3_CONTENT.roteiro[1].bloco).toContain('Teoria')
-    expect(ENCONTRO_3_CONTENT.roteiro[2].bloco).toContain('Atividade 1')
-    expect(ENCONTRO_3_CONTENT.roteiro[3].bloco).toContain('Laboratório')
-    expect(ENCONTRO_3_CONTENT.roteiro[4].bloco).toContain('Atividade 2')
-    expect(ENCONTRO_3_CONTENT.roteiro[5].bloco).toContain('Combinado da semana')
+  it('não expõe roteiro e plano B no conteúdo editorial para alunas', () => {
+    expect((ENCONTRO_3_CONTENT as Record<string, unknown>).roteiro).toBeUndefined()
+    expect((ENCONTRO_3_CONTENT as Record<string, unknown>).roteiroNota).toBeUndefined()
+    expect((ENCONTRO_3_CONTENT as Record<string, unknown>).planoB).toBeUndefined()
   })
 
   it('prompt verbatim para o ChatGPT possui as 4 perguntas éticas e realistas', () => {
@@ -69,8 +64,10 @@ describe('Encontro 3: Princípios da Sustentabilidade Financeira da Clínica', (
     )
   })
 
-  it('plano B para tecnologia conta com os 4 passos de cálculo no papel', () => {
-    expect(ENCONTRO_3_CONTENT.planoB.passos).toHaveLength(4)
-    expect(ENCONTRO_3_CONTENT.planoB.limite).toContain('5 minutos')
+  it('combinado da semana mantém o checklist de 3 itens e a frase de fechamento', () => {
+    expect(ENCONTRO_3_CONTENT.combinado.checklist).toHaveLength(3)
+    expect(ENCONTRO_3_CONTENT.combinado.fraseFechamento).toBe(
+      'a partir de hoje, vocês não decidem preço pelo medo. Decidem pela conta.',
+    )
   })
 })
