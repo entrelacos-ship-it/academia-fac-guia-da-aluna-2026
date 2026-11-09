@@ -45,6 +45,7 @@ import { DiagnosticoFACSection } from '@/components/guia/DiagnosticoFACSection'
 import { Encontro1CadernoCompleto } from '@/components/guia/Encontro1CadernoCompleto'
 import { Encontro2Caderno } from '@/components/guia/Encontro2Caderno'
 import { Encontro3Caderno } from '@/components/guia/Encontro3Caderno'
+import { Encontro4Caderno } from '@/components/guia/Encontro4Caderno'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import {
   AlunaGuiaService,
@@ -754,6 +755,11 @@ export const GuiaPage: React.FC = () => {
                       onValidarEmail={() => setValidarModalOpen(true)}
                       alunaToken={alunaSession?.token}
                     />
+                  </div>
+                ) : encontroSelecionado === 4 && isAlunaValidada ? (
+                  /* Encontro 4 Liberado com o Caderno de Canais */
+                  <div id="caderno-encontro-4" className="w-full scroll-mt-20">
+                    <Encontro4Caderno />
                   </div>
                 ) : encontroDetalhe ? (
                   /* Demais Encontros Pagos Liberados via BD */

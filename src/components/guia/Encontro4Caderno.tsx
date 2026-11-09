@@ -13,18 +13,18 @@ import {
   type ChecklistValues,
 } from './encontro4Shared'
 import {
-  I00CelularManifesto,
-  I01TresAssistentes,
-  I02FacebookPagina,
-  I03CriarPaginaPC,
-  I04BotaoWhatsappPagina,
-  I05ConversaChegando,
-  I06MenuContaProfissional,
-  I07MudarParaProfissional,
-  I08AnatomiaPerfil,
-  I09FotoENome,
-  I10Bio,
-  I11LinkWhatsapp,
+  IlustracaoCelularManifesto,
+  IlustracaoTresAssistentes,
+  IlustracaoFacebookPagina,
+  IlustracaoCriarPaginaPC,
+  IlustracaoBotaoWhatsappPagina,
+  IlustracaoConversaChegando,
+  IlustracaoMenuContaProfissional,
+  IlustracaoMudarParaProfissional,
+  IlustracaoAnatomiaPerfil,
+  IlustracaoFotoENome,
+  IlustracaoBio,
+  IlustracaoLinkWhatsapp,
 } from './encontro4IlustracoesA'
 import {
   IlustracaoDestaques,
@@ -56,17 +56,28 @@ export interface EtapaDef {
   id: string
   numero: string
   titulo: string
+  tempo?: string
 }
 
 export const ETAPAS_ENCONTRO_4: EtapaDef[] = [
-  { id: 'etapa-0', numero: '0', titulo: 'Antes de começar' },
-  { id: 'etapa-1', numero: '1', titulo: 'A IA trabalha para você' },
-  { id: 'etapa-2', numero: '2', titulo: 'Facebook' },
-  { id: 'etapa-3', numero: '3', titulo: 'Instagram' },
-  { id: 'etapa-4', numero: '4', titulo: 'Conectar Instagram e Facebook' },
-  { id: 'etapa-5', numero: '5', titulo: 'WhatsApp Business' },
-  { id: 'etapa-6', numero: '6', titulo: 'Todos os prompts' },
-  { id: 'etapa-7', numero: '7', titulo: 'Checklist final e teste dos 5 segundos' },
+  { id: 'etapa-0', numero: '0', titulo: 'Antes de começar', tempo: '3 min' },
+  { id: 'etapa-1', numero: '1', titulo: 'A IA trabalha para você', tempo: '15 min' },
+  {
+    id: 'etapa-2',
+    numero: '2',
+    titulo: 'Facebook: perfil pessoal e Página profissional',
+    tempo: '15 min',
+  },
+  {
+    id: 'etapa-3',
+    numero: '3',
+    titulo: 'Instagram: conta profissional e vitrine',
+    tempo: '30 min',
+  },
+  { id: 'etapa-4', numero: '4', titulo: 'Conectar Instagram e Facebook', tempo: '5 min' },
+  { id: 'etapa-5', numero: '5', titulo: 'WhatsApp Business', tempo: '25 min' },
+  { id: 'etapa-6', numero: '6', titulo: 'Todos os prompts (consulta)', tempo: '' },
+  { id: 'etapa-7', numero: '7', titulo: 'Checklist final e teste dos 5 segundos', tempo: '5 min' },
 ]
 
 // ─────────────────────────────────────────────────────────────
@@ -302,6 +313,20 @@ export const Encontro4Caderno: React.FC<Encontro4CadernoProps> = ({ className })
 
   return (
     <div className={className}>
+      {/* Topo do Encontro 4 */}
+      <div className="mb-8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#ff9b32] mb-2">
+          ENCONTRO 4 · CANAIS
+        </p>
+        <h2 className="font-serif text-2xl sm:text-3xl text-editorial-primary tracking-tight mb-3">
+          Seus canais prontos para receber pacientes
+        </h2>
+        <p className="text-sm sm:text-base text-editorial-secondary leading-relaxed max-w-2xl">
+          Facebook, Instagram e WhatsApp Business configurados passo a passo, com a IA escrevendo a
+          partir do seu Manifesto.
+        </p>
+      </div>
+
       {/* Barra de progresso geral no topo */}
       <div className="mb-6 space-y-2">
         <div className="flex items-center justify-between gap-3">
@@ -439,6 +464,11 @@ export const Encontro4Caderno: React.FC<Encontro4CadernoProps> = ({ className })
                     >
                       {e.titulo}
                     </span>
+                    {e.tempo && (
+                      <span className="block font-mono text-[9px] text-editorial-secondary mt-0.5">
+                        {e.tempo}
+                      </span>
+                    )}
                     {checklistId && totalEtapa > 0 && (
                       <span className="block font-mono text-[9px] text-editorial-secondary mt-0.5">
                         {feitos}/{totalEtapa} marcados
@@ -464,7 +494,7 @@ const Etapa0: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 }) => (
   <>
     <div className="flex justify-center mb-6">
-      <I00CelularManifesto />
+      <IlustracaoCelularManifesto />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
@@ -511,7 +541,7 @@ const PASSOS_IA = [
 const Etapa1: React.FC = () => (
   <>
     <div className="flex justify-center mb-6">
-      <I01TresAssistentes />
+      <IlustracaoTresAssistentes />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
@@ -583,7 +613,7 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 }) => (
   <>
     <div className="flex justify-center mb-6">
-      <I02FacebookPagina />
+      <IlustracaoFacebookPagina />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
@@ -656,7 +686,7 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           Caminho B · pelo computador
         </p>
         <div className="flex justify-center py-2">
-          <I03CriarPaginaPC />
+          <IlustracaoCriarPaginaPC />
         </div>
         <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
           Abra o endereço abaixo, toque em <strong>Criar</strong> e preencha: nome{' '}
@@ -674,7 +704,7 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         2.3 · O botão de WhatsApp na Página
       </h4>
       <div className="flex justify-center py-2">
-        <I04BotaoWhatsappPagina />
+        <IlustracaoBotaoWhatsappPagina />
       </div>
       <StepCard numero={1}>
         <p>
@@ -693,7 +723,7 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         </p>
       </StepCard>
       <div className="flex justify-center py-2">
-        <I05ConversaChegando />
+        <IlustracaoConversaChegando />
       </div>
       <Callout tipo="etica">
         Sua Página é um espaço profissional. Sem promessa de resultado, sem preço público e sem
@@ -759,7 +789,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.2 · Conta profissional</h4>
       <div className="flex justify-center py-2">
-        <I06MenuContaProfissional />
+        <IlustracaoMenuContaProfissional />
       </div>
       <StepCard numero={1}>
         <p>No seu perfil, toque no menu ☰ no canto superior.</p>
@@ -778,7 +808,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         <MenuPath passos={['☰', 'Tipo de conta e ferramentas', 'Mudar para conta profissional']} />
       </div>
       <div className="flex justify-center py-2">
-        <I07MudarParaProfissional />
+        <IlustracaoMudarParaProfissional />
       </div>
       <StepCard numero={4}>
         <p>
@@ -866,7 +896,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.3 · A anatomia do seu perfil</h4>
       <div className="flex justify-center py-2">
-        <I08AnatomiaPerfil />
+        <IlustracaoAnatomiaPerfil />
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
@@ -899,7 +929,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.4 · Sua foto e o campo Nome</h4>
       <div className="flex justify-center py-2">
-        <I09FotoENome />
+        <IlustracaoFotoENome />
       </div>
       <StepCard numero={1}>
         <p>
@@ -924,7 +954,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.5 · A bio</h4>
       <div className="flex justify-center py-2">
-        <I10Bio />
+        <IlustracaoBio />
       </div>
       <p className="text-sm text-editorial-primary leading-relaxed">
         Aqui entra o trabalho da IA. Com o prompt da <strong>Bio do Manifesto</strong> (Etapa 6), o
@@ -954,7 +984,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.6 · O link para o WhatsApp</h4>
       <div className="flex justify-center py-2">
-        <I11LinkWhatsapp />
+        <IlustracaoLinkWhatsapp />
       </div>
       <StepCard numero={1}>
         <p>
