@@ -94,30 +94,23 @@ export const CHECKLIST_ETAPA_0 = [
 ]
 
 export const CHECKLIST_ETAPA_2 = [
-  {
-    id: 'e2-1',
-    texto: 'Meu perfil pessoal está criado e com a autenticação de dois fatores ligada',
-  },
-  {
-    id: 'e2-2',
-    texto:
-      'Minha Página profissional está criada com o nome Marina Alves | Psicóloga Online (no meu caso, meu nome)',
-  },
-  { id: 'e2-3', texto: 'O botão de WhatsApp está funcionando na minha Página' },
-  { id: 'e2-4', texto: 'Minha Página tem foto de perfil e capa' },
-  { id: 'e2-5', texto: 'A Etapa 2 está pronta para o Encontro 5' },
+  { id: 'e2-1', texto: 'Perfil pessoal com autenticação de dois fatores' },
+  { id: 'e2-2', texto: 'Página criada com nome, categoria e bio' },
+  { id: 'e2-3', texto: 'Foto de perfil e capa' },
+  { id: 'e2-4', texto: 'Contato preenchido' },
+  { id: 'e2-5', texto: 'Botão de WhatsApp ativo' },
 ]
 
 export const CHECKLIST_ETAPA_3 = [
-  { id: 'e3-1', texto: 'Minha conta do Instagram está criada e com foto' },
-  { id: 'e3-2', texto: 'Minha conta virou conta profissional' },
-  { id: 'e3-3', texto: 'Meu campo Nome está completo (nome + o que eu faço)' },
-  { id: 'e3-4', texto: 'Minha bio está escrita e salva' },
-  { id: 'e3-5', texto: 'O link do WhatsApp está no perfil e abre a conversa' },
-  { id: 'e3-6', texto: 'Meus seis destaques estão criados' },
-  { id: 'e3-7', texto: 'Meus três posts fixados estão publicados e fixados' },
-  { id: 'e3-8', texto: 'Minha grade está organizada' },
-  { id: 'e3-9', texto: 'A autenticação de dois fatores está ligada' },
+  { id: 'e3-1', texto: 'Conta profissional, categoria Psicólogo' },
+  { id: 'e3-2', texto: 'Foto com rosto visível' },
+  { id: 'e3-3', texto: 'Campo Nome com nome e palavra-chave' },
+  { id: 'e3-4', texto: '@ simples de falar' },
+  { id: 'e3-5', texto: 'Bio em três linhas com CRP' },
+  { id: 'e3-6', texto: 'Primeiro link levando ao WhatsApp' },
+  { id: 'e3-7', texto: 'Seis destaques com capas padronizadas' },
+  { id: 'e3-8', texto: 'Três posts fixados' },
+  { id: 'e3-9', texto: 'Autenticação de dois fatores ativa' },
 ]
 
 export const CHECKLIST_ETAPA_4 = [
@@ -169,34 +162,70 @@ const carregarChecklists = (): Record<string, ChecklistValues> => {
 // ─────────────────────────────────────────────────────────────
 // Tabelas de apoio
 // ─────────────────────────────────────────────────────────────
-const TABELA_ANATOMIA: { item: string; oQueEscrever: string }[] = [
-  { item: 'Foto', oQueEscrever: 'Sua foto de rosto, com boa luz e fundo limpo' },
+const TABELA_ANATOMIA: { item: string; funcao: string; estrategia: string }[] = [
   {
-    item: 'Nome',
-    oQueEscrever: 'Marina Alves | Psicóloga Online (no meu caso, meu nome e o que eu faço)',
+    item: '1 Foto',
+    funcao: 'Criar vínculo',
+    estrategia: 'Rosto visível ocupando boa parte do círculo, fundo limpo, luz natural',
   },
-  { item: '@ (usuário)', oQueEscrever: '@marinaalves.psi (no meu caso, meu usuário)' },
-  { item: 'Bio', oQueEscrever: 'Três linhas: quem você atende, como você ajuda, como agendar' },
-  { item: 'Link', oQueEscrever: 'O link curto do WhatsApp, com o rótulo Agende sua sessão' },
-  { item: 'Destaques', oQueEscrever: 'Seis pastas fixas abaixo da bio' },
-  { item: 'Posts fixados', oQueEscrever: 'Três publicações que apresentam seu trabalho' },
-  { item: 'Grade', oQueEscrever: 'Suas publicações organizadas em colunas' },
-  { item: 'Seguidores e seguindo', oQueEscrever: 'Números que crescem com o tempo, sem pressa' },
+  {
+    item: '2 @usuário',
+    funcao: 'Ser lembrada e indicada',
+    estrategia: 'Fácil de falar em voz alta, sem números aleatórios nem pontos demais',
+  },
+  {
+    item: '3 Campo Nome',
+    funcao: 'Ser encontrada na busca',
+    estrategia: 'Nome e o que você faz: Marina Alves | Psicóloga Online',
+  },
+  {
+    item: '4 Categoria',
+    funcao: 'Credibilidade imediata',
+    estrategia: 'Psicólogo, exibida no perfil',
+  },
+  {
+    item: '5 Bio',
+    funcao: 'Fazer a pessoa pensar "é comigo"',
+    estrategia: 'Três linhas: para quem e transformação, autoridade, convite',
+  },
+  {
+    item: '6 Links',
+    funcao: 'Levar à conversa',
+    estrategia: 'O primeiro link é o WhatsApp, só ele aparece direto',
+  },
+  {
+    item: '7 Destaques',
+    funcao: 'Responder dúvidas e tirar barreiras',
+    estrategia: 'Seis destaques com capas padronizadas',
+  },
+  {
+    item: '8 Posts fixados',
+    funcao: 'Contar sua história a quem chega',
+    estrategia: 'Três posts na primeira linha',
+  },
+  {
+    item: '9 Grade',
+    funcao: 'Mostrar que o perfil está vivo',
+    estrategia: '3 a 4 pilares de conteúdo, 2 a 3 posts por semana',
+  },
 ]
 
-const TABELA_DESTAQUES: { titulo: string; conteudo: string }[] = [
-  { titulo: 'Sobre mim', conteudo: 'Quem é você, sua abordagem e o que acredita' },
-  { titulo: 'Como funciona', conteudo: 'Como é uma sessão, duração, online ou presencial' },
-  { titulo: 'Agenda', conteudo: 'Como você organiza seus horários e sua disponibilidade' },
-  { titulo: 'Valores', conteudo: 'Como falar de investimento sem preço público' },
-  { titulo: 'Perguntas', conteudo: 'As dúvidas mais comuns respondidas com carinho' },
-  { titulo: 'Agendar', conteudo: 'O passo a passo para começar, com o link do WhatsApp' },
+const TABELA_DESTAQUES: { destaque: string; pergunta: string }[] = [
+  { destaque: 'Comece por aqui', pergunta: 'Isso é para mim?' },
+  { destaque: 'Quem sou', pergunta: 'Quem é essa pessoa?' },
+  { destaque: 'Como funciona', pergunta: 'É online? Quanto tempo dura? Qual a frequência?' },
+  { destaque: 'Dúvidas', pergunta: 'E se eu precisar desmarcar?' },
+  { destaque: 'Bastidores', pergunta: 'Ela estuda, se atualiza? (nunca mostrar pacientes)' },
+  { destaque: 'Agendar', pergunta: 'Como eu marco?' },
 ]
 
-const TABELA_POSTS_FIXADOS: { ordem: string; tema: string }[] = [
-  { ordem: 'Post 1', tema: 'Quem eu sou e como eu trabalho' },
-  { ordem: 'Post 2', tema: 'Como funciona a primeira sessão' },
-  { ordem: 'Post 3', tema: 'Como agendar e o que perguntar antes' },
+const TABELA_POSTS_FIXADOS: { fixado: string; objetivo: string }[] = [
+  { fixado: 'Para quem eu sou', objetivo: 'A pessoa se reconhece na dor e na transformação' },
+  {
+    fixado: 'Como funciona, do contato à primeira sessão',
+    objetivo: 'Tira o medo do desconhecido',
+  },
+  { fixado: 'Quem sou eu', objetivo: 'Formação, caminho e o porquê, com a sua assinatura' },
 ]
 
 const TABELA_ATALHOS: { atalho: string; mensagem: string }[] = [
@@ -617,127 +646,165 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        O Facebook entra nesta aula por um motivo simples: a Página dele é o cartão de visitas
-        profissional que conversa com o Instagram e com o WhatsApp. Antes dela, porém, vem o seu
-        perfil pessoal.
-      </p>
-      <p>
-        Perfil pessoal e Página são coisas diferentes. O perfil é seu, com amigos e álbum de
-        família. A Página é profissional, pública, com nome da sua prática e botão de WhatsApp. Quem
-        chega pela Página vê a profissional, não a pessoa.
+        No Facebook existem duas coisas diferentes. O perfil pessoal é quem administra, e pode
+        continuar privado. A Página é a sua vitrine profissional, é ela que o paciente vê. Você
+        precisa das duas: o perfil para administrar a Página.
       </p>
     </div>
     <div className="mt-4">
       <Callout tipo="dica">
-        Já tem um perfil pessoal no Facebook? Ótimo, use ele. Não precisa criar nada novo nesta
-        parte, só conferir se está tudo em ordem.
+        A Página conectada ao Instagram destrava a Central de Contas, o compartilhamento automático
+        de posts e, mais para frente, o impulsionamento e os anúncios. Mesmo que você quase não use
+        o Facebook, vale ter a Página pronta.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">
-        2.1 · Criar (ou conferir) seu perfil pessoal
+        2.1 · Criar o perfil pessoal (só se ainda não tiver)
       </h4>
       <StepCard numero={1}>
         <p>
-          Abra o site do Facebook. Se você já tem perfil, é só entrar. Se não tem, toque em{' '}
-          <strong>Criar nova conta</strong> e siga com seu nome, e-mail e uma senha que você lembre.
+          Acesse <strong>facebook.com</strong> ou baixe o app do Facebook.
         </p>
         <LinkButton href="https://www.facebook.com">Abrir o Facebook</LinkButton>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Coloque uma foto de rosto e preencha seu nome como ele está nos seus documentos. Uma foto
-          simples, com boa luz, já resolve.
+          Toque em <strong>Criar nova conta</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Ligue a <strong>autenticação de dois fatores</strong>. Ela protege sua conta com um código
-          além da senha.
+          Informe seu nome real, data de nascimento e celular ou e-mail. O Facebook exige nome real
+          no perfil pessoal.
         </p>
       </StepCard>
+      <StepCard numero={4}>
+        <p>Crie uma senha forte e confirme o código que chegar por SMS ou e-mail.</p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>Pule as sugestões de amigos, se preferir.</p>
+      </StepCard>
       <Callout tipo="atencao">
-        A autenticação de dois fatores é o que impede que alguém tome sua conta. Como sua Página e
-        seu WhatsApp vão se apoiar nela, ligue antes de seguir para a Página.
+        Proteja a conta: vá em Configurações, Central de Contas, Senha e segurança, Autenticação de
+        dois fatores e ative. Quem perde o acesso ao perfil pessoal perde também a Página.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">
-        2.2 · Criar sua Página profissional
+        2.2 · Criar a Página profissional
       </h4>
       <p className="text-sm text-editorial-primary leading-relaxed">
-        Existem dois caminhos. Os dois criam a mesma Página: escolha o que for mais fácil para você
-        hoje.
+        Existem dois caminhos. Escolha um.
       </p>
-      <div className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-3 shadow-2xs">
+      <div className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-2 shadow-2xs">
         <p className="font-sans font-semibold text-sm text-editorial-primary">
-          Caminho A · pelo Instagram
+          Caminho A · Pelo Instagram (mais simples, já cria conectado)
         </p>
         <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
-          Se você já fez a Etapa 3, no Instagram toque no seu perfil, depois em{' '}
-          <strong>Editar perfil</strong> e siga a opção de criar uma Página conectada. O Facebook
-          preenche nome e foto sozinho.
+          Faça primeiro a Etapa 3 até a conta profissional e, na Etapa 4, escolha Criar Página do
+          Facebook.
         </p>
       </div>
       <div className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-3 shadow-2xs">
         <p className="font-sans font-semibold text-sm text-editorial-primary">
-          Caminho B · pelo computador
+          Caminho B · Pelo computador (mais completo)
         </p>
         <div className="flex justify-center py-2">
           <IlustracaoCriarPaginaPC />
         </div>
-        <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
-          Abra o endereço abaixo, toque em <strong>Criar</strong> e preencha: nome{' '}
-          <em>Marina Alves | Psicóloga Online</em> (no meu caso, meu nome e minha especialidade) e
-          categoria <em>psicóloga</em>.
-        </p>
-        <LinkButton href="https://www.facebook.com/pages/create">
-          Abrir a criação de Página
-        </LinkButton>
+        <div className="space-y-3 pt-2">
+          <StepCard numero={1}>
+            <p>Acesse a página de criação.</p>
+            <LinkButton href="https://www.facebook.com/pages/create">
+              Criar Página no Facebook
+            </LinkButton>
+          </StepCard>
+          <StepCard numero={2}>
+            <p>
+              Em <strong>Nome da Página</strong>, use o mesmo nome do campo Nome do Instagram.
+              Exemplo: Marina Alves | Psicóloga Online.
+            </p>
+          </StepCard>
+          <StepCard numero={3}>
+            <p>
+              Em <strong>Categoria</strong>, digite <strong>Psicólogo</strong> e selecione.
+            </p>
+          </StepCard>
+          <StepCard numero={4}>
+            <p>
+              Em <strong>Bio</strong>, cole a linha 1 e a linha 2 da sua bio (a da Página é curta).
+            </p>
+          </StepCard>
+          <StepCard numero={5}>
+            <p>
+              Clique em <strong>Criar Página</strong>.
+            </p>
+          </StepCard>
+          <StepCard numero={6}>
+            <p>
+              Adicione a <strong>foto de perfil</strong>: a mesma do Instagram.
+            </p>
+          </StepCard>
+          <StepCard numero={7}>
+            <p>
+              Adicione a <strong>foto de capa</strong>: uma imagem simples com a sua frase de
+              posicionamento. Pode criar no Canva.
+            </p>
+          </StepCard>
+          <StepCard numero={8}>
+            <p>
+              Preencha <strong>Contato</strong>: WhatsApp, e-mail profissional, cidade ou
+              "atendimento online" e horário.
+            </p>
+          </StepCard>
+          <StepCard numero={9}>
+            <p>
+              Clique em <strong>Concluído</strong>.
+            </p>
+          </StepCard>
+        </div>
       </div>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">
-        2.3 · O botão de WhatsApp na Página
+        2.3 · Botão de WhatsApp na Página
       </h4>
       <div className="flex justify-center py-2">
         <IlustracaoBotaoWhatsappPagina />
       </div>
       <StepCard numero={1}>
         <p>
-          Na sua Página, toque em <strong>Adicionar botão</strong>.
+          Na sua Página, toque em <strong>Adicionar botão</strong> (ou{' '}
+          <strong>Editar botão de ação</strong>).
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Escolha <strong>WhatsApp</strong> e confirme o número do seu atendimento.
+          Escolha <strong>Enviar mensagem pelo WhatsApp</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
-        <p>
-          Toque em <strong>Salvar</strong> e teste: o botão deve abrir uma conversa com o seu
-          WhatsApp Business.
-        </p>
+        <p>Digite o número que vai usar com pacientes e confirme o código.</p>
       </StepCard>
-      <div className="flex justify-center py-2">
-        <IlustracaoConversaChegando />
-      </div>
+      <StepCard numero={4}>
+        <p>Salve. O botão aparece no topo da Página.</p>
+      </StepCard>
       <Callout tipo="etica">
-        Sua Página é um espaço profissional. Sem promessa de resultado, sem preço público e sem
-        depoimento de paciente, mesmo que seja verdadeira e autorizada. O que fica são as
-        informações de como você trabalha e como agendar.
+        Na Página não entram preço, promoção, promessa de resultado nem depoimento de paciente. O
+        valor é informado na conversa, com quem te procurou.
       </Callout>
     </div>
 
     <div className="mt-6">
       <StuckBox
         solucoes={[
-          'O botão de WhatsApp não apareceu: confira se o WhatsApp Business está instalado com o mesmo número que você informou na Página.',
-          'Não encontrei Criar Página: no computador, use o link desta etapa, que leva direto à tela certa.',
-          'A Página criou com outro nome: toque no nome dela, depois em Editar, e corrija. O nome pode ser ajustado quantas vezes precisar.',
+          'Não acho o botão para criar Página: no app, toque no menu (☰), depois em Páginas e Criar.',
+          "A categoria Psicólogo não aparece: tente 'Psicoterapeuta' ou 'Serviço de saúde mental'.",
+          'O Facebook pediu documento: isso acontece às vezes em contas novas. Siga as instruções da tela e volte depois.',
         ]}
       />
     </div>
@@ -761,38 +828,60 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
   <>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        O Instagram é a sua vitrine. É nele que uma paciente em potencial vai decidir, em poucos
-        segundos, se ela se identifica com o seu trabalho e se sente segura para falar com você.
-      </p>
-      <p className="font-medium">
-        A regra dos 5 segundos: alguém entra no seu perfil, olha por cinco segundos e precisa
-        conseguir responder três perguntas. O que ela faz? Para quem? Como eu agendo? Vamos montar o
-        seu perfil para passar nesse teste.
+        O Instagram é a sua vitrine, o consultório antes do consultório. Mesmo quem chega por
+        indicação abre o seu perfil antes de mandar mensagem. A regra que guia tudo aqui é a dos 5
+        segundos: quem chega precisa entender o que você faz, para quem, e como agendar.
       </p>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.1 · Criar sua conta</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">
+        3.1 · Criar a conta (só se ainda não tiver)
+      </h4>
       <StepCard numero={1}>
         <p>
-          Abra o site do Instagram e toque em <strong>Criar conta</strong>. Use um e-mail seu e
-          escolha um @ com o seu nome, como @marinaalves.psi.
+          Baixe o Instagram na App Store ou no Google Play. No computador, acesse pelo link oficial.
         </p>
         <LinkButton href="https://www.instagram.com">Abrir o Instagram</LinkButton>
       </StepCard>
+      <StepCard numero={2}>
+        <p>
+          Toque em <strong>Criar nova conta</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>Cadastre com celular ou e-mail, de preferência um e-mail só da clínica.</p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>Informe nome, data de nascimento e uma senha forte.</p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Escolha o @: fácil de falar em voz alta, sem números aleatórios. A Bio do Manifesto sugere
+          opções.
+        </p>
+      </StepCard>
       <Callout tipo="dica">
-        Prefira uma conta separada para a prática clínica, mesmo que você já use Instagram pessoal.
-        As duas podem existir no mesmo aplicativo, sem sair da sua.
+        Já tem um Instagram pessoal com a sua vida privada? Crie uma conta separada para a clínica:
+        no perfil, toque no seu @ no topo da tela, depois em Adicionar conta do Instagram e Criar
+        nova conta. Você alterna entre as duas sem sair do app.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.2 · Conta profissional</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">
+        3.2 · Transformar em conta profissional
+      </h4>
+      <div className="py-1">
+        <MenuPath passos={['☰', 'Tipo de conta e ferramentas', 'Mudar para conta profissional']} />
+      </div>
       <div className="flex justify-center py-2">
-        <IlustracaoMenuContaProfissional />
+        <IlustracaoMudarParaProfissional />
       </div>
       <StepCard numero={1}>
-        <p>No seu perfil, toque no menu ☰ no canto superior.</p>
+        <p>
+          Vá ao seu perfil e toque nas <strong>três linhas (☰)</strong> no canto superior direito.
+        </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
@@ -804,120 +893,86 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           Toque em <strong>Mudar para conta profissional</strong>.
         </p>
       </StepCard>
-      <div className="py-2">
-        <MenuPath passos={['☰', 'Tipo de conta e ferramentas', 'Mudar para conta profissional']} />
-      </div>
-      <div className="flex justify-center py-2">
-        <IlustracaoMudarParaProfissional />
-      </div>
       <StepCard numero={4}>
         <p>
-          Escolha a categoria <em>psicóloga</em>. Entre <strong>Criador</strong> e{' '}
-          <strong>Comercial</strong>, o Instagram pede a sua escolha: as duas viram conta
-          profissional e liberam os dados da vitrine.
+          Busque a categoria <strong>Psicólogo</strong> e ative <strong>Exibir no perfil</strong>.
         </p>
       </StepCard>
-      <div className="flex justify-center py-2">
-        <PhoneIllustration
-          width={200}
-          height={380}
-          ariaLabel="Ilustração de um celular mostrando a opção de categoria profissional destacada durante a configuração da conta"
-          svg={
-            <>
-              <text
-                x="100"
-                y="46"
-                textAnchor="middle"
-                fontSize="9"
-                fill="#6D28D9"
-                fontFamily="monospace"
-              >
-                ESCOLHA A CATEGORIA
-              </text>
-              <rect
-                x="30"
-                y="66"
-                width="140"
-                height="40"
-                rx="10"
-                fill="#F5F3FF"
-                stroke="#7C3AED"
-                strokeWidth="2"
-              />
-              <text x="42" y="90" fontSize="9" fill="#6D28D9" fontFamily="monospace">
-                Psicóloga
-              </text>
-              <rect
-                x="30"
-                y="118"
-                width="140"
-                height="40"
-                rx="10"
-                fill="#F8FAFC"
-                stroke="#E2E8F0"
-              />
-              <text x="42" y="142" fontSize="9" fill="#64748B" fontFamily="monospace">
-                Outra...
-              </text>
-              <circle cx="100" cy="190" r="4" fill="#F97316" />
-              <text
-                x="100"
-                y="224"
-                textAnchor="middle"
-                fontSize="9"
-                fill="#7C3AED"
-                fontFamily="monospace"
-              >
-                CONTA PROFISSIONAL ATIVA
-              </text>
-              <text
-                x="100"
-                y="244"
-                textAnchor="middle"
-                fontSize="8"
-                fill="#94A3B8"
-                fontFamily="monospace"
-              >
-                Passo 3 de 4
-              </text>
-            </>
-          }
-        />
-      </div>
-      <LinkButton href="https://help.instagram.com/2358103564437429">
-        Ajuda oficial do Instagram
-      </LinkButton>
+      <StepCard numero={5}>
+        <p>
+          Escolha <strong>Criador de conteúdo</strong> e toque em <strong>Avançar</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={6}>
+        <p>Na tela de contato, pode pular: o WhatsApp vai pelo link.</p>
+        <LinkButton href="https://help.instagram.com/2358103564437429">
+          Central de Ajuda do Instagram
+        </LinkButton>
+      </StepCard>
       <Callout tipo="dica">
-        Criador ou Comercial: para a prática clínica, a conta Criador costuma ser a mais leve. Se
-        algum recurso não aparecer, mude entre as duas nas configurações, sem medo, é só um ajuste.
+        Criador ou Comercial? Para psicóloga autônoma, Criador de conteúdo é o padrão do Método FAC.
+        A Comercial faz sentido para clínica com equipe ou para quem quer telefone e endereço como
+        botões no perfil. Dá para trocar depois.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.3 · A anatomia do seu perfil</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">3.3 · A anatomia do perfil</h4>
       <div className="flex justify-center py-2">
         <IlustracaoAnatomiaPerfil />
       </div>
-      <div className="overflow-x-auto">
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        Seu perfil tem nove itens, de cima para baixo, na ordem em que o olho percorre a tela. Cada
+        um tem uma função.
+      </p>
+
+      {/* Cartões no celular (sm:hidden) */}
+      <div className="sm:hidden space-y-2.5">
+        {TABELA_ANATOMIA.map((row) => (
+          <div
+            key={row.item}
+            className="rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-3 space-y-1 shadow-2xs"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-sans font-semibold text-xs text-editorial-primary">
+                {row.item}
+              </span>
+              <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300">
+                {row.funcao}
+              </span>
+            </div>
+            <p className="text-xs text-editorial-secondary leading-relaxed">{row.estrategia}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabela em telas maiores (hidden sm:block) */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/4">
                 Item
               </th>
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/4">
+                Função
+              </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                O que escrever
+                Melhor estratégia
               </th>
             </tr>
           </thead>
           <tbody>
             {TABELA_ANATOMIA.map((row) => (
               <tr key={row.item} className="border-b border-slate-100 dark:border-[#18181B]">
-                <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
+                <td className="py-2.5 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
                   {row.item}
                 </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">
-                  {row.oQueEscrever}
+                <td className="py-2.5 pr-3 font-medium text-editorial-primary align-top">
+                  {row.funcao}
+                </td>
+                <td className="py-2.5 text-editorial-secondary leading-relaxed">
+                  {row.estrategia}
                 </td>
               </tr>
             ))}
@@ -927,27 +982,34 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.4 · Sua foto e o campo Nome</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">3.4 · Foto, campo Nome e @</h4>
       <div className="flex justify-center py-2">
         <IlustracaoFotoENome />
       </div>
       <StepCard numero={1}>
         <p>
-          No seu perfil, toque em <strong>Editar perfil</strong>.
+          No perfil, toque em <strong>Editar perfil</strong>.
         </p>
       </StepCard>
       <StepCard numero={2}>
-        <p>Toque na foto para trocar. Escolha uma foto de rosto, com boa luz e fundo limpo.</p>
+        <p>
+          Toque em <strong>Editar foto</strong> e escolha a foto com o rosto visível.
+        </p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          No campo <strong>Nome</strong>, escreva <em>Marina Alves | Psicóloga Online</em>, no meu
-          caso, meu nome e o que eu faço. Esse campo é buscável: quem procura psicóloga online
-          encontra você por ele.
+          Em <strong>Nome</strong>, cole o campo Nome que a Bio do Manifesto sugeriu.
         </p>
       </StepCard>
       <StepCard numero={4}>
-        <p>O @ não precisa mudar. Ele já identifica a sua conta.</p>
+        <p>
+          Em <strong>Nome de usuário</strong>, ajuste o @ se for trocar.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Confira se a <strong>Categoria</strong> aparece como Psicólogo.
+        </p>
       </StepCard>
     </div>
 
@@ -957,28 +1019,48 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         <IlustracaoBio />
       </div>
       <p className="text-sm text-editorial-primary leading-relaxed">
-        Aqui entra o trabalho da IA. Com o prompt da <strong>Bio do Manifesto</strong> (Etapa 6), o
-        ChatGPT lê o seu Manifesto e devolve a bio pronta. Você escolhe a versão que soa mais como
-        você.
+        São 150 caracteres em três linhas. A linha 1 é a mais importante e não fala de você: fala da
+        pessoa que você atende.
       </p>
-      <div className="rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-white dark:bg-[#121216] p-4 space-y-2 shadow-2xs">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary">
-          Exemplo de bio
+      <div className="rounded-[12px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm text-editorial-secondary space-y-1">
+        <p>
+          <strong className="text-editorial-primary">Linha 1</strong>: Para quem e qual
+          transformação
         </p>
-        <p className="text-sm text-editorial-primary leading-relaxed">
-          Psicologia online para mulheres 💜<br />
-          Atendimento por videochamada, com acolhimento e método
-          <br />
-          CRP 06/000000 · Agende pelo botão abaixo
+        <p>
+          <strong className="text-editorial-primary">Linha 2</strong>: Autoridade: formação,
+          abordagem, CRP, formato
         </p>
-        <p className="text-xs text-editorial-secondary leading-relaxed">
-          (Este é um perfil fictício. Use o seu CRP e o seu nome.)
+        <p>
+          <strong className="text-editorial-primary">Linha 3</strong>: Convite para o próximo passo
+          👇
         </p>
       </div>
-      <Callout tipo="etica">
-        Bio profissional: descreve para quem você atende e como você trabalha. Sem promessa de
-        resultado, sem preço público e sem depoimento.
-      </Callout>
+      <div className="rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-white dark:bg-[#121216] p-4 space-y-2 shadow-2xs">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-purple-700 dark:text-purple-300">
+          Exemplo de bio
+        </p>
+        <p className="text-sm font-medium text-editorial-primary leading-relaxed">
+          Ajudo mulheres exaustas a voltarem a caber na própria vida
+          <br />
+          Psicóloga · Psicanálise · CRP 06/000000 · Online
+          <br />
+          Agende sua conversa inicial 👇
+        </p>
+      </div>
+      <StepCard numero={1}>
+        <p>
+          Em <strong>Editar perfil</strong>, toque em <strong>Bio</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>Cole a bio escolhida na Bio do Manifesto.</p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>
+          Confira as quebras de linha e toque em <strong>Concluir</strong>.
+        </p>
+      </StepCard>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -993,19 +1075,30 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Adicionar link</strong> e cole o link curto do seu WhatsApp Business
-          (você vai criar ele na Etapa 5).
+          Toque em <strong>Adicionar link externo</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          No título, escreva <strong>Agende sua sessão</strong>. É esse texto que aparece em azul no
-          seu perfil.
+          Em <strong>URL</strong>, cole o seu link de WhatsApp neste formato: https://wa.me/ seguido
+          de 55, do DDD e do número, tudo junto. Exemplo: https://wa.me/5511999999999 (sem espaços,
+          parênteses ou traços).
+        </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Em <strong>Título</strong>, escreva algo como "Agende sua conversa inicial".
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Toque em <strong>Concluir</strong>.
         </p>
       </StepCard>
       <Callout tipo="dica">
-        O Instagram aceita até 5 links no perfil, mas aqui menos é mais: um só, o do WhatsApp, com
-        um título claro. Quem quer falar com você, fala em um toque.
+        O Instagram aceita até 5 links, mas só o primeiro aparece direto no perfil. Os outros ficam
+        num menu. Por isso, o primeiro é sempre o caminho para conversar com você. Para reordenar,
+        toque nos três pontinhos ao lado do link e arraste.
       </Callout>
     </div>
 
@@ -1014,42 +1107,79 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       <div className="flex justify-center py-2">
         <IlustracaoDestaques />
       </div>
-      <p className="text-sm text-editorial-primary leading-relaxed">
-        Destaques são as pastas que ficam fixas abaixo da bio, mesmo depois dos stories sumirem.
-        Comece com seis:
-      </p>
-      <div className="overflow-x-auto">
+
+      {/* Cartões no celular */}
+      <div className="sm:hidden space-y-2">
+        {TABELA_DESTAQUES.map((row) => (
+          <div
+            key={row.destaque}
+            className="rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-2.5 shadow-2xs"
+          >
+            <p className="font-sans font-semibold text-xs text-editorial-primary">{row.destaque}</p>
+            <p className="text-xs text-editorial-secondary mt-0.5">"{row.pergunta}"</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabela em telas maiores */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/3">
                 Destaque
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                O que colocar
+                Pergunta do paciente que ele responde
               </th>
             </tr>
           </thead>
           <tbody>
             {TABELA_DESTAQUES.map((row) => (
-              <tr key={row.titulo} className="border-b border-slate-100 dark:border-[#18181B]">
+              <tr key={row.destaque} className="border-b border-slate-100 dark:border-[#18181B]">
                 <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
-                  {row.titulo}
+                  {row.destaque}
                 </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">{row.conteudo}</td>
+                <td className="py-2 text-editorial-secondary leading-relaxed">"{row.pergunta}"</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <StepCard numero={1}>
-        <p>Publique um story com o conteúdo da pasta.</p>
-      </StepCard>
-      <StepCard numero={2}>
         <p>
-          Abra o story, toque em <strong>Destaque</strong> e escolha o nome da pasta.
+          Peça à <strong>Arquiteta da Vitrine</strong> a Etapa 2: ela escreve o roteiro de 3 a 5
+          stories para cada destaque.
         </p>
       </StepCard>
+      <StepCard numero={2}>
+        <p>Publique o primeiro story do destaque "Comece por aqui".</p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>
+          Abra o story publicado e toque em <strong>Destacar</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Toque em <strong>Novo</strong>, escreva o nome do destaque e toque em{' '}
+          <strong>Adicionar</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Para trocar a capa: segure o dedo sobre o destaque, toque em{' '}
+          <strong>Editar destaque</strong> e depois em <strong>Editar capa</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={6}>
+        <p>Repita para os outros cinco. Use o mesmo estilo de capa em todos.</p>
+      </StepCard>
+      <Callout tipo="dica">
+        Também dá para criar destaque com stories antigos: no perfil, toque em Novo (o círculo com
+        +) abaixo da bio e escolha no seu arquivo.
+      </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -1057,101 +1187,105 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       <div className="flex justify-center py-2">
         <IlustracaoPostsFixados />
       </div>
-      <div className="overflow-x-auto">
+
+      {/* Cartões no celular */}
+      <div className="sm:hidden space-y-2">
+        {TABELA_POSTS_FIXADOS.map((row) => (
+          <div
+            key={row.fixado}
+            className="rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-2.5 shadow-2xs"
+          >
+            <p className="font-sans font-semibold text-xs text-editorial-primary">{row.fixado}</p>
+            <p className="text-xs text-editorial-secondary mt-0.5">{row.objetivo}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabela em telas maiores */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
-                Ordem
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/2">
+                Fixado
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                Tema
+                Objetivo
               </th>
             </tr>
           </thead>
           <tbody>
             {TABELA_POSTS_FIXADOS.map((row) => (
-              <tr key={row.ordem} className="border-b border-slate-100 dark:border-[#18181B]">
-                <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
-                  {row.ordem}
+              <tr key={row.fixado} className="border-b border-slate-100 dark:border-[#18181B]">
+                <td className="py-2 pr-3 font-mono text-editorial-primary align-top">
+                  {row.fixado}
                 </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">{row.tema}</td>
+                <td className="py-2 text-editorial-secondary leading-relaxed">{row.objetivo}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <StepCard numero={1}>
-        <p>Publique os três posts, um por vez, no seu ritmo.</p>
+        <p>
+          Peça à <strong>Arquiteta da Vitrine</strong> a Etapa 3: ela escreve título, estrutura e
+          legenda dos três posts.
+        </p>
       </StepCard>
       <StepCard numero={2}>
-        <p>
-          Abra o post, toque nos três pontinhos e escolha <strong>Fixar no perfil</strong>.
-        </p>
+        <p>Publique o post.</p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Deixe os três na ordem da tabela: quem você é primeiro, como funciona depois, agendar por
-          último.
+          Abra o post no seu perfil e toque nos <strong>três pontinhos (⋯)</strong>.
         </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Toque em <strong>Fixar no seu perfil</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>Repita até três posts.</p>
       </StepCard>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.9 · A grade</h4>
       <p className="text-sm text-editorial-primary leading-relaxed">
-        A grade é o conjunto de todas as suas publicações, em colunas. Não existe grade certa:
-        existe a sua, com cara da sua prática. Para começar, alterne três tipos de post: um sobre
-        você, um sobre o tema que você trabalha e um sobre como agendar. Com o tempo, a vitrine
-        ganha equilíbrio sozinha.
+        Abaixo dos fixados, a grade mostra se o perfil está vivo. Não precisa postar todo dia. Peça
+        à Arquiteta da Vitrine a Etapa 4: ela define de 3 a 4 pilares de conteúdo a partir do seu
+        Manifesto e sugere 9 ideias de posts. Dois a três posts por semana, bem pensados, sustentam.
       </p>
-      <Callout tipo="dica">
-        Os prompts da <strong>Arquiteta da Vitrine</strong> (Etapa 6) sugerem o que postar em cada
-        espaço. Use como inspiração, não como obrigação.
-      </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">3.10 · Segurança</h4>
-      <StepCard numero={1}>
-        <p>No seu perfil, toque no menu ☰.</p>
-      </StepCard>
-      <StepCard numero={2}>
-        <p>
-          Toque em <strong>Tipo de conta e ferramentas</strong> para conferir se tudo continua como
-          conta profissional.
-        </p>
-      </StepCard>
-      <StepCard numero={3}>
-        <p>
-          Depois, toque em <strong>Configurações e privacidade</strong>, abra{' '}
-          <strong>Central de Contas</strong> e ligue a <strong>autenticação de dois fatores</strong>
-          .
-        </p>
-      </StepCard>
-      <div className="py-2">
+      <div className="py-1">
         <MenuPath
-          passos={[
-            '☰',
-            'Configurações e privacidade',
-            'Central de Contas',
-            'Senha e segurança',
-            'Autenticação de dois fatores',
-          ]}
+          passos={['☰', 'Central de Contas', 'Senha e segurança', 'Autenticação de dois fatores']}
         />
       </div>
+      <StepCard numero={1}>
+        <p>
+          Ative a autenticação de dois fatores por aplicativo ou SMS. Perder o perfil é perder a
+          vitrine.
+        </p>
+      </StepCard>
       <Callout tipo="etica">
-        Sua conta profissional guarda conversas e dados de pessoas reais. A autenticação de dois
-        fatores protege elas junto com você.
+        Nada de depoimento, print de agradecimento, foto de paciente, promessa de cura ou preço no
+        perfil. Mostre o seu processo, não o paciente. Confira sempre a redação vigente das
+        resoluções do CFP.
       </Callout>
     </div>
 
     <div className="mt-6">
       <StuckBox
         solucoes={[
-          'A opção Mudar para conta profissional não aparece: atualize o aplicativo na loja do seu celular e abra de novo.',
-          'O link do WhatsApp não abre: confira na Etapa 5 se o link curto está certo, com o DDI 55 e o DDD.',
-          'O destaque não salvou: o story precisa estar no ar no momento em que você toca em Destaque. Publique de novo e repita.',
+          "Não acho 'Tipo de conta e ferramentas': atualize o Instagram na loja de aplicativos. Em algumas versões, o caminho é ☰ › Configurações e privacidade › Tipo de conta e ferramentas.",
+          'Não aparece a opção de fixar post: confira se a conta já é profissional.',
+          'O link do WhatsApp não abre: confira se tem 55, o DDD e o número, tudo junto, sem o zero do DDD.',
         ]}
       />
     </div>

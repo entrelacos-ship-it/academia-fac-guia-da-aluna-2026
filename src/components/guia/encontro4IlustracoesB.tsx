@@ -14,21 +14,25 @@ const COR_TEXTO = '#334155'
 const COR_TEXTO_SUAVE = '#94a3b8'
 const COR_FUNDO = '#f8fafc'
 
-const Avatar: React.FC<{ cx?: number; cy?: number; r?: number }> = ({
-  cx = 36,
-  cy = 36,
-  r = 20,
-}) => (
-  <g>
-    <circle cx={cx} cy={cy} r={r} fill="#ede9fe" />
-    <circle cx={cx} cy={cy - r * 0.35} r={r * 0.38} fill={COR_ROXO} />
-    <path
-      d={`M ${cx - r * 0.62} ${cy + r * 0.55} q ${r * 0.62} ${-r * 0.5} ${r * 1.24} 0 z`}
-      fill={COR_ROXO}
-    />
-  </g>
-)
-
+const Avatar: React.FC<{ cx?: number | string; cy?: number | string; r?: number | string }> = ({
+  cx: rawCx = 50,
+  cy: rawCy = 40,
+  r: rawR = 16,
+}) => {
+  const cx = Number(rawCx) || 50
+  const cy = Number(rawCy) || 40
+  const r = Number(rawR) || 16
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={r} fill="#ede9fe" />
+      <circle cx={cx} cy={cy - r * 0.35} r={r * 0.38} fill={COR_ROXO} />
+      <path
+        d={`M ${cx - r * 0.7} ${cy + r * 0.8} Q ${cx} ${cy + r * 0.2} ${cx + r * 0.7} ${cy + r * 0.8}`}
+        fill={COR_ROXO}
+      />
+    </g>
+  )
+}
 const Grade: React.FC<{ x: number; y: number; w: number; cols?: number; linhas?: number }> = ({
   x,
   y,
@@ -61,99 +65,273 @@ const Grade: React.FC<{ x: number; y: number; w: number; cols?: number; linhas?:
 // ─────────────────────────────────────────────────────────────
 export const IlustracaoDestaques: React.FC = () => (
   <svg
-    viewBox="0 0 240 420"
-    className="w-full"
+    viewBox="0 0 320 220"
+    className="w-full max-w-[440px]"
     role="img"
-    aria-label="Ilustração do perfil do Instagram de Marina Alves com a linha de seis destaques em pastas arredondadas: Sobre mim, Como funciona, Agenda, Valores, Perguntas e Agendar"
+    aria-label="À esquerda, story aberto com botão Destacar marcado por ponto de toque. À direita, fileira de seis destaques do perfil com capas no mesmo estilo e os nomes embaixo: Comece por aqui, Quem sou, Como funciona, Dúvidas, Bastidores, Agendar"
   >
-    <rect width="240" height="420" rx="24" fill={COR_FUNDO} />
-    <circle cx="36" cy="52" r="20" fill="#ede9fe" />
-    <circle cx="36" cy="45" r="7" fill={COR_ROXO} />
-    <path d="M 22 64 q 14 -12 28 0 z" fill={COR_ROXO} />
-    <text x="66" y="50" fontSize="12" fontWeight="700" fill={COR_TEXTO}>
-      Marina Alves
-    </text>
-    <text x="66" y="65" fontSize="10" fill={COR_TEXTO_SUAVE}>
-      @marinaalves.psi
-    </text>
-    {[0, 1, 2, 3, 4, 5].map((i) => {
-      const cx = 30 + i * 37
-      const nomes = ['Sobre', 'Como', 'Agenda', 'Valores', 'Perguntas', 'Agendar']
-      return (
-        <g key={i}>
-          <circle cx={cx} cy="118" r="16" fill="#f5f3ff" stroke={COR_ROXO} strokeWidth="1.5" />
-          <circle
-            cx={cx}
-            cy="118"
-            r="7"
-            fill={['#c4b5fd', '#fdba74', '#c4b5fd', '#fdba74', '#c4b5fd', '#fdba74'][i]}
-          />
-          <text x={cx} y="148" fontSize="7" fill={COR_TEXTO_SUAVE} textAnchor="middle">
-            {nomes[i]}
-          </text>
-        </g>
-      )
-    })}
-    <rect x="16" y="176" width="208" height="26" rx="13" fill="#f1f5f9" />
-    <text x="30" y="193" fontSize="10" fill={COR_TEXTO_SUAVE}>
-      Buscar
-    </text>
-    <Grade x={16} y={214} w={208} cols={3} linhas={4} />
+    <rect width="320" height="220" rx="18" fill={COR_FUNDO} />
+
+    {/* Lado esquerdo: Story aberto com botão Destacar */}
+    <g>
+      <rect
+        x="18"
+        y="16"
+        width="112"
+        height="188"
+        rx="14"
+        fill="#ffffff"
+        stroke="#334155"
+        strokeWidth="2.5"
+      />
+      {/* Barra de progresso do story no topo */}
+      <rect x="24" y="24" width="100" height="2.5" rx="1" fill="#ede9fe" />
+      <rect x="24" y="24" width="60" height="2.5" rx="1" fill={COR_ROXO} />
+
+      <Avatar cx="34" cy="38" r="8" />
+      <text x="46" y="41" fontSize="6.5" fontWeight="700" fill={COR_TEXTO}>
+        marinaalves.psi
+      </text>
+
+      {/* Conteúdo do story */}
+      <rect x="26" y="54" width="96" height="96" rx="8" fill="#f5f3ff" />
+      <text x="74" y="92" textAnchor="middle" fontSize="7" fontWeight="600" fill={COR_ROXO}>
+        Comece por aqui
+      </text>
+      <text x="74" y="104" textAnchor="middle" fontSize="6" fill={COR_TEXTO_SUAVE}>
+        História do consultório
+      </text>
+
+      {/* Botão Destacar com coração e ponto de toque */}
+      <rect
+        x="26"
+        y="158"
+        width="96"
+        height="24"
+        rx="6"
+        fill="#f1f5f9"
+        stroke={COR_ROXO}
+        strokeWidth="1.2"
+      />
+      <circle cx="38" cy="170" r="5" fill="#f43f5e" />
+      <text x="72" y="174" textAnchor="middle" fontSize="7" fontWeight="700" fill={COR_ROXO}>
+        Destacar
+      </text>
+      {/* Ponto de toque no botão destacar */}
+      <circle cx="106" cy="170" r="4.5" fill={COR_LARANJA} opacity="0.9" />
+      <circle cx="106" cy="170" r="9" fill={COR_LARANJA} opacity="0.25" />
+    </g>
+
+    {/* Seta ligando os dois lados */}
+    <g>
+      <path
+        d="M 136 100 L 148 100"
+        stroke={COR_LARANJA}
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <polygon points="148,97 154,100 148,103" fill={COR_LARANJA} />
+    </g>
+
+    {/* Lado direito: Fileira dos 6 destaques */}
+    <g>
+      <rect
+        x="158"
+        y="16"
+        width="144"
+        height="188"
+        rx="14"
+        fill="#ffffff"
+        stroke="#334155"
+        strokeWidth="2"
+      />
+      <text x="230" y="34" textAnchor="middle" fontSize="8" fontWeight="700" fill={COR_TEXTO}>
+        Destaques do perfil
+      </text>
+
+      {/* Grade 3x2 de destaques */}
+      {[
+        { nome: 'Comece por aqui', cor: '#ede9fe' },
+        { nome: 'Quem sou', cor: '#ede9fe' },
+        { nome: 'Como funciona', cor: '#ede9fe' },
+        { nome: 'Dúvidas', cor: '#ede9fe' },
+        { nome: 'Bastidores', cor: '#ede9fe' },
+        { nome: 'Agendar', cor: '#ede9fe' },
+      ].map((d, i) => {
+        const col = i % 3
+        const lin = Math.floor(i / 3)
+        const cx = 182 + col * 46
+        const cy = 62 + lin * 66
+        return (
+          <g key={d.nome}>
+            <circle cx={cx} cy={cy} r="16" fill={d.cor} stroke={COR_ROXO} strokeWidth="1.5" />
+            <circle cx={cx} cy={cy} r="8" fill="#c4b5fd" />
+            <text
+              x={cx}
+              y={cy + 24}
+              textAnchor="middle"
+              fontSize="5.5"
+              fontWeight="600"
+              fill={COR_TEXTO}
+            >
+              {d.nome.length > 10 ? d.nome.slice(0, 9) + '…' : d.nome}
+            </text>
+          </g>
+        )
+      })}
+    </g>
   </svg>
 )
 
 // ─────────────────────────────────────────────────────────────
-// I-13: os três posts fixados, grade com três quadrados marcados
-// com alfinete.
+// I-13: os três posts fixados
 // ─────────────────────────────────────────────────────────────
 export const IlustracaoPostsFixados: React.FC = () => (
   <svg
-    viewBox="0 0 240 420"
-    className="w-full"
+    viewBox="0 0 320 220"
+    className="w-full max-w-[440px]"
     role="img"
-    aria-label="Ilustração da grade do Instagram de Marina Alves com três publicações fixadas marcadas com alfinete no topo da grade"
+    aria-label="À esquerda, post aberto com menu de três pontinhos e a opção Fixar no seu perfil marcada com ponto de toque. À direita, grade do perfil com três posts na primeira linha, cada um com um pequeno alfinete"
   >
-    <rect width="240" height="420" rx="24" fill={COR_FUNDO} />
-    <circle cx="36" cy="52" r="20" fill="#ede9fe" />
-    <circle cx="36" cy="45" r="7" fill={COR_ROXO} />
-    <path d="M 22 64 q 14 -12 28 0 z" fill={COR_ROXO} />
-    <text x="66" y="50" fontSize="12" fontWeight="700" fill={COR_TEXTO}>
-      Marina Alves
-    </text>
-    <text x="66" y="65" fontSize="10" fill={COR_TEXTO_SUAVE}>
-      @marinaalves.psi
-    </text>
-    {[0, 1, 2].map((i) => {
-      const x = 16 + i * 72
-      return (
-        <g key={i}>
-          <rect
-            x={x}
-            y="96"
-            width="64"
-            height="64"
-            rx="8"
-            fill={['#ede9fe', '#faede4', '#f5f3ff'][i]}
-            stroke={COR_ROXO}
-            strokeWidth="1.5"
-          />
-          <g
-            transform={`translate(${x + 44}, 104)`}
-            stroke={COR_LARANJA}
-            strokeWidth="1.8"
-            fill="none"
-          >
-            <circle cx="6" cy="5" r="3" />
-            <path d="M 6 8 L 6 14 M 3 11 L 9 11" strokeLinecap="round" />
+    <rect width="320" height="220" rx="18" fill={COR_FUNDO} />
+
+    {/* Lado esquerdo: Post aberto com menu ⋯ */}
+    <g>
+      <rect
+        x="18"
+        y="16"
+        width="120"
+        height="188"
+        rx="14"
+        fill="#ffffff"
+        stroke="#334155"
+        strokeWidth="2.5"
+      />
+      <Avatar cx="32" cy="32" r="8" />
+      <text x="44" y="35" fontSize="6.5" fontWeight="700" fill={COR_TEXTO}>
+        marinaalves.psi
+      </text>
+      {/* Três pontinhos */}
+      <circle cx="120" cy="32" r="1.5" fill="#64748b" />
+      <circle cx="125" cy="32" r="1.5" fill="#64748b" />
+      <circle cx="130" cy="32" r="1.5" fill="#64748b" />
+
+      {/* Foto do post */}
+      <rect x="24" y="44" width="108" height="66" rx="4" fill="#ede9fe" />
+      <text x="78" y="80" textAnchor="middle" fontSize="7" fontWeight="600" fill={COR_ROXO}>
+        Para quem eu sou
+      </text>
+
+      {/* Menu suspenso aberto */}
+      <rect
+        x="24"
+        y="118"
+        width="108"
+        height="74"
+        rx="8"
+        fill="#ffffff"
+        stroke={COR_ROXO}
+        strokeWidth="1.5"
+      />
+      <rect x="28" y="124" width="100" height="20" rx="4" fill="#f5f3ff" />
+      {/* Alfinete no menu */}
+      <circle cx="38" cy="134" r="2.5" fill={COR_LARANJA} />
+      <line x1="38" y1="136" x2="38" y2="140" stroke={COR_LARANJA} strokeWidth="1" />
+      <text x="46" y="137" fontSize="6.5" fontWeight="700" fill={COR_ROXO}>
+        Fixar no seu perfil
+      </text>
+      {/* Ponto de toque */}
+      <circle cx="114" cy="134" r="4.5" fill={COR_LARANJA} opacity="0.9" />
+      <circle cx="114" cy="134" r="9" fill={COR_LARANJA} opacity="0.25" />
+
+      <text x="32" y="156" fontSize="6" fill="#64748b">
+        Compartilhar…
+      </text>
+      <text x="32" y="172" fontSize="6" fill="#64748b">
+        Editar
+      </text>
+    </g>
+
+    {/* Seta ligando */}
+    <g>
+      <path
+        d="M 144 100 L 156 100"
+        stroke={COR_LARANJA}
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <polygon points="156,97 162,100 156,103" fill={COR_LARANJA} />
+    </g>
+
+    {/* Lado direito: Grade com 3 posts fixados na primeira linha */}
+    <g>
+      <rect
+        x="166"
+        y="16"
+        width="136"
+        height="188"
+        rx="14"
+        fill="#ffffff"
+        stroke="#334155"
+        strokeWidth="2"
+      />
+      <text x="234" y="34" textAnchor="middle" fontSize="7.5" fontWeight="700" fill={COR_TEXTO}>
+        Grade com fixados
+      </text>
+
+      {/* Linha 1 de posts com alfinete */}
+      {[0, 1, 2].map((i) => {
+        const x = 172 + i * 42
+        return (
+          <g key={i}>
+            <rect
+              x={x}
+              y="44"
+              width="38"
+              height="38"
+              rx="4"
+              fill="#ede9fe"
+              stroke={COR_ROXO}
+              strokeWidth="1.2"
+            />
+            {/* Alfinete laranja */}
+            <circle cx={x + 30} cy="52" r="2.5" fill={COR_LARANJA} />
+            <line x1={x + 30} y1="54" x2={x + 30} y2="58" stroke={COR_LARANJA} strokeWidth="1" />
           </g>
-        </g>
-      )
-    })}
-    <text x="16" y="186" fontSize="10" fill={COR_TEXTO_SUAVE}>
-      Fixados
-    </text>
-    <line x1="16" y1="192" x2="224" y2="192" stroke={COR_LINHA} strokeWidth="1" />
-    <Grade x={16} y={204} w={208} cols={3} linhas={4} />
+        )
+      })}
+      <text x="234" y="92" textAnchor="middle" fontSize="6" fontWeight="600" fill={COR_ROXO}>
+        1ª linha: 3 posts fixados 📌
+      </text>
+
+      {/* Linhas seguintes da grade (normais) */}
+      {[0, 1, 2].map((i) => (
+        <rect
+          key={`l2-${i}`}
+          x={172 + i * 42}
+          y="102"
+          width="38"
+          height="38"
+          rx="4"
+          fill="#f8fafc"
+          stroke={COR_LINHA}
+        />
+      ))}
+      {[0, 1, 2].map((i) => (
+        <rect
+          key={`l3-${i}`}
+          x={172 + i * 42}
+          y="144"
+          width="38"
+          height="38"
+          rx="4"
+          fill="#f8fafc"
+          stroke={COR_LINHA}
+        />
+      ))}
+    </g>
   </svg>
 )
 

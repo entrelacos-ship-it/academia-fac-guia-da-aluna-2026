@@ -110,7 +110,31 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
       PROMPT_BIO_MANIFESTO,
       PROMPT_ARQUITETA_VITRINE,
       PROMPT_ROTEIRISTA_WHATSAPP,
+      ...CHECKLIST_ETAPA_2,
+      ...CHECKLIST_ETAPA_3,
     ].join(' ')
     expect(todosTextos).not.toContain('—')
+  })
+
+  it('valida os checklists exatos da Etapa 2 e Etapa 3', () => {
+    expect(CHECKLIST_ETAPA_2).toEqual([
+      'Perfil pessoal com autenticação de dois fatores',
+      'Página criada com nome, categoria e bio',
+      'Foto de perfil e capa',
+      'Contato preenchido',
+      'Botão de WhatsApp ativo',
+    ])
+
+    expect(CHECKLIST_ETAPA_3).toEqual([
+      'Conta profissional, categoria Psicólogo',
+      'Foto com rosto visível',
+      'Campo Nome com nome e palavra-chave',
+      '@ simples de falar',
+      'Bio em três linhas com CRP',
+      'Primeiro link levando ao WhatsApp',
+      'Seis destaques com capas padronizadas',
+      'Três posts fixados',
+      'Autenticação de dois fatores ativa',
+    ])
   })
 })
