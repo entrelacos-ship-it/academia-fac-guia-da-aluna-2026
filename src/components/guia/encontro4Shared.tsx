@@ -130,7 +130,10 @@ export const CopyPromptBox: React.FC<CopyPromptBoxProps> = ({ titulo, prompt, id
   const [copiado, setCopiado] = React.useState(false)
   const [expandido, setExpandido] = React.useState(false)
 
+  const promptVazio = !prompt || prompt.trim() === ''
+
   const copiar = async () => {
+    if (promptVazio) return
     try {
       await navigator.clipboard.writeText(prompt)
       setCopiado(true)
@@ -152,35 +155,49 @@ export const CopyPromptBox: React.FC<CopyPromptBoxProps> = ({ titulo, prompt, id
         <button
           type="button"
           onClick={copiar}
-          className={`inline-flex items-center gap-1.5 rounded-[8px] px-3.5 py-2 min-h-[40px] text-xs font-mono font-semibold transition-colors cursor-pointer ${
-            copiado
-              ? 'bg-emerald-600 text-white'
-              : 'bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14]'
+          disabled={promptVazio}
+          className={`inline-flex items-center gap-1.5 rounded-[8px] px-3.5 py-2 min-h-[40px] text-xs font-mono font-semibold transition-colors ${
+            promptVazio
+              ? 'bg-slate-200 dark:bg-[#27272A] text-editorial-secondary cursor-not-allowed opacity-60'
+              : copiado
+                ? 'bg-emerald-600 text-white cursor-pointer'
+                : 'bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] cursor-pointer'
           }`}
         >
           {copiado ? 'Copiado ✓' : 'Copiar prompt'}
         </button>
       </div>
-      <div
-        className={`relative overflow-y-auto rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200 dark:border-[#27272A] p-3 sm:p-4 ${
-          expandido ? 'max-h-[1400px]' : 'max-h-56'
-        }`}
-      >
-        <pre className="whitespace-pre-wrap font-mono text-xs sm:text-[13px] leading-relaxed text-editorial-primary">
-          {prompt}
-        </pre>
-        {!expandido && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-slate-50 dark:from-[#0c0914] to-transparent" />
-        )}
-      </div>
-      {!expandido && (
-        <button
-          type="button"
-          onClick={() => setExpandido(true)}
-          className="text-xs font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] hover:underline cursor-pointer"
-        >
-          Ver prompt completo
-        </button>
+
+      {promptVazio ? (
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-dashed border-slate-300 dark:border-[#27272A] p-4 text-center">
+          <p className="text-xs sm:text-sm text-editorial-secondary">
+            O texto deste prompt será adicionado em breve.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div
+            className={`relative overflow-y-auto rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200 dark:border-[#27272A] p-3 sm:p-4 ${
+              expandido ? 'max-h-[1400px]' : 'max-h-56'
+            }`}
+          >
+            <pre className="whitespace-pre-wrap font-mono text-xs sm:text-[13px] leading-relaxed text-editorial-primary">
+              {prompt}
+            </pre>
+            {!expandido && (
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-slate-50 dark:from-[#0c0914] to-transparent" />
+            )}
+          </div>
+          {!expandido && (
+            <button
+              type="button"
+              onClick={() => setExpandido(true)}
+              className="text-xs font-mono font-semibold text-[#7c3aed] dark:text-[#C084FC] hover:underline cursor-pointer"
+            >
+              Ver prompt completo
+            </button>
+          )}
+        </>
       )}
     </div>
   )
@@ -195,30 +212,37 @@ interface GPTButtonProps {
 }
 
 export const GPTButton: React.FC<GPTButtonProps> = ({ link, promptAnchorId }) => {
-  if (!isGptLinkAtivo(link)) return null
-
   const rolarAtePrompt = (e: React.MouseEvent) => {
     e.preventDefault()
     const el = document.getElementById(promptAnchorId)
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      const hash = `#${promptAnchorId}`
+      if (window.location.hash !== hash) {
+        window.location.hash = hash
+      }
     }
   }
 
+  const ativo = isGptLinkAtivo(link)
+
   return (
     <div className="flex flex-col items-start gap-1.5">
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] text-xs font-mono font-semibold px-3.5 py-2 min-h-[40px] transition-colors"
-      >
-        Abrir no ChatGPT
-      </a>
+      {ativo && (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#7c3aed] hover:bg-[#6d28d9] dark:bg-[#C084FC] dark:hover:bg-[#a855f7] text-white dark:text-[#0A0A14] text-xs font-mono font-semibold px-3.5 py-2 min-h-[40px] transition-colors"
+        >
+          Abrir no ChatGPT
+        </a>
+      )}
       <a
         href={`#${promptAnchorId}`}
         onClick={rolarAtePrompt}
-        className="text-[11px] font-mono text-editorial-secondary hover:underline"
+        className="text-[11px] font-mono text-editorial-secondary hover:underline cursor-pointer"
       >
         Prefere copiar e colar? Use o prompt
       </a>

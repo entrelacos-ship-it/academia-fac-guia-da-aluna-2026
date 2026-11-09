@@ -13,8 +13,6 @@ import {
   type ChecklistValues,
 } from './encontro4Shared'
 import {
-  IlustracaoCelularManifesto,
-  IlustracaoTresAssistentes,
   IlustracaoFacebookPagina,
   IlustracaoCriarPaginaPC,
   IlustracaoBotaoWhatsappPagina,
@@ -29,15 +27,19 @@ import {
 import {
   IlustracaoDestaques,
   IlustracaoPostsFixados,
-  IlustracaoConexaoMeta,
-  IlustracaoWhatsAppBusiness,
-  IlustracaoInstalarWhatsApp,
   IlustracaoPerfilComercial,
   IlustracaoSaudacao,
   IlustracaoRespostasRapidas,
   IlustracaoEtiquetas,
-  IlustracaoTimer,
 } from './encontro4IlustracoesB'
+import {
+  IlustracaoMesaAntesDeComecar,
+  IlustracaoIaTrabalhaParaVoce,
+  IlustracaoPonteCentralDeContas,
+  IlustracaoWhatsappComumVsBusiness,
+  IlustracaoMigracaoNumeroWhatsApp,
+  IlustracaoCronometroTresBaloes,
+} from './encontro4IlustracoesNovas'
 import {
   GPT_BIO_MANIFESTO,
   GPT_ARQUITETA_VITRINE,
@@ -84,13 +86,16 @@ export const ETAPAS_ENCONTRO_4: EtapaDef[] = [
 // Checklists
 // ─────────────────────────────────────────────────────────────
 export const CHECKLIST_ETAPA_0 = [
-  { id: 'e0-1', texto: 'Tenho em mãos meu Manifesto da Marca escrito no Encontro 2' },
-  { id: 'e0-2', texto: 'Tenho em mãos meu número de WhatsApp de atendimento' },
-  { id: 'e0-3', texto: 'Tenho em mãos uma foto de rosto atual, com boa luz' },
-  { id: 'e0-4', texto: 'Tenho em mãos meu e-mail e uma senha que eu lembre' },
-  { id: 'e0-5', texto: 'Tenho em mãos meu CRP para preencher o perfil' },
-  { id: 'e0-6', texto: 'Estou em um lugar tranquilo, sem pressa' },
-  { id: 'e0-7', texto: 'Vou fazer uma etapa por vez, sem pular passos' },
+  { id: 'e0-1', texto: 'Meu Manifesto e minha PVU copiados no bloco de notas do celular' },
+  { id: 'e0-2', texto: 'Celular com Instagram e WhatsApp atualizados na loja de aplicativos' },
+  {
+    id: 'e0-3',
+    texto: 'Computador com o ChatGPT aberto (a conta gratuita funciona, a paga funciona melhor)',
+  },
+  { id: 'e0-4', texto: 'Senhas do Instagram e do Facebook, se já tiver conta' },
+  { id: 'e0-5', texto: 'Meu número de CRP' },
+  { id: 'e0-6', texto: 'O número de celular que vou usar com pacientes' },
+  { id: 'e0-7', texto: 'Uma foto minha com o rosto visível, fundo limpo e luz natural' },
 ]
 
 export const CHECKLIST_ETAPA_2 = [
@@ -114,25 +119,19 @@ export const CHECKLIST_ETAPA_3 = [
 ]
 
 export const CHECKLIST_ETAPA_4 = [
-  { id: 'e4-1', texto: 'Minha Página do Facebook está conectada ao meu Instagram' },
-  { id: 'e4-2', texto: 'A Central de Contas está configurada com o mesmo e-mail' },
-  { id: 'e4-3', texto: 'Publicar no Instagram já aparece também na minha Página' },
+  { id: 'e4-1', texto: 'Página conectada ao Instagram' },
+  { id: 'e4-2', texto: 'Facebook adicionado à Central de Contas' },
+  { id: 'e4-3', texto: 'Compartilhamento automático decidido' },
 ]
 
 export const CHECKLIST_ETAPA_5 = [
-  { id: 'e5-1', texto: 'O WhatsApp Business está instalado com meu número de atendimento' },
-  {
-    id: 'e5-2',
-    texto: 'Meu perfil comercial está completo (foto, categoria, descrição e horário)',
-  },
-  { id: 'e5-3', texto: 'Minha mensagem de saudação está ligada' },
-  {
-    id: 'e5-4',
-    texto: 'Minha mensagem de ausência está pronta para os horários que eu não atendo',
-  },
-  { id: 'e5-5', texto: 'Minhas respostas rápidas estão salvas' },
-  { id: 'e5-6', texto: 'Minhas etiquetas estão criadas' },
-  { id: 'e5-7', texto: 'Meu link curto wa.me está funcionando e colado no Instagram' },
+  { id: 'e5-1', texto: 'WhatsApp Business instalado com o número da clínica' },
+  { id: 'e5-2', texto: 'Perfil comercial completo' },
+  { id: 'e5-3', texto: 'Mensagem de saudação ativa' },
+  { id: 'e5-4', texto: 'Mensagem de ausência ativa, com caminho para emergências' },
+  { id: 'e5-5', texto: 'Pelo menos 3 respostas rápidas' },
+  { id: 'e5-6', texto: 'Quatro etiquetas criadas' },
+  { id: 'e5-7', texto: 'Link do WhatsApp atualizado no Instagram e na Página' },
 ]
 
 export const TODOS_CHECKLISTS: Record<string, { id: string }[]> = {
@@ -228,77 +227,16 @@ const TABELA_POSTS_FIXADOS: { fixado: string; objetivo: string }[] = [
   { fixado: 'Quem sou eu', objetivo: 'Formação, caminho e o porquê, com a sua assinatura' },
 ]
 
-const TABELA_ATALHOS: { atalho: string; mensagem: string }[] = [
+const TABELA_RESPOSTAS_RAPIDAS: { atalho: string; pergunta: string }[] = [
+  { atalho: '/comofunciona', pergunta: 'Como funciona a terapia com você' },
+  { atalho: '/online', pergunta: 'Se o atendimento é online e por qual plataforma' },
   {
-    atalho: '/agenda',
-    mensagem:
-      'Meus horários livres desta semana são terça e quinta, às 10h. Qual funciona melhor para você?',
+    atalho: '/valores',
+    pergunta: 'Valor da sessão e formas de pagamento (aqui pode, é conversa privada)',
   },
-  {
-    atalho: '/valor',
-    mensagem:
-      'Meu investimento para sessão individual é de R$ (coloque aqui o valor da sua regra de preço). Posso te contar como funciona?',
-  },
-  {
-    atalho: '/local',
-    mensagem:
-      'Os atendimentos são online, por videochamada segura. Você precisa apenas de um lugar tranquilo.',
-  },
-  {
-    atalho: '/primeira',
-    mensagem:
-      'A primeira conversa dura cerca de 20 minutos, para nos conhecermos e ver se faz sentido seguir.',
-  },
-  {
-    atalho: '/contrato',
-    mensagem: 'Depois de agendarmos, te envio o contrato e os dados para o pagamento.',
-  },
-  { atalho: '/obrigada', mensagem: 'Obrigada pelo seu contato! Fico à disposição. 💜' },
-]
-
-const TABELA_ETIQUETAS: { etiqueta: string; cor: string; uso: string }[] = [
-  { etiqueta: 'Nova paciente', cor: 'roxo', uso: 'Chegou agora pelo link ou pela Página' },
-  {
-    etiqueta: 'Aguardando retorno',
-    cor: 'laranja',
-    uso: 'Você respondeu e está esperando a resposta dela',
-  },
-  { etiqueta: 'Agendada', cor: 'verde', uso: 'Já tem dia e horário marcados' },
-  { etiqueta: 'Aguardando pagamento', cor: 'amarelo', uso: 'Confirmou e vai enviar o comprovante' },
-  { etiqueta: 'Ativa', cor: 'azul', uso: 'Já é sua paciente em acompanhamento' },
-  {
-    etiqueta: 'Sem encaixe agora',
-    cor: 'cinza',
-    uso: 'Sem horário no momento, para retomar depois',
-  },
-]
-
-// ─────────────────────────────────────────────────────────────
-// Prompts resumidos para os cartões da Etapa 1 (a versão
-// completa fica na Etapa 6).
-// ─────────────────────────────────────────────────────────────
-const PROMPTS_CARTOES = [
-  {
-    nome: 'Bio do Manifesto',
-    descricao: 'A IA lê o seu Manifesto da Marca e escreve a sua bio do Instagram.',
-    gpt: GPT_BIO_MANIFESTO,
-    prompt: PROMPT_BIO_MANIFESTO,
-    anchor: 'prompt-bio-manifesto',
-  },
-  {
-    nome: 'Arquiteta da Vitrine',
-    descricao: 'A IA organiza sua vitrine: destaques, posts fixados e o que postar primeiro.',
-    gpt: GPT_ARQUITETA_VITRINE,
-    prompt: PROMPT_ARQUITETA_VITRINE,
-    anchor: 'prompt-arquiteta-vitrine',
-  },
-  {
-    nome: 'Roteirista do WhatsApp',
-    descricao: 'A IA escreve suas mensagens de saudação, ausência e respostas rápidas.',
-    gpt: GPT_ROTEIRISTA_WHATSAPP,
-    prompt: PROMPT_ROTEIRISTA_WHATSAPP,
-    anchor: 'prompt-roteirista-whatsapp',
-  },
+  { atalho: '/agendar', pergunta: 'Como marcar a primeira conversa' },
+  { atalho: '/primeira', pergunta: 'O que acontece na primeira sessão' },
+  { atalho: '/desmarcar', pergunta: 'Política de remarcação e faltas' },
 ]
 
 // ─────────────────────────────────────────────────────────────
@@ -358,84 +296,109 @@ export const Encontro4Caderno: React.FC<Encontro4CadernoProps> = ({ className })
 
       {/* Barra de progresso geral no topo */}
       <div className="mb-6 space-y-2">
-        <div className="flex items-center justify-between gap-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-editorial-secondary">
-            Seu progresso na aula
-          </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-editorial-secondary">
-            {itensMarcados}/{TOTAL_ITENS_CHECKLIST} · {progressoGeral}%
-          </p>
+        <div className="flex items-center justify-between text-xs font-mono text-editorial-secondary">
+          <span>Progresso da aula</span>
+          <span>
+            {itensMarcados} de {TOTAL_ITENS_CHECKLIST} itens ({progressoGeral}%)
+          </span>
         </div>
         <div className="h-2 rounded-full bg-slate-200 dark:bg-[#27272A] overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] transition-all duration-300"
             style={{ width: `${progressoGeral}%` }}
           />
         </div>
       </div>
 
-      {/* Navegação mobile: Anterior / Próxima */}
-      <div className="flex items-center justify-between gap-3 mb-6 md:hidden">
-        <button
-          type="button"
-          onClick={() => irPara(Math.max(0, etapaAtual - 1))}
-          disabled={etapaAtual === 0}
-          className="rounded-[8px] border border-slate-200 dark:border-[#27272A] px-3.5 py-2 min-h-[40px] text-xs font-mono font-semibold text-editorial-primary disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
-        >
-          ← Anterior
-        </button>
-        <span className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary">
-          Etapa {etapa.numero}/7
-        </span>
-        <button
-          type="button"
-          onClick={() => irPara(Math.min(ETAPAS_ENCONTRO_4.length - 1, etapaAtual + 1))}
-          disabled={etapaAtual === ETAPAS_ENCONTRO_4.length - 1}
-          className="rounded-[8px] bg-[#7c3aed] dark:bg-[#C084FC] px-3.5 py-2 min-h-[40px] text-xs font-mono font-semibold text-white dark:text-[#0A0A14] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
-        >
-          Próxima →
-        </button>
-      </div>
+      {/* Navegação horizontal das etapas (mobile e desktop) */}
+      <nav aria-label="Etapas da aula" className="mb-8 overflow-x-auto pb-2 scrollbar-thin">
+        <div className="flex items-center gap-2 min-w-max">
+          {ETAPAS_ENCONTRO_4.map((e, i) => {
+            const ativo = i === etapaAtual
+            const checklistId = Object.keys(TODOS_CHECKLISTS).includes(e.id)
+            const vals = checklists[e.id] ?? {}
+            const totalEtapa = TODOS_CHECKLISTS[e.id]?.length ?? 0
+            const feitos = Object.values(vals).filter(Boolean).length
+            const concluida = totalEtapa > 0 && feitos === totalEtapa
 
-      <div className="md:grid md:grid-cols-[minmax(0,1fr)_240px] md:gap-10">
-        {/* Conteúdo da etapa */}
-        <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#ff9b32] mb-2">
-            Etapa {etapa.numero} de 7
-          </p>
-          <h3 className="font-serif text-2xl sm:text-3xl text-editorial-primary mb-6 tracking-tight">
-            {etapa.titulo}
-          </h3>
+            return (
+              <button
+                key={e.id}
+                type="button"
+                onClick={() => irPara(i)}
+                className={`flex items-center gap-2 rounded-[10px] px-3.5 py-2 text-xs font-mono transition-all cursor-pointer ${
+                  ativo
+                    ? 'bg-[#7c3aed] text-white shadow-2xs'
+                    : concluida
+                      ? 'bg-purple-100 dark:bg-purple-950/40 text-purple-900 dark:text-purple-200 hover:bg-purple-200'
+                      : 'bg-slate-100 dark:bg-[#18181B] text-editorial-secondary hover:bg-slate-200 dark:hover:bg-[#27272A]'
+                }`}
+              >
+                <span
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                    ativo
+                      ? 'bg-white/20 text-white'
+                      : concluida
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-slate-200 dark:bg-[#27272A] text-editorial-primary'
+                  }`}
+                >
+                  {concluida && !ativo ? '✓' : e.numero}
+                </span>
+                <span className="font-sans font-medium">{e.titulo}</span>
+                {e.tempo && <span className="opacity-70 text-[10px]">({e.tempo})</span>}
+              </button>
+            )
+          })}
+        </div>
+      </nav>
 
-          <div className="space-y-5">
-            {etapaAtual === 0 && (
-              <Etapa0 checklist={checklists['etapa-0'] ?? {}} onChange={marcar('etapa-0')} />
-            )}
-            {etapaAtual === 1 && <Etapa1 />}
-            {etapaAtual === 2 && (
-              <Etapa2 checklist={checklists['etapa-2'] ?? {}} onChange={marcar('etapa-2')} />
-            )}
-            {etapaAtual === 3 && (
-              <Etapa3 checklist={checklists['etapa-3'] ?? {}} onChange={marcar('etapa-3')} />
-            )}
-            {etapaAtual === 4 && (
-              <Etapa4 checklist={checklists['etapa-4'] ?? {}} onChange={marcar('etapa-4')} />
-            )}
-            {etapaAtual === 5 && (
-              <Etapa5 checklist={checklists['etapa-5'] ?? {}} onChange={marcar('etapa-5')} />
-            )}
-            {etapaAtual === 6 && <Etapa6 />}
-            {etapaAtual === 7 && (
-              <Etapa7
-                checklists={checklists}
-                progressoGeral={progressoGeral}
-                tudoMarcado={tudoMarcado}
-              />
-            )}
+      {/* Conteúdo da etapa ativa */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-8 items-start">
+        <div className="rounded-[16px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-5 sm:p-7 shadow-2xs">
+          <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100 dark:border-[#18181B]">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-[#7c3aed] dark:text-[#C084FC]">
+                Etapa {etapa.numero}
+                {etapa.tempo && ` · ${etapa.tempo}`}
+              </p>
+              <h3 className="font-serif text-xl sm:text-2xl text-editorial-primary tracking-tight mt-1">
+                {etapa.titulo}
+              </h3>
+            </div>
+            <span className="font-mono text-xs text-editorial-secondary">
+              {etapaAtual + 1} de {ETAPAS_ENCONTRO_4.length}
+            </span>
           </div>
 
-          {/* Navegação inferior (mobile e desktop) */}
-          <div className="flex items-center justify-between gap-3 mt-8 pt-6 border-t border-slate-200 dark:border-[#27272A]">
+          {etapaAtual === 0 && (
+            <Etapa0 checklist={checklists['etapa-0'] ?? {}} onChange={marcar('etapa-0')} />
+          )}
+          {etapaAtual === 1 && <Etapa1 />}
+          {etapaAtual === 2 && (
+            <Etapa2 checklist={checklists['etapa-2'] ?? {}} onChange={marcar('etapa-2')} />
+          )}
+          {etapaAtual === 3 && (
+            <Etapa3 checklist={checklists['etapa-3'] ?? {}} onChange={marcar('etapa-3')} />
+          )}
+          {etapaAtual === 4 && (
+            <Etapa4 checklist={checklists['etapa-4'] ?? {}} onChange={marcar('etapa-4')} />
+          )}
+          {etapaAtual === 5 && (
+            <Etapa5 checklist={checklists['etapa-5'] ?? {}} onChange={marcar('etapa-5')} />
+          )}
+          {etapaAtual === 6 && <Etapa6 />}
+          {etapaAtual === 7 && (
+            <Etapa7
+              checklists={checklists}
+              progressoGeral={progressoGeral}
+              tudoMarcado={tudoMarcado}
+              onMarcar={marcar}
+            />
+          )}
+
+          {/* Botões de avançar e voltar */}
+          <div className="flex items-center justify-between gap-3 mt-8 pt-5 border-t border-slate-100 dark:border-[#18181B]">
             <button
               type="button"
               onClick={() => irPara(Math.max(0, etapaAtual - 1))}
@@ -523,20 +486,13 @@ const Etapa0: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 }) => (
   <>
     <div className="flex justify-center mb-6">
-      <IlustracaoCelularManifesto />
+      <IlustracaoMesaAntesDeComecar />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        Nesta aula, você vai configurar os seus três canais: Facebook, Instagram e WhatsApp
-        Business. Parece muito, mas não é: vamos passo a passo, uma ação por vez, e cada etapa
-        termina com um checklist.
+        Essa aula é mão na massa. Você vai sair dela com o Facebook, o Instagram e o WhatsApp
+        prontos para receber pacientes. Separe 1h30 com calma, ou faça uma etapa por dia.
       </p>
-      <p>
-        Ao final, qualquer pessoa que encontrar o seu perfil entende em segundos o que você faz,
-        para quem e como agendar. E a melhor parte: a IA escreve a partir do seu Manifesto, então
-        você não começa do zero.
-      </p>
-      <p className="font-medium">Antes de começar, confira se você tem tudo em mãos:</p>
     </div>
     <div className="mt-4">
       <p className="font-sans font-semibold text-sm text-editorial-primary mb-3">Tenho em mãos</p>
@@ -544,12 +500,12 @@ const Etapa0: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     </div>
     <div className="mt-5 space-y-3">
       <Callout tipo="dica">
-        Separe entre 40 e 60 minutos para esta aula. Você não precisa terminar tudo hoje: pode
-        pausar em qualquer etapa e voltar depois, o seu progresso fica salvo neste navegador.
+        Se você ainda não tem o Manifesto pronto, tudo bem. A IA consegue trabalhar a partir de três
+        frases: quem você atende, qual dor essa pessoa vive e o que muda depois da terapia.
       </Callout>
       <Callout tipo="atencao">
-        Nesta aula, vamos usar os nomes dos menus como estão hoje. Se algum nome estiver diferente
-        no seu aplicativo, procure a opção mais parecida: os apps mudam de vez em quando.
+        Um número só para a clínica é o ideal. Se usar o mesmo número pessoal, o WhatsApp Business
+        vai substituir o WhatsApp comum nesse número (as conversas são transferidas).
       </Callout>
     </div>
   </>
@@ -558,75 +514,106 @@ const Etapa0: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 // ─────────────────────────────────────────────────────────────
 // Etapa 1 · A IA trabalha para você
 // ─────────────────────────────────────────────────────────────
-const PASSOS_IA = [
-  'Abra o caderno do Encontro 2 e copie o texto do seu Manifesto da Marca.',
-  'Na Etapa 6 desta aula, copie o prompt da Bio do Manifesto e cole no ChatGPT junto com o seu Manifesto.',
-  'Leia o que a IA escreveu e ajuste as palavras que não soam como você.',
-  'Repita com o prompt da Arquiteta da Vitrine para organizar destaques e posts fixados.',
-  'Repita com o prompt do Roteirista do WhatsApp para as suas mensagens automáticas.',
-  'Guarde tudo num lugar só, um bloco de notas simples resolve.',
+const CARTOES_IA = [
+  {
+    nome: 'Cartão 1 · Bio do Manifesto',
+    entra: 'seu Manifesto e sua PVU.',
+    sai: '3 opções de bio, campo Nome, sugestões de @ e o título do link.',
+    uso: 'Use na Etapa 3.',
+    gpt: GPT_BIO_MANIFESTO,
+    anchor: 'prompt-bio-manifesto',
+  },
+  {
+    nome: 'Cartão 2 · Arquiteta da Vitrine',
+    entra: 'Manifesto, PVU e seus dados.',
+    sai: 'o perfil inteiro do Instagram, item por item, em 4 etapas.',
+    uso: 'Use na Etapa 3.',
+    gpt: GPT_ARQUITETA_VITRINE,
+    anchor: 'prompt-arquiteta-vitrine',
+  },
+  {
+    nome: 'Cartão 3 · Roteirista do WhatsApp',
+    entra: 'Manifesto e as perguntas que você mais recebe.',
+    sai: 'descrição do perfil comercial, saudação, ausência e respostas rápidas.',
+    uso: 'Use na Etapa 5.',
+    gpt: GPT_ROTEIRISTA_WHATSAPP,
+    anchor: 'prompt-roteirista-whatsapp',
+  },
 ]
 
 const Etapa1: React.FC = () => (
   <>
     <div className="flex justify-center mb-6">
-      <IlustracaoTresAssistentes />
+      <IlustracaoIaTrabalhaParaVoce />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        Antes de abrir qualquer aplicativo, vamos preparar os textos. Você já tem o mais importante:
-        o seu Manifesto da Marca, escrito no Encontro 2. Agora três assistentes de IA vão
-        transformar ele em bio, em vitrine e em mensagens.
-      </p>
-      <p>
-        Você não precisa escrever nada do zero. A IA escreve, e você escolhe o que soa como você.
+        Você não vai escrever do zero. Três assistentes de IA, treinadas com o Método FAC e com as
+        regras éticas da profissão, leem o seu Manifesto e devolvem rascunhos prontos. O seu
+        trabalho é escolher, ajustar e publicar. A IA rascunha, quem decide é você.
       </p>
     </div>
 
-    <div className="mt-5 space-y-4">
-      {PROMPTS_CARTOES.map((card) => (
+    <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+      {CARTOES_IA.map((card) => (
         <div
           key={card.nome}
-          className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-3 shadow-2xs"
+          className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs"
         >
-          <h4 className="font-sans font-semibold text-sm sm:text-base text-editorial-primary">
-            {card.nome}
-          </h4>
-          <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
-            {card.descricao}
-          </p>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="space-y-2">
+            <h4 className="font-sans font-semibold text-sm sm:text-base text-editorial-primary">
+              {card.nome}
+            </h4>
+            <div className="text-xs sm:text-sm text-editorial-secondary leading-relaxed space-y-1.5">
+              <p>
+                <strong className="text-editorial-primary">Entra:</strong> {card.entra}
+              </p>
+              <p>
+                <strong className="text-editorial-primary">Sai:</strong> {card.sai}
+              </p>
+              <p className="text-purple-700 dark:text-purple-300 font-medium">{card.uso}</p>
+            </div>
+          </div>
+          <div className="pt-2">
             <GPTButton link={card.gpt} promptAnchorId={card.anchor} />
-            <LinkButton href={`#etapa-6`}>Ver o prompt na Etapa 6</LinkButton>
           </div>
         </div>
       ))}
     </div>
 
     <div className="mt-6 space-y-3">
-      <p className="font-sans font-semibold text-sm text-editorial-primary">
-        Como funciona, em 6 passos:
-      </p>
-      {PASSOS_IA.map((passo, i) => (
-        <StepCard key={i} numero={i + 1}>
-          <p>{passo}</p>
-        </StepCard>
-      ))}
+      <p className="font-sans font-semibold text-sm text-editorial-primary">Passos numerados:</p>
+      <StepCard numero={1}>
+        <p>
+          Toque em <strong>Abrir no ChatGPT</strong> no cartão da Bio do Manifesto.
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>Se o ChatGPT pedir, entre com a sua conta.</p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>Cole o seu Manifesto e a sua PVU quando a assistente pedir.</p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>Responda as perguntas, escolha uma das três bios e peça ajustes até gostar.</p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>Copie a bio escolhida, o campo Nome e o título do link para o bloco de notas.</p>
+      </StepCard>
+      <StepCard numero={6}>
+        <p>
+          Repita com a <strong>Arquiteta da Vitrine</strong>. Hoje, faça só a Etapa 1 dela (topo do
+          perfil). As outras etapas você faz durante a semana.
+        </p>
+      </StepCard>
     </div>
 
     <div className="mt-6">
-      <Callout tipo="dica">
-        A IA acerta mais quando você cola o seu Manifesto inteiro, sem resumir. Quanto mais o seu
-        texto, mais a resposta parece você.
-      </Callout>
-    </div>
-
-    <div className="mt-4">
       <StuckBox
         solucoes={[
-          'Se o ChatGPT não abrir, feche e abra o navegador de novo. Se persistir, use outro navegador.',
-          'Se a resposta da IA sair genérica, confira se você colou o seu Manifesto completo no mesmo campo do prompt.',
-          'Se você não achou o seu Manifesto, refaça o exercício do Encontro 2 antes de seguir. Em dez minutos ele está pronto.',
+          'O link do GPT não abriu: use o link "Prefere copiar e colar?" e cole o prompt numa conversa nova do ChatGPT.',
+          'A resposta veio muito longa: escreva "resuma em tópicos curtos".',
+          'A bio passou de 150 caracteres: escreva "reduza para até 150 caracteres e mostre a contagem".',
         ]}
       />
     </div>
@@ -681,14 +668,18 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         </p>
       </StepCard>
       <StepCard numero={4}>
-        <p>Crie uma senha forte e confirme o código que chegar por SMS ou e-mail.</p>
+        <p>
+          Crie uma senha forte e anote num lugar seguro. O navegador do celular pode guardar essa
+          senha para você.
+        </p>
       </StepCard>
       <StepCard numero={5}>
-        <p>Pule as sugestões de amigos, se preferir.</p>
+        <p>Confirme o código que chegar por SMS ou e-mail.</p>
       </StepCard>
       <Callout tipo="atencao">
-        Proteja a conta: vá em Configurações, Central de Contas, Senha e segurança, Autenticação de
-        dois fatores e ative. Quem perde o acesso ao perfil pessoal perde também a Página.
+        Segurança: ative a autenticação de dois fatores no perfil pessoal. Se você perder o perfil
+        pessoal, perde o acesso à Página. O caminho é: Configurações › Central de Contas › Senha e
+        segurança › Autenticação de dois fatores.
       </Callout>
     </div>
 
@@ -696,115 +687,134 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       <h4 className="font-serif text-lg text-editorial-primary">
         2.2 · Criar a Página profissional
       </h4>
-      <p className="text-sm text-editorial-primary leading-relaxed">
-        Existem dois caminhos. Escolha um.
-      </p>
-      <div className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-2 shadow-2xs">
-        <p className="font-sans font-semibold text-sm text-editorial-primary">
-          Caminho A · Pelo Instagram (mais simples, já cria conectado)
-        </p>
-        <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
-          Faça primeiro a Etapa 3 até a conta profissional e, na Etapa 4, escolha Criar Página do
-          Facebook.
-        </p>
-      </div>
-      <div className="rounded-[14px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 sm:p-5 space-y-3 shadow-2xs">
-        <p className="font-sans font-semibold text-sm text-editorial-primary">
-          Caminho B · Pelo computador (mais completo)
-        </p>
-        <div className="flex justify-center py-2">
-          <IlustracaoCriarPaginaPC />
-        </div>
-        <div className="space-y-3 pt-2">
-          <StepCard numero={1}>
-            <p>Acesse a página de criação.</p>
-            <LinkButton href="https://www.facebook.com/pages/create">
-              Criar Página no Facebook
-            </LinkButton>
-          </StepCard>
-          <StepCard numero={2}>
-            <p>
-              Em <strong>Nome da Página</strong>, use o mesmo nome do campo Nome do Instagram.
-              Exemplo: Marina Alves | Psicóloga Online.
-            </p>
-          </StepCard>
-          <StepCard numero={3}>
-            <p>
-              Em <strong>Categoria</strong>, digite <strong>Psicólogo</strong> e selecione.
-            </p>
-          </StepCard>
-          <StepCard numero={4}>
-            <p>
-              Em <strong>Bio</strong>, cole a linha 1 e a linha 2 da sua bio (a da Página é curta).
-            </p>
-          </StepCard>
-          <StepCard numero={5}>
-            <p>
-              Clique em <strong>Criar Página</strong>.
-            </p>
-          </StepCard>
-          <StepCard numero={6}>
-            <p>
-              Adicione a <strong>foto de perfil</strong>: a mesma do Instagram.
-            </p>
-          </StepCard>
-          <StepCard numero={7}>
-            <p>
-              Adicione a <strong>foto de capa</strong>: uma imagem simples com a sua frase de
-              posicionamento. Pode criar no Canva.
-            </p>
-          </StepCard>
-          <StepCard numero={8}>
-            <p>
-              Preencha <strong>Contato</strong>: WhatsApp, e-mail profissional, cidade ou
-              "atendimento online" e horário.
-            </p>
-          </StepCard>
-          <StepCard numero={9}>
-            <p>
-              Clique em <strong>Concluído</strong>.
-            </p>
-          </StepCard>
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">
-        2.3 · Botão de WhatsApp na Página
-      </h4>
       <div className="flex justify-center py-2">
-        <IlustracaoBotaoWhatsappPagina />
+        <IlustracaoCriarPaginaPC />
       </div>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        Dica prática: criar a Página pelo computador é bem mais fácil do que pelo celular. Se puder,
+        abra o Facebook no computador para esta etapa.
+      </p>
       <StepCard numero={1}>
         <p>
-          Na sua Página, toque em <strong>Adicionar botão</strong> (ou{' '}
-          <strong>Editar botão de ação</strong>).
+          No celular: toque na sua foto de perfil ou no menu (três risquinhos) e depois em{' '}
+          <strong>Páginas</strong>. Toque em <strong>+ Criar</strong> e depois em{' '}
+          <strong>Começar</strong>.
+        </p>
+        <p className="mt-1 text-editorial-secondary">
+          No computador: no menu da esquerda, clique em <strong>Páginas</strong> e depois em{' '}
+          <strong>+ Criar nova Página</strong>.
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Escolha <strong>Enviar mensagem pelo WhatsApp</strong>.
+          <strong>Nome da Página</strong>: use o seu nome profissional seguido da sua especialidade.
+          Exemplo: <em>Marina Alves | Psicóloga</em>. Não use apenas o primeiro nome, e não invente
+          um nome fantasia se você atende como pessoa física.
         </p>
       </StepCard>
       <StepCard numero={3}>
-        <p>Digite o número que vai usar com pacientes e confirme o código.</p>
+        <p>
+          <strong>Categoria</strong>: digite <em>Psicólogo</em> ou <em>Saúde mental</em> e selecione
+          a opção que aparecer.
+        </p>
       </StepCard>
       <StepCard numero={4}>
-        <p>Salve. O botão aparece no topo da Página.</p>
+        <p>
+          <strong>Biografia</strong>: uma frase curta sobre o que você faz. Exemplo:{' '}
+          <em>Psicoterapia online para mulheres adultas. CRP 06/000000.</em>
+        </p>
       </StepCard>
-      <Callout tipo="etica">
-        Na Página não entram preço, promoção, promessa de resultado nem depoimento de paciente. O
-        valor é informado na conversa, com quem te procurou.
-      </Callout>
+      <StepCard numero={5}>
+        <p>
+          Toque em <strong>Criar Página</strong>.
+        </p>
+      </StepCard>
+    </div>
+
+    <div className="mt-6 space-y-4">
+      <h4 className="font-serif text-lg text-editorial-primary">2.3 · Foto de perfil e capa</h4>
+      <StepCard numero={1}>
+        <p>
+          <strong>Foto de perfil</strong>: a mesma foto que você vai usar no Instagram e no
+          WhatsApp. Rosto visível, fundo limpo, boa iluminação, transmitindo acolhimento. Evite foto
+          de corpo inteiro (fica pequena demais no celular) e foto com óculos escuros ou outras
+          pessoas.
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>
+          <strong>Foto de capa</strong>: uma imagem horizontal simples. Pode ser uma foto do seu
+          espaço de atendimento, uma imagem abstrata com as cores da sua marca ou um fundo neutro
+          com uma frase do seu Manifesto. O tamanho ideal é 820 por 312 pixels. Se não tiver agora,
+          pode colocar depois.
+        </p>
+      </StepCard>
+    </div>
+
+    <div className="mt-6 space-y-4">
+      <h4 className="font-serif text-lg text-editorial-primary">2.4 · Informações de contato</h4>
+      <StepCard numero={1}>
+        <p>
+          Em <strong>Contato</strong>, adicione o número do seu WhatsApp de atendimento e o seu
+          e-mail profissional.
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>
+          Em <strong>Localização</strong>: se você atende apenas online, deixe o endereço em branco
+          e marque a opção <em>Sem endereço físico</em>.
+        </p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>
+          Em <strong>Horário de funcionamento</strong>: marque os dias e horários em que você
+          costuma responder mensagens.
+        </p>
+      </StepCard>
+    </div>
+
+    <div className="mt-6 space-y-4">
+      <h4 className="font-serif text-lg text-editorial-primary">
+        2.5 · Conectar o botão de WhatsApp à Página
+      </h4>
+      <div className="flex justify-center py-2">
+        <IlustracaoBotaoWhatsappPagina />
+      </div>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        Esse botão é o que faz a pessoa que visitou a sua Página falar direto com você no WhatsApp
+        com um toque.
+      </p>
+      <StepCard numero={1}>
+        <p>
+          Na sua Página, procure o botão <strong>Adicionar botão de ação</strong> (ou{' '}
+          <strong>Editar botão</strong>).
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>
+          Escolha a opção <strong>Enviar mensagem pelo WhatsApp</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>
+          Digite o número do seu WhatsApp de atendimento com o DDD. O Facebook vai enviar um código
+          de confirmação de 5 dígitos para o seu WhatsApp.
+        </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Digite o código na tela do Facebook para confirmar. Pronto, o botão verde do WhatsApp
+          agora aparece no topo da sua Página.
+        </p>
+      </StepCard>
     </div>
 
     <div className="mt-6">
       <StuckBox
         solucoes={[
-          'Não acho o botão para criar Página: no app, toque no menu (☰), depois em Páginas e Criar.',
-          "A categoria Psicólogo não aparece: tente 'Psicoterapeuta' ou 'Serviço de saúde mental'.",
-          'O Facebook pediu documento: isso acontece às vezes em contas novas. Siga as instruções da tela e volte depois.',
+          "Não acho a opção de criar Página: no app do Facebook, toque no menu (três risquinhos) › role até 'Todas as ferramentas' › Páginas › Criar.",
+          'O código do WhatsApp não chega: confira se o número foi digitado com o DDD correto (sem o zero na frente). Se ainda não chegar, aguarde 60 segundos e peça para reenviar por SMS.',
+          'O Facebook diz que o nome não é permitido: evite usar termos genéricos sozinhos como apenas "Psicologia". Use seu nome real junto: "Nome Sobrenome | Psicologia".',
         ]}
       />
     </div>
@@ -826,154 +836,113 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
   onChange,
 }) => (
   <>
+    <div className="flex justify-center mb-6">
+      <IlustracaoConversaChegando />
+    </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        O Instagram é a sua vitrine, o consultório antes do consultório. Mesmo quem chega por
-        indicação abre o seu perfil antes de mandar mensagem. A regra que guia tudo aqui é a dos 5
-        segundos: quem chega precisa entender o que você faz, para quem, e como agendar.
+        O Instagram é a sua vitrine. Quando alguém ouve falar de você, é lá que essa pessoa vai
+        olhar primeiro. E ela decide em 5 segundos se fica ou se sai. Nesta etapa, você vai montar
+        cada pedaço dessa vitrine usando os textos que a IA preparou.
       </p>
     </div>
 
     <div className="mt-6 space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">
-        3.1 · Criar a conta (só se ainda não tiver)
+        3.1 · Mudar para conta profissional
       </h4>
+      <div className="flex justify-center py-2">
+        <IlustracaoMenuContaProfissional />
+      </div>
+      <div className="py-1">
+        <MenuPath passos={['☰', 'Configurações e privacidade', 'Tipo de conta e ferramentas']} />
+      </div>
       <StepCard numero={1}>
-        <p>
-          Baixe o Instagram na App Store ou no Google Play. No computador, acesse pelo link oficial.
-        </p>
-        <LinkButton href="https://www.instagram.com">Abrir o Instagram</LinkButton>
+        <p>No seu perfil do Instagram, toque nos três risquinhos (☰) no canto superior.</p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Criar nova conta</strong>.
+          Role até <strong>Para profissionais</strong> e toque em{' '}
+          <strong>Tipo de conta e ferramentas</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
-        <p>Cadastre com celular ou e-mail, de preferência um e-mail só da clínica.</p>
+        <p>
+          Toque em <strong>Mudar para conta profissional</strong> e depois em{' '}
+          <strong>Continuar</strong>.
+        </p>
       </StepCard>
       <StepCard numero={4}>
-        <p>Informe nome, data de nascimento e uma senha forte.</p>
+        <p>
+          Em categoria, busque <strong>Psicólogo</strong> e marque a opção{' '}
+          <strong>Exibir no perfil</strong>.
+        </p>
       </StepCard>
       <StepCard numero={5}>
         <p>
-          Escolha o @: fácil de falar em voz alta, sem números aleatórios. A Bio do Manifesto sugere
-          opções.
+          Quando perguntar se você é Criador de conteúdo ou Empresa, escolha{' '}
+          <strong>Criador de conteúdo</strong> (dá acesso à biblioteca de músicas completa e a todas
+          as ferramentas que você precisa).
         </p>
       </StepCard>
-      <Callout tipo="dica">
-        Já tem um Instagram pessoal com a sua vida privada? Crie uma conta separada para a clínica:
-        no perfil, toque no seu @ no topo da tela, depois em Adicionar conta do Instagram e Criar
-        nova conta. Você alterna entre as duas sem sair do app.
-      </Callout>
-    </div>
-
-    <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">
-        3.2 · Transformar em conta profissional
-      </h4>
-      <div className="py-1">
-        <MenuPath passos={['☰', 'Tipo de conta e ferramentas', 'Mudar para conta profissional']} />
-      </div>
       <div className="flex justify-center py-2">
         <IlustracaoMudarParaProfissional />
       </div>
-      <StepCard numero={1}>
-        <p>
-          Vá ao seu perfil e toque nas <strong>três linhas (☰)</strong> no canto superior direito.
-        </p>
-      </StepCard>
-      <StepCard numero={2}>
-        <p>
-          Toque em <strong>Tipo de conta e ferramentas</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={3}>
-        <p>
-          Toque em <strong>Mudar para conta profissional</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={4}>
-        <p>
-          Busque a categoria <strong>Psicólogo</strong> e ative <strong>Exibir no perfil</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={5}>
-        <p>
-          Escolha <strong>Criador de conteúdo</strong> e toque em <strong>Avançar</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={6}>
-        <p>Na tela de contato, pode pular: o WhatsApp vai pelo link.</p>
-        <LinkButton href="https://help.instagram.com/2358103564437429">
-          Central de Ajuda do Instagram
-        </LinkButton>
-      </StepCard>
-      <Callout tipo="dica">
-        Criador ou Comercial? Para psicóloga autônoma, Criador de conteúdo é o padrão do Método FAC.
-        A Comercial faz sentido para clínica com equipe ou para quem quer telefone e endereço como
-        botões no perfil. Dá para trocar depois.
-      </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.3 · A anatomia do perfil</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">
+        3.2 · A anatomia do perfil profissional
+      </h4>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        Antes de editar, veja os 9 elementos que formam a sua vitrine:
+      </p>
       <div className="flex justify-center py-2">
         <IlustracaoAnatomiaPerfil />
       </div>
-      <p className="text-sm text-editorial-primary leading-relaxed">
-        Seu perfil tem nove itens, de cima para baixo, na ordem em que o olho percorre a tela. Cada
-        um tem uma função.
-      </p>
 
-      {/* Cartões no celular (sm:hidden) */}
-      <div className="sm:hidden space-y-2.5">
+      {/* Cartões no celular */}
+      <div className="sm:hidden space-y-2">
         {TABELA_ANATOMIA.map((row) => (
           <div
             key={row.item}
-            className="rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-3 space-y-1 shadow-2xs"
+            className="rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-3 shadow-2xs"
           >
-            <div className="flex items-center justify-between gap-2">
-              <span className="font-sans font-semibold text-xs text-editorial-primary">
-                {row.item}
-              </span>
-              <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300">
-                {row.funcao}
-              </span>
-            </div>
-            <p className="text-xs text-editorial-secondary leading-relaxed">{row.estrategia}</p>
+            <p className="font-sans font-semibold text-xs text-editorial-primary">{row.item}</p>
+            <p className="text-xs text-editorial-secondary mt-1">
+              <strong>Função:</strong> {row.funcao}
+            </p>
+            <p className="text-xs text-editorial-secondary mt-0.5">
+              <strong>Estratégia:</strong> {row.estrategia}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* Tabela em telas maiores (hidden sm:block) */}
+      {/* Tabela no desktop */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/4">
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
                 Item
               </th>
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/4">
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
                 Função
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                Melhor estratégia
+                Estratégia
               </th>
             </tr>
           </thead>
           <tbody>
             {TABELA_ANATOMIA.map((row) => (
               <tr key={row.item} className="border-b border-slate-100 dark:border-[#18181B]">
-                <td className="py-2.5 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
+                <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
                   {row.item}
                 </td>
-                <td className="py-2.5 pr-3 font-medium text-editorial-primary align-top">
-                  {row.funcao}
-                </td>
-                <td className="py-2.5 text-editorial-secondary leading-relaxed">
-                  {row.estrategia}
-                </td>
+                <td className="py-2 pr-3 text-editorial-secondary align-top">{row.funcao}</td>
+                <td className="py-2 text-editorial-secondary leading-relaxed">{row.estrategia}</td>
               </tr>
             ))}
           </tbody>
@@ -982,18 +951,40 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">3.4 · Foto, campo Nome e @</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">3.3 · Foto e @usuário</h4>
       <div className="flex justify-center py-2">
         <IlustracaoFotoENome />
       </div>
       <StepCard numero={1}>
         <p>
-          No perfil, toque em <strong>Editar perfil</strong>.
+          Em <strong>Editar perfil</strong>, toque em <strong>Mudar foto</strong> e escolha a foto
+          que você separou. Rosto visível ocupando a maior parte do círculo.
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Editar foto</strong> e escolha a foto com o rosto visível.
+          O <strong>@usuário</strong>: se o seu @ atual tem muitos números, pontos ou traços,
+          simplifique. O ideal é nome e profissão, fácil de falar numa conversa. Exemplos bons:{' '}
+          <em>@marinaalves.psi</em>, <em>@psi.marinaalves</em>, <em>@marinaalvespsicologa</em>.
+        </p>
+      </StepCard>
+    </div>
+
+    <div className="mt-6 space-y-4">
+      <h4 className="font-serif text-lg text-editorial-primary">3.4 · O campo Nome</h4>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        Atenção: o campo <strong>Nome</strong> é diferente do @usuário. Ele é o que o Instagram usa
+        na busca. Se você colocar só o seu nome, ninguém que busca por "psicóloga" vai te achar.
+        Coloque o seu nome e o que você faz.
+      </p>
+      <StepCard numero={1}>
+        <p>
+          Abra a conversa da <strong>Bio do Manifesto</strong> no ChatGPT.
+        </p>
+      </StepCard>
+      <StepCard numero={2}>
+        <p>
+          No Instagram, vá em <strong>Editar perfil</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
@@ -1121,16 +1112,16 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         ))}
       </div>
 
-      {/* Tabela em telas maiores */}
+      {/* Tabela no desktop */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/3">
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
                 Destaque
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                Pergunta do paciente que ele responde
+                A pergunta que ele responde
               </th>
             </tr>
           </thead>
@@ -1140,7 +1131,7 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
                 <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
                   {row.destaque}
                 </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">"{row.pergunta}"</td>
+                <td className="py-2 text-editorial-secondary leading-relaxed">{row.pergunta}</td>
               </tr>
             ))}
           </tbody>
@@ -1149,37 +1140,25 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 
       <StepCard numero={1}>
         <p>
-          Peça à <strong>Arquiteta da Vitrine</strong> a Etapa 2: ela escreve o roteiro de 3 a 5
+          Peça à <strong>Arquiteta da Vitrine</strong> a Etapa 2: ela gera o roteiro exato de
           stories para cada destaque.
         </p>
       </StepCard>
       <StepCard numero={2}>
-        <p>Publique o primeiro story do destaque "Comece por aqui".</p>
+        <p>Grave ou escreva os stories no Instagram e publique.</p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Abra o story publicado e toque em <strong>Destacar</strong>.
+          Abra o story publicado, toque em <strong>Destacar</strong> (coração no canto inferior), dê
+          o nome do destaque e salve.
         </p>
       </StepCard>
       <StepCard numero={4}>
         <p>
-          Toque em <strong>Novo</strong>, escreva o nome do destaque e toque em{' '}
-          <strong>Adicionar</strong>.
+          Capas: use uma cor sólida da sua paleta com o título legível, ou uma foto sua em cada
+          capa. Evite ícones genéricos (aqueles desenhos de florzinha ou xícara que todo mundo usa).
         </p>
       </StepCard>
-      <StepCard numero={5}>
-        <p>
-          Para trocar a capa: segure o dedo sobre o destaque, toque em{' '}
-          <strong>Editar destaque</strong> e depois em <strong>Editar capa</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={6}>
-        <p>Repita para os outros cinco. Use o mesmo estilo de capa em todos.</p>
-      </StepCard>
-      <Callout tipo="dica">
-        Também dá para criar destaque com stories antigos: no perfil, toque em Novo (o círculo com
-        +) abaixo da bio e escolha no seu arquivo.
-      </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -1201,13 +1180,13 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         ))}
       </div>
 
-      {/* Tabela em telas maiores */}
+      {/* Tabela no desktop */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary w-1/2">
-                Fixado
+              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
+                Post fixado
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
                 Objetivo
@@ -1308,53 +1287,64 @@ const Etapa4: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 }) => (
   <>
     <div className="flex justify-center mb-6">
-      <IlustracaoConexaoMeta />
-    </div>
-    <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
-      <p>
-        Com a Página e o Instagram prontos, agora eles conversam entre si. Essa conexão é o que
-        permite publicar nos dois lugares ao mesmo tempo e gerenciar as mensagens num só painel.
-      </p>
+      <IlustracaoPonteCentralDeContas />
     </div>
 
-    <div className="mt-6 space-y-4">
+    <div className="space-y-4">
       <h4 className="font-serif text-lg text-editorial-primary">
         4.1 · Conectar a Página ao Instagram
       </h4>
       <StepCard numero={1}>
         <p>
-          Na sua Página do Facebook, toque em <strong>Configurações</strong>.
+          No Instagram, vá ao perfil e toque em <strong>Editar perfil</strong>.
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Contas vinculadas</strong> e escolha <strong>Instagram</strong>.
+          Role até <strong>Informações do perfil</strong> (ou{' '}
+          <strong>Informações públicas da empresa</strong>) e toque em <strong>Página</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Toque em <strong>Conectar conta</strong> e entre com o seu @ do Instagram.
+          Toque em <strong>Conectar ou criar</strong> e entre com o seu Facebook.
+        </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Escolha a sua Página (ou <strong>Criar Página do Facebook</strong>, se ainda não criou) e
+          toque em <strong>Concluir</strong>.
         </p>
       </StepCard>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">4.2 · A Central de Contas</h4>
-      <StepCard numero={1}>
-        <p>Abra a Central de Contas da Meta pelo link abaixo.</p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h4 className="font-serif text-lg text-editorial-primary">4.2 · Central de Contas</h4>
         <LinkButton href="https://accountscenter.instagram.com">
           Abrir a Central de Contas
         </LinkButton>
+      </div>
+      <StepCard numero={1}>
+        <p>
+          No Instagram, toque em <strong>☰</strong> e depois em <strong>Central de Contas</strong>.
+        </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Confira se o Facebook e o Instagram aparecem juntos na mesma{' '}
-          <strong>Central de Contas</strong>, com o mesmo e-mail de acesso.
+          Toque em <strong>Contas</strong> e depois em <strong>Adicionar contas</strong>. Entre com
+          o Facebook.
+        </p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>
+          Em <strong>Compartilhamento entre perfis</strong>, ative o compartilhamento automático de
+          posts e stories na Página, se quiser que ela se alimente sozinha.
         </p>
       </StepCard>
       <Callout tipo="atencao">
-        Uma conta do Instagram se conecta a uma única Página. Se você tem mais de uma Página,
-        escolha a da sua prática clínica para conectar.
+        Cada Instagram se conecta a uma única Página, e a Central de Contas aceita um único
+        Facebook.
       </Callout>
     </div>
 
@@ -1376,141 +1366,219 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 }) => (
   <>
     <div className="flex justify-center mb-6">
-      <IlustracaoWhatsAppBusiness />
+      <IlustracaoWhatsappComumVsBusiness />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        O WhatsApp Business é o aplicativo onde a conversa vira agendamento. Ele é gratuito e feito
-        exatamente para isso: receber pacientes, responder com organização e manter a sua prática
-        profissional.
-      </p>
-      <p>
-        A diferença para o WhatsApp comum: ele tem mensagem de saudação, mensagem de ausência,
-        respostas rápidas, etiquetas e o link curto que agenda.
+        O WhatsApp é a porta. É onde o interesse vira agendamento. O WhatsApp Business é gratuito,
+        da própria Meta, e tem o que o WhatsApp comum não tem: perfil comercial, mensagem de
+        saudação, mensagem de ausência, respostas rápidas e etiquetas. Ele trabalha por você mesmo
+        quando você está em sessão.
       </p>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.1 · Instalar e usar o número</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">
+        5.1 · Instalar e usar o seu número
+      </h4>
       <div className="flex justify-center py-2">
-        <IlustracaoInstalarWhatsApp />
+        <IlustracaoMigracaoNumeroWhatsApp />
       </div>
       <StepCard numero={1}>
         <p>
-          Na loja do seu celular, procure por <strong>WhatsApp Business</strong> e toque em{' '}
-          <strong>Instalar</strong>. É o aplicativo da mesma empresa do WhatsApp, com um ícone
-          parecido.
+          Baixe o <strong>WhatsApp Business</strong> na App Store ou no Google Play (o ícone tem a
+          letra B).
         </p>
       </StepCard>
       <StepCard numero={2}>
+        <p>Abra e aceite os termos.</p>
+      </StepCard>
+      <StepCard numero={3}>
+        <p>Confirme o número que vai usar com pacientes.</p>
+      </StepCard>
+      <StepCard numero={4}>
         <p>
-          Abra o aplicativo e cadastre o número do seu atendimento. Se você usa um chip só, o
-          WhatsApp comum fica inutilizável enquanto o Business estiver ativo nele.
+          Se esse número já estiver no WhatsApp comum, o app oferece para{' '}
+          <strong>transferir</strong> as conversas. Aceite.
         </p>
       </StepCard>
+      <StepCard numero={5}>
+        <p>Confirme o código que chegar por SMS.</p>
+      </StepCard>
       <Callout tipo="atencao">
-        Migração: se você já atende pelo WhatsApp comum neste número, ao instalar o Business ele
-        pergunta se você quer transferir a sua conta e suas conversas. Toque em{' '}
-        <strong>Transferir</strong> para manter o histórico. Se preferir não migrar ainda, use um
-        segundo chip ou número.
+        O mesmo número não funciona no WhatsApp comum e no Business ao mesmo tempo. Ao migrar, o
+        WhatsApp comum deixa de usar esse número. Faça o backup das conversas antes.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.2 · Seu perfil comercial</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.2 · Perfil comercial</h4>
+      <div className="py-1">
+        <MenuPath passos={['Configurações (ou ⋮)', 'Ferramentas comerciais', 'Perfil comercial']} />
+      </div>
       <div className="flex justify-center py-2">
         <IlustracaoPerfilComercial />
       </div>
       <StepCard numero={1}>
-        <p>No WhatsApp Business, toque nos três pontinhos no canto superior.</p>
+        <p>
+          Abra <strong>Ferramentas comerciais</strong> e toque em <strong>Perfil comercial</strong>.
+        </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Configurações</strong> e depois no nome do seu negócio.
+          <strong>Foto:</strong> a mesma do Instagram.
         </p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Preencha o perfil: foto de rosto, categoria <em>psicóloga</em>, descrição curta e horário
-          de atendimento.
+          <strong>Nome:</strong> o mesmo do campo Nome do Instagram.
         </p>
       </StepCard>
-      <div className="py-2">
-        <MenuPath passos={['⋮', 'Configurações', 'Seu perfil comercial']} />
+      <StepCard numero={4}>
+        <p>
+          <strong>Categoria:</strong> busque uma de saúde, como Serviços médicos e de saúde.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          <strong>Descrição:</strong> cole a descrição que a <strong>Roteirista do WhatsApp</strong>{' '}
+          escrever.
+        </p>
+      </StepCard>
+      <StepCard numero={6}>
+        <p>
+          <strong>Horário de funcionamento:</strong> o seu horário real de resposta.
+        </p>
+      </StepCard>
+      <StepCard numero={7}>
+        <p>
+          <strong>Endereço:</strong> se atende só online, escreva na descrição "Atendimento online
+          para todo o Brasil" e não coloque endereço.
+        </p>
+      </StepCard>
+      <StepCard numero={8}>
+        <p>
+          <strong>E-mail e site:</strong> o e-mail profissional e o link do Instagram.
+        </p>
+      </StepCard>
+
+      {/* Cartão da Roteirista do WhatsApp logo abaixo deste subtítulo */}
+      <div className="rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-purple-50/40 dark:bg-[#18181B] p-4 sm:p-5 space-y-2 mt-4">
+        <h5 className="font-sans font-semibold text-sm text-editorial-primary">
+          Assistente · Roteirista do WhatsApp
+        </h5>
+        <p className="text-xs sm:text-sm text-editorial-secondary leading-relaxed">
+          Gere a descrição do perfil, a saudação, a mensagem de ausência e as respostas rápidas
+          direto com a assistente do Método FAC.
+        </p>
+        <div className="pt-2">
+          <GPTButton link={GPT_ROTEIRISTA_WHATSAPP} promptAnchorId="prompt-roteirista-whatsapp" />
+        </div>
       </div>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.3 · A mensagem de saudação</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.3 · Mensagem de saudação</h4>
       <div className="flex justify-center py-2">
         <IlustracaoSaudacao />
       </div>
       <p className="text-sm text-editorial-primary leading-relaxed">
-        A mensagem de saudação é enviada automaticamente para quem te chama pela primeira vez, ou
-        depois de 14 dias sem conversa. Use o prompt do <strong>Roteirista do WhatsApp</strong>{' '}
-        (Etapa 6) e depois cole o resultado aqui:
+        É a mensagem que chega automaticamente para quem fala com você pela primeira vez (ou depois
+        de 14 dias sem conversa).
       </p>
       <StepCard numero={1}>
         <p>
-          Toque nos três pontinhos, depois em <strong>Ferramentas comerciais</strong>.
+          Em <strong>Ferramentas comerciais</strong>, toque em <strong>Mensagem de saudação</strong>
+          .
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Mensagem de saudação</strong> e ligue a chave no topo.
+          Ative <strong>Enviar mensagem de saudação</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
-        <p>
-          Cole o texto e toque em <strong>Salvar</strong>. Exemplo:
-        </p>
-        <div className="rounded-[12px] bg-purple-50/80 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/60 p-3">
-          <p className="text-xs sm:text-sm text-editorial-primary leading-relaxed">
-            Olá! Obrigada pelo seu contato 💜 Recebo novas pacientes neste mês. Me conta um pouco do
-            que você está buscando? Respondo no mesmo dia, no horário de atendimento.
-          </p>
-        </div>
+        <p>Toque no texto (lápis) e cole a saudação que a Roteirista escreveu.</p>
       </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Em <strong>Destinatários</strong>, escolha <strong>Todos</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Toque em <strong>Salvar</strong>.
+        </p>
+      </StepCard>
+      <div className="rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-white dark:bg-[#121216] p-4 space-y-2 shadow-2xs">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-purple-700 dark:text-purple-300">
+          Exemplo em caixa destacada
+        </p>
+        <p className="text-sm font-medium text-editorial-primary leading-relaxed">
+          "Olá! Que bom que você chegou até aqui 💜 Sou a Marina, psicóloga. Me conta, com calma, o
+          que te trouxe? Respondo pessoalmente entre um atendimento e outro, geralmente no mesmo
+          dia."
+        </p>
+      </div>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.4 · A mensagem de ausência</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.4 · Mensagem de ausência</h4>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        É a mensagem que chega quando você está fora do horário ou em sessão. Ela evita que a pessoa
+        ache que foi ignorada.
+      </p>
       <StepCard numero={1}>
         <p>
-          No mesmo menu de <strong>Ferramentas comerciais</strong>, toque em{' '}
-          <strong>Mensagem de ausência</strong> e ligue a chave.
+          Em <strong>Ferramentas comerciais</strong>, toque em <strong>Mensagem de ausência</strong>
+          .
         </p>
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Escolha o <strong>horário de envio</strong> e confira se o horário de atendimento do seu
-          perfil está preenchido.
+          Ative <strong>Enviar mensagem de ausência</strong>.
         </p>
       </StepCard>
       <StepCard numero={3}>
-        <p>
-          Cole o texto da sua mensagem de ausência e toque em <strong>Salvar</strong>. Exemplo:
-        </p>
-        <div className="rounded-[12px] bg-purple-50/80 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/60 p-3">
-          <p className="text-xs sm:text-sm text-editorial-primary leading-relaxed">
-            Recebi a sua mensagem 💜 Neste momento estou fora do horário de atendimento. Respondo no
-            próximo horário comercial. Se for uma emergência, procure os serviços de emergência da
-            sua cidade ou ligue 188 (CVV).
-          </p>
-        </div>
+        <p>Cole o texto que a Roteirista escreveu.</p>
       </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Em <strong>Horário</strong>, escolha <strong>Fora do horário comercial</strong> (usa o
+          horário do perfil comercial) ou <strong>Horário programado</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Toque em <strong>Salvar</strong>.
+        </p>
+      </StepCard>
+      <div className="rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-white dark:bg-[#121216] p-4 space-y-2 shadow-2xs">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-purple-700 dark:text-purple-300">
+          Exemplo em caixa destacada
+        </p>
+        <p className="text-sm font-medium text-editorial-primary leading-relaxed">
+          "Oi! Recebi sua mensagem 💜 Neste momento estou em atendimento ou fora do horário.
+          Respondo assim que possível, no próximo horário útil. Se for uma emergência, ligue 188
+          (CVV) ou 192 (SAMU)."
+        </p>
+      </div>
       <Callout tipo="etica">
-        Deixe sempre claro na mensagem de ausência que o WhatsApp não é um canal de emergência.
-        Indique o CVV (188) ou o serviço de emergência da cidade. Isso protege a pessoa que escreveu
-        e protege você.
+        A mensagem de ausência deve sempre indicar um caminho para emergências, porque quem procura
+        psicóloga pode estar em sofrimento intenso. Confirme os números de emergência vigentes na
+        sua região.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.5 · As respostas rápidas</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.5 · Respostas rápidas</h4>
       <div className="flex justify-center py-2">
         <IlustracaoRespostasRapidas />
       </div>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        São atalhos para as perguntas que você responde todo dia. Você digita "/" na conversa e
+        escolhe a resposta pronta. Dá para criar até 50.
+      </p>
       <StepCard numero={1}>
         <p>
           Em <strong>Ferramentas comerciais</strong>, toque em <strong>Respostas rápidas</strong>.
@@ -1518,11 +1586,47 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       </StepCard>
       <StepCard numero={2}>
         <p>
-          Toque em <strong>Adicionar</strong>, escreva o atalho e cole a mensagem. Na conversa,
-          digite <strong>/</strong> e o atalho aparece para escolher.
+          Toque em <strong>+</strong> (adicionar).
         </p>
       </StepCard>
-      <div className="overflow-x-auto">
+      <StepCard numero={3}>
+        <p>
+          Em <strong>Mensagem</strong>, cole o texto da resposta.
+        </p>
+      </StepCard>
+      <StepCard numero={4}>
+        <p>
+          Em <strong>Atalho</strong>, escreva uma palavra curta, por exemplo comofunciona.
+        </p>
+      </StepCard>
+      <StepCard numero={5}>
+        <p>
+          Toque em <strong>Salvar</strong>.
+        </p>
+      </StepCard>
+      <StepCard numero={6}>
+        <p>
+          Para usar: numa conversa, digite <strong>/</strong> e escolha a resposta.
+        </p>
+      </StepCard>
+
+      {/* Cartões no celular */}
+      <div className="sm:hidden space-y-2">
+        {TABELA_RESPOSTAS_RAPIDAS.map((row) => (
+          <div
+            key={row.atalho}
+            className="rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-3 shadow-2xs"
+          >
+            <p className="font-mono font-semibold text-xs text-[#7c3aed] dark:text-[#C084FC]">
+              {row.atalho}
+            </p>
+            <p className="text-xs text-editorial-secondary mt-1">{row.pergunta}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabela no desktop */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="border-b border-slate-200 dark:border-[#27272A]">
@@ -1530,17 +1634,17 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
                 Atalho
               </th>
               <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                Mensagem
+                Para quando a pessoa pergunta
               </th>
             </tr>
           </thead>
           <tbody>
-            {TABELA_ATALHOS.map((row) => (
+            {TABELA_RESPOSTAS_RAPIDAS.map((row) => (
               <tr key={row.atalho} className="border-b border-slate-100 dark:border-[#18181B]">
                 <td className="py-2 pr-3 font-mono text-[#7c3aed] dark:text-[#C084FC] align-top whitespace-nowrap">
                   {row.atalho}
                 </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">{row.mensagem}</td>
+                <td className="py-2 text-editorial-secondary leading-relaxed">{row.pergunta}</td>
               </tr>
             ))}
           </tbody>
@@ -1549,86 +1653,50 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.6 · As etiquetas</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.6 · Etiquetas</h4>
       <div className="flex justify-center py-2">
         <IlustracaoEtiquetas />
       </div>
+      <p className="text-sm text-editorial-primary leading-relaxed">
+        As etiquetas organizam as conversas por etapa, para nenhum contato ficar esquecido.
+      </p>
       <StepCard numero={1}>
-        <p>Na lista de conversas, toque e segure uma conversa.</p>
+        <p>Na lista de conversas, segure o dedo sobre uma conversa.</p>
       </StepCard>
       <StepCard numero={2}>
-        <p>Toque no ícone de etiqueta e escolha uma.</p>
+        <p>Toque no ícone de etiqueta e escolha ou crie uma.</p>
       </StepCard>
       <StepCard numero={3}>
         <p>
-          Para criar as suas, em <strong>Ferramentas comerciais</strong> toque em{' '}
-          <strong>Etiquetas</strong> e depois em <strong>Adicionar etiqueta</strong>.
+          Crie estas quatro: <strong>Novo contato</strong>, <strong>Aguardando resposta</strong>,{' '}
+          <strong>Agendado</strong>, <strong>Paciente</strong>.
         </p>
       </StepCard>
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs sm:text-sm border-collapse">
-          <thead>
-            <tr className="border-b border-slate-200 dark:border-[#27272A]">
-              <th className="text-left py-2 pr-3 font-sans font-semibold text-editorial-primary">
-                Etiqueta
-              </th>
-              <th className="text-left py-2 font-sans font-semibold text-editorial-primary">
-                Quando usar
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {TABELA_ETIQUETAS.map((row) => (
-              <tr key={row.etiqueta} className="border-b border-slate-100 dark:border-[#18181B]">
-                <td className="py-2 pr-3 font-mono text-editorial-primary align-top whitespace-nowrap">
-                  {row.etiqueta}
-                </td>
-                <td className="py-2 text-editorial-secondary leading-relaxed">{row.uso}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
       <Callout tipo="etica">
-        Etiquetas servem para organizar o fluxo de atendimento, não para registrar conteúdo clínico.
-        Nunca escreva dados de sessão, diagnóstico ou assunto da conversa no nome ou na cor de uma
-        etiqueta.
+        Etiqueta é para organizar o fluxo, nunca para registrar informação clínica. Dados clínicos
+        ficam no prontuário, não no WhatsApp.
       </Callout>
     </div>
 
     <div className="mt-6 space-y-4">
-      <h4 className="font-serif text-lg text-editorial-primary">5.7 · O link curto</h4>
+      <h4 className="font-serif text-lg text-editorial-primary">5.7 · O seu link curto</h4>
       <StepCard numero={1}>
         <p>
-          Em <strong>Ferramentas comerciais</strong>, toque em <strong>Link curto</strong>. O seu é
-          wa.me seguido do seu número com DDI e DDD.
+          Em <strong>Ferramentas comerciais</strong>, procure <strong>Link curto</strong> (ou{' '}
+          <strong>Compartilhar link</strong>).
         </p>
       </StepCard>
       <StepCard numero={2}>
-        <p>
-          Toque em <strong>Copiar link</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={3}>
-        <p>
-          Volte ao Instagram (Etapa 3.6) e cole na área de <strong>Links</strong> do seu perfil, com
-          o título <strong>Agende sua sessão</strong>.
-        </p>
-      </StepCard>
-      <StepCard numero={4}>
-        <p>
-          Teste: abra o seu perfil em outro celular ou peça para alguém testar. O link deve abrir a
-          conversa com você.
-        </p>
+        <p>Copie o link. Ele pode substituir o link wa.me no Instagram e na Página.</p>
       </StepCard>
     </div>
 
     <div className="mt-6">
       <StuckBox
         solucoes={[
-          'O link curto não abre a conversa: confira o número no formato internacional, com 55 no começo, e teste em outra aba do navegador.',
-          'A mensagem automática não enviou: confira se a chave no topo da ferramenta está ligada e se o horário de atendimento está preenchido.',
-          'Migrei e perdi as conversas: no WhatsApp Business, abra Configurações, depois Conversas, e toque em Backup de conversas para restaurar.',
+          'Não acho "Ferramentas comerciais": no Android, toque nos três pontinhos (⋮) e em Ferramentas comerciais. No iPhone, toque em Configurações e depois em Ferramentas comerciais. Em algumas versões, as ferramentas ficam na aba Ferramentas.',
+          'Perdi as conversas na migração: se fez backup antes, restaure na instalação do WhatsApp Business.',
+          'A saudação não chegou no teste: ela só chega para quem não conversa com você há 14 dias. Peça para alguém novo testar.',
         ]}
       />
     </div>
@@ -1643,30 +1711,29 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
 )
 
 // ─────────────────────────────────────────────────────────────
-// Etapa 6 · Todos os prompts
+// Etapa 6 · Todos os prompts (consulta)
 // ─────────────────────────────────────────────────────────────
 const Etapa6: React.FC = () => (
   <>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        Os três prompts desta aula estão aqui, completos. Cole o seu Manifesto da Marca junto, no
-        mesmo campo, e a IA escreve a partir dele. Ajuste o que não soar como você: o texto final é
-        seu.
+        Aqui estão os três prompts completos. Se o botão do GPT não funcionar, copie o prompt, abra
+        uma conversa nova no ChatGPT, cole e envie. A assistente vai começar a conversar com você.
       </p>
     </div>
     <div className="mt-5 space-y-5">
       <CopyPromptBox
-        titulo="Bio do Manifesto"
+        titulo="Caixa 1 · Bio do Manifesto"
         prompt={PROMPT_BIO_MANIFESTO}
         idAnchor="prompt-bio-manifesto"
       />
       <CopyPromptBox
-        titulo="Arquiteta da Vitrine"
+        titulo="Caixa 2 · Arquiteta da Vitrine"
         prompt={PROMPT_ARQUITETA_VITRINE}
         idAnchor="prompt-arquiteta-vitrine"
       />
       <CopyPromptBox
-        titulo="Roteirista do WhatsApp"
+        titulo="Caixa 3 · Roteirista do WhatsApp"
         prompt={PROMPT_ROTEIRISTA_WHATSAPP}
         idAnchor="prompt-roteirista-whatsapp"
       />
@@ -1681,20 +1748,17 @@ const Etapa7: React.FC<{
   checklists: Record<string, ChecklistValues>
   progressoGeral: number
   tudoMarcado: boolean
-}> = ({ checklists, progressoGeral, tudoMarcado }) => (
+  onMarcar: (etapaId: string) => (valores: ChecklistValues) => void
+}> = ({ checklists, progressoGeral, tudoMarcado, onMarcar }) => (
   <>
     <div className="flex justify-center mb-6">
-      <IlustracaoTimer />
+      <IlustracaoCronometroTresBaloes />
     </div>
     <div className="space-y-4 text-sm text-editorial-primary leading-relaxed">
       <p>
-        Chegou a hora do teste da vitrine. Abra o seu perfil do Instagram, olhe por cinco segundos e
-        responda:
-      </p>
-      <p className="font-medium">O que ela faz? Para quem? Como eu agendo?</p>
-      <p>
-        Se as três respostas vieram rápido, a sua vitrine está comunicando. Se alguma demorou, volte
-        à etapa dela e ajuste: isso não é defeito, é o teste fazendo o trabalho dele.
+        Hora do teste. Abra o seu perfil do Instagram (ou peça para alguém abrir). Toque em Iniciar.
+        Quando o tempo acabar, feche e responda: o que essa psicóloga faz? Para quem? Como eu
+        agendo? Se alguma resposta demorou, ajuste a bio ou o primeiro link.
       </p>
     </div>
 
@@ -1705,7 +1769,7 @@ const Etapa7: React.FC<{
     <div className="mt-8 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <p className="font-sans font-semibold text-sm text-editorial-primary">
-          Resumo dos checklists
+          Resumo de todos os checklists
         </p>
         <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary">
           {progressoGeral}%
@@ -1717,52 +1781,32 @@ const Etapa7: React.FC<{
           style={{ width: `${progressoGeral}%` }}
         />
       </div>
+
       {[
         { titulo: 'Etapa 2 · Facebook', itens: CHECKLIST_ETAPA_2, id: 'etapa-2' },
         { titulo: 'Etapa 3 · Instagram', itens: CHECKLIST_ETAPA_3, id: 'etapa-3' },
-        { titulo: 'Etapa 4 · Conexão', itens: CHECKLIST_ETAPA_4, id: 'etapa-4' },
+        {
+          titulo: 'Etapa 4 · Conectar Instagram e Facebook',
+          itens: CHECKLIST_ETAPA_4,
+          id: 'etapa-4',
+        },
         { titulo: 'Etapa 5 · WhatsApp Business', itens: CHECKLIST_ETAPA_5, id: 'etapa-5' },
       ].map((bloco) => {
         const vals = checklists[bloco.id] ?? {}
-        const feitos = bloco.itens.filter((i) => vals[i.id]).length
         return (
           <div
             key={bloco.id}
-            className="rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 shadow-2xs"
+            className="rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-white dark:bg-[#121216] p-4 shadow-2xs space-y-3"
           >
-            <div className="flex items-center justify-between gap-3 mb-2">
-              <p className="text-sm font-semibold text-editorial-primary">{bloco.titulo}</p>
-              <p className="font-mono text-[10px] text-editorial-secondary">
-                {feitos}/{bloco.itens.length}
-              </p>
-            </div>
-            <ul className="space-y-1">
-              {bloco.itens.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex items-start gap-2 text-xs text-editorial-secondary leading-relaxed"
-                >
-                  <span
-                    aria-hidden="true"
-                    className={
-                      vals[item.id] ? 'text-emerald-600' : 'text-slate-300 dark:text-[#3f3f46]'
-                    }
-                  >
-                    {vals[item.id] ? '✓' : '○'}
-                  </span>
-                  <span className={vals[item.id] ? 'line-through opacity-70' : ''}>
-                    {item.texto}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <p className="text-sm font-semibold text-editorial-primary">{bloco.titulo}</p>
+            <Checklist itens={bloco.itens} valores={vals} onChange={onMarcar(bloco.id)} />
           </div>
         )
       })}
     </div>
 
     {tudoMarcado && (
-      <div className="mt-6 rounded-[14px] bg-purple-50/80 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/60 p-5 text-center">
+      <div className="mt-6 rounded-[14px] bg-purple-50/80 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/60 p-5 text-center animate-in fade-in duration-500">
         <p className="text-sm sm:text-base font-medium text-editorial-primary leading-relaxed">
           Seus canais estão prontos 💜 A vitrine está aberta e a porta também. Tire um print do seu
           perfil e poste no grupo da Academia.

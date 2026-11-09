@@ -84,7 +84,7 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
       CHECKLIST_ETAPA_4.length +
       CHECKLIST_ETAPA_5.length
     expect(TOTAL_ITENS_CHECKLIST).toBe(soma)
-    expect(TOTAL_ITENS_CHECKLIST).toBeGreaterThan(0)
+    expect(TOTAL_ITENS_CHECKLIST).toBe(7 + 5 + 9 + 3 + 7)
   })
 
   it('mantém os botões de GPT ocultos enquanto os links estiverem em placeholder', () => {
@@ -93,31 +93,40 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
     expect(isGptLinkAtivo(GPT_ROTEIRISTA_WHATSAPP)).toBe(false)
   })
 
-  it('os 3 prompts essenciais estão definidos e configurados', () => {
-    expect(PROMPT_BIO_MANIFESTO).toContain('Bio do Manifesto')
-    expect(PROMPT_ARQUITETA_VITRINE).toContain('Arquiteta da Vitrine')
-    expect(PROMPT_ROTEIRISTA_WHATSAPP).toContain('Roteirista do WhatsApp')
+  it('os 3 prompts essenciais estão declarados como constantes aguardando conteúdo oficial', () => {
+    expect(typeof PROMPT_BIO_MANIFESTO).toBe('string')
+    expect(typeof PROMPT_ARQUITETA_VITRINE).toBe('string')
+    expect(typeof PROMPT_ROTEIRISTA_WHATSAPP).toBe('string')
   })
 
-  it('perfil fictício das ilustrações e textos usa Marina Alves | Psicóloga Online', () => {
-    expect(PROMPT_BIO_MANIFESTO).toContain('Marina Alves')
-    expect(PROMPT_BIO_MANIFESTO).toContain('@marinaalves.psi')
-  })
-
-  it('nenhum texto das etapas ou prompts utiliza o caractere travessão (—)', () => {
+  it('nenhum texto das etapas ou itens de checklist utiliza o caractere travessão (—)', () => {
     const todosTextos = [
       ...ETAPAS_ENCONTRO_4.map((e) => e.titulo),
       PROMPT_BIO_MANIFESTO,
       PROMPT_ARQUITETA_VITRINE,
       PROMPT_ROTEIRISTA_WHATSAPP,
-      ...CHECKLIST_ETAPA_2,
-      ...CHECKLIST_ETAPA_3,
+      ...CHECKLIST_ETAPA_0.map((i) => i.texto),
+      ...CHECKLIST_ETAPA_2.map((i) => i.texto),
+      ...CHECKLIST_ETAPA_3.map((i) => i.texto),
+      ...CHECKLIST_ETAPA_4.map((i) => i.texto),
+      ...CHECKLIST_ETAPA_5.map((i) => i.texto),
     ].join(' ')
     expect(todosTextos).not.toContain('—')
+    expect(todosTextos).not.toContain('–')
   })
 
-  it('valida os checklists exatos da Etapa 2 e Etapa 3', () => {
-    expect(CHECKLIST_ETAPA_2).toEqual([
+  it('valida os checklists exatos de cada etapa', () => {
+    expect(CHECKLIST_ETAPA_0.map((i) => i.texto)).toEqual([
+      'Meu Manifesto e minha PVU copiados no bloco de notas do celular',
+      'Celular com Instagram e WhatsApp atualizados na loja de aplicativos',
+      'Computador com o ChatGPT aberto (a conta gratuita funciona, a paga funciona melhor)',
+      'Senhas do Instagram e do Facebook, se já tiver conta',
+      'Meu número de CRP',
+      'O número de celular que vou usar com pacientes',
+      'Uma foto minha com o rosto visível, fundo limpo e luz natural',
+    ])
+
+    expect(CHECKLIST_ETAPA_2.map((i) => i.texto)).toEqual([
       'Perfil pessoal com autenticação de dois fatores',
       'Página criada com nome, categoria e bio',
       'Foto de perfil e capa',
@@ -125,7 +134,7 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
       'Botão de WhatsApp ativo',
     ])
 
-    expect(CHECKLIST_ETAPA_3).toEqual([
+    expect(CHECKLIST_ETAPA_3.map((i) => i.texto)).toEqual([
       'Conta profissional, categoria Psicólogo',
       'Foto com rosto visível',
       'Campo Nome com nome e palavra-chave',
@@ -135,6 +144,22 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
       'Seis destaques com capas padronizadas',
       'Três posts fixados',
       'Autenticação de dois fatores ativa',
+    ])
+
+    expect(CHECKLIST_ETAPA_4.map((i) => i.texto)).toEqual([
+      'Página conectada ao Instagram',
+      'Facebook adicionado à Central de Contas',
+      'Compartilhamento automático decidido',
+    ])
+
+    expect(CHECKLIST_ETAPA_5.map((i) => i.texto)).toEqual([
+      'WhatsApp Business instalado com o número da clínica',
+      'Perfil comercial completo',
+      'Mensagem de saudação ativa',
+      'Mensagem de ausência ativa, com caminho para emergências',
+      'Pelo menos 3 respostas rápidas',
+      'Quatro etiquetas criadas',
+      'Link do WhatsApp atualizado no Instagram e na Página',
     ])
   })
 })
