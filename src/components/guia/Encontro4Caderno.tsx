@@ -48,6 +48,8 @@ import {
   PROMPT_BIO_MANIFESTO,
   PROMPT_ARQUITETA_VITRINE,
   PROMPT_ROTEIRISTA_WHATSAPP,
+  EXEMPLOS_BIOS_INSPIRACAO,
+  type ExemploBioDef,
 } from '../../config/encontro4Content'
 
 export const ENCONTRO4_STORAGE_KEY = 'academia-fac:encontro4-checklists'
@@ -1151,6 +1153,48 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           <p>Atendimento online para todo o Brasil 👇</p>
         </div>
       </ExemploBox>
+
+      <ExemploBox titulo="Mais exemplos de bios prontas para inspiração">
+        <p className="text-xs text-editorial-secondary">
+          Veja variações para diferentes públicos e abordagens clínicas. Cada uma segue a regra de 3
+          linhas do método (quem e transformação, autoridade, convite) e fica dentro do limite de
+          150 caracteres:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          {EXEMPLOS_BIOS_INSPIRACAO.map((bio, index) => (
+            <div
+              key={bio.id}
+              className="rounded-[12px] border border-purple-100 dark:border-[#27272A] bg-purple-50/40 dark:bg-[#18181b]/70 p-3 space-y-2 flex flex-col justify-between"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">
+                    Opção {index + 1} · {bio.foco}
+                  </span>
+                  <span className="font-mono text-[10px] text-editorial-secondary">
+                    {bio.linha1.length + bio.linha2.length + bio.linha3.length + 2} carac.
+                  </span>
+                </div>
+                <p className="text-[11px] text-editorial-secondary font-medium">
+                  {bio.publicoAbordagem}
+                </p>
+              </div>
+              <div className="rounded-[8px] bg-white dark:bg-[#0c0914] border border-purple-200/70 dark:border-[#27272A] p-2.5 text-xs font-mono leading-relaxed text-editorial-primary space-y-0.5">
+                <p>{bio.linha1}</p>
+                <p>{bio.linha2}</p>
+                <p>{bio.linha3}</p>
+              </div>
+              <p className="text-[11px] text-editorial-secondary leading-normal">
+                {bio.explicacao}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] text-editorial-secondary pt-1">
+          💡 <strong>Dica ética:</strong> note que nenhuma bio traz preço, promessa mágica de cura
+          ou frases do tipo "dobre seu engajamento". O tom é acolhedor, profissional e claro.
+        </p>
+      </ExemploBox>
       <StepCard numero={1}>
         <p>
           Em <strong>Editar perfil</strong>, toque em <strong>Bio</strong>.
@@ -1984,6 +2028,39 @@ const Etapa6: React.FC = () => (
         prompt={PROMPT_BIO_MANIFESTO}
         idAnchor="prompt-bio-manifesto"
       />
+
+      <ExemploBox titulo="Exemplos de bios geradas com o método (inspiração)">
+        <p className="text-xs text-editorial-secondary">
+          Estes exemplos mostram como a estrutura de 3 linhas do prompt oficial ganha vida na
+          prática para diferentes nichos e abordagens, mantendo sempre a ética da psicologia:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          {EXEMPLOS_BIOS_INSPIRACAO.map((bio, index) => (
+            <div
+              key={`etapa6-${bio.id}`}
+              className="rounded-[10px] border border-slate-200 dark:border-[#27272A] bg-slate-50 dark:bg-[#18181b] p-3 space-y-1.5"
+            >
+              <div className="flex items-center justify-between gap-1.5">
+                <span className="font-mono text-[10px] font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider">
+                  Exemplo {index + 1}
+                </span>
+                <span className="font-mono text-[10px] text-editorial-secondary">{bio.foco}</span>
+              </div>
+              <div className="rounded-[8px] bg-white dark:bg-[#0c0914] border border-slate-200 dark:border-[#27272A] p-2 text-xs font-mono leading-relaxed text-editorial-primary space-y-0.5">
+                <p>{bio.linha1}</p>
+                <p>{bio.linha2}</p>
+                <p>{bio.linha3}</p>
+              </div>
+              <p className="text-[11px] text-editorial-secondary">{bio.publicoAbordagem}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-[11px] text-editorial-secondary pt-1">
+          Atenção: estes cartões são apenas referências de apoio para alunas. O prompt acima
+          permanece o texto oficial para copiar e colar no ChatGPT.
+        </p>
+      </ExemploBox>
+
       <CopyPromptBox
         titulo="Caixa 2 · Arquiteta da Vitrine"
         prompt={PROMPT_ARQUITETA_VITRINE}

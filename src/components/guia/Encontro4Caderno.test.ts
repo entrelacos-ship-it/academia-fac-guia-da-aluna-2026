@@ -18,6 +18,7 @@ import {
   PROMPT_BIO_MANIFESTO,
   PROMPT_ARQUITETA_VITRINE,
   PROMPT_ROTEIRISTA_WHATSAPP,
+  EXEMPLOS_BIOS_INSPIRACAO,
 } from '@/config/encontro4Content'
 
 describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
@@ -114,6 +115,38 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
     ].join(' ')
     expect(textosRedigidosAula).not.toContain('—')
     expect(textosRedigidosAula).not.toContain('–')
+  })
+
+  it('exemplos de bio de inspiração seguem a estrutura de 3 linhas e respeitam limite de 150 caracteres', () => {
+    expect(EXEMPLOS_BIOS_INSPIRACAO.length).toBeGreaterThanOrEqual(4)
+
+    for (const bio of EXEMPLOS_BIOS_INSPIRACAO) {
+      // 3 linhas preenchidas
+      expect(bio.linha1.trim().length).toBeGreaterThan(0)
+      expect(bio.linha2.trim().length).toBeGreaterThan(0)
+      expect(bio.linha3.trim().length).toBeGreaterThan(0)
+
+      // Linha 2 contém CRP ou autoridade profissional
+      expect(bio.linha2).toContain('CRP 06/000000')
+
+      // Linha 3 contém convite ético
+      expect(bio.linha3).toMatch(/👇/)
+
+      // Contagem total com quebras de linha (\n) não ultrapassa 150 caracteres
+      const bioCompleta = `${bio.linha1}\n${bio.linha2}\n${bio.linha3}`
+      expect(bioCompleta.length).toBeLessThanOrEqual(150)
+
+      // Regra de zero travessões em todo o exemplo
+      const textoBio = `${bio.foco} ${bio.publicoAbordagem} ${bioCompleta} ${bio.explicacao}`
+      expect(textoBio).not.toContain('—')
+      expect(textoBio).not.toContain('–')
+
+      // Ética do método: sem preço, sem promessa de resultado ou cura mágica, sem engajamento apelativo
+      expect(textoBio.toLowerCase()).not.toContain('r$')
+      expect(textoBio.toLowerCase()).not.toContain('cura')
+      expect(textoBio.toLowerCase()).not.toContain('dobre seu engajamento')
+      expect(textoBio.toLowerCase()).not.toContain('clique em seguir')
+    }
   })
 
   it('PROMPT_BIO_MANIFESTO contém o texto oficial verbatim completo', () => {

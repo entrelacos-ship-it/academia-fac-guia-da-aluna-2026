@@ -80,3 +80,80 @@ Me envie a sua **PROPOSTA DE VALOR** e vamos criar juntos a biografia perfeita p
 // Caixas 2 e 3 continuam aguardando o texto verbatim definitivo da usuária.
 export const PROMPT_ARQUITETA_VITRINE = ''
 export const PROMPT_ROTEIRISTA_WHATSAPP = ''
+
+// ─────────────────────────────────────────────────────────────
+// Exemplos de Bio de Inspiração (para Etapa 3.5 e Etapa 6)
+// Estrutura de 3 linhas do método FAC:
+// Linha 1: Para quem e qual transformação
+// Linha 2: Autoridade (formação, abordagem, CRP, formato)
+// Linha 3: Convite ético para o próximo passo
+// Limite estrito: até 150 caracteres (regra nativa do Instagram).
+// Zero travessões (regra editorial do projeto).
+// ─────────────────────────────────────────────────────────────
+export interface ExemploBioDef {
+  id: string
+  foco: string
+  publicoAbordagem: string
+  linha1: string
+  linha2: string
+  linha3: string
+  explicacao: string
+}
+
+export const EXEMPLOS_BIOS_INSPIRACAO: ExemploBioDef[] = [
+  {
+    id: 'bio-ansiedade-exaustao',
+    foco: 'Ansiedade e sobrecarga em mulheres',
+    publicoAbordagem: 'Mulheres adultas, TCC e Terapia Focada na Compaixão',
+    linha1: 'Para mulheres exaustas que querem voltar a ter paz',
+    linha2: 'Psicóloga Clínica · TCC · CRP 06/000000 · Online',
+    linha3: 'Agende sua conversa inicial 👇',
+    explicacao: 'Foco em aliviar o cansaço mental e a sensação de carregar tudo sozinha.',
+  },
+  {
+    id: 'bio-terapia-casais',
+    foco: 'Relacionamento e terapia de casal',
+    publicoAbordagem: 'Casais e vínculos, Abordagem Sistêmica',
+    linha1: 'Ajudando casais a conversarem sem brigar e se ferir',
+    linha2: 'Psicóloga · Terapia de Casal · CRP 06/000000 · Online',
+    linha3: 'Dê o primeiro passo no link 👇',
+    explicacao: 'Diálogo sem acusação e reconstrução de parceria afetiva.',
+  },
+  {
+    id: 'bio-luto-perdas',
+    foco: 'Acolhimento no luto e transições de vida',
+    publicoAbordagem: 'Adultos enlutados, Fenomenologia Existencial',
+    linha1: 'Acolho quem vive a dor de uma perda ou despedida',
+    linha2: 'Psicóloga · Luto e Vínculos · CRP 06/000000 · Online',
+    linha3: 'Converse comigo no WhatsApp 👇',
+    explicacao: 'Linguagem respeitosa, sem pressa de curar e acolhendo o tempo de cada pessoa.',
+  },
+  {
+    id: 'bio-terapia-homens',
+    foco: 'Terapia para homens e saúde emocional masculina',
+    publicoAbordagem: 'Homens adultos, Psicanálise e Clínica Ampliada',
+    linha1: 'Espaço seguro para homens falarem sobre angústias e peso',
+    linha2: 'Psicóloga Clínica · CRP 06/000000 · Atendimento Online',
+    linha3: 'Agende seu horário aqui 👇',
+    explicacao:
+      'Quebra a barreira de que homem não faz terapia com acolhimento direto e confidencial.',
+  },
+  {
+    id: 'bio-adolescentes-pais',
+    foco: 'Adolescentes e orientação de pais',
+    publicoAbordagem: 'Jovens e famílias, Psicologia do Desenvolvimento',
+    linha1: 'Apoio para adolescentes e ponte de escuta com os pais',
+    linha2: 'Psicóloga · CRP 06/000000 · Consultas Online e Presencial',
+    linha3: 'Fale comigo no WhatsApp 👇',
+    explicacao: 'Mostra cuidado tanto com o jovem quanto com os responsáveis que contratam.',
+  },
+  {
+    id: 'bio-autoestima-limites',
+    foco: 'Autoestima, limites e perfeccionismo',
+    publicoAbordagem: 'Adultos com cobrança interna alta, Abordagem Humanista',
+    linha1: 'Para quem cansa de agradar a todos e se deixar por último',
+    linha2: 'Psicóloga · Humanista · CRP 06/000000 · Terapia Online',
+    linha3: 'Inicie sua psicoterapia 👇',
+    explicacao: 'Identificação imediata de quem tem dificuldade de dizer não sem culpa.',
+  },
+]
