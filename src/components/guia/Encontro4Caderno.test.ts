@@ -100,9 +100,10 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
   })
 
   it('nenhum texto das etapas ou itens de checklist utiliza o caractere travessão (—)', () => {
-    const todosTextos = [
+    // A regra de zero travessões vale para os textos redigidos para a aula e checklists.
+    // O PROMPT_BIO_MANIFESTO é conteúdo oficial verbatim da usuária (mantém pontuação original).
+    const textosRedigidosAula = [
       ...ETAPAS_ENCONTRO_4.map((e) => e.titulo),
-      PROMPT_BIO_MANIFESTO,
       PROMPT_ARQUITETA_VITRINE,
       PROMPT_ROTEIRISTA_WHATSAPP,
       ...CHECKLIST_ETAPA_0.map((i) => i.texto),
@@ -111,8 +112,26 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
       ...CHECKLIST_ETAPA_4.map((i) => i.texto),
       ...CHECKLIST_ETAPA_5.map((i) => i.texto),
     ].join(' ')
-    expect(todosTextos).not.toContain('—')
-    expect(todosTextos).not.toContain('–')
+    expect(textosRedigidosAula).not.toContain('—')
+    expect(textosRedigidosAula).not.toContain('–')
+  })
+
+  it('PROMPT_BIO_MANIFESTO contém o texto oficial verbatim completo', () => {
+    expect(PROMPT_BIO_MANIFESTO).toContain('### 🎯 OBJETIVO')
+    expect(PROMPT_BIO_MANIFESTO).toContain('### 🧠 MINHA EXPERTISE')
+    expect(PROMPT_BIO_MANIFESTO).toContain('### ✍️ FORMATO PADRÃO DA BIOGRAFIA')
+    expect(PROMPT_BIO_MANIFESTO).toContain('### 🧪 EXEMPLO DE BIO:')
+    expect(PROMPT_BIO_MANIFESTO).toContain(
+      '### ✅ APÓS A ENTREGA DAS 3 BIOGRAFIAS, SEMPRE EXIBO ESTAS OPÇÕES:',
+    )
+    expect(PROMPT_BIO_MANIFESTO).toContain(
+      '1 - Gostou de alguma BIOGRAFIA ESPECÍFICA dos 3 exemplos acima?',
+    )
+    expect(PROMPT_BIO_MANIFESTO).toContain(
+      '4 - Vamos trabalhar um refinamento na BIOGRAFIA (Selecione a opção)',
+    )
+    expect(PROMPT_BIO_MANIFESTO).toContain('### 💬 AGORA É COM VOCÊ!')
+    expect(PROMPT_BIO_MANIFESTO).toContain('Me envie a sua **PROPOSTA DE VALOR**')
   })
 
   it('valida os checklists exatos de cada etapa', () => {
