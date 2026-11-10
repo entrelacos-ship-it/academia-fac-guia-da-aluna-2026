@@ -94,9 +94,11 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
     expect(isGptLinkAtivo(GPT_ROTEIRISTA_WHATSAPP)).toBe(false)
   })
 
-  it('os 3 prompts essenciais estão declarados como constantes aguardando conteúdo oficial', () => {
+  it('os 3 prompts essenciais estão declarados como constantes e os prompts 1 e 2 possuem texto oficial preenchido', () => {
     expect(typeof PROMPT_BIO_MANIFESTO).toBe('string')
+    expect(PROMPT_BIO_MANIFESTO.length).toBeGreaterThan(0)
     expect(typeof PROMPT_ARQUITETA_VITRINE).toBe('string')
+    expect(PROMPT_ARQUITETA_VITRINE.length).toBeGreaterThan(0)
     expect(typeof PROMPT_ROTEIRISTA_WHATSAPP).toBe('string')
   })
 
@@ -165,6 +167,49 @@ describe('Encontro 4: Canais (Facebook, Instagram, WhatsApp Business)', () => {
     )
     expect(PROMPT_BIO_MANIFESTO).toContain('### 💬 AGORA É COM VOCÊ!')
     expect(PROMPT_BIO_MANIFESTO).toContain('Me envie a sua **PROPOSTA DE VALOR**')
+  })
+
+  it('PROMPT_ARQUITETA_VITRINE contém o texto oficial verbatim completo sem travessões e com ética CFP', () => {
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### 🎯 OBJETIVO')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      'Criar o **perfil completo do Instagram** de uma psicóloga, item por item, em 4 etapas:',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      '1. Topo do perfil: foto, @, campo Nome, categoria, bio e link do WhatsApp',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      '2. Os seis destaques, com roteiro de stories para cada um',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      '3. Os três posts fixados, com título, estrutura e legenda',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      '4. A grade: pilares de conteúdo e 9 ideias de posts',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### 🧠 MINHA EXPERTISE')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### 📥 O QUE VOCÊ VAI ME ENVIAR')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### 📐 REGRAS ÉTICAS (OBRIGATÓRIAS)')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      '* Nunca incluir preço, promoção, promessa de resultado ou depoimento de paciente',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('* Sempre incluir o CRP onde eu indicar')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('* Seguir a redação vigente das resoluções do CFP')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### ✍️ COMO VAMOS TRABALHAR (4 ETAPAS)')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('1️⃣ **Etapa 1 · Topo do perfil**')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('2️⃣ **Etapa 2 · Os seis destaques**')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('3️⃣ **Etapa 3 · Os três posts fixados**')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('4️⃣ **Etapa 4 · A grade**')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### ✅ APÓS CADA ETAPA, SEMPRE EXIBO ESTAS OPÇÕES:')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('1 - Gostei do resultado desta etapa')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('2 - Quero ajustar algo nesta etapa')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('3 - Dê a sua visão apontando o que pode melhorar')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('4 - Vamos para a próxima etapa')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain('### 💬 AGORA É COM VOCÊ!')
+    expect(PROMPT_ARQUITETA_VITRINE).toContain(
+      'Me envie seu **Manifesto**, sua **PVU** e seus dados',
+    )
+    expect(PROMPT_ARQUITETA_VITRINE).not.toContain('—')
+    expect(PROMPT_ARQUITETA_VITRINE).not.toContain('–')
   })
 
   it('valida os checklists exatos de cada etapa', () => {
