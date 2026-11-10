@@ -275,6 +275,38 @@ const CALLOUT_STYLES: Record<CalloutTipo, { box: string; icon: React.ReactNode }
   },
 }
 
+// ─────────────────────────────────────────────────────────────
+// ExemploBox: caixa destacada para exemplos práticos da aula
+// ─────────────────────────────────────────────────────────────
+interface ExemploBoxProps {
+  titulo?: string
+  children: React.ReactNode
+  className?: string
+}
+
+export const ExemploBox: React.FC<ExemploBoxProps> = ({
+  titulo = 'Exemplo prático',
+  children,
+  className = '',
+}) => (
+  <div
+    className={`rounded-[14px] border border-purple-200/90 dark:border-[#3f3f46] bg-white dark:bg-[#121216] p-4 space-y-2 shadow-2xs ${className}`}
+  >
+    <div className="flex items-center gap-1.5">
+      <span
+        className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] dark:bg-[#C084FC]"
+        aria-hidden="true"
+      />
+      <p className="font-mono text-[10px] uppercase tracking-wider text-purple-700 dark:text-purple-300 font-semibold">
+        {titulo}
+      </p>
+    </div>
+    <div className="text-xs sm:text-sm text-editorial-primary leading-relaxed space-y-2">
+      {children}
+    </div>
+  </div>
+)
+
 export const Callout: React.FC<CalloutProps> = ({ tipo, children }) => {
   const style = CALLOUT_STYLES[tipo]
   return (

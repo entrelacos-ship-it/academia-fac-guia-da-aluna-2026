@@ -10,6 +10,7 @@ import {
   Checklist,
   LinkButton,
   FiveSecondTimer,
+  ExemploBox,
   type ChecklistValues,
 } from './encontro4Shared'
 import {
@@ -608,6 +609,50 @@ const Etapa1: React.FC = () => (
       </StepCard>
     </div>
 
+    {/* Exemplo de envio sem Manifesto completo e resposta da IA */}
+    <div className="mt-6 space-y-3">
+      <ExemploBox titulo="Exemplo prático · Se você ainda não tem o Manifesto">
+        <p className="text-xs text-editorial-secondary">
+          Veja o que você pode colar no ChatGPT caso ainda não tenha o texto completo do Manifesto:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#0c0914] border border-slate-200 dark:border-[#27272A] p-3 text-xs sm:text-sm font-mono leading-relaxed space-y-1">
+          <p className="text-purple-700 dark:text-purple-300 font-semibold text-[11px] uppercase tracking-wider">
+            O que você cola (as três frases da Marina):
+          </p>
+          <p className="text-editorial-primary">
+            "1. Quem atendo: mulheres adultas que acumulam trabalho, casa e família e se sentem no
+            limite da exaustão.
+          </p>
+          <p className="text-editorial-primary">
+            2. Dor principal: sensação de nunca conseguir descansar a mente, culpa por parar e
+            dificuldade de dizer não.
+          </p>
+          <p className="text-editorial-primary">
+            3. O que muda depois da terapia: aprender a colocar limites sem culpa, organizar a
+            rotina com espaço para si e recuperar a leveza."
+          </p>
+        </div>
+
+        <div className="rounded-[10px] bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/80 dark:border-purple-900/40 p-3 text-xs sm:text-sm leading-relaxed space-y-1">
+          <p className="text-purple-700 dark:text-purple-300 font-semibold text-[11px] uppercase tracking-wider font-mono">
+            Exemplo de resposta curta da assistente:
+          </p>
+          <p className="text-editorial-primary">
+            <strong>Opção de Bio gerada:</strong>
+            <br />
+            Ajudo mulheres exaustas a voltarem a caber na própria vida
+            <br />
+            Psicóloga Clínica · CRP 06/000000 · Psicoterapia Online
+            <br />
+            Agende sua primeira conversa 👇
+          </p>
+          <p className="text-editorial-secondary text-xs pt-1">
+            <strong>Campo Nome sugerido:</strong> Marina Alves | Psicóloga Ansiedade e Exaustão
+          </p>
+        </div>
+      </ExemploBox>
+    </div>
+
     <div className="mt-6">
       <StuckBox
         solucoes={[
@@ -749,6 +794,17 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           pode colocar depois.
         </p>
       </StepCard>
+
+      <ExemploBox titulo="Exemplo · Frases de posicionamento para a foto de capa">
+        <p className="text-xs text-editorial-secondary">
+          Se você optar por uma capa com fundo neutro e texto, use uma frase curta e acolhedora:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm text-editorial-primary space-y-1.5 font-medium">
+          <p>• "Espaço de escuta, acolhimento e reconstrução para mulheres."</p>
+          <p>• "Cuidar de você não é egoísmo, é ponto de partida."</p>
+          <p>• "Psicoterapia online com presença, respeito ao seu ritmo e ética clínica."</p>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -771,6 +827,24 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           costuma responder mensagens.
         </p>
       </StepCard>
+
+      <ExemploBox titulo="Exemplo · Preenchimento dos dados de contato da Página">
+        <div className="space-y-1.5 text-xs sm:text-sm">
+          <p>
+            <strong>WhatsApp:</strong> (11) 90000-0000 (número exclusivo da clínica)
+          </p>
+          <p>
+            <strong>E-mail:</strong> contato@marinaalvespsicologia.com.br
+          </p>
+          <p>
+            <strong>Localização:</strong> Sem endereço físico selecionado (Atendimento online em
+            todo o Brasil)
+          </p>
+          <p>
+            <strong>Horário:</strong> Segunda a sexta, das 8h às 19h
+          </p>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -968,6 +1042,32 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           <em>@marinaalves.psi</em>, <em>@psi.marinaalves</em>, <em>@marinaalvespsicologa</em>.
         </p>
       </StepCard>
+
+      <ExemploBox titulo="Exemplo · Alternativas de @ fáceis de falar em voz alta">
+        <p className="text-xs text-editorial-secondary">
+          Se o seu nome exato já estiver em uso, veja 3 formatos limpos que funcionam muito bem:
+        </p>
+        <div className="space-y-1.5 text-xs sm:text-sm">
+          <p>
+            <strong className="font-mono text-purple-700 dark:text-purple-300">
+              @marinaalves.psi
+            </strong>
+            : simples, direto e sonoro.
+          </p>
+          <p>
+            <strong className="font-mono text-purple-700 dark:text-purple-300">
+              @psi.marinaalves
+            </strong>
+            : destaca a profissão logo no início.
+          </p>
+          <p>
+            <strong className="font-mono text-purple-700 dark:text-purple-300">
+              @marinaalvespsicologia
+            </strong>
+            : opção sem nenhum ponto ou caractere especial.
+          </p>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -1039,6 +1139,18 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           Agende sua conversa inicial 👇
         </p>
       </div>
+
+      <ExemploBox titulo="Exemplo 2 · Segunda opção de bio completa">
+        <p className="text-xs text-editorial-secondary">
+          Outra combinação gerada pela IA, com foco mais direto no acolhimento de crises e
+          ansiedade:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm leading-relaxed font-medium text-editorial-primary space-y-0.5">
+          <p>Para quem sente que carrega o peso do mundo nas costas</p>
+          <p>Psicóloga Clínica · TCC e Terapia Focada na Compaixão · CRP 06/000000</p>
+          <p>Atendimento online para todo o Brasil 👇</p>
+        </div>
+      </ExemploBox>
       <StepCard numero={1}>
         <p>
           Em <strong>Editar perfil</strong>, toque em <strong>Bio</strong>.
@@ -1098,6 +1210,43 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       <div className="flex justify-center py-2">
         <IlustracaoDestaques />
       </div>
+
+      <ExemploBox titulo="Exemplo · Roteiro de 3 stories para o destaque 'Comece por aqui'">
+        <p className="text-xs text-editorial-secondary">
+          Veja uma sugestão simples para gravar ou postar em cards de texto:
+        </p>
+        <div className="space-y-2 text-xs sm:text-sm">
+          <div className="rounded-[8px] bg-slate-50 dark:bg-[#18181b] p-2.5 space-y-1">
+            <p className="font-semibold text-purple-700 dark:text-purple-300 text-xs">
+              Story 1 (Apresentação pessoal e acolhimento):
+            </p>
+            <p className="text-editorial-primary italic">
+              "Olá, seja muito bem-vinda ao meu perfil. Sou a Marina Alves, psicóloga clínica (CRP
+              06/000000), e este espaço foi criado com muito carinho para compartilhar reflexões
+              sobre saúde mental, sobrecarga e limites."
+            </p>
+          </div>
+          <div className="rounded-[8px] bg-slate-50 dark:bg-[#18181b] p-2.5 space-y-1">
+            <p className="font-semibold text-purple-700 dark:text-purple-300 text-xs">
+              Story 2 (Para quem e como funciona):
+            </p>
+            <p className="text-editorial-primary italic">
+              "Aqui atendo principalmente mulheres adultas que se sentem no limite do cansaço mental
+              e buscam um lugar seguro para se escutarem. As consultas acontecem 100% online, por
+              videochamada semanal sigilosa, no conforto da sua casa."
+            </p>
+          </div>
+          <div className="rounded-[8px] bg-slate-50 dark:bg-[#18181b] p-2.5 space-y-1">
+            <p className="font-semibold text-purple-700 dark:text-purple-300 text-xs">
+              Story 3 (Chamada para ação acolhedora):
+            </p>
+            <p className="text-editorial-primary italic">
+              "Se você sente que este é o momento de cuidar de você, o link da minha bio leva direto
+              para o meu WhatsApp de atendimento. Me mande um 'oi' e conversamos com calma!"
+            </p>
+          </div>
+        </div>
+      </ExemploBox>
 
       {/* Cartões no celular */}
       <div className="sm:hidden space-y-2">
@@ -1166,6 +1315,37 @@ const Etapa3: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
       <div className="flex justify-center py-2">
         <IlustracaoPostsFixados />
       </div>
+
+      <ExemploBox titulo="Exemplo · Legenda completa para o Post Fixado 2 ('Para quem eu sou')">
+        <p className="text-xs text-editorial-secondary">
+          Veja como a Marina escreve para acolher quem se identifica com seu trabalho:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm text-editorial-primary leading-relaxed space-y-2">
+          <p className="font-semibold text-purple-700 dark:text-purple-300 text-xs">
+            Título no carrossel ou imagem: "Para quem é o meu trabalho na psicoterapia?"
+          </p>
+          <p>
+            Você sente que cuida de tudo e de todos, mas sobra quase nada de você para você mesma no
+            final do dia?
+          </p>
+          <p>
+            Meu trabalho na clínica online é dedicado a acolher mulheres que carregam uma
+            autocobrança implacável, convivem com ansiedade frequente e sentem culpa profunda sempre
+            que precisam dizer "não".
+          </p>
+          <p>
+            Na psicoterapia, criamos um espaço semanal de pausa e presença, onde você pode falar sem
+            medo de julgamentos, elaborar suas dores e reencontrar seu ritmo com acolhimento e
+            respeito à sua história.
+          </p>
+          <p>
+            Atendimento online para todo o Brasil. CRP 06/000000.
+            <br />
+            Se você se identificou, o link no perfil leva diretamente ao meu WhatsApp para
+            conversarmos.
+          </p>
+        </div>
+      </ExemploBox>
 
       {/* Cartões no celular */}
       <div className="sm:hidden space-y-2">
@@ -1346,6 +1526,44 @@ const Etapa4: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
         Cada Instagram se conecta a uma única Página, e a Central de Contas aceita um único
         Facebook.
       </Callout>
+
+      <ExemploBox titulo="Exemplo · Tela da Central de Contas com compartilhamento ativo">
+        <p className="text-xs text-editorial-secondary">
+          Veja como fica a tela de confirmação quando a integração é concluída com sucesso:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm space-y-2">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-2">
+            <span className="text-editorial-secondary">Compartilhar de:</span>
+            <span className="font-semibold text-editorial-primary font-mono">
+              @marinaalves.psi (Instagram)
+            </span>
+          </div>
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#27272A] pb-2">
+            <span className="text-editorial-secondary">Compartilhar para:</span>
+            <span className="font-semibold text-editorial-primary font-mono">
+              Marina Alves | Psicóloga (Página Facebook)
+            </span>
+          </div>
+          <div className="space-y-1 pt-1">
+            <div className="flex items-center justify-between text-xs">
+              <span>Seus stories do Instagram</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-semibold font-mono">
+                ATIVADO
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span>Suas publicações do Instagram</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-semibold font-mono">
+                ATIVADO
+              </span>
+            </div>
+          </div>
+          <p className="text-[11px] text-editorial-secondary pt-1 italic">
+            Assim, toda vez que Marina publicar um carrossel ou story no Instagram, ele aparecerá
+            automaticamente na Página do Facebook sem retrabalho.
+          </p>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-6">
@@ -1520,6 +1738,18 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           dia."
         </p>
       </div>
+
+      <ExemploBox titulo="Exemplo 2 · Segunda opção de mensagem de saudação">
+        <p className="text-xs text-editorial-secondary">
+          Uma alternativa acolhedora e direta com perguntas estruturadas:
+        </p>
+        <p className="text-xs sm:text-sm font-medium text-editorial-primary leading-relaxed">
+          "Olá! Boas-vindas ao meu WhatsApp profissional 💜 Sou a psicóloga Marina Alves (CRP
+          06/000000). Que bom ter você aqui! Me conte seu nome e se você já fez terapia antes ou
+          gostaria de saber mais sobre horários e como funcionam as sessões online. Respondo assim
+          que sair do atendimento atual!"
+        </p>
+      </ExemploBox>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -1650,6 +1880,33 @@ const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
           </tbody>
         </table>
       </div>
+
+      <ExemploBox titulo="Exemplo · Texto completo da resposta rápida /primeiraconsulta">
+        <p className="text-xs text-editorial-secondary">
+          Veja como preencher uma resposta rápida extra para explicar a primeira sessão com clareza
+          e empatia:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm space-y-2">
+          <p className="font-semibold text-purple-700 dark:text-purple-300">
+            Atalho sugerido: <span className="font-mono">/primeiraconsulta</span>
+          </p>
+          <div className="text-editorial-primary leading-relaxed space-y-1.5 italic">
+            <p>
+              "Nossa primeira conversa dura 50 minutos e acontece por videochamada pelo Google Meet,
+              em um link seguro e exclusivo."
+            </p>
+            <p>
+              "É um momento para eu escutar com calma o que você está vivendo hoje, tirar todas as
+              suas dúvidas sobre a terapia e combinarmos juntos os próximos passos, sem qualquer
+              compromisso de continuar se não fizer sentido para você."
+            </p>
+            <p>
+              "Você gostaria que eu te enviasse os horários disponíveis desta semana para
+              escolhermos o seu?"
+            </p>
+          </div>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -1764,6 +2021,32 @@ const Etapa7: React.FC<{
 
     <div className="mt-5">
       <FiveSecondTimer />
+    </div>
+
+    <div className="mt-6">
+      <ExemploBox titulo="Exemplo · Teste dos 5 segundos com o perfil da Marina">
+        <p className="text-xs text-editorial-secondary">
+          Veja como uma colega da Academia avaliou o perfil de Marina (@marinaalves.psi) em apenas 5
+          segundos:
+        </p>
+        <div className="rounded-[10px] bg-slate-50 dark:bg-[#18181b] p-3 text-xs sm:text-sm space-y-2">
+          <p className="text-editorial-primary">
+            <strong>1. O que ela faz?</strong> "Psicoterapia online para mulheres adultas lidando
+            com sobrecarga e ansiedade."
+          </p>
+          <p className="text-editorial-primary">
+            <strong>2. Para quem?</strong> "Para quem se sente exausta e precisa aprender a se
+            priorizar e colocar limites."
+          </p>
+          <p className="text-editorial-primary">
+            <strong>3. Como eu agendo?</strong> "O primeiro link da bio leva direto para o WhatsApp
+            dela com um clique."
+          </p>
+          <p className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold pt-1">
+            ✓ Resultado: Perfil 100% aprovado no teste. Sem ruído, sem enrolação e acolhedor.
+          </p>
+        </div>
+      </ExemploBox>
     </div>
 
     <div className="mt-8 space-y-4">
