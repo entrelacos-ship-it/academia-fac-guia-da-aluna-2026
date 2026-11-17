@@ -9,19 +9,20 @@ import {
   CHECKLIST_ETAPA0,
   CHECKLIST_ETAPAS_1_2,
   CHECKLIST_ETAPA4,
+  CHECKLIST_ETAPA5,
 } from '@/config/encontro5Content'
-import { Checklist, type ChecklistValues, ExemploBox } from '@/components/guia/encontro4Shared'
-import { CartaoSkill } from '@/components/guia/encontro5Elements'
+import { Checklist, type ChecklistValues } from '@/components/guia/encontro4Shared'
 import {
   Etapa0Conteudo,
   Etapa1Conteudo,
   Etapa2Conteudo,
 } from '@/components/guia/encontro5Etapas012'
 import { Etapa3Conteudo, Etapa4Conteudo } from '@/components/guia/encontro5Etapas34'
+import { Etapa5Conteudo } from '@/components/guia/encontro5Etapa5'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
-// Etapas 0, 1 e 2 com conteúdo oficial; etapas 3 a 7 aguardam
+// Etapas 0 a 5 com conteúdo oficial; etapas 6 e 7 aguardam
 // conteúdo nos próximos pedidos.
 // ─────────────────────────────────────────────────────────────
 
@@ -36,11 +37,15 @@ export const CHECKLIST_SKILLS: { id: string; texto: string }[] = SKILLS_ENCONTRO
 // O checklist da Etapa 4 (skills 1 a 5 + imagem gerada) usa as
 // chaves skill-1 .. skill-5 (já contadas em CHECKLIST_SKILLS,
 // compartilhadas com as Etapas 5 e 7) e a chave extra skill-imagem.
+// O checklist da Etapa 5 (skills 6 a 8 + manual salvo + PVU em voz
+// alta) usa skill-6 .. skill-8 (já contadas) e as chaves e5-*.
+// A chave skill-imagem e as chaves e5-* entram uma única vez.
 export const TOTAL_ITENS_CHECKLIST =
   CHECKLIST_SKILLS.length +
   CHECKLIST_ETAPAS_1_2.length +
   CHECKLIST_ETAPA0.length +
-  (CHECKLIST_ETAPA4.length - 5)
+  (CHECKLIST_ETAPA4.length - 5) +
+  (CHECKLIST_ETAPA5.length - 3)
 
 const carregarChecklists = (): Record<string, ChecklistValues> => {
   try {
@@ -212,7 +217,7 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
             <Etapa4Conteudo valores={feitasSkills} onChange={(v) => marcar('skills')(v)} />
           )}
           {etapaAtual === 5 && (
-            <Etapa5 checklist={feitasSkills} onChange={(v) => marcar('skills')(v)} />
+            <Etapa5Conteudo valores={feitasSkills} onChange={(v) => marcar('skills')(v)} />
           )}
           {etapaAtual === 6 && <Etapa6 />}
           {etapaAtual === 7 && (
@@ -315,51 +320,6 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
   checklist,
   onChange,
 }) => <Etapa2Conteudo valores={checklist} onChange={onChange} />
-
-// Etapa 5 · Proposta, entrega e manual: Skills 6 a 8 (aguarda
-// conteúdo nos próximos pedidos)
-const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValues) => void }> = ({
-  checklist,
-  onChange,
-}) => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5 space-y-4">
-      <ExemploBox titulo="Prévia · Cartão de skill">
-        <div className="space-y-4">
-          {SKILLS_ENCONTRO_5.slice(5).map((s) => (
-            <CartaoSkill key={`e5-skill-${s.numero}`} skillId={`skill-${s.numero}`} />
-          ))}
-        </div>
-      </ExemploBox>
-      <div>
-        <p className="font-sans font-semibold text-sm text-editorial-primary mb-3">
-          Skills 6 a 8 concluídas
-        </p>
-        <Checklist itens={CHECKLIST_SKILLS.slice(5)} valores={checklist} onChange={onChange} />
-      </div>
-      {/*
-      <ExemploBox titulo="Prévia · Comparativo Antes e Depois">
-        <AntesDepois
-          tituloExemplo="A entrega descrita pela Marina"
-          antes={
-            <p>
-              Faço psicoterapia individual, casal e família, com abordagem integrativa e escuta
-              humanizada.
-            </p>
-          }
-          depois={
-            <p>
-              Sessão individual online de 50 minutos para mulheres que se sentem no limite. Você sai
-              da primeira sessão com um mapa da sua rotina e um combinado possível de cumprir.
-            </p>
-          }
-        />
-      </ExemploBox>
-*/}
-    </div>
-  </>
-)
 
 // Etapa 6 · Exemplo completo: a marca da Marina (consulta)
 const Etapa6: React.FC = () => (

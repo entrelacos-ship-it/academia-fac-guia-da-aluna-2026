@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
 //
-// Etapas 0 a 4 com conteúdo oficial verbatim da Tati;
-// as etapas 5 a 7 chegam nos próximos pedidos.
+// Etapas 0 a 5 com conteúdo oficial verbatim da Tati;
+// as etapas 6 e 7 chegam nos próximos pedidos.
 // Zero travessões em nenhum texto (regra editorial do projeto).
 // ─────────────────────────────────────────────────────────────
 
@@ -53,7 +53,7 @@ export const ETAPAS_ENCONTRO_5: Etapa5Def[] = [
 // Skills 1 a 8
 // ─────────────────────────────────────────────────────────────
 export interface SkillConversa {
-  id: 'identidade' | 'proposta'
+  id: 'identidade' | 'proposta' | 'volta'
   nome: string
 }
 
@@ -65,6 +65,10 @@ export const CONVERSA_PROPOSTA: SkillConversa = {
   id: 'proposta',
   nome: 'Minha proposta e entrega',
 }
+export const CONVERSA_VOLTA_MANUAL: SkillConversa = {
+  id: 'volta',
+  nome: 'Volta para Minha identidade visual',
+}
 
 export interface SkillDef {
   numero: number
@@ -75,11 +79,8 @@ export interface SkillDef {
   prompt: string
 }
 
-// Skills 1 a 5 com o prompt oficial verbatim da Tati (ligado mais
-// abaixo, após a declaração das constantes). As skills 6 a 8 serão
-// preenchidas nos próximos pedidos; enquanto estiverem vazias, a
-// caixa mostra o aviso de conteúdo em preparação (mesmo
-// comportamento do Encontro 4).
+// As 8 skills com o prompt oficial verbatim da Tati (ligado mais
+// abaixo, após a declaração das constantes).
 export const SKILLS_ENCONTRO_5: SkillDef[] = [
   {
     numero: 1,
@@ -123,26 +124,26 @@ export const SKILLS_ENCONTRO_5: SkillDef[] = [
   },
   {
     numero: 6,
-    nomeCurto: 'PVU',
-    nomeCompleto: 'Skill 6 · Proposta de Valor Única',
-    entrega: 'Refina a sua PVU com base no Manifesto.',
+    nomeCurto: 'Refino da PVU',
+    nomeCompleto: 'Skill 6 · Refino da PVU',
+    entrega: '',
     conversa: CONVERSA_PROPOSTA,
     prompt: '',
   },
   {
     numero: 7,
     nomeCurto: 'Entrega',
-    nomeCompleto: 'Skill 7 · Descrição da entrega',
-    entrega: 'Descreve com clareza o que a sua solução entrega.',
+    nomeCompleto: 'Skill 7 · O Que a Minha Solução Entrega',
+    entrega: '',
     conversa: CONVERSA_PROPOSTA,
     prompt: '',
   },
   {
     numero: 8,
-    nomeCurto: 'Manual',
-    nomeCompleto: 'Skill 8 · Manual da marca',
-    entrega: 'Reúne tudo em um manual simples para usar todos os dias.',
-    conversa: CONVERSA_IDENTIDADE,
+    nomeCurto: 'Manual de Marca',
+    nomeCompleto: 'Skill 8 · Manual de Marca',
+    entrega: '',
+    conversa: CONVERSA_VOLTA_MANUAL,
     prompt: '',
   },
 ]
@@ -611,3 +612,210 @@ SKILLS_ENCONTRO_5[1].entrega = FRASE_SKILL_2
 SKILLS_ENCONTRO_5[2].entrega = FRASE_SKILL_3
 SKILLS_ENCONTRO_5[3].entrega = FRASE_SKILL_4
 SKILLS_ENCONTRO_5[4].entrega = FRASE_SKILL_5
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 5 · Proposta, entrega e manual: Skills 6 a 8
+// ─────────────────────────────────────────────────────────────
+export const ETAPA5_ABERTURA_TITULO = 'Refinar a Proposta de Valor Única'
+export const ETAPA5_ABERTURA =
+  'A sua PVU já existe no seu Manifesto. Hoje ela passa por cinco testes:'
+
+export interface TestePvuDef {
+  id: string
+  texto: string
+}
+
+export const TESTES_PVU: TestePvuDef[] = [
+  { id: 'pvu-1', texto: 'Fala do paciente primeiro?' },
+  { id: 'pvu-2', texto: 'Nomeia um público?' },
+  { id: 'pvu-3', texto: 'Mostra uma transformação possível?' },
+  { id: 'pvu-4', texto: 'Tem algo que outra psicóloga não copiaria só trocando o nome?' },
+  { id: 'pvu-5', texto: 'Cabe em 15 segundos em voz alta?' },
+]
+
+export const ETAPA5_DICA_PVU =
+  '"Atendimento humanizado" e "escuta qualificada" são palavras que qualquer psicóloga poderia usar. Se aparecerem na sua PVU, a skill vai sugerir trocar.'
+
+export const ETAPA5_ENTREGA_TITULO = 'O que a sua solução entrega'
+export const ETAPA5_ENTREGA_INTRO =
+  'O paciente não compra sessões de 50 minutos. Ele quer saber como vai ser o caminho. A entrega tem quatro partes:'
+
+export interface ParteEntregaDef {
+  id: string
+  icone: 'tangivel' | 'transformacoes' | 'experiencia' | 'limites'
+  titulo: string
+  texto: string
+}
+
+export const PARTES_ENTREGA: ParteEntregaDef[] = [
+  {
+    id: 'tangivel',
+    icone: 'tangivel',
+    titulo: 'Entrega tangível',
+    texto: 'o que o paciente recebe com certeza, como enquadre, formato, frequência e sigilo.',
+  },
+  {
+    id: 'transformacoes',
+    icone: 'transformacoes',
+    titulo: 'Transformações possíveis',
+    texto: 'o que pode mudar, sempre como possibilidade, nunca como garantia.',
+  },
+  {
+    id: 'experiencia',
+    icone: 'experiencia',
+    titulo: 'A experiência',
+    texto: 'o caminho do primeiro contato às primeiras semanas.',
+  },
+  {
+    id: 'limites',
+    icone: 'limites',
+    titulo: 'O que não entrega',
+    texto: 'limites claros, que também são ética e geram confiança.',
+  },
+]
+
+export const ETAPA5_ETICA_ENTREGA =
+  'Promessa de processo, nunca de resultado, cura ou prazo. Sem comparação com colegas. Sem sensacionalismo. Confira sempre a redação vigente das resoluções do CFP.'
+
+export const FRASE_SKILL_6 =
+  'Testa a PVU do seu Manifesto em 5 critérios e propõe três refinamentos, sem perder a sua voz.'
+export const FRASE_SKILL_7 =
+  'Monta o mapa da sua entrega em quatro blocos e a declaração em um parágrafo.'
+export const FRASE_SKILL_8 =
+  'Junta todas as fichas num mini manual de marca para salvar no seu Projeto.'
+
+export const PROMPT_SKILL_6_REFINO_PVU = `Você é a skill Refino da PVU da Academia Método FAC, da Entrelaços Psicologia. A Proposta de Valor Única desta psicóloga já foi criada e está no Manifesto da marca, nos arquivos deste projeto. Sua função NÃO é criar uma PVU nova: é refinar a que existe, preservando a essência e a voz dela.
+
+1. Encontre a PVU no Manifesto e mostre-a exatamente como está. Se não encontrar, peça que ela cole.
+2. Avalie a PVU em 5 critérios, com nota de 1 a 5 e uma linha de justificativa cada:
+   a) Fala do paciente antes de falar dela
+   b) Nomeia um público específico
+   c) Mostra uma transformação possível, sem prometer resultado
+   d) Tem algo que outra psicóloga não copiaria só trocando o nome
+   e) Cabe em até 15 segundos em voz alta
+3. Aponte palavras genéricas ou que enfraquecem a frase (ex.: humanizado, acolhedor, escuta qualificada, olhar único, transformar vidas) e diga por quê.
+4. Proponha 3 refinamentos, do mais leve ao mais ousado:
+   - Refino leve: só ajustes de palavras, mantendo a estrutura
+   - Refino médio: reorganiza a frase para falar do paciente primeiro
+   - Refino ousado: mais curta e mais autoral, na voz do Manifesto
+   Para cada um: o tempo aproximado em voz alta e o que mudou em relação ao original.
+5. Passe cada versão pela régua ética e mostre "Régua ética: ok" ou o ajuste necessário.
+6. Para a versão escolhida, entregue também a versão curta (até 12 palavras) para a linha 1 da bio e a versão falada (como ela diria numa conversa).
+7. Termine com:
+FICHA 6 · PVU REFINADA
+Original: ...
+Refinada: ...
+Versão curta (bio): ...
+Versão falada: ...
+
+RÉGUA ÉTICA (normas do CFP): promessa de processo, nunca de resultado, cura ou prazo; sem comparação com colegas; sem sensacionalismo; ela deve conferir a redação vigente das resoluções.
+Regras: preserve a voz do Manifesto; nunca invente; português do Brasil; nunca use travessões.`
+
+export const PROMPT_SKILL_7_ENTREGA = `Você é a skill O Que a Minha Solução Entrega, da Academia Método FAC, da Entrelaços Psicologia. Sua função é mostrar, com honestidade e clareza, o caminho que o paciente percorre com esta psicóloga: o que ele recebe com certeza, o que pode mudar e o que não está incluído. Use o Manifesto do projeto e a FICHA 6 · PVU REFINADA, se estiver nesta conversa.
+
+PRINCÍPIO: o paciente não compra sessões de 50 minutos. Ele quer saber como vai ser o caminho. Promessa de processo, nunca de resultado.
+
+1. Pergunte, numa única mensagem, só o que não estiver no Manifesto:
+   a) Formato (online, presencial com cidade, ou os dois) e plataforma
+   b) Duração e frequência das sessões
+   c) O que acontece entre as sessões, se algo acontece
+   d) As 3 mudanças que pacientes mais relatam depois de um tempo de processo, sem identificar ninguém
+   e) O que você não faz ou não atende
+   Se faltar algo, deixe [entre colchetes] para ela completar.
+2. Monte o mapa da entrega em quatro blocos:
+   - Entrega tangível: o que o paciente recebe com certeza (enquadre, formato, duração, frequência, sigilo, canal de contato, o que acontece entre sessões)
+   - Transformações possíveis: 3 a 5 mudanças que o processo pode favorecer, escritas como possibilidade (pode, favorece, abre espaço para), nunca como garantia
+   - A experiência: o caminho do primeiro contato às primeiras semanas, em 4 a 6 passos
+   - O que não entrega: limites claros e éticos (ex.: não faço laudos, não atendo emergências, não substitui acompanhamento psiquiátrico quando necessário)
+3. Escreva a declaração "O que a minha solução entrega" em um parágrafo de até 80 palavras, na voz do Manifesto.
+4. Entregue 3 aplicações prontas: a resposta para quem pergunta "como funciona?" no WhatsApp, o texto do destaque Como funciona no Instagram e a frase para a apresentação oral em até 15 segundos.
+5. Passe tudo pela régua ética. Termine com:
+FICHA 7 · ENTREGA
+Declaração: ...
+Entrega tangível: ...
+Transformações possíveis: ...
+Experiência: ...
+O que não entrega: ...
+
+RÉGUA ÉTICA (normas do CFP): promessa de processo, nunca de resultado, cura ou prazo; sem preço em texto público; sem depoimento de paciente; sem sensacionalismo; ela deve conferir a redação vigente das resoluções.
+Regras: nunca invente; português do Brasil; nunca use travessões.`
+
+export const PROMPT_SKILL_8_MANUAL = `Você é a skill Manual de Marca da Academia Método FAC, da Entrelaços Psicologia. Sua função é consolidar as decisões da marca desta psicóloga num mini manual de marca, que será salvo como arquivo no projeto, ao lado do Manifesto, e consultado por todas as próximas skills.
+
+1. Reúna as FICHAS 1 a 7 desta conversa. Se faltar alguma, peça que ela cole (as fichas 6 e 7 costumam estar em outra conversa).
+2. Antes de montar, confira a coerência: a paleta, as fontes, o símbolo e o logo contam a mesma história da personalidade visual e do Manifesto? Aponte qualquer incoerência e sugira o ajuste.
+3. Monte o mini manual nesta ordem:
+   1. Essência da marca (3 linhas)
+   2. PVU refinada (completa, curta e falada)
+   3. O que a minha solução entrega (declaração)
+   4. Personalidade visual: 3 palavras e o que a marca não é
+   5. Paleta: nomes, HEX, funções e proporções, boas combinações e combinações a evitar
+   6. Tipografia: fontes, pesos, alternativas no Canva e regras
+   7. Símbolo: conceito, metáfora e significado
+   8. Logo: direção, composição e as 3 versões
+   9. Dez regras de aplicação (ex.: fundo claro nos posts educativos, cor de destaque só em chamadas para ação, nunca mais de duas fontes)
+   10. Checklist de aplicação: foto de perfil, capas dos destaques, posts fixados, Página do Facebook, WhatsApp Business
+4. Entregue o manual inteiro em um único bloco limpo, pronto para copiar.
+5. Termine com: "Copie este manual, salve como documento e adicione no seu Projeto, ao lado do Manifesto. A partir de agora, toda skill vai consultar os dois."
+
+Regras: não mude decisões que ela já aprovou sem avisar; português do Brasil; nunca use travessões.`
+
+export const ETAPA5_SALVAR_TITULO = 'Salvar o manual no Projeto'
+export const ETAPA5_SALVAR_INTRO =
+  'Depois do cartão 8, salve o manual de marca no seu Projeto, ao lado do Manifesto:'
+
+export const PASSOS_ETAPA5_SALVAR: PassoEtapa3Def[] = [
+  {
+    numero: 1,
+    partes: [
+      { texto: 'Toque em ' },
+      { texto: 'Copiar', negrito: true },
+      { texto: ' na resposta do ChatGPT com o manual.' },
+    ],
+  },
+  {
+    numero: 2,
+    partes: [
+      { texto: 'Cole num documento novo (Google Docs ou Word) e salve com o nome ' },
+      { texto: 'Manual da minha marca', negrito: true },
+      { texto: '.' },
+    ],
+  },
+  {
+    numero: 3,
+    partes: [
+      { texto: 'No seu Projeto do ChatGPT, toque em ' },
+      { texto: 'Adicionar arquivos', negrito: true },
+      { texto: ' e envie o documento.' },
+    ],
+  },
+]
+
+export const ETAPA5_TESTE_VOZ_TITULO = 'Teste da PVU em voz alta'
+export const ETAPA5_TESTE_VOZ =
+  'Leia a sua PVU refinada em voz alta, cronometrando. Passou de 15 segundos ou travou na leitura, ainda está longa. Peça para alguém responder: "eu indicaria você para quem?". Se a resposta bater com o público do seu Manifesto, a PVU está pronta.'
+
+export const CHECKLIST_ETAPA5: { id: string; texto: string }[] = [
+  { id: 'skill-6', texto: 'Skill 6 · PVU refinada escolhida' },
+  { id: 'skill-7', texto: 'Skill 7 · Declaração da entrega pronta' },
+  { id: 'skill-8', texto: 'Skill 8 · Manual de marca gerado' },
+  { id: 'e5-manual-salvo', texto: 'Manual salvo no Projeto, ao lado do Manifesto' },
+  { id: 'e5-pvu-voz', texto: 'PVU lida em voz alta em até 15 segundos' },
+]
+
+export const TRAVOU_ETAPA5: string[] = [
+  'A skill não encontrou a minha PVU no Manifesto: cole a PVU na conversa e siga.',
+  'O ChatGPT gratuito atingiu o limite: continue no dia seguinte, na mesma conversa. Tudo fica salvo no Projeto.',
+  'Nenhuma das três versões me agradou: pergunte "qual dessas está mais fiel ao meu Manifesto?" e peça outra rodada de refinamentos a partir dela.',
+]
+
+// Liga cada prompt verbatim e cada frase oficial à sua skill em
+// SKILLS_ENCONTRO_5 (declarada antes das constantes para manter a
+// ordem de leitura do arquivo).
+SKILLS_ENCONTRO_5[5].prompt = PROMPT_SKILL_6_REFINO_PVU
+SKILLS_ENCONTRO_5[6].prompt = PROMPT_SKILL_7_ENTREGA
+SKILLS_ENCONTRO_5[7].prompt = PROMPT_SKILL_8_MANUAL
+
+SKILLS_ENCONTRO_5[5].entrega = FRASE_SKILL_6
+SKILLS_ENCONTRO_5[6].entrega = FRASE_SKILL_7
+SKILLS_ENCONTRO_5[7].entrega = FRASE_SKILL_8
