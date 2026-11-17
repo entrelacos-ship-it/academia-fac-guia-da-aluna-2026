@@ -8,19 +8,16 @@ import {
   SKILLS_ENCONTRO_5,
   CHECKLIST_ETAPA0,
   CHECKLIST_ETAPAS_1_2,
+  CHECKLIST_ETAPA4,
 } from '@/config/encontro5Content'
-import {
-  Checklist,
-  type ChecklistValues,
-  Callout,
-  ExemploBox,
-} from '@/components/guia/encontro4Shared'
-import { CartaoSkill, FluxoSkills } from '@/components/guia/encontro5Elements'
+import { Checklist, type ChecklistValues, ExemploBox } from '@/components/guia/encontro4Shared'
+import { CartaoSkill } from '@/components/guia/encontro5Elements'
 import {
   Etapa0Conteudo,
   Etapa1Conteudo,
   Etapa2Conteudo,
 } from '@/components/guia/encontro5Etapas012'
+import { Etapa3Conteudo, Etapa4Conteudo } from '@/components/guia/encontro5Etapas34'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
@@ -36,8 +33,14 @@ export const CHECKLIST_SKILLS: { id: string; texto: string }[] = SKILLS_ENCONTRO
   texto: `${s.nomeCompleto}: ${s.entrega}`,
 }))
 
+// O checklist da Etapa 4 (skills 1 a 5 + imagem gerada) usa as
+// chaves skill-1 .. skill-5 (já contadas em CHECKLIST_SKILLS,
+// compartilhadas com as Etapas 5 e 7) e a chave extra skill-imagem.
 export const TOTAL_ITENS_CHECKLIST =
-  CHECKLIST_SKILLS.length + CHECKLIST_ETAPAS_1_2.length + CHECKLIST_ETAPA0.length
+  CHECKLIST_SKILLS.length +
+  CHECKLIST_ETAPAS_1_2.length +
+  CHECKLIST_ETAPA0.length +
+  (CHECKLIST_ETAPA4.length - 5)
 
 const carregarChecklists = (): Record<string, ChecklistValues> => {
   try {
@@ -204,9 +207,9 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
               onChange={(v) => marcar('etapas-1-2')(v)}
             />
           )}
-          {etapaAtual === 3 && <Etapa3 feitas={feitasSkills} onSelect={() => irPara(4)} />}
+          {etapaAtual === 3 && <Etapa3Conteudo feitas={feitasSkills} onSelect={() => irPara(4)} />}
           {etapaAtual === 4 && (
-            <Etapa4 checklist={feitasSkills} onChange={(v) => marcar('skills')(v)} />
+            <Etapa4Conteudo valores={feitasSkills} onChange={(v) => marcar('skills')(v)} />
           )}
           {etapaAtual === 5 && (
             <Etapa5 checklist={feitasSkills} onChange={(v) => marcar('skills')(v)} />
@@ -313,55 +316,8 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
   onChange,
 }) => <Etapa2Conteudo valores={checklist} onChange={onChange} />
 
-// Etapa 3 · Como usar as skills no seu Projeto
-const Etapa3: React.FC<{ feitas: Record<string, boolean>; onSelect: () => void }> = ({
-  feitas,
-  onSelect,
-}) => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5">
-      <ExemploBox titulo="Prévia · Fluxo das skills">
-        <p className="text-xs text-editorial-secondary">
-          Toque num círculo para ir até o cartão da skill. Os círculos preenchem conforme você marca
-          as skills no checklist das Etapas 4 e 5.
-        </p>
-        <FluxoSkills feitas={feitas} onSelect={onSelect} />
-      </ExemploBox>
-    </div>
-  </>
-)
-
-// Etapa 4 · Identidade visual: Skills 1 a 5
-const Etapa4: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValues) => void }> = ({
-  checklist,
-  onChange,
-}) => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5 space-y-4">
-      <ExemploBox titulo="Prévia · Cartão de skill">
-        <div className="space-y-4">
-          {SKILLS_ENCONTRO_5.slice(0, 5).map((s) => (
-            <CartaoSkill key={`e5-skill-${s.numero}`} skillId={`skill-${s.numero}`} />
-          ))}
-        </div>
-      </ExemploBox>
-      <div>
-        <p className="font-sans font-semibold text-sm text-editorial-primary mb-3">
-          Skills 1 a 5 concluídas
-        </p>
-        <Checklist itens={CHECKLIST_SKILLS.slice(0, 5)} valores={checklist} onChange={onChange} />
-      </div>
-      <Callout tipo="dica">
-        As skills 1 a 5 rodam na mesma conversa do ChatGPT, chamada Minha identidade visual. Você
-        não precisa abrir conversas novas entre elas.
-      </Callout>
-    </div>
-  </>
-)
-
-// Etapa 5 · Proposta, entrega e manual: Skills 6 a 8
+// Etapa 5 · Proposta, entrega e manual: Skills 6 a 8 (aguarda
+// conteúdo nos próximos pedidos)
 const Etapa5: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValues) => void }> = ({
   checklist,
   onChange,
