@@ -19,11 +19,11 @@ import {
 } from '@/components/guia/encontro5Etapas012'
 import { Etapa3Conteudo, Etapa4Conteudo } from '@/components/guia/encontro5Etapas34'
 import { Etapa5Conteudo } from '@/components/guia/encontro5Etapa5'
+import { Etapa6Conteudo, Etapa7Conteudo } from '@/components/guia/encontro5Etapas67'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
-// Etapas 0 a 5 com conteúdo oficial; etapas 6 e 7 aguardam
-// conteúdo nos próximos pedidos.
+// As 8 etapas com o conteúdo oficial verbatim da Tati.
 // ─────────────────────────────────────────────────────────────
 
 // Checklist das skills, compartilhado pelas Etapas 4 e 5.
@@ -219,13 +219,14 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
           {etapaAtual === 5 && (
             <Etapa5Conteudo valores={feitasSkills} onChange={(v) => marcar('skills')(v)} />
           )}
-          {etapaAtual === 6 && <Etapa6 />}
+          {etapaAtual === 6 && <Etapa6Conteudo />}
           {etapaAtual === 7 && (
-            <Etapa7
-              feitas={feitasSkills}
-              progressoGeral={progressoGeral}
+            <Etapa7Conteudo
+              checklists={checklists}
+              itensMarcados={itensMarcados}
+              totalItens={TOTAL_ITENS_CHECKLIST}
               tudoMarcado={tudoMarcado}
-              onChange={(v) => marcar('skills')(v)}
+              onChange={marcar}
             />
           )}
 
@@ -301,9 +302,8 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
 }
 
 // ─────────────────────────────────────────────────────────────
-// Etapas. Estrutura inicial: só o título e o aviso de conteúdo
-// em preparação, mais um exemplo de cada elemento novo no lugar
-// onde ele vai morar.
+// Etapas. Cada etapa mora em encontro5Etapas*.tsx e recebe o
+// estado dos checklists do caderno.
 // ─────────────────────────────────────────────────────────────
 
 // Etapa 0 · Antes de começar
@@ -321,43 +321,5 @@ const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValu
   onChange,
 }) => <Etapa2Conteudo valores={checklist} onChange={onChange} />
 
-// Etapa 6 · Exemplo completo: a marca da Marina (consulta)
-const Etapa6: React.FC = () => (
-  <>
-    <ConteudoEmBreve />
-  </>
-)
-
-// Etapa 7 · Checklist final e combinado da semana
-const Etapa7: React.FC<{
-  feitas: Record<string, boolean>
-  progressoGeral: number
-  tudoMarcado: boolean
-  onChange: (v: ChecklistValues) => void
-}> = ({ feitas, progressoGeral, tudoMarcado, onChange }) => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5 space-y-4">
-      <div className="flex items-center justify-between gap-3">
-        <p className="font-sans font-semibold text-sm text-editorial-primary">Resumo das skills</p>
-        <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary">
-          {progressoGeral}%
-        </p>
-      </div>
-      <div className="h-2 rounded-full bg-slate-200 dark:bg-[#27272A] overflow-hidden">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] transition-all duration-500"
-          style={{ width: `${progressoGeral}%` }}
-        />
-      </div>
-      <Checklist itens={CHECKLIST_SKILLS} valores={feitas} onChange={onChange} />
-      {tudoMarcado && (
-        <div className="rounded-[14px] bg-purple-50/80 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/60 p-5 text-center animate-in fade-in duration-500">
-          <p className="text-sm sm:text-base font-medium text-editorial-primary leading-relaxed">
-            Todas as skills concluídas 💜 Sua marca já tem rosto e voz.
-          </p>
-        </div>
-      )}
-    </div>
-  </>
-)
+// As etapas 6 e 7 vivem em encontro5Etapas67.tsx, com o mesmo
+// padrão das etapas anteriores.

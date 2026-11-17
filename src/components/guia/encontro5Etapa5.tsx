@@ -57,8 +57,9 @@ const CartaoTestePvu: React.FC<{ texto: string }> = ({ texto }) => (
   </div>
 )
 
-// Cartão de uma parte da entrega (com ícone simples)
-const CartaoParteEntrega: React.FC<{
+// Cartão de uma parte da entrega (com ícone simples).
+// Exportado para reuso na Etapa 6 (cartões da entrega da Marina).
+export const CartaoParteEntrega: React.FC<{
   icone: 'tangivel' | 'transformacoes' | 'experiencia' | 'limites'
   titulo: string
   texto: string
