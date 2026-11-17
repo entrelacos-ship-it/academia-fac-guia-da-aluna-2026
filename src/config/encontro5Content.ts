@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
 //
-// Estrutura inicial da aula. As etapas estão vazias por enquanto:
-// o conteúdo de cada uma chega nos próximos pedidos.
+// Etapas 0, 1 e 2 com conteúdo oficial verbatim da Tati;
+// as etapas 3 a 7 chegam nos próximos pedidos.
 // Zero travessões em nenhum texto (regra editorial do projeto).
 // ─────────────────────────────────────────────────────────────
 
