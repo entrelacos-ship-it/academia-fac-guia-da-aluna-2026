@@ -46,6 +46,7 @@ import { Encontro1CadernoCompleto } from '@/components/guia/Encontro1CadernoComp
 import { Encontro2Caderno } from '@/components/guia/Encontro2Caderno'
 import { Encontro3Caderno } from '@/components/guia/Encontro3Caderno'
 import { Encontro4Caderno } from '@/components/guia/Encontro4Caderno'
+import { Encontro5Caderno } from '@/components/guia/Encontro5Caderno'
 import { ValidarEmailModal } from '@/components/guia/ValidarEmailModal'
 import {
   AlunaGuiaService,
@@ -760,6 +761,11 @@ export const GuiaPage: React.FC = () => {
                   /* Encontro 4 Liberado com o Caderno de Canais */
                   <div id="caderno-encontro-4" className="w-full scroll-mt-20">
                     <Encontro4Caderno />
+                  </div>
+                ) : encontroSelecionado === 5 && isAlunaValidada ? (
+                  /* Encontro 5 Liberado com o Caderno de Branding */
+                  <div id="caderno-encontro-5" className="w-full scroll-mt-20">
+                    <Encontro5Caderno />
                   </div>
                 ) : encontroDetalhe ? (
                   /* Demais Encontros Pagos Liberados via BD */
