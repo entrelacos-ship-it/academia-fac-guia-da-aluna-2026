@@ -6,7 +6,8 @@ import {
   ENCONTRO5_SUBTITULO,
   ETAPAS_ENCONTRO_5,
   SKILLS_ENCONTRO_5,
-  PALETA_MARINA,
+  CHECKLIST_ETAPA0,
+  CHECKLIST_ETAPAS_1_2,
 } from '@/config/encontro5Content'
 import {
   Checklist,
@@ -14,19 +15,17 @@ import {
   Callout,
   ExemploBox,
 } from '@/components/guia/encontro4Shared'
+import { CartaoSkill, FluxoSkills } from '@/components/guia/encontro5Elements'
 import {
-  CartaoSkill,
-  FluxoSkills,
-  RodaCores,
-  AmostraPaleta,
-  AntesDepois,
-} from '@/components/guia/encontro5Elements'
+  Etapa0Conteudo,
+  Etapa1Conteudo,
+  Etapa2Conteudo,
+} from '@/components/guia/encontro5Etapas012'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
-// Estrutura inicial: as oito etapas estão vazias, com um exemplo
-// de cada elemento novo da aula. O conteúdo de cada etapa chega
-// nos próximos pedidos.
+// Etapas 0, 1 e 2 com conteúdo oficial; etapas 3 a 7 aguardam
+// conteúdo nos próximos pedidos.
 // ─────────────────────────────────────────────────────────────
 
 // Checklist das skills, compartilhado pelas Etapas 4 e 5.
@@ -37,7 +36,8 @@ export const CHECKLIST_SKILLS: { id: string; texto: string }[] = SKILLS_ENCONTRO
   texto: `${s.nomeCompleto}: ${s.entrega}`,
 }))
 
-export const TOTAL_ITENS_CHECKLIST = CHECKLIST_SKILLS.length
+export const TOTAL_ITENS_CHECKLIST =
+  CHECKLIST_SKILLS.length + CHECKLIST_ETAPAS_1_2.length + CHECKLIST_ETAPA0.length
 
 const carregarChecklists = (): Record<string, ChecklistValues> => {
   try {
@@ -194,9 +194,16 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
             </span>
           </div>
 
-          {etapaAtual === 0 && <Etapa0 />}
+          {etapaAtual === 0 && (
+            <Etapa0 checklist={checklists['etapa-0'] ?? {}} onChange={marcar('etapa-0')} />
+          )}
           {etapaAtual === 1 && <Etapa1 />}
-          {etapaAtual === 2 && <Etapa2 />}
+          {etapaAtual === 2 && (
+            <Etapa2
+              checklist={checklists['etapas-1-2'] ?? {}}
+              onChange={(v) => marcar('etapas-1-2')(v)}
+            />
+          )}
           {etapaAtual === 3 && <Etapa3 feitas={feitasSkills} onSelect={() => irPara(4)} />}
           {etapaAtual === 4 && (
             <Etapa4 checklist={feitasSkills} onChange={(v) => marcar('skills')(v)} />
@@ -292,56 +299,19 @@ export const Encontro5Caderno: React.FC<Encontro5CadernoProps> = ({ className })
 // ─────────────────────────────────────────────────────────────
 
 // Etapa 0 · Antes de começar
-const Etapa0: React.FC = () => (
-  <>
-    <ConteudoEmBreve />
-  </>
-)
+const Etapa0: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValues) => void }> = ({
+  checklist,
+  onChange,
+}) => <Etapa0Conteudo valores={checklist} onChange={onChange} />
 
 // Etapa 1 · O que é uma marca
-const Etapa1: React.FC = () => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5">
-      <ExemploBox titulo="Prévia · Comparativo Antes e Depois">
-        <AntesDepois
-          tituloExemplo="Bio da Marina Alves | Psicóloga Online"
-          antes={
-            <p>
-              Psicóloga, atendimento online e presencial. CRP 06/00000. Aceito convênios. Faço
-              terapia para adultos que precisam de ajuda.
-            </p>
-          }
-          depois={
-            <p>
-              Ajudo mulheres exaustas a voltarem a caber na própria vida
-              <br />
-              Psicóloga Clínica · Atendimento Online
-              <br />
-              Agende sua primeira conversa
-            </p>
-          }
-        />
-      </ExemploBox>
-    </div>
-  </>
-)
+const Etapa1: React.FC = () => <Etapa1Conteudo />
 
-// Etapa 2 · Psicologia das cores
-const Etapa2: React.FC = () => (
-  <>
-    <ConteudoEmBreve />
-    <div className="mt-5 space-y-4">
-      <ExemploBox titulo="Prévia · Roda das cores interativa">
-        <RodaCores />
-      </ExemploBox>
-      <ExemploBox titulo="Prévia · Amostra de paleta">
-        <p className="text-xs text-editorial-secondary">Toque no código HEX para copiar.</p>
-        <AmostraPaleta paleta={PALETA_MARINA} />
-      </ExemploBox>
-    </div>
-  </>
-)
+// Etapa 2 · Psicologia das cores (checklist único com a Etapa 1)
+const Etapa2: React.FC<{ checklist: ChecklistValues; onChange: (v: ChecklistValues) => void }> = ({
+  checklist,
+  onChange,
+}) => <Etapa2Conteudo valores={checklist} onChange={onChange} />
 
 // Etapa 3 · Como usar as skills no seu Projeto
 const Etapa3: React.FC<{ feitas: Record<string, boolean>; onSelect: () => void }> = ({

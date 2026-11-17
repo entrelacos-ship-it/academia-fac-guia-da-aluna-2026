@@ -151,6 +151,124 @@ export const GRUPO_PROPOSTA_6_E_7 = 'Conversa: Minha proposta e entrega'
 export const GRUPO_MANUAL_VOLTA = 'Volta para Minha identidade visual'
 
 // ─────────────────────────────────────────────────────────────
+// Etapa 0 · Antes de começar
+// ─────────────────────────────────────────────────────────────
+export const ETAPA0_ABERTURA =
+  'Hoje a sua marca ganha rosto e voz. Você vai sair deste encontro com a paleta de cores, as fontes, o símbolo, a direção do logo, a sua Proposta de Valor Única refinada e a declaração do que a sua solução entrega. Tudo nasce do seu Manifesto, e uma skill de IA cuida de cada peça.'
+
+export const CHECKLIST_ETAPA0: { id: string; texto: string }[] = [
+  { id: 'e0-1', texto: 'Meu Projeto no ChatGPT aberto, com o Manifesto da marca dentro' },
+  { id: 'e0-2', texto: 'ChatGPT aberto no computador' },
+  { id: 'e0-3', texto: 'Três marcas, perfis ou lugares cuja estética eu admiro, de qualquer área' },
+  { id: 'e0-4', texto: 'As cores que eu mais vejo nos perfis de psicólogas do meu nicho' },
+  {
+    id: 'e0-5',
+    texto:
+      'O nome exato que quero no meu logo e uma assinatura curta (ex.: Psicóloga · Psicanálise)',
+  },
+]
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 1 · O que é uma marca
+// ─────────────────────────────────────────────────────────────
+export const ETAPA1_BLOCO1_TITULO = 'Marca não é logo'
+export const ETAPA1_BLOCO1 =
+  'Sua marca é o que as pessoas sentem e lembram de você quando você não está na sala. O logo é a última coisa. A marca já existe: está no Manifesto que você escreveu. Hoje você vai dar roupa, cor e voz para ela.'
+
+export const ETAPA1_BLOCO2_TITULO = 'O iceberg da marca'
+export const ETAPA1_BLOCO2 =
+  "O que aparece no Instagram é só a ponta. Embaixo d'água está o Manifesto. Quando a parte de cima não combina com a de baixo, a pessoa sente que tem algo estranho, mesmo sem saber explicar. Identidade visual é a parte de cima contando a mesma história da parte de baixo."
+
+export const ETAPA1_BLOCO3_TITULO = 'Do Manifesto à identidade'
+export const ETAPA1_BLOCO3 =
+  "Cada palavra do Manifesto vira uma decisão visual. Exemplo: 'acolhimento com firmeza' pode virar tons quentes e profundos com uma fonte sólida, sem traços infantis."
+
+export const ETAPA1_ATENCAO =
+  "Nenhuma escolha de hoje é por gosto pessoal. Cada cor e cada fonte precisa responder: isso combina com o que eu escrevi no meu Manifesto? Se a resposta for 'é que eu acho bonito', a escolha ainda não está pronta."
+
+// Cartões das peças da identidade visual.
+export interface PecaIdentidadeDef {
+  id: string
+  icone: 'paleta' | 'fontes' | 'simbolo' | 'logo'
+  titulo: string
+  texto: string
+}
+
+export const PECAS_IDENTIDADE: PecaIdentidadeDef[] = [
+  {
+    id: 'paleta',
+    icone: 'paleta',
+    titulo: 'Paleta',
+    texto:
+      '5 cores com função (principal, secundária, destaque, neutra clara, neutra escura), usadas na proporção 60, 30 e 10.',
+  },
+  {
+    id: 'fontes',
+    icone: 'fontes',
+    titulo: 'Fontes',
+    texto:
+      'duas bastam, uma com personalidade para títulos e uma muito legível para textos, do Google Fonts, que são gratuitas e estão no Canva.',
+  },
+  {
+    id: 'simbolo',
+    icone: 'simbolo',
+    titulo: 'Símbolo',
+    texto: 'carrega uma ideia do seu Manifesto, não precisa explicar a psicologia.',
+  },
+  {
+    id: 'logo',
+    icone: 'logo',
+    titulo: 'Logo',
+    texto:
+      'para psicóloga autônoma, o seu nome é a marca. Precisa funcionar minúsculo, na foto de perfil, e em preto e branco.',
+  },
+]
+
+export const ETAPA1_DICA_SIMBOLO =
+  'Clichês da psicologia, como cérebro, quebra-cabeça, borboleta, árvore com cabeça e a letra psi, não são proibidos, mas não fazem ninguém lembrar de você.'
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 2 · Psicologia das cores
+// ─────────────────────────────────────────────────────────────
+export const ETAPA2_ABERTURA =
+  'Cada cor carrega associações emocionais, e as grandes marcas escolhem as suas de propósito. Toque em cada cor da roda para ver o que ela costuma transmitir e como é lida numa marca de psicologia.'
+
+export const ETAPA2_BLOCO_MUDA_TITULO = 'O que isso muda na sua marca'
+export const ETAPA2_BLOCO_MUDA =
+  'Estudos de marketing apontam que usar a mesma paleta com constância aumenta muito o reconhecimento de uma marca, e que a aparência visual pesa na decisão de compra.'
+
+export const ETAPA2_ATENCAO =
+  'Como psicólogas, vale um olhar crítico: são associações culturais, não leis científicas. A mesma cor significa coisas diferentes em culturas e idades diferentes, e o tom muda tudo. O mesmo vermelho que pede urgência numa promoção pode ser o vinho profundo de uma escuta psicanalítica.'
+
+export interface PerguntaCorDef {
+  numero: number
+  texto: string
+}
+
+export const PERGUNTAS_CORES: PerguntaCorDef[] = [
+  { numero: 1, texto: 'Qual é a personalidade da minha marca, segundo o Manifesto?' },
+  { numero: 2, texto: 'O que o meu público sente e prefere (idade, momento de vida, cultura)?' },
+  {
+    numero: 3,
+    texto: 'O que as outras psicólogas do meu nicho já usam, para eu não ficar igual a todo mundo?',
+  },
+]
+
+export const ETAPA2_DICA =
+  'Verde menta com lilás está em metade dos perfis de psicóloga. Não é proibido, mas não diferencia.'
+
+export const ETAPA2_LINK_URL =
+  'https://www.agenciazeniti.com.br/post/a-influencia-das-cores-no-marketing-e-branding-a-psicologia-por-tras-das-decisoes-de-compra'
+export const ETAPA2_LINK_TEXTO = 'Leia mais: a influência das cores no branding'
+
+// Checklist único das Etapas 1 e 2.
+export const CHECKLIST_ETAPAS_1_2: { id: string; texto: string }[] = [
+  { id: 'e12-1', texto: 'Entendi que a marca nasce do Manifesto' },
+  { id: 'e12-2', texto: 'Explorei a roda das cores' },
+  { id: 'e12-3', texto: 'Anotei as cores mais usadas no meu nicho' },
+]
+
+// ─────────────────────────────────────────────────────────────
 // Roda das cores: 8 fatias
 // ─────────────────────────────────────────────────────────────
 export interface CorRodaDef {
@@ -168,72 +286,64 @@ export const CORES_RODA: CorRodaDef[] = [
     nome: 'Vermelho',
     fill: '#DC2626',
     texto: '#FFFFFF',
-    associacoes: 'Paixão, energia, urgência e ação.',
-    leituraPsicologia:
-      'Chama atenção na hora. Em marca de psicologia, use em pequenas doses, como um detalhe de botão ou destaque, para não criar sensação de alerta.',
+    associacoes: 'energia, paixão, urgência, juventude',
+    leituraPsicologia: 'intensa demais como cor principal; funciona como pequeno destaque.',
   },
   {
     id: 'laranja',
     nome: 'Laranja',
     fill: '#EA580C',
     texto: '#FFFFFF',
-    associacoes: 'Acolhimento humano, otimismo e movimento.',
-    leituraPsicologia:
-      'É a cor do cuidado ativo: transmite proximidade sem perder vitalidade. Funciona bem como cor de destaque de quem acolhe e caminha junto.',
+    associacoes: 'vibração, entusiasmo, segurança, confiança',
+    leituraPsicologia: 'calor e proximidade; nos tons terracota, acolhimento.',
   },
   {
     id: 'amarelo',
     nome: 'Amarelo',
     fill: '#FACC15',
     texto: '#3F3F46',
-    associacoes: 'Luz, clareza, alegria e ideia nova.',
-    leituraPsicologia:
-      'Traz leveza e esperança. Em doses pequenas ilumina a marca; em doses grandes cansa a vista e pode parecer infantil.',
+    associacoes: 'alegria, vitalidade, dinamismo',
+    leituraPsicologia: 'abertura e otimismo; difícil de ler como cor de texto.',
   },
   {
     id: 'verde',
     nome: 'Verde',
     fill: '#16A34A',
     texto: '#FFFFFF',
-    associacoes: 'Crescimento, equilíbrio, saúde e natureza.',
-    leituraPsicologia:
-      'Leitura imediata de saúde e renovação. Combina com processos de desenvolvimento pessoal e bem estar contínuo.',
+    associacoes: 'relacionamento, cura, renovação, prosperidade',
+    leituraPsicologia: 'cuidado e equilíbrio; muito usado na saúde, diferencia pouco.',
   },
   {
     id: 'azul',
     nome: 'Azul',
     fill: '#2563EB',
     texto: '#FFFFFF',
-    associacoes: 'Confiança, serenidade, segurança e escuta.',
-    leituraPsicologia:
-      'É a cor mais lida como confiável. Para clínica, comunica um espaço calmo onde a pessoa pode falar sem medo.',
+    associacoes: 'serenidade, paz, estabilidade, compromisso',
+    leituraPsicologia: 'confiança e calma; pode ficar frio e institucional.',
   },
   {
     id: 'roxo',
     nome: 'Roxo',
     fill: '#7C3AED',
     texto: '#FFFFFF',
-    associacoes: 'Introspecção, profundidade, simbolismo e cuidado com o interior.',
-    leituraPsicologia:
-      'Fala de mundo interno e transformação. Faz sentido para quem trabalha autoconhecimento e processos profundos.',
+    associacoes: 'exclusividade, qualidade, profundidade, inovação',
+    leituraPsicologia: 'profundidade e transformação; muito saturado parece místico.',
   },
   {
     id: 'preto',
     nome: 'Preto',
     fill: '#18181B',
     texto: '#FFFFFF',
-    associacoes: 'Elegância, sofisticação, autoridade e seriedade.',
-    leituraPsicologia:
-      'Dá peso de competência. Em fundo escuro inteiro pode ficar pesado; em tipografia e detalhes transmite firmeza.',
+    associacoes: 'força, elegância, sofisticação',
+    leituraPsicologia: 'autoridade; em excesso, distância.',
   },
   {
     id: 'branco',
     nome: 'Branco',
     fill: '#FFFFFF',
     texto: '#3F3F46',
-    associacoes: 'Clareza, espaço, silêncio e recomeço.',
-    leituraPsicologia:
-      'Dá respiro e organiza. Uma marca com bastante branco parece limpa e acolhedora, como uma sala bem cuidada.',
+    associacoes: 'clareza, simplicidade, tranquilidade',
+    leituraPsicologia: 'respiro; sozinho, fica sem personalidade.',
   },
 ]
 
