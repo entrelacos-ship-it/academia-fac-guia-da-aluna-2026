@@ -1,8 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // Encontro 5 · Branding: Sua marca com rosto e voz
 //
-// Etapas 0 a 5 com conteúdo oficial verbatim da Tati;
-// as etapas 6 e 7 chegam nos próximos pedidos.
+// Conteúdo completo das 8 etapas, verbatim da Tati.
 // Zero travessões em nenhum texto (regra editorial do projeto).
 // ─────────────────────────────────────────────────────────────
 
@@ -351,20 +350,46 @@ export const CORES_RODA: CorRodaDef[] = [
 ]
 
 // ─────────────────────────────────────────────────────────────
-// Amostra de paleta (exemplo da marca fictícia da Marina)
+// Amostra de paleta (a marca fictícia da Marina, Etapa 6)
 // ─────────────────────────────────────────────────────────────
 export interface CorPaletaDef {
   nome: string
   hex: string
   funcao: string
+  descricao?: string
 }
 
 export const PALETA_MARINA: CorPaletaDef[] = [
-  { nome: 'Roxo profundo', hex: '#5B21B6', funcao: 'Cor principal' },
-  { nome: 'Lilás', hex: '#C4B5FD', funcao: 'Fundos suaves' },
-  { nome: 'Laranja acolhedor', hex: '#EA580C', funcao: 'Botões e destaques' },
-  { nome: 'Off white', hex: '#FAF7F2', funcao: 'Fundo das artes' },
-  { nome: 'Grafite', hex: '#3F3F46', funcao: 'Textos' },
+  {
+    nome: 'Vinho Raiz',
+    hex: '#6B2E3A',
+    funcao: 'Principal',
+    descricao: 'Profundidade e firmeza da escuta psicanalítica',
+  },
+  {
+    nome: 'Terracota Abrigo',
+    hex: '#C46A4A',
+    funcao: 'Secundária',
+    descricao: 'Acolhimento, chão, casa',
+  },
+  {
+    nome: 'Mostarda Clareira',
+    hex: '#D9A441',
+    funcao: 'Destaque',
+    descricao: 'O respiro, a abertura possível',
+  },
+  {
+    nome: 'Areia Respiro',
+    hex: '#F5EFE6',
+    funcao: 'Neutra clara, para fundos',
+    descricao: 'Descanso, espaço para pensar',
+  },
+  {
+    nome: 'Grafite Noite',
+    hex: '#2E2A28',
+    funcao: 'Neutra escura, para textos',
+    descricao: 'Lucidez, clareza',
+  },
 ]
 
 // ─────────────────────────────────────────────────────────────
@@ -819,3 +844,117 @@ SKILLS_ENCONTRO_5[7].prompt = PROMPT_SKILL_8_MANUAL
 SKILLS_ENCONTRO_5[5].entrega = FRASE_SKILL_6
 SKILLS_ENCONTRO_5[6].entrega = FRASE_SKILL_7
 SKILLS_ENCONTRO_5[7].entrega = FRASE_SKILL_8
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 6 · Exemplo completo: a marca da Marina
+// ─────────────────────────────────────────────────────────────
+export const ETAPA6_ABERTURA =
+  'Este é um exemplo completo com uma marca fictícia, para você ver como as peças se encaixam. Use como referência, não como modelo para copiar: a sua marca nasce do seu Manifesto.'
+
+export const ETAPA6_MANIFESTO_TITULO = 'O Manifesto em 4 linhas'
+export const ETAPA6_MANIFESTO =
+  'Marina atende mulheres entre 30 e 45 anos esgotadas pela sobrecarga entre trabalho, casa e cuidado com os outros. Trabalha com psicanálise, online. Acredita que o cansaço delas não é falha individual, é o efeito de uma vida montada para caber todo mundo, menos elas. Tom de voz: acolhedor, lúcido e firme.'
+
+export const ETAPA6_PERSONALIDADE_TITULO = 'Personalidade visual'
+export const ETAPA6_PERSONALIDADE =
+  'Três palavras: acolhedora, lúcida, sofisticada. O que a marca não é: infantil, mística, corporativa. Clima visual: luz de fim de tarde, texturas de linho e papel, formas arredondadas e abertas, sensação de casa arrumada depois de um dia longo.'
+
+export const ETAPA6_PALETA_TITULO = 'Paleta'
+export const ETAPA6_PALETA_LEITURA =
+  'Boa leitura: Grafite Noite ou Vinho Raiz sobre Areia Respiro; Areia Respiro sobre Vinho Raiz. Evitar: Mostarda Clareira como cor de texto; Terracota sobre Vinho.'
+
+export const ETAPA6_FONTES_TITULO = 'Fontes'
+export const ETAPA6_FONTES =
+  'Títulos: Fraunces (serifada com personalidade). Alternativa no Canva: Playfair Display. Textos: Inter (muito legível no celular). Alternativa no Canva: Lato. Regra: nunca mais de duas fontes; caixa alta só em rótulos curtos.'
+
+// Cada nome escrito nela mesma, via font stack (com fallback).
+export const ETAPA6_FAMILIAS: { nome: string; css: string }[] = [
+  { nome: 'Fraunces', css: "'Fraunces', 'Playfair Display', Georgia, serif" },
+  { nome: 'Playfair Display', css: "'Playfair Display', Georgia, serif" },
+  { nome: 'Inter', css: "'Inter', 'Inter Tight', system-ui, sans-serif" },
+  { nome: 'Lato', css: "'Lato', system-ui, sans-serif" },
+]
+
+export const ETAPA6_SIMBOLO_TITULO = 'Símbolo'
+export const ETAPA6_SIMBOLO =
+  'Conceito escolhido: Casa aberta. Metáfora: caber na própria vida. Frase do Manifesto: "uma vida montada para caber todo mundo, menos elas".'
+
+export const ETAPA6_LOGO_TITULO = 'Logo'
+export const ETAPA6_LOGO_DIRECAO =
+  'Direção: Símbolo + nome, com as versões horizontal, vertical e ícone.'
+
+export const ETAPA6_PVU_TITULO = 'PVU'
+export const ETAPA6_PVU_ANTES_LABEL = 'Antes, como estava no Manifesto:'
+export const ETAPA6_PVU_ANTES =
+  'Sou psicóloga psicanalista e ofereço um espaço de escuta humanizada para mulheres que se sentem sobrecarregadas e querem se reencontrar.'
+export const ETAPA6_PVU_OBSERVACAO =
+  'começa falando dela, tem uma palavra genérica e leva uns 20 segundos.'
+export const ETAPA6_PVU_DEPOIS_LABEL = 'Depois, refinada:'
+export const ETAPA6_PVU_DEPOIS =
+  'Eu ajudo mulheres exaustas de dar conta de tudo a voltarem a caber na própria vida, por meio de uma escuta psicanalítica online que leva a sério o cansaço, sem tratar como falha sua.'
+export const ETAPA6_PVU_CURTA_LABEL = 'Versão curta para a bio:'
+export const ETAPA6_PVU_CURTA = 'Ajudo mulheres exaustas a voltarem a caber na própria vida.'
+export const ETAPA6_PVU_REGUA = 'Régua ética: ok.'
+
+export const ETAPA6_ENTREGA_TITULO = 'O que a solução entrega'
+export interface CartaoEntregaMarinaDef {
+  id: string
+  titulo: string
+  texto: string
+}
+
+export const ETAPA6_ENTREGA_CARTOES: CartaoEntregaMarinaDef[] = [
+  {
+    id: 'tangivel',
+    titulo: 'Entrega tangível',
+    texto:
+      'sessões online semanais de 50 minutos, em plataforma segura, com horário fixo; sigilo; contato pelo WhatsApp só para questões de agenda.',
+  },
+  {
+    id: 'transformacoes',
+    titulo: 'Transformações possíveis',
+    texto:
+      'pode favorecer entender de onde vem o cansaço, abrir espaço para dizer não sem culpa, reorganizar prioridades e recuperar desejos esquecidos.',
+  },
+  {
+    id: 'experiencia',
+    titulo: 'A experiência',
+    texto:
+      'primeiro contato pelo WhatsApp · conversa inicial · combinado do enquadre · sessões semanais · revisões periódicas do processo.',
+  },
+  {
+    id: 'limites',
+    titulo: 'O que não entrega',
+    texto:
+      'não faz laudos, não atende emergências, não substitui acompanhamento psiquiátrico quando necessário.',
+  },
+]
+
+export const ETAPA6_DECLARACAO_TITULO = 'A declaração'
+export const ETAPA6_DECLARACAO =
+  'Na terapia comigo, você tem um horário fixo, toda semana, que é só seu. Um espaço online, seguro e sigiloso, para olhar com calma para o cansaço que você carrega e entender de onde ele vem. Não prometo atalhos. Ofereço um processo sério, no seu tempo, que pode abrir espaço para você voltar a caber na sua própria vida.'
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 7 · Checklist final e combinado da semana
+// ─────────────────────────────────────────────────────────────
+export const ETAPA7_RESUMO_TITULO = 'Resumo das etapas 0 a 5'
+export const ETAPA7_RESUMO_NOTA =
+  'O seu progresso até aqui, agrupado por etapa. Marcar aqui também marca na etapa original.'
+
+export const ETAPA7_COMBINADO_TITULO = 'Combinado da semana'
+export const CHECKLIST_COMBINADO_SEMANA: { id: string; texto: string }[] = [
+  {
+    id: 'e5-comb-1',
+    texto: 'Gerar as imagens do símbolo e do logo com os prompts das Skills 4 e 5',
+  },
+  { id: 'e5-comb-2', texto: 'Conferir se a PVU refinada e a entrega entraram no manual' },
+  {
+    id: 'e5-comb-3',
+    texto: 'Aplicar a paleta e as fontes nas capas dos seis destaques do Instagram',
+  },
+  { id: 'e5-comb-4', texto: 'Atualizar a linha 1 da bio com a versão curta da PVU, se mudou' },
+  { id: 'e5-comb-5', texto: 'Postar no grupo da Academia a paleta, o símbolo e a PVU' },
+]
+
+export const ETAPA7_FECHAMENTO =
+  'Hoje a sua marca ganhou rosto e voz 💜 A partir de agora, tudo o que você publicar vai ter cara de você.'
