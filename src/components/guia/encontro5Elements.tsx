@@ -272,9 +272,17 @@ interface AntesDepoisProps {
   tituloExemplo: string
   antes: React.ReactNode
   depois: React.ReactNode
+  rotuloAntes?: string
+  rotuloDepois?: string
 }
 
-export const AntesDepois: React.FC<AntesDepoisProps> = ({ tituloExemplo, antes, depois }) => (
+export const AntesDepois: React.FC<AntesDepoisProps> = ({
+  tituloExemplo,
+  antes,
+  depois,
+  rotuloAntes = 'Antes',
+  rotuloDepois = 'Depois',
+}) => (
   <div className="space-y-2">
     {tituloExemplo && (
       <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
@@ -284,7 +292,7 @@ export const AntesDepois: React.FC<AntesDepoisProps> = ({ tituloExemplo, antes, 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <div className="rounded-[12px] border border-slate-200 dark:border-[#27272A] bg-slate-100 dark:bg-[#0c0914] p-4 space-y-2">
         <span className="inline-block font-mono text-[10px] uppercase tracking-wider font-semibold text-editorial-secondary">
-          Antes
+          {rotuloAntes}
         </span>
         <div className="text-xs sm:text-sm text-editorial-primary leading-relaxed space-y-2">
           {antes}
@@ -309,7 +317,7 @@ export const AntesDepois: React.FC<AntesDepoisProps> = ({ tituloExemplo, antes, 
           </svg>
         </span>
         <span className="inline-block font-mono text-[10px] uppercase tracking-wider font-semibold text-[#7c3aed] dark:text-[#C084FC]">
-          Depois
+          {rotuloDepois}
         </span>
         <div className="text-xs sm:text-sm text-editorial-primary leading-relaxed space-y-2">
           {depois}

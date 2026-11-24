@@ -5,84 +5,45 @@ import {
   ENCONTRO6_TITULO,
   ENCONTRO6_SUBTITULO,
   ETAPAS_ENCONTRO_6,
-  TERRITORIOS,
-  MITOS_FATOS,
-  ETAPA1_CAMINHO_PASSOS,
-  FRASES_DINAMICA,
+  CHECKLIST_ETAPA0,
+  CHECKLIST_ETAPAS_1_A_3,
 } from '@/config/encontro6Content'
+import { type ChecklistValues } from '@/components/guia/encontro4Shared'
 import {
-  CartoesTerritorio,
-  CartaoMitoFato,
-  CaminhoVirada,
-  GrupoFrasesDinamica,
-  EscadaCoragem,
-} from '@/components/guia/encontro6Elements'
+  Etapa0ConteudoE6,
+  Etapa1ConteudoE6,
+  Etapa2ConteudoE6,
+  Etapa3ConteudoE6,
+} from '@/components/guia/encontro6Etapas0123'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 6 · Crenças sobre dinheiro, venda e exposição
-// PROMPT 1 de 4: estrutura da aula e elementos novos, com as
-// oito etapas vazias (só título e tempo), aguardando conteúdo.
+// Etapas 0 a 3 com conteúdo verbatim da Tati; etapas 4 a 7
+// seguem em ConteudoEmBreve aguardando os próximos prompts.
 // ─────────────────────────────────────────────────────────────
 
-const carregarChecklists = (): Record<string, unknown> => {
+const carregarChecklists = (): Record<string, ChecklistValues> => {
   try {
     const bruto = localStorage.getItem(ENCONTRO6_STORAGE_KEY)
-    return bruto ? (JSON.parse(bruto) as Record<string, unknown>) : {}
+    return bruto ? (JSON.parse(bruto) as Record<string, ChecklistValues>) : {}
   } catch {
     return {}
   }
 }
 
-// Aviso padrão das etapas sem conteúdo ainda (mesmo padrão
-// usado nas aulas anteriores enquanto o conteúdo não chega).
+// Total de itens da barra de progresso: o checklist "Tenho em
+// mãos" da Etapa 0 mais o checklist compartilhado das Etapas
+// 1 a 3 (contado uma única vez). As chaves e123-2 também podem
+// ser marcadas automaticamente ao virar os três cartões Mito e
+// Fato, sem contar dobrado.
+export const TOTAL_ITENS_CHECKLIST = CHECKLIST_ETAPA0.length + CHECKLIST_ETAPAS_1_A_3.length
+
+// Aviso padrão das etapas sem conteúdo ainda (etapas 4 a 7).
 const ConteudoEmBreve: React.FC = () => (
   <div className="rounded-[12px] border border-dashed border-slate-300 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] p-6 text-center">
     <p className="text-xs sm:text-sm text-editorial-secondary">
       O conteúdo desta etapa será adicionado em breve.
     </p>
-  </div>
-)
-
-// ─────────────────────────────────────────────────────────────
-// Demonstração dos elementos novos (PROMPT 1): um exemplo de
-// cada, para aprovação antes do conteúdo chegar.
-// ─────────────────────────────────────────────────────────────
-const DemonstracaoElementos: React.FC = () => (
-  <div className="space-y-8">
-    <div className="space-y-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
-        Demonstração · Cartões de território
-      </p>
-      <CartoesTerritorio territorios={TERRITORIOS} />
-    </div>
-
-    <div className="space-y-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
-        Demonstração · Cartão Mito e Fato
-      </p>
-      <CartaoMitoFato item={MITOS_FATOS[0]} />
-    </div>
-
-    <div className="space-y-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
-        Demonstração · Caminho da virada
-      </p>
-      <CaminhoVirada passos={ETAPA1_CAMINHO_PASSOS} />
-    </div>
-
-    <div className="space-y-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
-        Demonstração · Frases da dinâmica
-      </p>
-      <GrupoFrasesDinamica grupo={FRASES_DINAMICA[0]} numeroInicial={1} />
-    </div>
-
-    <div className="space-y-3">
-      <p className="font-mono text-[10px] uppercase tracking-wider text-editorial-secondary font-semibold">
-        Demonstração · Escada de coragem
-      </p>
-      <EscadaCoragem />
-    </div>
   </div>
 )
 
@@ -95,7 +56,27 @@ interface Encontro6CadernoProps {
 
 export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className }) => {
   const [etapaAtual, setEtapaAtual] = React.useState(0)
-  const [, setChecklists] = React.useState<Record<string, unknown>>(() => carregarChecklists())
+  const [checklists, setChecklists] = React.useState<Record<string, ChecklistValues>>(() =>
+    carregarChecklists(),
+  )
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(ENCONTRO6_STORAGE_KEY, JSON.stringify(checklists))
+    } catch {
+      // Sem espaço no navegador: a aula continua funcionando,
+      // apenas o progresso não fica salvo ao voltar.
+    }
+  }, [checklists])
+
+  const marcar = (etapaId: string) => (novos: ChecklistValues) =>
+    setChecklists((atuais) => ({ ...atuais, [etapaId]: novos }))
+
+  const itensMarcados = Object.values(checklists).reduce(
+    (total, valores) => total + Object.values(valores).filter(Boolean).length,
+    0,
+  )
+  const progressoGeral = Math.min(100, Math.round((itensMarcados / TOTAL_ITENS_CHECKLIST) * 100))
 
   const irPara = (i: number) => {
     setEtapaAtual(i)
@@ -103,6 +84,17 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
   }
 
   const etapa = ETAPAS_ENCONTRO_6[etapaAtual]
+
+  // Ao virar os três cartões Mito e Fato (Etapa 2), o item
+  // "Virei os três cartões de Mito e Fato" do checklist das
+  // Etapas 1 a 3 se marca sozinho.
+  const marcarMitossVirados = React.useCallback(() => {
+    setChecklists((atuais) => {
+      const atuaisE123 = atuais['etapas-1-3'] ?? {}
+      if (atuaisE123['e123-2']) return atuais
+      return { ...atuais, 'etapas-1-3': { ...atuaisE123, 'e123-2': true } }
+    })
+  }, [])
 
   return (
     <div className={className}>
@@ -123,12 +115,14 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
       <div className="mb-6 space-y-2">
         <div className="flex items-center justify-between text-xs font-mono text-editorial-secondary">
           <span>Progresso da aula</span>
-          <span>Os checklists entram com o conteúdo das etapas</span>
+          <span>
+            {itensMarcados} de {TOTAL_ITENS_CHECKLIST} itens ({progressoGeral}%)
+          </span>
         </div>
         <div className="h-2 rounded-full bg-slate-200 dark:bg-[#27272A] overflow-hidden">
           <div
             className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#a855f7] transition-all duration-300"
-            style={{ width: '0%' }}
+            style={{ width: `${progressoGeral}%` }}
           />
         </div>
       </div>
@@ -184,7 +178,18 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
             </span>
           </div>
 
-          {etapaAtual === 0 ? <DemonstracaoElementos /> : <ConteudoEmBreve />}
+          {etapaAtual === 0 && (
+            <Etapa0ConteudoE6 valores={checklists['etapa-0'] ?? {}} onChange={marcar('etapa-0')} />
+          )}
+          {etapaAtual === 1 && <Etapa1ConteudoE6 />}
+          {etapaAtual === 2 && <Etapa2ConteudoE6 aoVirarTodos={marcarMitossVirados} />}
+          {etapaAtual === 3 && (
+            <Etapa3ConteudoE6
+              valores={checklists['etapas-1-3'] ?? {}}
+              onChange={marcar('etapas-1-3')}
+            />
+          )}
+          {etapaAtual >= 4 && <ConteudoEmBreve />}
 
           {/* Botões de avançar e voltar */}
           <div className="flex items-center justify-between gap-3 mt-8 pt-5 border-t border-slate-100 dark:border-[#18181B]">
