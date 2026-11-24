@@ -409,3 +409,123 @@ export const CHECKLIST_ETAPA4: { id: string; texto: string }[] = [
   { id: 'skill-3', texto: 'Skill 3 · Meu Plano de Coragem montado' },
   { id: 'ficha-3', texto: 'FICHA 3 salva no meu Projeto' },
 ]
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 5 · Exemplo completo: as crenças da Marina
+// ─────────────────────────────────────────────────────────────
+export const ETAPA5_ABERTURA =
+  'Este é um exemplo com uma marca fictícia, a mesma Marina dos encontros anteriores: psicanalista, online, atende mulheres exaustas pela sobrecarga. Use como referência, não como modelo: as suas crenças são suas.'
+
+export interface CartaoMapaMarinaDef {
+  id: 'dinheiro' | 'venda' | 'exposicao'
+  nome: string
+  crencaAntiga: string
+  origem: string
+  custo: string
+  virada: string
+}
+
+export const MAPA_MARINA: CartaoMapaMarinaDef[] = [
+  {
+    id: 'dinheiro',
+    nome: 'Dinheiro',
+    crencaAntiga: 'Minhas pacientes já estão sobrecarregadas, não posso cobrar mais delas',
+    origem: 'formação que silencia sobre dinheiro; cultura do cuidado como sacrifício',
+    custo: 'cobra R$ 30 abaixo do piso, R$ 1.800 a menos por mês, e adia a supervisão',
+    virada:
+      'Uma terapeuta exausta não sustenta a escuta de mulheres exaustas. Cobrar o justo também é cuidar.',
+  },
+  {
+    id: 'venda',
+    nome: 'Venda',
+    crencaAntiga: 'Se eu for boa, as indicações chegam sozinhas',
+    origem: 'ideia de que divulgar é coisa de quem não é boa o bastante',
+    custo: 'agenda com horários vagos há meses; nunca pediu uma indicação',
+    virada: 'Quem precisa de mim só me encontra se souber que eu existo.',
+  },
+  {
+    id: 'exposicao',
+    nome: 'Exposição',
+    crencaAntiga: 'Se eu falar de sobrecarga feminina, as colegas vão me achar rasa',
+    origem: 'medo do julgamento entre pares; academia que valoriza só o texto técnico',
+    custo: 'três posts prontos e não publicados',
+    virada: 'Falar com clareza sobre o cansaço delas é o meu trabalho, não superficialidade.',
+  },
+]
+
+export const ETAPA5_ESCADA_TITULO = 'A escada da Marina'
+
+export interface DegrauMarinaDef {
+  dia: string
+  microacao: string
+}
+
+export const ESCADA_MARINA: DegrauMarinaDef[] = [
+  { dia: 'Dia 1', microacao: 'Dizer o valor da sessão em voz alta, sozinha, três vezes' },
+  {
+    dia: 'Dia 2',
+    microacao: 'Gravar um áudio para si mesma respondendo "quanto custa?" sem pedir desculpas',
+  },
+  { dia: 'Dia 3', microacao: 'Publicar um story com uma frase do Manifesto' },
+  {
+    dia: 'Dia 4',
+    microacao: 'Mandar uma mensagem de apresentação para uma colega que atende outro público',
+  },
+  { dia: 'Dia 5', microacao: 'Publicar um dos três posts que estavam guardados' },
+  { dia: 'Dia 6', microacao: 'Responder a próxima pergunta de valor sem oferecer desconto' },
+  {
+    dia: 'Dia 7',
+    microacao:
+      'Pedir uma indicação para alguém de confiança, explicando para quem é o trabalho dela',
+  },
+]
+
+export const ETAPA5_PERCEBEU_TITULO = 'O que a Marina percebeu'
+export const ETAPA5_PERCEBEU =
+  'Nenhuma das três crenças era sobre falta de competência. Todas eram sobre permissão: permissão para cobrar, para ser procurada e para ser vista.'
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 6 · Minha escada de coragem
+// ─────────────────────────────────────────────────────────────
+export const ETAPA6_ESCADA_ABERTURA =
+  'Coragem é uma escada, não um salto. Copie aqui, no papel ou no bloco de notas, os sete degraus que a Skill 3 criou para você. Faça um degrau por dia, sempre lendo a sua frase de virada antes de agir. Quando terminar o degrau do dia, marque na escada.'
+
+export const ETAPA6_ESCADA_DICA =
+  'Degrau que não foi feito não é fracasso, é informação. Se travou, volte à conversa Minhas crenças e peça à Skill 3 um degrau menor.'
+
+export const ETAPA6_ANTES_DEGRAU_TITULO = 'Antes de cada degrau'
+export const ETAPA6_ANTES_DEGRAU_PASSOS = [
+  'Leia a sua frase de virada em voz alta.',
+  'Faça a microação do dia, do jeito que der.',
+  'Anote, em uma linha: como me senti, de 0 a 10, e o que aprendi.',
+]
+
+// ─────────────────────────────────────────────────────────────
+// Etapa 7 · Cuidado com você e checklist final
+// ─────────────────────────────────────────────────────────────
+export const ETAPA7_CUIDADO_TITULO = 'Cuidado com você'
+export const ETAPA7_CUIDADO =
+  'Mexer em crenças sobre dinheiro e exposição pode trazer à tona histórias antigas. Isso é sinal de que o trabalho tocou em algo verdadeiro, não de que algo deu errado. Se algum tema pessoal ficou ecoando, leve para a sua análise pessoal ou para alguém de confiança. Você cuida de tanta gente: este também é um momento de deixar alguém cuidar de você.'
+
+export const ETAPA7_ATENCAO_CVV =
+  'Se você estiver passando por um momento de sofrimento intenso, procure apoio agora. O CVV atende 24 horas, gratuitamente, pelo telefone 188.'
+
+export const ETAPA7_LINK_CVV_TEXTO = 'CVV · Centro de Valorização da Vida'
+export const ETAPA7_LINK_CVV_URL = 'https://cvv.org.br'
+
+export const ETAPA7_RESUMO_TITULO = 'Resumo dos meus checklists'
+export const ETAPA7_COMBINADO_TITULO = 'Combinado da semana'
+
+export const CHECKLIST_COMBINADO_SEMANA_E6: { id: string; texto: string }[] = [
+  { id: 'e7-1', texto: 'Fazer uma microação por dia do Plano de Coragem' },
+  { id: 'e7-2', texto: 'Ler a frase de virada antes de cada microação' },
+  { id: 'e7-3', texto: 'Preencher o registro: feito, como me senti, o que aprendi' },
+  { id: 'e7-4', texto: 'Salvar a FICHA 3 no meu Projeto' },
+  {
+    id: 'e7-5',
+    texto: 'Contar no grupo qual degrau foi o mais difícil, se eu quiser compartilhar',
+  },
+]
+
+export const ETAPA7_FECHAMENTO =
+  'A estrutura você já tem. Hoje você deu nome ao que segurava a sua mão 💜 Cada degrau é uma permissão que você se dá.'

@@ -17,11 +17,15 @@ import {
   Etapa3ConteudoE6,
 } from '@/components/guia/encontro6Etapas0123'
 import { Etapa4ConteudoE6 } from '@/components/guia/encontro6Etapa4'
+import {
+  Etapa5ConteudoE6,
+  Etapa6ConteudoE6,
+  Etapa7ConteudoE6,
+} from '@/components/guia/encontro6Etapas567'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 6 · Crenças sobre dinheiro, venda e exposição
-// Etapas 0 a 4 com conteúdo verbatim da Tati; etapas 5 a 7
-// seguem em ConteudoEmBreve aguardando os próximos prompts.
+// As 8 etapas com o conteúdo oficial verbatim da Tati.
 // ─────────────────────────────────────────────────────────────
 
 const carregarChecklists = (): Record<string, ChecklistValues> => {
@@ -40,15 +44,6 @@ const carregarChecklists = (): Record<string, ChecklistValues> => {
 // virar os três cartões Mito e Fato, sem contar dobrado.
 export const TOTAL_ITENS_CHECKLIST =
   CHECKLIST_ETAPA0.length + CHECKLIST_ETAPAS_1_A_3.length + CHECKLIST_ETAPA4.length
-
-// Aviso padrão das etapas sem conteúdo ainda (etapas 5 a 7).
-const ConteudoEmBreve: React.FC = () => (
-  <div className="rounded-[12px] border border-dashed border-slate-300 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] p-6 text-center">
-    <p className="text-xs sm:text-sm text-editorial-secondary">
-      O conteúdo desta etapa será adicionado em breve.
-    </p>
-  </div>
-)
 
 // ─────────────────────────────────────────────────────────────
 // Componente principal
@@ -80,6 +75,7 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
     0,
   )
   const progressoGeral = Math.min(100, Math.round((itensMarcados / TOTAL_ITENS_CHECKLIST) * 100))
+  const tudoMarcado = itensMarcados >= TOTAL_ITENS_CHECKLIST
 
   const irPara = (i: number) => {
     setEtapaAtual(i)
@@ -195,7 +191,17 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
           {etapaAtual === 4 && (
             <Etapa4ConteudoE6 valores={checklists['etapa-4'] ?? {}} onChange={marcar('etapa-4')} />
           )}
-          {etapaAtual >= 5 && <ConteudoEmBreve />}
+          {etapaAtual === 5 && <Etapa5ConteudoE6 />}
+          {etapaAtual === 6 && <Etapa6ConteudoE6 />}
+          {etapaAtual === 7 && (
+            <Etapa7ConteudoE6
+              checklists={checklists}
+              itensMarcados={itensMarcados}
+              totalItens={TOTAL_ITENS_CHECKLIST}
+              tudoMarcado={tudoMarcado}
+              onChange={(etapaKey, valores) => marcar(etapaKey)(valores)}
+            />
+          )}
 
           {/* Botões de avançar e voltar */}
           <div className="flex items-center justify-between gap-3 mt-8 pt-5 border-t border-slate-100 dark:border-[#18181B]">
