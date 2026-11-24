@@ -1,0 +1,1 @@
+wrote src/components/guia/Encontro6Caderno.tsx (332 lines) — read the file to see its current content
