@@ -7,6 +7,7 @@ import {
   ETAPAS_ENCONTRO_6,
   CHECKLIST_ETAPA0,
   CHECKLIST_ETAPAS_1_A_3,
+  CHECKLIST_ETAPA4,
 } from '@/config/encontro6Content'
 import { type ChecklistValues } from '@/components/guia/encontro4Shared'
 import {
@@ -15,10 +16,11 @@ import {
   Etapa2ConteudoE6,
   Etapa3ConteudoE6,
 } from '@/components/guia/encontro6Etapas0123'
+import { Etapa4ConteudoE6 } from '@/components/guia/encontro6Etapa4'
 
 // ─────────────────────────────────────────────────────────────
 // Encontro 6 · Crenças sobre dinheiro, venda e exposição
-// Etapas 0 a 3 com conteúdo verbatim da Tati; etapas 4 a 7
+// Etapas 0 a 4 com conteúdo verbatim da Tati; etapas 5 a 7
 // seguem em ConteudoEmBreve aguardando os próximos prompts.
 // ─────────────────────────────────────────────────────────────
 
@@ -32,13 +34,14 @@ const carregarChecklists = (): Record<string, ChecklistValues> => {
 }
 
 // Total de itens da barra de progresso: o checklist "Tenho em
-// mãos" da Etapa 0 mais o checklist compartilhado das Etapas
-// 1 a 3 (contado uma única vez). As chaves e123-2 também podem
-// ser marcadas automaticamente ao virar os três cartões Mito e
-// Fato, sem contar dobrado.
-export const TOTAL_ITENS_CHECKLIST = CHECKLIST_ETAPA0.length + CHECKLIST_ETAPAS_1_A_3.length
+// mãos" da Etapa 0, o checklist compartilhado das Etapas 1 a 3
+// (contado uma única vez) e o checklist das skills da Etapa 4.
+// As chaves e123-2 também podem ser marcadas automaticamente ao
+// virar os três cartões Mito e Fato, sem contar dobrado.
+export const TOTAL_ITENS_CHECKLIST =
+  CHECKLIST_ETAPA0.length + CHECKLIST_ETAPAS_1_A_3.length + CHECKLIST_ETAPA4.length
 
-// Aviso padrão das etapas sem conteúdo ainda (etapas 4 a 7).
+// Aviso padrão das etapas sem conteúdo ainda (etapas 5 a 7).
 const ConteudoEmBreve: React.FC = () => (
   <div className="rounded-[12px] border border-dashed border-slate-300 dark:border-[#27272A] bg-slate-50/60 dark:bg-[#0c0914] p-6 text-center">
     <p className="text-xs sm:text-sm text-editorial-secondary">
@@ -189,7 +192,10 @@ export const Encontro6Caderno: React.FC<Encontro6CadernoProps> = ({ className })
               onChange={marcar('etapas-1-3')}
             />
           )}
-          {etapaAtual >= 4 && <ConteudoEmBreve />}
+          {etapaAtual === 4 && (
+            <Etapa4ConteudoE6 valores={checklists['etapa-4'] ?? {}} onChange={marcar('etapa-4')} />
+          )}
+          {etapaAtual >= 5 && <ConteudoEmBreve />}
 
           {/* Botões de avançar e voltar */}
           <div className="flex items-center justify-between gap-3 mt-8 pt-5 border-t border-slate-100 dark:border-[#18181B]">
