@@ -5,7 +5,11 @@
 // ═════════════════════════════════════════════════════════════
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { getUserStorageItem, setUserStorageItem, notifyLocalDataChanged } from '@/services/userStorage'
+import {
+  getUserStorageItem,
+  setUserStorageItem,
+  notifyLocalDataChanged,
+} from '@/services/userStorage'
 import type { TerritorioDef, MitoFatoDef, GrupoFrasesDef } from '@/config/encontro6Content'
 
 // ─────────────────────────────────────────────────────────────
@@ -42,7 +46,12 @@ function IconeApertoMaos({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M28 27l4 4M24 31l3 3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path
+        d="M28 27l4 4M24 31l3 3"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </svg>
   )
 }
@@ -150,9 +159,7 @@ export const CartaoMitoFato: React.FC<{ item: MitoFatoDef }> = ({ item }) => {
           </div>
         </div>
       </button>
-      <p className="text-center text-[10px] font-mono text-editorial-secondary">
-        toque para virar
-      </p>
+      <p className="text-center text-[10px] font-mono text-editorial-secondary">toque para virar</p>
     </div>
   )
 }

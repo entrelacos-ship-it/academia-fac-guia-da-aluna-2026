@@ -51,12 +51,11 @@ export const ETAPA0_ETICA =
 // ─────────────────────────────────────────────────────────────
 // Etapa 1 · O que é uma crença
 // ─────────────────────────────────────────────────────────────
-export const ETAPA1_PERGUNTA =
-  'Você já sabe o que fazer. Então por que ainda não faz?'
+export const ETAPA1_PERGUNTA = 'Você já sabe o que fazer. Então por que ainda não faz?'
 
 export const ETAPA1_BLOCO_LENSE_TITULO = 'Uma frase que virou lente'
 export const ETAPA1_BLOCO_LENSE =
-  "Uma crença é uma frase aprendida que virou lente. Ela não é verdade, nem defeito. É história. A gente não escolhe as primeiras crenças sobre dinheiro e trabalho: herda da família, da faculdade, da profissão. Elas funcionam como óculos. Quem usa não percebe a lente, só vê o mundo daquele jeito."
+  'Uma crença é uma frase aprendida que virou lente. Ela não é verdade, nem defeito. É história. A gente não escolhe as primeiras crenças sobre dinheiro e trabalho: herda da família, da faculdade, da profissão. Elas funcionam como óculos. Quem usa não percebe a lente, só vê o mundo daquele jeito.'
 
 export interface TerritorioDef {
   id: 'dinheiro' | 'venda' | 'exposicao'
@@ -68,17 +67,29 @@ export const TERRITORIOS: TerritorioDef[] = [
   {
     id: 'dinheiro',
     nome: 'Dinheiro',
-    frases: ['Cobrar caro é ganância', 'Quem ama o que faz não pensa em dinheiro', 'Não posso cobrar de quem sofre'],
+    frases: [
+      'Cobrar caro é ganância',
+      'Quem ama o que faz não pensa em dinheiro',
+      'Não posso cobrar de quem sofre',
+    ],
   },
   {
     id: 'venda',
     nome: 'Venda',
-    frases: ['Vender é empurrar', 'Se eu for boa, os pacientes chegam sozinhos', 'Falar de preço estraga o vínculo'],
+    frases: [
+      'Vender é empurrar',
+      'Se eu for boa, os pacientes chegam sozinhos',
+      'Falar de preço estraga o vínculo',
+    ],
   },
   {
     id: 'exposicao',
     nome: 'Exposição',
-    frases: ['Me mostrar é antiético', 'Vão me achar superficial', 'Quem sou eu para ensinar algo?'],
+    frases: [
+      'Me mostrar é antiético',
+      'Vão me achar superficial',
+      'Quem sou eu para ensinar algo?',
+    ],
   },
 ]
 
@@ -114,7 +125,10 @@ export interface SinalDef {
 }
 export const ETAPA1_SINAIS: SinalDef[] = [
   { acao: 'Dá desconto antes de a pessoa pedir', crenca: 'Meu trabalho não vale isso' },
-  { acao: 'Demora para responder quem pergunta o preço', crenca: 'Falar de dinheiro é constrangedor' },
+  {
+    acao: 'Demora para responder quem pergunta o preço',
+    crenca: 'Falar de dinheiro é constrangedor',
+  },
   { acao: 'Tem o post pronto e não publica', crenca: 'Vão me julgar' },
   { acao: 'Não pede indicação', crenca: 'Pedir é incomodar' },
   { acao: 'Aceita tudo que paga pouco', crenca: 'Melhor pouco do que nada' },
@@ -134,7 +148,7 @@ export const ETAPA1_CAMINHO_PASSOS = [
 ]
 
 export const ETAPA1_CAMINHO_TEXTO =
-  "A gente não arranca a crença à força. A gente nomeia, entende de onde veio, vê quanto ela custa, procura evidências de que ela não é tão verdadeira quanto parece, escreve uma nova frase e dá um passo pequeno na direção dela."
+  'A gente não arranca a crença à força. A gente nomeia, entende de onde veio, vê quanto ela custa, procura evidências de que ela não é tão verdadeira quanto parece, escreve uma nova frase e dá um passo pequeno na direção dela.'
 
 export const ETAPA1_VIRADA_EVITE = 'Eu sou próspera e abundante'
 export const ETAPA1_VIRADA_PREFIRA = 'Cobrar o justo sustenta o cuidado que eu ofereço'
@@ -269,7 +283,8 @@ export const SKILLS_ENCONTRO_6: Skill6Def[] = [
     numero: 2,
     nomeCurto: 'Frases de Virada',
     nomeCompleto: 'Skill 2 · Frases de Virada',
-    frase: 'Transforma cada crença central numa frase de virada verdadeira, ética e com a voz da sua marca.',
+    frase:
+      'Transforma cada crença central numa frase de virada verdadeira, ética e com a voz da sua marca.',
     conversa: 'Minhas crenças',
     prompt: '',
   },
